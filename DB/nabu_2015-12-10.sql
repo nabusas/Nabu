@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: 127.0.0.1 (MySQL 5.6.21)
+# Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-04 12:48:57 +0000
+# Generation Time: 2015-12-10 20:12:20 +0000
 # ************************************************************
 
 
@@ -1324,7 +1324,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Sistema de Informacion 2');
+	('nabu','Semilla de innovacion que da vida a tus ideas');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1376,7 +1376,9 @@ VALUES
 	('addcustomer','nb_mdf_date_fld','nb_sysdate'),
 	('addcustomer','nb_mdf_user_fld','nb_userid'),
 	('error','image','../Images/error.png'),
-	('home','image','../Images/admin.jpg');
+	('home','image','../Images/imagenHome.png'),
+	('nb_controlv_pg','nb_4_fecha_salida_fld','nb_sysdate'),
+	('nb_controlv_pg','nb_3_fecha_ingreso_fld','nb_sysdate');
 
 /*!40000 ALTER TABLE `nb_data_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1771,7 +1773,88 @@ VALUES
 	('viewcustomer','nb_tipodoc_fld',32,'select'),
 	('viewcustomer','nb_tipodoc_fld',55,'../Events/ValoresCampo.php?campo=nb_tipodoc_fld'),
 	('viewcustomer','nb_tipodoc_fld',58,'Seleccione Tipo de Documento'),
-	('viewcustomer','nb_tipodoc_fld',59,'false');
+	('viewcustomer','nb_tipodoc_fld',59,'false'),
+	('login','anb_empresa_fld',13,'integer'),
+	('login','anb_empresa_fld',11,'true'),
+	('login','anb_empresa_fld',24,'Empresa'),
+	('login','anb_empresa_fld',32,'select'),
+	('login','anb_empresa_fld',55,'../Events/ValoresCampo.php?campo=anb_empresa_fld'),
+	('login','anb_empresa_fld',59,'false'),
+	('login','anb_empresa_fld',58,'Seleccione Empresa'),
+	('nb_control_pg','nb_2_placa_fld',11,'true'),
+	('nb_control_pg','nb_1_tipo_vehi_fld',59,'false'),
+	('nb_control_pg','nb_2_placa_fld',13,'string'),
+	('nb_control_pg','nb_2_placa_fld',24,'Placa'),
+	('nb_control_pg','nb_1_tipo_vehi_fld',11,'true'),
+	('nb_control_pg','nb_1_tipo_vehi_fld',13,'integer'),
+	('nb_control_pg','nb_1_tipo_vehi_fld',24,'Tipo Vehiculo'),
+	('nb_control_pg','nb_1_tipo_vehi_fld',32,'select'),
+	('nb_control_pg','nb_1_tipo_vehi_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipo_vehi_fld'),
+	('nb_control_pg','nb_3_tarjeta_fld',11,'true'),
+	('nb_control_pg','nb_3_tarjeta_fld',13,'string'),
+	('nb_control_pg','nb_3_tarjeta_fld',24,'Numero Tarjeta'),
+	('nb_control_pg','nb_1_tipo_vehi_fld',58,'Seleccione Tipo Vehiculo'),
+	('nb_controlv_pg','nb_1_tipo_vehi_fld',24,'Tipo Vehiculo'),
+	('nb_controlv_pg','nb_1_tipo_vehi_fld',13,'string'),
+	('nb_controlv_pg','nb_2_placa_fld',13,'string'),
+	('nb_controlv_pg','nb_2_placa_fld',24,'Placa'),
+	('nb_controlv_pg','nb_3_fecha_ingreso_fld',13,'string'),
+	('nb_controlv_pg','nb_3_fecha_ingreso_fld',24,'Fecha y Hora de Ingreso'),
+	('nb_controlv_pg','nb_4_fecha_salida_fld',13,'string'),
+	('nb_controlv_pg','nb_4_fecha_salida_fld',24,'Fecha y Hora de Salida'),
+	('nb_controlv_pg','nb_5_totalhoras_fld',13,'string'),
+	('nb_controlv_pg','nb_5_totalhoras_fld',24,'Total Tiempo'),
+	('nb_controlv_pg','nb_6_valor_fld',13,'string'),
+	('nb_controlv_pg','nb_6_valor_fld',24,'Total a Pagar'),
+	('nb_tarifas_pg','nb_1_tipotarifa_fld',13,'string'),
+	('nb_tarifas_pg','nb_1_tipo_vehi_fld',13,'string'),
+	('nb_tarifas_pg','nb_3_tipocobro_fld',13,'string'),
+	('nb_tarifas_pg','nb_4_valorhora_fld',13,'string'),
+	('nb_tarifas_pg','nb_5_valorfraccion_fld',13,'string'),
+	('nb_tarifas_pg','nb_1_tipotarifa_fld',24,'Tipo tarifa'),
+	('nb_tarifas_pg','nb_1_tipo_vehi_fld',24,'Tipo Vehiculo'),
+	('nb_tarifas_pg','nb_3_tipocobro_fld',24,'Tipo Cobro'),
+	('nb_tarifas_pg','nb_4_valorhora_fld',24,'Valor Hora'),
+	('nb_tarifas_pg','nb_5_valorfraccion_fld',24,'Valor Fraccion'),
+	('nb_tarifas_pg','nb_1_tipotarifa_fld',32,'select'),
+	('nb_tarifas_pg','nb_1_tipo_vehi_fld',32,'select'),
+	('nb_tarifas_pg','nb_3_tipocobro_fld',32,'select'),
+	('nb_tarifas_pg','nb_1_tipo_vehi_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipo_vehi_fld'),
+	('nb_tarifas_pg','nb_1_tipotarifa_fld',59,'false'),
+	('nb_tarifas_pg','nb_1_tipo_vehi_fld',59,'false'),
+	('nb_tarifas_pg','nb_3_tipocobro_fld',59,'false'),
+	('nb_tarifas_pg','nb_1_tipotarifa_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipotarifa_fld'),
+	('nb_tarifas_pg','nb_1_tipotarifa_fld',58,'Seleccione tipo Tarifa'),
+	('nb_tarifas_pg','nb_1_tipo_vehi_fld',58,'Seleccione Tipo Vehiculo'),
+	('nb_tarifas_pg','nb_3_tipocobro_fld',58,'Seleccione Tipo Cobro'),
+	('nb_tarifas_pg','nb_3_tipocobro_fld',55,'../Events/ValoresCampo.php?campo=nb_3_tipocobro_fld'),
+	('nb_usuarios_pg','nb_tipodoc_fld',24,'Tipo de Documento'),
+	('nb_usuarios_pg','nb_tipodoc_fld',11,'true'),
+	('nb_usuarios_pg','nb_tipodoc_fld',13,'integer'),
+	('nb_usuarios_pg','nb_tipodoc_fld',32,'select'),
+	('nb_usuarios_pg','nb_tipodoc_fld',55,'../Events/ValoresCampo.php?campo=nb_tipodoc_fld'),
+	('nb_usuarios_pg','nb_tipodoc_fld',58,'Seleccione Tipo de Documento'),
+	('nb_usuarios_pg','nb_tipodoc_fld',59,'false'),
+	('nb_usuarios_pg','nb_numerodoc_fld',11,'true'),
+	('nb_usuarios_pg','nb_numerodoc_fld',13,'string'),
+	('nb_usuarios_pg','nb_numerodoc_fld',24,'Numero Documento'),
+	('nb_usuarios_pg','nb_nombre_fld',11,'true'),
+	('nb_usuarios_pg','nb_nombre_fld',13,'string'),
+	('nb_usuarios_pg','nb_nombre_fld',24,'Nombre/Razon Social'),
+	('nb_usuarios_pg','nb_1_tipo_vehi_fld',13,'string'),
+	('nb_usuarios_pg','nb_1_tipo_vehi_fld',24,'Tipo Vehiculo'),
+	('nb_usuarios_pg','nb_1_tipo_vehi_fld',32,'select'),
+	('nb_usuarios_pg','nb_1_tipo_vehi_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipo_vehi_fld'),
+	('nb_usuarios_pg','nb_1_tipo_vehi_fld',58,'Seleccione Tipo Vehiculo'),
+	('nb_usuarios_pg','nb_1_tipo_vehi_fld',59,'false'),
+	('nb_usuarios_pg','nb_2_placa_fld',13,'string'),
+	('nb_usuarios_pg','nb_2_placa_fld',24,'Placa'),
+	('nb_usuarios_pg','nb_1_tipotarifa_fld',13,'string'),
+	('nb_usuarios_pg','nb_1_tipotarifa_fld',24,'Tipo tarifa'),
+	('nb_usuarios_pg','nb_1_tipotarifa_fld',32,'select'),
+	('nb_usuarios_pg','nb_1_tipotarifa_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipotarifa_fld'),
+	('nb_usuarios_pg','nb_1_tipotarifa_fld',58,'Seleccione tipo Tarifa'),
+	('nb_usuarios_pg','nb_1_tipotarifa_fld',59,'false');
 
 /*!40000 ALTER TABLE `nb_forms_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1846,35 +1929,72 @@ LOCK TABLES `nb_navigation_tbl` WRITE;
 
 INSERT INTO `nb_navigation_tbl` (`nb_id_page_fld`, `nb_sec_fld`, `nb_parent_fld`, `nb_id_menu_fld`, `nb_descr_men_fld`, `nb_link_fld`, `nb_image_fld`, `nb_target_fld`)
 VALUES
-	('addcustomer',1,0,1,'Home','home','fa fa-home','N'),
-	('addcustomer',2,0,2,'Clientes',NULL,'fa fa-user','N'),
-	('addcustomer',3,2,1,'Consultar Clientes','srccustomer','fa fa-search','N'),
-	('addcustomer',4,2,2,'Ingresar Cliente','addcustomer','fa fa-plus-circle','N'),
-	('addcustomer',5,2,3,'Modificar Cliente','viewcustomer','fa fa-pencil-square-o','N'),
-	('addcustomer',6,0,3,'Ayuda',NULL,'fa fa-life-buoy','N'),
-	('addcustomer',7,0,4,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_control_pg',13,0,7,'Ayuda',NULL,'fa fa-life-buoy','N'),
+	('nb_control_pg',12,11,1,'Reporte Mensual Cobros',NULL,'fa fa-calculator','N'),
+	('nb_control_pg',11,0,6,'Reportes',NULL,'fa fa-desktop','N'),
+	('home',5,0,3,'Tarificacion',NULL,'fa fa-money','N'),
+	('home',7,0,4,'Usuarios Parqueadero',NULL,'fa fa-group','N'),
+	('home',9,0,5,'Usuarios Software',NULL,'fa fa-users','N'),
+	('home',11,0,6,'Reportes',NULL,'fa fa-desktop','N'),
+	('home',12,11,1,'Reporte Mensual Cobros',NULL,'fa fa-calculator','N'),
+	('nb_controlv_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_controlv_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_controlv_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_controlv_pg',4,2,2,'Monitoreo',NULL,'fa fa-table','N'),
+	('nb_controlv_pg',5,0,3,'Tarificacion',NULL,'fa fa-money','N'),
+	('nb_controlv_pg',6,5,1,'Tarifas','nb_tarifas_pg','fa fa-dollar','N'),
+	('nb_controlv_pg',7,0,4,'Usuarios Parqueadero',NULL,'fa fa-group','N'),
+	('nb_controlv_pg',8,7,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-user','N'),
+	('nb_controlv_pg',9,0,5,'Usuarios Software',NULL,'fa fa-users','N'),
+	('nb_controlv_pg',11,0,6,'Reportes',NULL,'fa fa-desktop','N'),
+	('nb_controlv_pg',12,11,1,'Reporte Mensual Cobros',NULL,'fa fa-calculator','N'),
+	('nb_controlv_pg',13,0,7,'Ayuda',NULL,'fa fa-life-buoy','N'),
+	('nb_controlv_pg',14,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_control_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_control_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_control_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_control_pg',4,2,2,'Monitoreo',NULL,'fa fa-table','N'),
+	('nb_control_pg',5,0,3,'Tarificacion',NULL,'fa fa-money','N'),
+	('nb_control_pg',6,5,1,'Tarifas','nb_tarifas_pg','fa fa-dollar','N'),
+	('nb_control_pg',7,0,4,'Usuarios Parqueadero',NULL,'fa fa-group','N'),
+	('nb_control_pg',8,7,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-user','N'),
+	('nb_control_pg',9,0,5,'Usuarios Software',NULL,'fa fa-users','N'),
+	('home',8,7,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-user','N'),
 	('error',1,0,1,'Home','home','fa fa-home','N'),
 	('home',1,0,1,'Home','home','fa fa-home','N'),
-	('home',2,0,2,'Clientes',NULL,'fa fa-user','N'),
-	('home',3,2,1,'Consultar Clientes','srccustomer','fa fa-search','N'),
-	('home',4,2,2,'Ingresar Cliente','addcustomer','fa fa-plus-circle','N'),
-	('home',5,2,3,'Modificar Cliente','viewcustomer','fa fa-pencil-square-o','N'),
-	('home',6,0,3,'Ayuda',NULL,'fa fa-life-buoy','N'),
-	('home',7,0,4,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('srccustomer',1,0,1,'Home','home','fa fa-home','N'),
-	('srccustomer',2,0,2,'Clientes',NULL,'fa fa-user','N'),
-	('srccustomer',3,2,1,'Consultar Clientes','srccustomer','fa fa-search','N'),
-	('srccustomer',4,2,2,'Ingresar Cliente','addcustomer','fa fa-plus-circle','N'),
-	('srccustomer',5,2,3,'Modificar Cliente','viewcustomer','fa fa-pencil-square-o','N'),
-	('viewcustomer',7,0,4,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('viewcustomer',6,0,3,'Ayuda',NULL,'fa fa-life-buoy','N'),
-	('viewcustomer',5,2,3,'Modificar Cliente','viewcustomer','fa fa-pencil-square-o','N'),
-	('viewcustomer',4,2,2,'Ingresar Cliente','addcustomer','fa fa-plus-circle','N'),
-	('viewcustomer',3,2,1,'Consultar Clientes','srccustomer','fa fa-search','N'),
-	('viewcustomer',2,0,2,'Clientes',NULL,'fa fa-user','N'),
-	('srccustomer',6,0,3,'Ayuda',NULL,'fa fa-life-buoy','N'),
-	('srccustomer',7,0,4,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('viewcustomer',1,0,1,'Home','home','fa fa-home','N');
+	('home',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('home',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('home',6,5,1,'Tarifas','nb_tarifas_pg','fa fa-dollar','N'),
+	('nb_usuarios_pg',11,0,6,'Reportes',NULL,'fa fa-desktop','N'),
+	('nb_usuarios_pg',12,11,1,'Reporte Mensual Cobros',NULL,'fa fa-calculator','N'),
+	('nb_usuarios_pg',13,0,7,'Ayuda',NULL,'fa fa-life-buoy','N'),
+	('nb_usuarios_pg',14,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('home',13,0,7,'Ayuda',NULL,'fa fa-life-buoy','N'),
+	('home',14,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_usuarios_pg',9,0,5,'Usuarios Software',NULL,'fa fa-users','N'),
+	('nb_usuarios_pg',8,7,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-user','N'),
+	('nb_usuarios_pg',7,0,4,'Usuarios Parqueadero',NULL,'fa fa-group','N'),
+	('nb_tarifas_pg',12,11,1,'Reporte Mensual Cobros',NULL,'fa fa-calculator','N'),
+	('nb_tarifas_pg',13,0,7,'Ayuda',NULL,'fa fa-life-buoy','N'),
+	('nb_tarifas_pg',14,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_usuarios_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_usuarios_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_usuarios_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_usuarios_pg',4,2,2,'Monitoreo',NULL,'fa fa-table','N'),
+	('nb_usuarios_pg',5,0,3,'Tarificacion',NULL,'fa fa-money','N'),
+	('nb_usuarios_pg',6,5,1,'Tarifas','nb_tarifas_pg','fa fa-dollar','N'),
+	('nb_tarifas_pg',11,0,6,'Reportes',NULL,'fa fa-desktop','N'),
+	('nb_tarifas_pg',9,0,5,'Usuarios Software',NULL,'fa fa-users','N'),
+	('nb_tarifas_pg',8,7,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-user','N'),
+	('nb_tarifas_pg',7,0,4,'Usuarios Parqueadero',NULL,'fa fa-group','N'),
+	('nb_tarifas_pg',6,5,1,'Tarifas','nb_tarifas_pg','fa fa-dollar','N'),
+	('nb_tarifas_pg',5,0,3,'Tarificacion',NULL,'fa fa-money','N'),
+	('nb_tarifas_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_tarifas_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_tarifas_pg',4,2,2,'Monitoreo',NULL,'fa fa-table','N'),
+	('nb_tarifas_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_control_pg',14,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('home',4,2,2,'Monitoreo',NULL,'fa fa-table','N');
 
 /*!40000 ALTER TABLE `nb_navigation_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1905,7 +2025,11 @@ VALUES
 	('error','image','false',NULL,NULL,NULL,NULL),
 	('home','image','false',NULL,NULL,NULL,NULL),
 	('addcustomer','wizard','true','../Events/','nabuSave','post',NULL),
-	('viewcustomer','wizard','true',NULL,NULL,NULL,NULL);
+	('viewcustomer','wizard','true',NULL,NULL,NULL,NULL),
+	('nb_control_pg','form','true','../Events/','nabuTransfer','post',NULL),
+	('nb_controlv_pg','form','true',NULL,NULL,NULL,NULL),
+	('nb_tarifas_pg','form','true',NULL,NULL,'post',NULL),
+	('nb_usuarios_pg','wizard','true',NULL,NULL,'post',NULL);
 
 /*!40000 ALTER TABLE `nb_option_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1930,8 +2054,14 @@ LOCK TABLES `nb_options_buttons_tbl` WRITE;
 
 INSERT INTO `nb_options_buttons_tbl` (`nb_id_page_fld`, `nb_id_opt_form_fld`, `nb_value_fld`, `nb_title_fld`, `nb_click_fld`)
 VALUES
-	('login','reset','Limpiar','Limpiar',''),
-	('login','submit','Aceptar','Aceptar',NULL);
+	('login','reset','Limpiar','Limpiar',NULL),
+	('login','submit','Aceptar','Aceptar',NULL),
+	('nb_control_pg','submit','Procesar','Procesar',NULL),
+	('nb_control_pg','reset','Cancelar','Cancelar',NULL),
+	('nb_controlv_pg','submit','Confirmar','Aceptar',NULL),
+	('nb_controlv_pg','reset','Cancelar','Cancelar',NULL),
+	('nb_tarifas_pg','submit','Guardar','Guardar',NULL),
+	('nb_tarifas_pg','reset','Cancelar','Cancelar',NULL);
 
 /*!40000 ALTER TABLE `nb_options_buttons_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2004,6 +2134,74 @@ VALUES
 	('login',20),
 	('login',21),
 	('login',22),
+	('nb_controlv_pg',1),
+	('nb_controlv_pg',2),
+	('nb_controlv_pg',3),
+	('nb_controlv_pg',4),
+	('nb_controlv_pg',5),
+	('nb_controlv_pg',6),
+	('nb_controlv_pg',7),
+	('nb_controlv_pg',8),
+	('nb_controlv_pg',9),
+	('nb_controlv_pg',10),
+	('nb_controlv_pg',12),
+	('nb_controlv_pg',13),
+	('nb_controlv_pg',15),
+	('nb_controlv_pg',16),
+	('nb_controlv_pg',17),
+	('nb_controlv_pg',19),
+	('nb_controlv_pg',22),
+	('nb_control_pg',1),
+	('nb_control_pg',2),
+	('nb_control_pg',3),
+	('nb_control_pg',4),
+	('nb_control_pg',5),
+	('nb_control_pg',6),
+	('nb_control_pg',7),
+	('nb_control_pg',8),
+	('nb_control_pg',9),
+	('nb_control_pg',10),
+	('nb_control_pg',12),
+	('nb_control_pg',13),
+	('nb_control_pg',15),
+	('nb_control_pg',16),
+	('nb_control_pg',17),
+	('nb_control_pg',19),
+	('nb_control_pg',22),
+	('nb_tarifas_pg',1),
+	('nb_tarifas_pg',2),
+	('nb_tarifas_pg',3),
+	('nb_tarifas_pg',4),
+	('nb_tarifas_pg',5),
+	('nb_tarifas_pg',6),
+	('nb_tarifas_pg',7),
+	('nb_tarifas_pg',8),
+	('nb_tarifas_pg',9),
+	('nb_tarifas_pg',10),
+	('nb_tarifas_pg',12),
+	('nb_tarifas_pg',13),
+	('nb_tarifas_pg',15),
+	('nb_tarifas_pg',16),
+	('nb_tarifas_pg',17),
+	('nb_tarifas_pg',19),
+	('nb_tarifas_pg',22),
+	('nb_usuarios_pg',1),
+	('nb_usuarios_pg',2),
+	('nb_usuarios_pg',3),
+	('nb_usuarios_pg',4),
+	('nb_usuarios_pg',5),
+	('nb_usuarios_pg',6),
+	('nb_usuarios_pg',7),
+	('nb_usuarios_pg',8),
+	('nb_usuarios_pg',9),
+	('nb_usuarios_pg',10),
+	('nb_usuarios_pg',12),
+	('nb_usuarios_pg',13),
+	('nb_usuarios_pg',15),
+	('nb_usuarios_pg',16),
+	('nb_usuarios_pg',17),
+	('nb_usuarios_pg',19),
+	('nb_usuarios_pg',22),
 	('srccustomer',1),
 	('srccustomer',2),
 	('srccustomer',3),
@@ -2065,7 +2263,11 @@ VALUES
 	('home','Inicio Administradores',NULL,'alpaca','bootstrap-display',NULL,'false'),
 	('login','Login de Usuario','formsSimple','alpaca','bootstrap-create',NULL,'false'),
 	('srccustomer','Busqueda Cliente','dataGrids','datagrid',NULL,NULL,'false'),
-	('viewcustomer','Consulta Cliente','forms','alpaca','bootstrap-edit-horizontal','nbd_customer_vw','false');
+	('viewcustomer','Consulta Cliente','forms','alpaca','bootstrap-edit-horizontal','nbd_customer_vw','false'),
+	('nb_control_pg','Ingreso Control Vehicular','formsSimple','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_controlv_pg','Detalle Entrada/Salida','formsSimple','alpaca','bootstrap-display',NULL,'false'),
+	('nb_tarifas_pg','Parametrizacion Tarifas','formsSimple','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_usuarios_pg','Usuarios Parqueaderos','forms','alpaca','bootstrap-create-horizontal',NULL,'false');
 
 /*!40000 ALTER TABLE `nb_pages_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2091,6 +2293,10 @@ VALUES
 	(1,'error'),
 	(1,'home'),
 	(1,'login'),
+	(1,'nb_controlv_pg'),
+	(1,'nb_control_pg'),
+	(1,'nb_tarifas_pg'),
+	(1,'nb_usuarios_pg'),
 	(1,'srccustomer'),
 	(1,'viewcustomer');
 
@@ -2142,9 +2348,13 @@ INSERT INTO `nb_schema_tbl` (`nb_id_page_fld`, `nb_title_fld`, `nb_description_f
 VALUES
 	('addcustomer','Ingreso Clientes','','object'),
 	('error','Error  login',NULL,'object'),
-	('home','Menu Principal',NULL,'object'),
+	('home','',NULL,'object'),
 	('login','Bienvenidos',NULL,'object'),
-	('viewcustomer','Consulta Clientes',NULL,'object');
+	('viewcustomer','Consulta Clientes',NULL,'object'),
+	('nb_control_pg','Ingreso Control Vehicular',NULL,'object'),
+	('nb_controlv_pg','Detalle Vehiculo',NULL,'object'),
+	('nb_tarifas_pg','Tarificacion',NULL,'object'),
+	('nb_usuarios_pg','Usuarios Parqueaderos',NULL,'object');
 
 /*!40000 ALTER TABLE `nb_schema_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2329,7 +2539,16 @@ VALUES
 	('nbd_person_tipo_fld','3','transportador'),
 	('nb_tipodoc_fld','3','NIT'),
 	('nb_tipodoc_fld','4','Pasaporte'),
-	('nb_tipodoc_fld','5','Cedula de Extranjeria');
+	('nb_tipodoc_fld','5','Cedula de Extranjeria'),
+	('anb_empresa_fld','0','Fundacion Clinica Club Noel'),
+	('nb_1_tipo_vehi_fld','0','Carro'),
+	('nb_1_tipo_vehi_fld','1','Moto'),
+	('nb_1_tipotarifa_fld','0','Excenta'),
+	('nb_1_tipotarifa_fld','1','Mensualidad'),
+	('nb_1_tipotarifa_fld','2','Normal'),
+	('nb_3_tipocobro_fld','0','Mensual'),
+	('nb_3_tipocobro_fld','1','Hora'),
+	('nb_3_tipocobro_fld','2','Fraccion');
 
 /*!40000 ALTER TABLE `nb_value_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2389,7 +2608,12 @@ VALUES
 	(15,'viewcustomer','nb_estado_fld',3,3),
 	(16,'viewcustomer','nb_observaciones_fld',3,4),
 	(21,'viewcustomer','nbd_person_id_fld',3,1),
-	(22,'viewcustomer','nbd_person_tipo_fld',3,2);
+	(22,'viewcustomer','nbd_person_tipo_fld',3,2),
+	(1,'nb_usuarios_pg','nb_tipodoc_fld',1,1),
+	(2,'nb_usuarios_pg','nb_numerodoc_fld',1,2),
+	(3,'nb_usuarios_pg','nb_1_tipo_vehi_fld',2,1),
+	(4,'nb_usuarios_pg','nb_2_placa_fld',2,2),
+	(5,'nb_usuarios_pg','nb_1_tipotarifa_fld',2,3);
 
 /*!40000 ALTER TABLE `nb_wizard_bind_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2419,7 +2643,10 @@ VALUES
 	(2,'addcustomer','next','Siguiente',NULL,NULL),
 	(3,'addcustomer','previous','Atras',NULL,NULL),
 	(1,'viewcustomer','next','Siguiente',NULL,NULL),
-	(2,'viewcustomer','previous','Atras',NULL,NULL);
+	(2,'viewcustomer','previous','Atras',NULL,NULL),
+	(1,'nb_usuarios_pg','next','Siguiente',NULL,NULL),
+	(2,'nb_usuarios_pg','previuos','Atras',NULL,NULL),
+	(3,'nb_usuarios_pg','submit','Guardar',NULL,NULL);
 
 /*!40000 ALTER TABLE `nb_wizard_buttons_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2448,7 +2675,9 @@ VALUES
 	(3,'addcustomer','3- Negocio','Informacion Negocio'),
 	(1,'viewcustomer','1- Basicos','Informacion Basica Clientes'),
 	(2,'viewcustomer','2- Localizacion','Informacion de Contacto'),
-	(3,'viewcustomer','3- Negocio','Informacion Negocio');
+	(3,'viewcustomer','3- Negocio','Informacion Negocio'),
+	(1,'nb_usuarios_pg','1-Basicos','Informacion Basica Usuarios'),
+	(2,'nb_usuarios_pg','2-Tarificacion','Informacion Tarificacion por Usuario');
 
 /*!40000 ALTER TABLE `nb_wizard_steps_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2474,7 +2703,8 @@ LOCK TABLES `nb_wizard_tbl` WRITE;
 INSERT INTO `nb_wizard_tbl` (`nb_id_wizard`, `nb_id_page_fld`, `nb_wizard_title`, `nb_wizard_desc`, `nb_wizard_show_progress`)
 VALUES
 	(1,'addcustomer','','','true'),
-	(2,'viewcustomer',NULL,NULL,'true');
+	(2,'viewcustomer',NULL,NULL,'true'),
+	(3,'nb_usuarios_pg',NULL,NULL,'true');
 
 /*!40000 ALTER TABLE `nb_wizard_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2616,7 +2846,8 @@ LOCK TABLES `nbd_role_user_tbl` WRITE;
 
 INSERT INTO `nbd_role_user_tbl` (`nb_id_role_fld`, `nbd_id_user_fld`)
 VALUES
-	(1,1);
+	(1,1),
+	(1,2);
 
 /*!40000 ALTER TABLE `nbd_role_user_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2639,7 +2870,8 @@ LOCK TABLES `nbd_user_tbl` WRITE;
 
 INSERT INTO `nbd_user_tbl` (`nbd_id_user_fld`, `nbd_email_fld`, `nbd_password_fld`)
 VALUES
-	(1,'nabu','81dc9bdb52d04dc20036dbd8313ed055');
+	(1,'nabu','81dc9bdb52d04dc20036dbd8313ed055'),
+	(2,'guardia','81dc9bdb52d04dc20036dbd8313ed055');
 
 /*!40000 ALTER TABLE `nbd_user_tbl` ENABLE KEYS */;
 UNLOCK TABLES;

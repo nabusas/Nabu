@@ -1,5 +1,3 @@
-<?php
-
 /*
 The MIT License (MIT)
 
@@ -23,55 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-	Fecha creacion		= 28-02-2015
+	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 12-10-2015
-	Usuario Modifico	= CAGC
+	Fecha modificacion	= 10-12-2015
+	User modify		    = CAGC
 
 */
 
-class JsonData
-{
-    public function JsonData(){
-    }
+<?php
     
-    function replaceData($value){
-        
-        date_default_timezone_set("America/Bogota");
-        
-        if ( $value=='nb_sysdate' )
-            return date("Y-m-d h:i:sa");  
-            
-        return $value;    
-    }
-    
-    function getData($setData){
-        
-        if (!isset($data))
-            $data = array();
-        
-        foreach($setData as $rowData)
-            $data[$rowData[0]] = $this->replaceData($rowData[1]);
-        
-        return $data;
-        
-    }
-    
-    function getDataSelect($database, $table,$fields){
-        
-        if (!isset($data))
-            $data = array();
-        
-        $i=0;
-        foreach($fields as $field){
-            $value=$database->getDataValue($table,$field[0]);
-            $data[$field[0]] =$value[0];
-            $i=$i+1;
-        }
-        return $data;
-    
-    }
-  
-}
+    header("location:../Pages/nabu.php?p=nb_controlv_pg");
 
 ?>
