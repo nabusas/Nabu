@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-10 20:12:20 +0000
+# Generation Time: 2015-12-11 03:00:21 +0000
 # ************************************************************
 
 
@@ -1809,13 +1809,14 @@ VALUES
 	('nb_tarifas_pg','nb_1_tipotarifa_fld',13,'string'),
 	('nb_tarifas_pg','nb_1_tipo_vehi_fld',13,'string'),
 	('nb_tarifas_pg','nb_3_tipocobro_fld',13,'string'),
-	('nb_tarifas_pg','nb_4_valorhora_fld',13,'string'),
-	('nb_tarifas_pg','nb_5_valorfraccion_fld',13,'string'),
+	('nb_tarifas_pg','nb_4_valor_fld',13,'string'),
+	('nb_usuarios_pg','nb_4_placa_fld',13,'string'),
 	('nb_tarifas_pg','nb_1_tipotarifa_fld',24,'Tipo tarifa'),
 	('nb_tarifas_pg','nb_1_tipo_vehi_fld',24,'Tipo Vehiculo'),
 	('nb_tarifas_pg','nb_3_tipocobro_fld',24,'Tipo Cobro'),
-	('nb_tarifas_pg','nb_4_valorhora_fld',24,'Valor Hora'),
-	('nb_tarifas_pg','nb_5_valorfraccion_fld',24,'Valor Fraccion'),
+	('nb_tarifas_pg','nb_4_valor_fld',24,'Valor'),
+	('nb_usuarios_pg','nb_3_placa_fld',24,'Placa'),
+	('nb_usuarios_pg','nb_3_placa_fld',13,'string'),
 	('nb_tarifas_pg','nb_1_tipotarifa_fld',32,'select'),
 	('nb_tarifas_pg','nb_1_tipo_vehi_fld',32,'select'),
 	('nb_tarifas_pg','nb_3_tipocobro_fld',32,'select'),
@@ -1847,6 +1848,7 @@ VALUES
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipo_vehi_fld'),
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',58,'Seleccione Tipo Vehiculo'),
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',59,'false'),
+	('nb_usuarios_pg','nb_4_placa_fld',24,'Placa'),
 	('nb_usuarios_pg','nb_2_placa_fld',13,'string'),
 	('nb_usuarios_pg','nb_2_placa_fld',24,'Placa'),
 	('nb_usuarios_pg','nb_1_tipotarifa_fld',13,'string'),
@@ -2543,12 +2545,13 @@ VALUES
 	('anb_empresa_fld','0','Fundacion Clinica Club Noel'),
 	('nb_1_tipo_vehi_fld','0','Carro'),
 	('nb_1_tipo_vehi_fld','1','Moto'),
-	('nb_1_tipotarifa_fld','0','Excenta'),
+	('nb_1_tipotarifa_fld','0','Exenta'),
 	('nb_1_tipotarifa_fld','1','Mensualidad'),
 	('nb_1_tipotarifa_fld','2','Normal'),
-	('nb_3_tipocobro_fld','0','Mensual'),
-	('nb_3_tipocobro_fld','1','Hora'),
-	('nb_3_tipocobro_fld','2','Fraccion');
+	('nb_3_tipocobro_fld','1','Mensual'),
+	('nb_3_tipocobro_fld','2','Hora'),
+	('nb_3_tipocobro_fld','3','Fraccion'),
+	('nb_3_tipocobro_fld','0','Sin Cobro');
 
 /*!40000 ALTER TABLE `nb_value_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2611,9 +2614,12 @@ VALUES
 	(22,'viewcustomer','nbd_person_tipo_fld',3,2),
 	(1,'nb_usuarios_pg','nb_tipodoc_fld',1,1),
 	(2,'nb_usuarios_pg','nb_numerodoc_fld',1,2),
-	(3,'nb_usuarios_pg','nb_1_tipo_vehi_fld',2,1),
-	(4,'nb_usuarios_pg','nb_2_placa_fld',2,2),
-	(5,'nb_usuarios_pg','nb_1_tipotarifa_fld',2,3);
+	(5,'nb_usuarios_pg','nb_1_tipo_vehi_fld',2,1),
+	(6,'nb_usuarios_pg','nb_2_placa_fld',2,1),
+	(7,'nb_usuarios_pg','nb_4_placa_fld',2,2),
+	(8,'nb_usuarios_pg','nb_3_placa_fld',2,3),
+	(3,'nb_usuarios_pg','nb_1_tipotarifa_fld',1,4),
+	(4,'nb_usuarios_pg','nb_nombre_fld',1,3);
 
 /*!40000 ALTER TABLE `nb_wizard_bind_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2677,7 +2683,7 @@ VALUES
 	(2,'viewcustomer','2- Localizacion','Informacion de Contacto'),
 	(3,'viewcustomer','3- Negocio','Informacion Negocio'),
 	(1,'nb_usuarios_pg','1-Basicos','Informacion Basica Usuarios'),
-	(2,'nb_usuarios_pg','2-Tarificacion','Informacion Tarificacion por Usuario');
+	(2,'nb_usuarios_pg','2-Vehiculos','Informacion Vehiculos');
 
 /*!40000 ALTER TABLE `nb_wizard_steps_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
