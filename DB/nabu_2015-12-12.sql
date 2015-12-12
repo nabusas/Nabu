@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-12 04:50:53 +0000
+# Generation Time: 2015-12-12 19:49:59 +0000
 # ************************************************************
 
 
@@ -1490,7 +1490,35 @@ VALUES
 	('nb_reporte_mensual_pg',40,'true'),
 	('nb_reporte_mensual_pg',41,'true'),
 	('nb_reporte_mensual_pg',43,'350'),
-	('nb_reporte_mensual_pg',44,'nb_cobrosM_vw');
+	('nb_reporte_mensual_pg',44,'nb_cobrosM_vw'),
+	('nb_tarifasv_pg',37,'Tarificacion'),
+	('nb_tarifasv_pg',38,'true'),
+	('nb_tarifasv_pg',39,'44'),
+	('nb_tarifasv_pg',40,'true'),
+	('nb_tarifasv_pg',41,'true'),
+	('nb_tarifasv_pg',43,'350'),
+	('nb_tarifasv_pg',44,'nb_tarifas_vw'),
+	('nb_pagosv_pg',37,'Pagos'),
+	('nb_pagosv_pg',38,'true'),
+	('nb_pagosv_pg',39,'44'),
+	('nb_pagosv_pg',40,'true'),
+	('nb_pagosv_pg',41,'true'),
+	('nb_pagosv_pg',43,'350'),
+	('nb_pagosv_pg',44,'nbd_user_tbl'),
+	('nb_loginv_pg',37,'Usuarios del Sistema'),
+	('nb_loginv_pg',38,'true'),
+	('nb_loginv_pg',39,'44'),
+	('nb_loginv_pg',40,'true'),
+	('nb_loginv_pg',41,'true'),
+	('nb_loginv_pg',43,'350'),
+	('nb_loginv_pg',44,'nb_login_vw'),
+	('nb_usuariosv_pg',37,'Usuarios'),
+	('nb_usuariosv_pg',38,'true'),
+	('nb_usuariosv_pg',39,'44'),
+	('nb_usuariosv_pg',40,'true'),
+	('nb_usuariosv_pg',41,'true'),
+	('nb_usuariosv_pg',43,'350'),
+	('nb_usuariosv_pg',44,'nb_usuariosClientes_vw');
 
 /*!40000 ALTER TABLE `nb_datagrid_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1772,6 +1800,18 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table nb_login_vw
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `nb_login_vw`;
+
+CREATE TABLE `nb_login_vw` (
+   `Usuario` VARCHAR(255) NULL DEFAULT NULL,
+   `Login` VARCHAR(255) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+
+
 # Dump of table nb_monitoreod_vw
 # ------------------------------------------------------------
 
@@ -1830,14 +1870,14 @@ VALUES
 	('nb_tarifas_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_tarifas_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_tarifas_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
-	('nb_tarifas_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_tarifas_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_tarifas_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_tarifas_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
 	('nb_tarifas_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_tarifas_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
 	('nb_tarifas_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('home',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
-	('nb_tarifas_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_tarifas_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('home',1,0,1,'Home','home','fa fa-home','N'),
 	('home',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
 	('home',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
@@ -1846,26 +1886,26 @@ VALUES
 	('nb_tarifas_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
 	('nb_tarifas_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_tarifas_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
-	('nb_tarifas_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_tarifas_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_tarifas_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
 	('nb_tarifas_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
 	('nb_tarifas_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
 	('nb_tarifas_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
-	('nb_tarifas_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_tarifas_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_tarifas_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('nb_tarifas_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('home',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
 	('home',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
-	('home',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('home',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('home',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
-	('home',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('home',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('home',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('Home',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
 	('home',14,9,2,'Pagos','construccion','fa fa-money','N'),
-	('home',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('home',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('home',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
 	('home',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
-	('home',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('home',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('home',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('home',26,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
 	('home',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
@@ -1878,14 +1918,14 @@ VALUES
 	('nb_reporte_total_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_reporte_total_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_reporte_total_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('nb_reporte_total_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_reporte_total_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_reporte_total_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
 	('nb_reporte_total_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_reporte_total_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
-	('nb_reporte_total_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_reporte_total_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_reporte_total_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
 	('nb_reporte_total_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
-	('nb_reporte_total_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_reporte_total_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_reporte_total_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_reporte_total_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('nb_reporte_total_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
@@ -1894,7 +1934,7 @@ VALUES
 	('nb_reporte_total_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
 	('nb_reporte_total_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('nb_reporte_total_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
-	('nb_reporte_total_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_reporte_total_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_reporte_total_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
 	('nb_reporte_total_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
 	('nb_reporte_total_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
@@ -1908,17 +1948,17 @@ VALUES
 	('nb_reporte_mensual_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_reporte_mensual_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_reporte_mensual_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
-	('nb_reporte_mensual_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_reporte_mensual_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_reporte_mensual_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
-	('nb_reporte_mensual_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_reporte_mensual_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_reporte_mensual_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_reporte_mensual_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
 	('nb_reporte_mensual_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
-	('nb_reporte_mensual_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_reporte_mensual_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_reporte_mensual_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('nb_reporte_mensual_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_reporte_mensual_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
-	('nb_reporte_mensual_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_reporte_mensual_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_reporte_mensual_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
 	('nb_reporte_mensual_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('nb_reporte_mensual_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
@@ -1933,16 +1973,16 @@ VALUES
 	('nb_reporte_diario_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_reporte_diario_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_reporte_diario_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('nb_reporte_diario_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_reporte_diario_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_reporte_diario_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_reporte_diario_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
-	('nb_reporte_diario_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_reporte_diario_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_reporte_diario_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
 	('nb_reporte_diario_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
 	('nb_reporte_diario_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
-	('nb_reporte_diario_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_reporte_diario_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_reporte_diario_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('nb_reporte_diario_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_reporte_diario_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_reporte_diario_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
 	('nb_reporte_diario_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_reporte_diario_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
@@ -1962,19 +2002,19 @@ VALUES
 	('nb_registropago_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
 	('nb_registropago_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_registropago_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
-	('nb_registropago_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_registropago_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_registropago_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
 	('nb_registropago_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
-	('nb_registropago_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_registropago_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_registropago_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_registropago_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
 	('nb_registropago_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
 	('nb_registropago_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
-	('nb_registropago_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_registropago_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_registropago_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
 	('nb_registropago_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_registropago_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
-	('nb_registropago_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_registropago_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_registropago_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('nb_registropago_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('nb_registropago_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
@@ -1988,21 +2028,21 @@ VALUES
 	('nb_monitoreo_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
 	('nb_monitoreo_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_monitoreo_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('nb_monitoreo_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_monitoreo_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_monitoreo_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_monitoreo_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
 	('nb_monitoreo_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
-	('nb_monitoreo_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_monitoreo_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_monitoreo_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
 	('nb_monitoreo_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
 	('nb_monitoreo_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('nb_monitoreo_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_monitoreo_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_monitoreo_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
 	('nb_monitoreo_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('nb_monitoreo_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
 	('nb_monitoreo_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_monitoreo_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
-	('nb_monitoreo_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_monitoreo_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_monitoreo_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
 	('nb_monitoreo_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
 	('nb_monitoreo_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
@@ -2014,22 +2054,22 @@ VALUES
 	('nb_control_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_control_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_control_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
-	('nb_control_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_control_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_control_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_control_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
 	('nb_control_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_control_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
 	('nb_control_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
-	('nb_control_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_control_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_control_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
 	('nb_control_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('nb_control_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_control_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_control_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('nb_control_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
 	('nb_control_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_control_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
 	('nb_control_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
-	('nb_control_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_control_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_control_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('nb_control_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
 	('nb_control_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
@@ -2042,21 +2082,21 @@ VALUES
 	('nb_controlv_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_controlv_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_controlv_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
-	('nb_controlv_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_controlv_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_controlv_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
 	('nb_controlv_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
 	('nb_controlv_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
-	('nb_controlv_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_controlv_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_controlv_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
 	('nb_controlv_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
 	('nb_controlv_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('nb_controlv_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_controlv_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_controlv_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('nb_controlv_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
-	('nb_usuarios_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_usuarios_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_controlv_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_controlv_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
-	('nb_controlv_pg',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('nb_controlv_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_controlv_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('nb_controlv_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('nb_controlv_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
@@ -2070,20 +2110,20 @@ VALUES
 	('construccion',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('construccion',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
 	('construccion',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('construccion',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('construccion',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('construccion',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
 	('construccion',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('construccion',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
-	('construccion',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('construccion',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('construccion',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
 	('construccion',14,9,2,'Pagos','construccion','fa fa-money','N'),
 	('construccion',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
-	('construccion',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('construccion',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('construccion',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('construccion',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
 	('construccion',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('construccion',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
-	('construccion',7,5,2,'Consulta Tarifas','construccion','fa fa-search','N'),
+	('construccion',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('construccion',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('construccion',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('construccion',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
@@ -2094,22 +2134,130 @@ VALUES
 	('nb_usuarios_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_usuarios_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
 	('nb_usuarios_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
-	('nb_usuarios_pg',12,10,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_usuarios_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
 	('nb_usuarios_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_usuarios_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
 	('nb_usuarios_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
-	('nb_usuarios_pg',16,14,2,'Consulta Pago','construccion','fa fa-search','N'),
+	('nb_usuarios_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
 	('nb_usuarios_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
 	('nb_usuarios_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_usuarios_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
-	('nb_usuarios_pg',20,18,2,'Consulta Usuarios','construccion','fa fa-search','N'),
+	('nb_usuarios_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_usuarios_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
 	('nb_usuarios_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
 	('nb_usuarios_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_usuarios_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_usuarios_pg',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_usuarios_pg',26,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
-	('nb_usuarios_pg',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N');
+	('nb_usuarios_pg',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_tarifasv_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_tarifasv_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_tarifasv_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_tarifasv_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_tarifasv_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('nb_tarifasv_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('nb_tarifasv_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('nb_tarifasv_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
+	('nb_tarifasv_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('nb_tarifasv_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
+	('nb_tarifasv_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('nb_tarifasv_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('nb_tarifasv_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_tarifasv_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
+	('nb_tarifasv_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
+	('nb_tarifasv_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
+	('nb_tarifasv_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
+	('nb_tarifasv_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('nb_tarifasv_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
+	('nb_tarifasv_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_tarifasv_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_tarifasv_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_tarifasv_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('nb_tarifasv_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('nb_tarifasv_pg',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('nb_tarifasv_pg',26,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
+	('nb_tarifasv_pg',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_pagosv_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_pagosv_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_pagosv_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_pagosv_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_pagosv_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('nb_pagosv_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('nb_pagosv_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('nb_pagosv_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
+	('nb_pagosv_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('nb_pagosv_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
+	('nb_pagosv_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('nb_pagosv_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('nb_pagosv_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_pagosv_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
+	('nb_pagosv_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
+	('nb_pagosv_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
+	('nb_pagosv_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
+	('nb_pagosv_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('nb_pagosv_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
+	('nb_pagosv_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_pagosv_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_pagosv_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_pagosv_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('nb_pagosv_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('nb_pagosv_pg',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('nb_pagosv_pg',26,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
+	('nb_pagosv_pg',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_loginv_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_loginv_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_loginv_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_loginv_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_loginv_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('nb_loginv_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('nb_loginv_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('nb_loginv_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
+	('nb_loginv_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('nb_loginv_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
+	('nb_loginv_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('nb_loginv_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('nb_loginv_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_loginv_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
+	('nb_loginv_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
+	('nb_loginv_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
+	('nb_loginv_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
+	('nb_loginv_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('nb_loginv_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
+	('nb_loginv_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_loginv_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_loginv_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_loginv_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('nb_loginv_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('nb_loginv_pg',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('nb_loginv_pg',26,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
+	('nb_loginv_pg',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_usuariosv_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_usuariosv_pg',2,0,2,'Vehiculos','nb_control_pg','fa fa-car','N'),
+	('nb_usuariosv_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_usuariosv_pg',4,2,2,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_usuariosv_pg',5,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('nb_usuariosv_pg',6,5,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('nb_usuariosv_pg',7,5,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('nb_usuariosv_pg',8,5,3,'Modificacion Tarifas','construccion','fa fa-cog','N'),
+	('nb_usuariosv_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('nb_usuariosv_pg',10,9,1,'Administracion','construccion','fa fa-desktop','N'),
+	('nb_usuariosv_pg',11,10,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('nb_usuariosv_pg',12,10,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('nb_usuariosv_pg',13,10,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_usuariosv_pg',14,9,2,'Pagos','construccion','fa fa-money','N'),
+	('nb_usuariosv_pg',15,14,1,'Ingreso Pago','construccion','fa fa-plus','N'),
+	('nb_usuariosv_pg',16,14,2,'Consulta Pagos','nb_pagosv_pg','fa fa-search','N'),
+	('nb_usuariosv_pg',17,14,3,'Modificacion Pago','construccion','fa fa-cog','N'),
+	('nb_usuariosv_pg',18,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('nb_usuariosv_pg',19,18,1,'Ingreso Usuarios','construccion','fa fa-plus','N'),
+	('nb_usuariosv_pg',20,18,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_usuariosv_pg',21,18,3,'Modificacion Usuarios','construccion','fa fa-cog','N'),
+	('nb_usuariosv_pg',22,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_usuariosv_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('nb_usuariosv_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('nb_usuariosv_pg',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('nb_usuariosv_pg',26,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
+	('nb_usuariosv_pg',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N');
 
 /*!40000 ALTER TABLE `nb_navigation_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2273,6 +2421,19 @@ VALUES
 	('nb_control_pg',17),
 	('nb_control_pg',19),
 	('nb_control_pg',22),
+	('nb_loginv_pg',1),
+	('nb_loginv_pg',2),
+	('nb_loginv_pg',3),
+	('nb_loginv_pg',6),
+	('nb_loginv_pg',9),
+	('nb_loginv_pg',10),
+	('nb_loginv_pg',12),
+	('nb_loginv_pg',13),
+	('nb_loginv_pg',16),
+	('nb_loginv_pg',17),
+	('nb_loginv_pg',18),
+	('nb_loginv_pg',19),
+	('nb_loginv_pg',20),
 	('nb_monitoreo_pg',1),
 	('nb_monitoreo_pg',2),
 	('nb_monitoreo_pg',3),
@@ -2286,6 +2447,19 @@ VALUES
 	('nb_monitoreo_pg',18),
 	('nb_monitoreo_pg',19),
 	('nb_monitoreo_pg',20),
+	('nb_pagosv_pg',1),
+	('nb_pagosv_pg',2),
+	('nb_pagosv_pg',3),
+	('nb_pagosv_pg',6),
+	('nb_pagosv_pg',9),
+	('nb_pagosv_pg',10),
+	('nb_pagosv_pg',12),
+	('nb_pagosv_pg',13),
+	('nb_pagosv_pg',16),
+	('nb_pagosv_pg',17),
+	('nb_pagosv_pg',18),
+	('nb_pagosv_pg',19),
+	('nb_pagosv_pg',20),
 	('nb_reporte_diario_pg',1),
 	('nb_reporte_diario_pg',2),
 	('nb_reporte_diario_pg',3),
@@ -2325,6 +2499,19 @@ VALUES
 	('nb_reporte_total_pg',18),
 	('nb_reporte_total_pg',19),
 	('nb_reporte_total_pg',20),
+	('nb_tarifasv_pg',1),
+	('nb_tarifasv_pg',2),
+	('nb_tarifasv_pg',3),
+	('nb_tarifasv_pg',6),
+	('nb_tarifasv_pg',9),
+	('nb_tarifasv_pg',10),
+	('nb_tarifasv_pg',12),
+	('nb_tarifasv_pg',13),
+	('nb_tarifasv_pg',16),
+	('nb_tarifasv_pg',17),
+	('nb_tarifasv_pg',18),
+	('nb_tarifasv_pg',19),
+	('nb_tarifasv_pg',20),
 	('nb_tarifas_pg',1),
 	('nb_tarifas_pg',2),
 	('nb_tarifas_pg',3),
@@ -2342,6 +2529,19 @@ VALUES
 	('nb_tarifas_pg',17),
 	('nb_tarifas_pg',19),
 	('nb_tarifas_pg',22),
+	('nb_usuariosv_pg',1),
+	('nb_usuariosv_pg',2),
+	('nb_usuariosv_pg',3),
+	('nb_usuariosv_pg',6),
+	('nb_usuariosv_pg',9),
+	('nb_usuariosv_pg',10),
+	('nb_usuariosv_pg',12),
+	('nb_usuariosv_pg',13),
+	('nb_usuariosv_pg',16),
+	('nb_usuariosv_pg',17),
+	('nb_usuariosv_pg',18),
+	('nb_usuariosv_pg',19),
+	('nb_usuariosv_pg',20),
 	('nb_usuarios_pg',1),
 	('nb_usuarios_pg',2),
 	('nb_usuarios_pg',3),
@@ -2385,9 +2585,11 @@ LOCK TABLES `nb_pages_tbl` WRITE;
 
 INSERT INTO `nb_pages_tbl` (`nb_id_page_fld`, `nb_page_title_fld`, `nb_page_style_fld`, `nb_page_type_fld`, `nb_page_view_pa_fld`, `nb_page_data_fld`, `nb_page_trace_fld`)
 VALUES
+	('nb_tarifasv_pg','Tarificacion','dataGrids','datagrid',NULL,NULL,'false'),
 	('error','Error',NULL,'alpaca','bootstrap-display',NULL,'false'),
 	('home','Inicio Administradores',NULL,'alpaca','bootstrap-display',NULL,'false'),
 	('login','Login de Usuario','formsSimple','alpaca','bootstrap-create',NULL,'false'),
+	('nb_usuariosv_pg','Usuarios Parqueaderos','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_control_pg','Ingreso Control Vehicular','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_controlv_pg','Detalle Entrada/Salida','forms','alpaca','bootstrap-display-horizontal',NULL,'false'),
 	('nb_tarifas_pg','Parametrizacion Tarifas','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
@@ -2397,7 +2599,9 @@ VALUES
 	('nb_reporte_total_pg','Reporte Total','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_reporte_diario_pg','Reporte Diario','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_reporte_mensual_pg','Reporte Mensual','dataGrids','datagrid',NULL,NULL,'false'),
-	('construccion','En Construccion',NULL,'alpaca','bootstrap-display',NULL,'false');
+	('construccion','En Construccion',NULL,'alpaca','bootstrap-display',NULL,'false'),
+	('nb_pagosv_pg','Pagos','dataGrids','datagrid',NULL,NULL,'false'),
+	('nb_loginv_pg','Usuarios del Sistema','dataGrids','datagrid',NULL,NULL,'false');
 
 /*!40000 ALTER TABLE `nb_pages_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2442,11 +2646,15 @@ VALUES
 	(1,'error'),
 	(1,'home'),
 	(1,'login'),
+	(1,'nb_loginv_pg'),
+	(1,'nb_pagosv_pg'),
 	(1,'nb_registropago_pg'),
 	(1,'nb_reporte_diario_pg'),
 	(1,'nb_reporte_mensual_pg'),
 	(1,'nb_reporte_total_pg'),
+	(1,'nb_tarifasv_pg'),
 	(1,'nb_tarifas_pg'),
+	(1,'nb_usuariosv_pg'),
 	(1,'nb_usuarios_pg'),
 	(2,'error'),
 	(2,'home'),
@@ -2665,6 +2873,96 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table nb_tarifas_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_tarifas_tbl`;
+
+CREATE TABLE `nb_tarifas_tbl` (
+  `nb_1_tipotarifa_fld` int(2) unsigned NOT NULL,
+  `nb_1_tipo_vehi_fld` int(2) unsigned NOT NULL,
+  `nb_3_tipocobro_fld` int(2) unsigned NOT NULL,
+  `nb_4_valor_fld` int(14) DEFAULT NULL,
+  `nb_5_tiempoG_fld` int(2) DEFAULT NULL,
+  PRIMARY KEY (`nb_1_tipotarifa_fld`,`nb_1_tipo_vehi_fld`,`nb_3_tipocobro_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+LOCK TABLES `nb_tarifas_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_tarifas_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_tarifas_tbl` (`nb_1_tipotarifa_fld`, `nb_1_tipo_vehi_fld`, `nb_3_tipocobro_fld`, `nb_4_valor_fld`, `nb_5_tiempoG_fld`)
+VALUES
+	(0,0,0,0,0),
+	(1,0,0,40000,0),
+	(1,1,0,20000,0),
+	(2,0,3,800,20),
+	(2,0,2,2000,20),
+	(2,1,3,500,20),
+	(2,1,2,1000,20);
+
+/*!40000 ALTER TABLE `nb_tarifas_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table nb_tarifas_vw
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `nb_tarifas_vw`;
+
+CREATE TABLE `nb_tarifas_vw` (
+   `tipo` VARCHAR(255) NULL DEFAULT NULL,
+   `tarifa` VARCHAR(255) NULL DEFAULT NULL,
+   `cobro` VARCHAR(255) NULL DEFAULT NULL,
+   `Valor` VARCHAR(52) NULL DEFAULT NULL,
+   `Tiempo Gratis` INT(2) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+
+
+# Dump of table nb_usuariosclientes_vw
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `nb_usuariosclientes_vw`;
+
+CREATE TABLE `nb_usuariosclientes_vw` (
+   `Tipo Documento` VARCHAR(255) NULL DEFAULT NULL,
+   `Documento` INT(30) NOT NULL,
+   `Nombre` VARCHAR(255) NULL DEFAULT NULL,
+   `Tipo Vehiculo` VARCHAR(255) NULL DEFAULT NULL,
+   `Placa 1` VARCHAR(255) NULL DEFAULT '',
+   `Placa 2` VARCHAR(255) NULL DEFAULT '',
+   `Placa 3` VARCHAR(255) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+
+
+# Dump of table nb_usuariosr_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_usuariosr_tbl`;
+
+CREATE TABLE `nb_usuariosr_tbl` (
+  `nb_tipodoc_fld` int(2) NOT NULL,
+  `nb_numerodoc_fld` int(30) NOT NULL,
+  `nb_1_tipo_vehi_fld` int(2) DEFAULT NULL,
+  `nb_2_placa_fld` varchar(255) DEFAULT '',
+  `nb_3_placa_fld` varchar(255) DEFAULT '',
+  `nb_4_placa_fld` varchar(255) DEFAULT NULL,
+  `nb_nombre_fld` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nb_tipodoc_fld`,`nb_numerodoc_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+LOCK TABLES `nb_usuariosr_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_usuariosr_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_usuariosr_tbl` (`nb_tipodoc_fld`, `nb_numerodoc_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_placa_fld`, `nb_4_placa_fld`, `nb_nombre_fld`)
+VALUES
+	(0,14800275,0,'KTR365','OIU765','KJH765','PEDRO PEREZ');
+
+/*!40000 ALTER TABLE `nb_usuariosr_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # Dump of table nb_value_tbl
 # ------------------------------------------------------------
 
@@ -2682,11 +2980,11 @@ LOCK TABLES `nb_value_tbl` WRITE;
 
 INSERT INTO `nb_value_tbl` (`nb_id_pr_schema_fld`, `nb_id_value_fld`, `nb_value_fld`)
 VALUES
-	('nb_tipodoc_fld','1','Cedula de Ciudadania'),
-	('nb_tipodoc_fld','2','Tarjeta de Identidad'),
-	('nb_tipodoc_fld','3','NIT'),
-	('nb_tipodoc_fld','4','Pasaporte'),
-	('nb_tipodoc_fld','5','Cedula de Extranjeria'),
+	('nb_tipodoc_fld','0','Cedula de Ciudadania'),
+	('nb_tipodoc_fld','1','Tarjeta de Identidad'),
+	('nb_tipodoc_fld','2','NIT'),
+	('nb_tipodoc_fld','3','Pasaporte'),
+	('nb_tipodoc_fld','4','Cedula de Extranjeria'),
 	('nb_1_tipo_vehi_fld','0','Carro'),
 	('nb_1_tipo_vehi_fld','1','Moto'),
 	('nb_1_tipotarifa_fld','0','Exenta'),
@@ -2848,6 +3146,7 @@ DROP TABLE IF EXISTS `nbd_user_tbl`;
 CREATE TABLE `nbd_user_tbl` (
   `nbd_id_user_fld` int(11) NOT NULL AUTO_INCREMENT,
   `nbd_email_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nbd_descr_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nbd_password_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`nbd_id_user_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
@@ -2855,10 +3154,10 @@ CREATE TABLE `nbd_user_tbl` (
 LOCK TABLES `nbd_user_tbl` WRITE;
 /*!40000 ALTER TABLE `nbd_user_tbl` DISABLE KEYS */;
 
-INSERT INTO `nbd_user_tbl` (`nbd_id_user_fld`, `nbd_email_fld`, `nbd_password_fld`)
+INSERT INTO `nbd_user_tbl` (`nbd_id_user_fld`, `nbd_email_fld`, `nbd_descr_fld`, `nbd_password_fld`)
 VALUES
-	(1,'admin','81dc9bdb52d04dc20036dbd8313ed055'),
-	(2,'guardia','81dc9bdb52d04dc20036dbd8313ed055');
+	(1,'admin','Usuario Administrador','81dc9bdb52d04dc20036dbd8313ed055'),
+	(2,'guardia','Guardia 1','81dc9bdb52d04dc20036dbd8313ed055');
 
 /*!40000 ALTER TABLE `nbd_user_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2877,6 +3176,29 @@ AS SELECT
 FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `nb_2_placa_fld`,`A`.`nb_3_tarjeta_fld` AS `nb_3_tarjeta_fld`,`A`.`nb_3_fecha_ingreso_fld` AS `nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld` AS `nb_4_fecha_salida_fld`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` where (date_format(`A`.`nb_3_fecha_ingreso_fld`,'%Y-%m-%d') > (curdate() - interval 1 day));
 
 
+# Replace placeholder table for nb_login_vw with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `nb_login_vw`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_login_vw`
+AS SELECT
+   `nbd_user_tbl`.`nbd_descr_fld` AS `Usuario`,
+   `nbd_user_tbl`.`nbd_email_fld` AS `Login`
+FROM `nbd_user_tbl`;
+
+
+# Replace placeholder table for nb_tarifas_vw with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `nb_tarifas_vw`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_tarifas_vw`
+AS SELECT
+   (select `nb_value_tbl`.`nb_value_fld`
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_3_tipocobro_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_3_tipocobro_fld`))) AS `cobro`,concat('$',format(`A`.`nb_4_valor_fld`,0)) AS `Valor`,`A`.`nb_5_tiempoG_fld` AS `Tiempo Gratis` from `nb_tarifas_tbl` `A`;
+
+
 # Replace placeholder table for nb_reportediario_vw with correct view syntax
 # ------------------------------------------------------------
 
@@ -2886,6 +3208,17 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 AS SELECT
    (select `nb_value_tbl`.`nb_value_fld`
 FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `Placa`,`A`.`nb_3_tarjeta_fld` AS `Tarjeta`,`A`.`nb_3_fecha_ingreso_fld` AS `Ingreso`,`A`.`nb_4_fecha_salida_fld` AS `Salida`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` order by `A`.`nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld`;
+
+
+# Replace placeholder table for nb_cobrosm_vw with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `nb_cobrosm_vw`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_cobrosm_vw`
+AS SELECT
+   date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m') AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld`
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` <> 0)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
 
 
 # Replace placeholder table for nb_cobrosd_vw with correct view syntax
@@ -2899,15 +3232,15 @@ AS SELECT
 FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` not in (0,1))) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
 
 
-# Replace placeholder table for nb_cobrosm_vw with correct view syntax
+# Replace placeholder table for nb_usuariosclientes_vw with correct view syntax
 # ------------------------------------------------------------
 
-DROP TABLE `nb_cobrosm_vw`;
+DROP TABLE `nb_usuariosclientes_vw`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_cobrosm_vw`
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_usuariosclientes_vw`
 AS SELECT
-   date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m') AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` <> 0)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
+   (select `nb_value_tbl`.`nb_value_fld`
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_tipodoc_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_tipodoc_fld`))) AS `Tipo Documento`,`A`.`nb_numerodoc_fld` AS `Documento`,`A`.`nb_nombre_fld` AS `Nombre`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `Tipo Vehiculo`,`A`.`nb_2_placa_fld` AS `Placa 1`,`A`.`nb_3_placa_fld` AS `Placa 2`,`A`.`nb_4_placa_fld` AS `Placa 3` from `nb_usuariosr_tbl` `A`;
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
