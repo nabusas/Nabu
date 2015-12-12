@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-12 02:01:20 +0000
+# Generation Time: 2015-12-12 04:50:53 +0000
 # ************************************************************
 
 
@@ -1233,8 +1233,7 @@ CREATE TABLE `nb_cobrosd_vw` (
    `Fecha` VARCHAR(10) NULL DEFAULT NULL,
    `tipo` VARCHAR(255) NULL DEFAULT NULL,
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
-   `sum(A.nb_5_totalhoras_fld)` DECIMAL(32) NULL DEFAULT NULL,
-   `sum(A.nb_6_valor_fld)` DECIMAL(35) NULL DEFAULT NULL
+   `Valor` VARCHAR(82) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
 
@@ -1248,8 +1247,7 @@ CREATE TABLE `nb_cobrosm_vw` (
    `Fecha` VARCHAR(7) NULL DEFAULT NULL,
    `tipo` VARCHAR(255) NULL DEFAULT NULL,
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
-   `sum(A.nb_5_totalhoras_fld)` DECIMAL(32) NULL DEFAULT NULL,
-   `sum(A.nb_6_valor_fld)` DECIMAL(35) NULL DEFAULT NULL
+   `Valor` VARCHAR(82) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
 
@@ -1437,11 +1435,7 @@ LOCK TABLES `nb_data_tbl` WRITE;
 INSERT INTO `nb_data_tbl` (`nb_id_page_fld`, `nb_id_pr_schema_fld`, `nb_value_fld`)
 VALUES
 	('addcustomer','nbd_person_id_fld','nb_secuencia'),
-	('addcustomer','nbd_person_tipo_fld','1'),
-	('addcustomer','nb_add_date_fld','nb_sysdate'),
 	('addcustomer','nb_add_user_fld','nb_userid'),
-	('addcustomer','nb_mdf_date_fld','nb_sysdate'),
-	('addcustomer','nb_mdf_user_fld','nb_userid'),
 	('error','image','../Images/error.png'),
 	('home','image','../Images/imagenHome.png'),
 	('nb_controlv_pg','nb_4_fecha_salida_fld','nb_sysdate'),
@@ -1520,47 +1514,6 @@ LOCK TABLES `nb_datagridcol_tbl` WRITE;
 
 INSERT INTO `nb_datagridcol_tbl` (`nb_id_page_fld`, `nb_column_fld`, `nb_config_frmwrk_id_fld`, `nb_value_fld`)
 VALUES
-	('srccustomer',1,45,'Estado'),
-	('srccustomer',1,46,'nb_estado_fld'),
-	('srccustomer',1,47,'true'),
-	('srccustomer',1,48,'true'),
-	('srccustomer',1,54,'center'),
-	('srccustomer',2,45,'Tipo Documento'),
-	('srccustomer',2,46,'nb_tipodoc_fld'),
-	('srccustomer',2,48,'true'),
-	('srccustomer',2,54,'center'),
-	('srccustomer',3,45,'Numero Documento'),
-	('srccustomer',3,46,'nb_numerodoc_fld'),
-	('srccustomer',3,48,'true'),
-	('srccustomer',3,54,'center'),
-	('srccustomer',4,45,'Nombre/Razon Social'),
-	('srccustomer',4,46,'nb_nombre_fld'),
-	('srccustomer',4,48,'true'),
-	('srccustomer',4,54,'center'),
-	('srccustomer',5,45,'Departamento'),
-	('srccustomer',5,46,'nb_state_fld'),
-	('srccustomer',5,48,'true'),
-	('srccustomer',5,54,'center'),
-	('srccustomer',6,45,'Ciudad'),
-	('srccustomer',6,46,'nb_add_city_fld'),
-	('srccustomer',6,48,'true'),
-	('srccustomer',6,54,'center'),
-	('srccustomer',7,45,'Direccion'),
-	('srccustomer',7,46,'nb_add_direccion_fld'),
-	('srccustomer',7,48,'true'),
-	('srccustomer',7,54,'center'),
-	('srccustomer',8,45,'Telefono'),
-	('srccustomer',8,46,'nb_add_telefono_fld'),
-	('srccustomer',8,48,'true'),
-	('srccustomer',8,54,'center'),
-	('srccustomer',9,45,'Celular'),
-	('srccustomer',9,46,'nb_add_celular_fld'),
-	('srccustomer',9,48,'true'),
-	('srccustomer',9,54,'center'),
-	('srccustomer',10,45,'Email'),
-	('srccustomer',10,46,'nb_add_email_fld'),
-	('srccustomer',10,48,'true'),
-	('srccustomer',10,54,'center'),
 	('nb_monitoreo_pg',1,45,'Tipo'),
 	('nb_monitoreo_pg',1,46,'tipo'),
 	('nb_monitoreo_pg',1,47,'true'),
@@ -1668,115 +1621,7 @@ LOCK TABLES `nb_forms_tbl` WRITE;
 
 INSERT INTO `nb_forms_tbl` (`nb_id_page_fld`, `nb_id_pr_schema_fld`, `nb_config_frmwrk_id_fld`, `nb_schem_value_fld`)
 VALUES
-	('addcustomer','nbd_person_id_fld',13,'string'),
-	('addcustomer','nbd_person_id_fld',24,'Id'),
-	('addcustomer','nbd_person_id_fld',36,'true'),
-	('addcustomer','nbd_person_tipo_fld',13,'string'),
-	('addcustomer','nbd_person_tipo_fld',24,'Tipo'),
-	('addcustomer','nbd_person_tipo_fld',36,'true'),
-	('addcustomer','nb_add_celular_fld',6,'phone'),
-	('addcustomer','nb_add_celular_fld',11,'false'),
-	('addcustomer','nb_add_celular_fld',13,'string'),
-	('addcustomer','nb_add_celular_fld',24,'Celular'),
-	('addcustomer','nb_add_city_fld',11,'false'),
-	('addcustomer','nb_add_city_fld',13,'integer'),
-	('addcustomer','nb_add_city_fld',24,'Municipio'),
-	('addcustomer','nb_add_city_fld',32,'select'),
-	('addcustomer','nb_add_city_fld',55,'../Events/ValoresCampo.php?campo=city'),
-	('addcustomer','nb_add_city_fld',58,'Seleccione Municipio'),
-	('addcustomer','nb_add_city_fld',59,'false'),
-	('addcustomer','nb_add_date_fld',11,'false'),
-	('addcustomer','nb_add_date_fld',13,'string'),
-	('addcustomer','nb_add_date_fld',24,'Fecha Creacion'),
-	('addcustomer','nb_add_date_fld',36,'true'),
-	('addcustomer','nb_add_direccion_fld',11,'false'),
-	('addcustomer','nb_add_direccion_fld',13,'string'),
-	('addcustomer','nb_add_direccion_fld',24,'Direccion'),
-	('addcustomer','nb_add_email_fld',6,'email'),
-	('addcustomer','nb_add_email_fld',11,'false'),
-	('addcustomer','nb_add_email_fld',13,'string'),
-	('addcustomer','nb_add_email_fld',24,'Email'),
-	('addcustomer','nb_add_telefono_fld',6,'phone'),
-	('addcustomer','nb_add_telefono_fld',11,'false'),
-	('addcustomer','nb_add_telefono_fld',13,'string'),
-	('addcustomer','nb_add_telefono_fld',24,'Telefono'),
-	('addcustomer','nb_add_user_fld',11,'false'),
-	('addcustomer','nb_add_user_fld',13,'string'),
-	('addcustomer','nb_add_user_fld',24,'Usuario Creacion'),
-	('addcustomer','nb_add_user_fld',36,'true'),
-	('addcustomer','nb_ciudadexp_fld',2,'nb_tipodoc_fld'),
-	('addcustomer','nb_ciudadexp_fld',11,'false'),
-	('addcustomer','nb_ciudadexp_fld',13,'integer'),
-	('addcustomer','nb_ciudadexp_fld',24,'Lugar de Expedicion'),
-	('addcustomer','nb_ciudadexp_fld',32,'select'),
-	('addcustomer','nb_ciudadexp_fld',55,'../Events/ValoresCampo.php?campo=city'),
-	('addcustomer','nb_ciudadexp_fld',58,'Seleccione Ciudad'),
-	('addcustomer','nb_ciudadexp_fld',59,'false'),
-	('addcustomer','nb_ciudadexp_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('addcustomer','nb_estado_fld',11,'true'),
-	('addcustomer','nb_estado_fld',13,'integer'),
-	('addcustomer','nb_estado_fld',24,'Estado'),
-	('addcustomer','nb_estado_fld',32,'select'),
-	('addcustomer','nb_estado_fld',55,'../Events/ValoresCampo.php?campo=nb_estado_fld'),
-	('addcustomer','nb_estado_fld',58,'Seleccione Estado'),
-	('addcustomer','nb_estado_fld',59,'false'),
-	('addcustomer','nb_fechaexp_fld',2,'nb_tipodoc_fld'),
-	('addcustomer','nb_fechaexp_fld',6,'date'),
-	('addcustomer','nb_fechaexp_fld',24,'Fecha Expedicion'),
-	('addcustomer','nb_fechaexp_fld',56,'YYYY-MM-DD'),
-	('addcustomer','nb_fechaexp_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('addcustomer','nb_fechanac_fld',2,'nb_tipodoc_fld'),
-	('addcustomer','nb_fechanac_fld',6,'date'),
-	('addcustomer','nb_fechanac_fld',24,'Fecha de Nacimiento'),
-	('addcustomer','nb_fechanac_fld',56,'YYYY-MM-DD'),
-	('addcustomer','nb_fechanac_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('addcustomer','nb_mdf_date_fld',11,'false'),
-	('addcustomer','nb_mdf_date_fld',13,'string'),
-	('addcustomer','nb_mdf_date_fld',24,'Fecha Modificacion'),
-	('addcustomer','nb_mdf_date_fld',36,'true'),
-	('addcustomer','nb_mdf_user_fld',11,'false'),
-	('addcustomer','nb_mdf_user_fld',13,'string'),
-	('addcustomer','nb_mdf_user_fld',24,'Usuario Modificacion'),
-	('addcustomer','nb_mdf_user_fld',36,'true'),
-	('addcustomer','nb_nombre_fld',11,'true'),
-	('addcustomer','nb_nombre_fld',13,'string'),
-	('addcustomer','nb_nombre_fld',24,'Nombre/Razon Social'),
-	('addcustomer','nb_numerodoc_fld',11,'true'),
-	('addcustomer','nb_numerodoc_fld',13,'string'),
-	('addcustomer','nb_numerodoc_fld',24,'Numero Documento'),
-	('addcustomer','nb_observaciones_fld',11,'false'),
-	('addcustomer','nb_observaciones_fld',13,'string'),
-	('addcustomer','nb_observaciones_fld',20,'Ingrese observaciones generales'),
-	('addcustomer','nb_observaciones_fld',24,'Observaciones'),
-	('addcustomer','nb_observaciones_fld',32,'textarea'),
-	('addcustomer','nb_rlegal_fld',2,'nb_tipodoc_fld'),
-	('addcustomer','nb_rlegal_fld',11,'false'),
-	('addcustomer','nb_rlegal_fld',13,'string'),
-	('addcustomer','nb_rlegal_fld',24,'Representante Legal'),
-	('addcustomer','nb_rlegal_fld',60,'{\"nb_tipodoc_fld\": [\"3\"] }'),
-	('addcustomer','nb_sexo_fld',2,'nb_tipodoc_fld'),
-	('addcustomer','nb_sexo_fld',11,'false'),
-	('addcustomer','nb_sexo_fld',13,'integer'),
-	('addcustomer','nb_sexo_fld',24,'Sexo'),
-	('addcustomer','nb_sexo_fld',32,'select'),
-	('addcustomer','nb_sexo_fld',55,'../Events/ValoresCampo.php?campo=nb_sexo_fld'),
-	('addcustomer','nb_sexo_fld',58,'Seleccione Sexo'),
-	('addcustomer','nb_sexo_fld',59,'false'),
 	('addcustomer','nb_sexo_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('addcustomer','nb_state_fld',11,'false'),
-	('addcustomer','nb_state_fld',13,'integer'),
-	('addcustomer','nb_state_fld',24,'Departamento'),
-	('addcustomer','nb_state_fld',32,'select'),
-	('addcustomer','nb_state_fld',55,'../Events/ValoresCampo.php?campo=state'),
-	('addcustomer','nb_state_fld',58,'Seleccione Departamento'),
-	('addcustomer','nb_state_fld',59,'false'),
-	('addcustomer','nb_tipodoc_fld',11,'true'),
-	('addcustomer','nb_tipodoc_fld',13,'integer'),
-	('addcustomer','nb_tipodoc_fld',24,'Tipo de Documento'),
-	('addcustomer','nb_tipodoc_fld',32,'select'),
-	('addcustomer','nb_tipodoc_fld',55,'../Events/ValoresCampo.php?campo=nb_tipodoc_fld'),
-	('addcustomer','nb_tipodoc_fld',58,'Seleccione Tipo de Documento'),
-	('addcustomer','nb_tipodoc_fld',59,'false'),
 	('error','image',13,'strinrg'),
 	('error','image',32,'image'),
 	('error','image',35,'bootstrap-display'),
@@ -1791,115 +1636,6 @@ VALUES
 	('login','Campo2',11,'true'),
 	('login','Campo2',13,'string'),
 	('login','Campo2',24,'Password'),
-	('viewcustomer','nbd_person_id_fld',13,'string'),
-	('viewcustomer','nbd_person_id_fld',24,'Id'),
-	('viewcustomer','nbd_person_id_fld',36,'true'),
-	('viewcustomer','nbd_person_tipo_fld',13,'string'),
-	('viewcustomer','nbd_person_tipo_fld',24,'Tipo'),
-	('viewcustomer','nbd_person_tipo_fld',36,'true'),
-	('viewcustomer','nb_add_celular_fld',6,'phone'),
-	('viewcustomer','nb_add_celular_fld',11,'false'),
-	('viewcustomer','nb_add_celular_fld',13,'string'),
-	('viewcustomer','nb_add_celular_fld',24,'Celular'),
-	('viewcustomer','nb_add_city_fld',11,'false'),
-	('viewcustomer','nb_add_city_fld',13,'integer'),
-	('viewcustomer','nb_add_city_fld',24,'Municipio'),
-	('viewcustomer','nb_add_city_fld',32,'select'),
-	('viewcustomer','nb_add_city_fld',55,'../Events/ValoresCampo.php?campo=city'),
-	('viewcustomer','nb_add_city_fld',58,'Seleccione Municipio'),
-	('viewcustomer','nb_add_city_fld',59,'false'),
-	('viewcustomer','nb_add_date_fld',11,'false'),
-	('viewcustomer','nb_add_date_fld',13,'string'),
-	('viewcustomer','nb_add_date_fld',24,'Fecha Creacion'),
-	('viewcustomer','nb_add_date_fld',36,'true'),
-	('viewcustomer','nb_add_direccion_fld',11,'false'),
-	('viewcustomer','nb_add_direccion_fld',13,'string'),
-	('viewcustomer','nb_add_direccion_fld',24,'Direccion'),
-	('viewcustomer','nb_add_email_fld',6,'email'),
-	('viewcustomer','nb_add_email_fld',11,'false'),
-	('viewcustomer','nb_add_email_fld',13,'string'),
-	('viewcustomer','nb_add_email_fld',24,'Email'),
-	('viewcustomer','nb_add_telefono_fld',6,'phone'),
-	('viewcustomer','nb_add_telefono_fld',11,'false'),
-	('viewcustomer','nb_add_telefono_fld',13,'string'),
-	('viewcustomer','nb_add_telefono_fld',24,'Telefono'),
-	('viewcustomer','nb_add_user_fld',11,'false'),
-	('viewcustomer','nb_add_user_fld',13,'string'),
-	('viewcustomer','nb_add_user_fld',24,'Usuario Creacion'),
-	('viewcustomer','nb_add_user_fld',36,'true'),
-	('viewcustomer','nb_ciudadexp_fld',2,'nb_tipodoc_fld'),
-	('viewcustomer','nb_ciudadexp_fld',11,'false'),
-	('viewcustomer','nb_ciudadexp_fld',13,'integer'),
-	('viewcustomer','nb_ciudadexp_fld',24,'Lugar de Expedicion'),
-	('viewcustomer','nb_ciudadexp_fld',32,'select'),
-	('viewcustomer','nb_ciudadexp_fld',55,'../Events/ValoresCampo.php?campo=city'),
-	('viewcustomer','nb_ciudadexp_fld',58,'Seleccione Ciudad'),
-	('viewcustomer','nb_ciudadexp_fld',59,'false'),
-	('viewcustomer','nb_ciudadexp_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('viewcustomer','nb_estado_fld',11,'true'),
-	('viewcustomer','nb_estado_fld',13,'integer'),
-	('viewcustomer','nb_estado_fld',24,'Estado'),
-	('viewcustomer','nb_estado_fld',32,'select'),
-	('viewcustomer','nb_estado_fld',55,'../Events/ValoresCampo.php?campo=nb_estado_fld'),
-	('viewcustomer','nb_estado_fld',58,'Seleccione Estado'),
-	('viewcustomer','nb_estado_fld',59,'false'),
-	('viewcustomer','nb_fechaexp_fld',2,'nb_tipodoc_fld'),
-	('viewcustomer','nb_fechaexp_fld',6,'date'),
-	('viewcustomer','nb_fechaexp_fld',24,'Fecha Expedicion'),
-	('viewcustomer','nb_fechaexp_fld',56,'YYYY-MM-DD'),
-	('viewcustomer','nb_fechaexp_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('viewcustomer','nb_fechanac_fld',2,'nb_tipodoc_fld'),
-	('viewcustomer','nb_fechanac_fld',6,'date'),
-	('viewcustomer','nb_fechanac_fld',24,'Fecha de Nacimiento'),
-	('viewcustomer','nb_fechanac_fld',56,'YYYY-MM-DD'),
-	('viewcustomer','nb_fechanac_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('viewcustomer','nb_mdf_date_fld',11,'false'),
-	('viewcustomer','nb_mdf_date_fld',13,'string'),
-	('viewcustomer','nb_mdf_date_fld',24,'Fecha Modificacion'),
-	('viewcustomer','nb_mdf_date_fld',36,'true'),
-	('viewcustomer','nb_mdf_user_fld',11,'false'),
-	('viewcustomer','nb_mdf_user_fld',13,'string'),
-	('viewcustomer','nb_mdf_user_fld',24,'Usuario Modificacion'),
-	('viewcustomer','nb_mdf_user_fld',36,'true'),
-	('viewcustomer','nb_nombre_fld',11,'true'),
-	('viewcustomer','nb_nombre_fld',13,'string'),
-	('viewcustomer','nb_nombre_fld',24,'Nombre/Razon Social'),
-	('viewcustomer','nb_numerodoc_fld',11,'true'),
-	('viewcustomer','nb_numerodoc_fld',13,'string'),
-	('viewcustomer','nb_numerodoc_fld',24,'Numero Documento'),
-	('viewcustomer','nb_observaciones_fld',11,'false'),
-	('viewcustomer','nb_observaciones_fld',13,'string'),
-	('viewcustomer','nb_observaciones_fld',20,'Ingrese observaciones generales'),
-	('viewcustomer','nb_observaciones_fld',24,'Observaciones'),
-	('viewcustomer','nb_observaciones_fld',32,'textarea'),
-	('viewcustomer','nb_rlegal_fld',2,'nb_tipodoc_fld'),
-	('viewcustomer','nb_rlegal_fld',11,'false'),
-	('viewcustomer','nb_rlegal_fld',13,'string'),
-	('viewcustomer','nb_rlegal_fld',24,'Representante Legal'),
-	('viewcustomer','nb_rlegal_fld',60,'{\"nb_tipodoc_fld\": [\"3\"] }'),
-	('viewcustomer','nb_sexo_fld',2,'nb_tipodoc_fld'),
-	('viewcustomer','nb_sexo_fld',11,'false'),
-	('viewcustomer','nb_sexo_fld',13,'integer'),
-	('viewcustomer','nb_sexo_fld',24,'Sexo'),
-	('viewcustomer','nb_sexo_fld',32,'select'),
-	('viewcustomer','nb_sexo_fld',55,'../Events/ValoresCampo.php?campo=nb_sexo_fld'),
-	('viewcustomer','nb_sexo_fld',58,'Seleccione Sexo'),
-	('viewcustomer','nb_sexo_fld',59,'false'),
-	('viewcustomer','nb_sexo_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
-	('viewcustomer','nb_state_fld',11,'false'),
-	('viewcustomer','nb_state_fld',13,'integer'),
-	('viewcustomer','nb_state_fld',24,'Departamento'),
-	('viewcustomer','nb_state_fld',32,'select'),
-	('viewcustomer','nb_state_fld',55,'../Events/ValoresCampo.php?campo=state'),
-	('viewcustomer','nb_state_fld',58,'Seleccione Departamento'),
-	('viewcustomer','nb_state_fld',59,'false'),
-	('viewcustomer','nb_tipodoc_fld',11,'true'),
-	('viewcustomer','nb_tipodoc_fld',13,'integer'),
-	('viewcustomer','nb_tipodoc_fld',24,'Tipo de Documento'),
-	('viewcustomer','nb_tipodoc_fld',32,'select'),
-	('viewcustomer','nb_tipodoc_fld',55,'../Events/ValoresCampo.php?campo=nb_tipodoc_fld'),
-	('viewcustomer','nb_tipodoc_fld',58,'Seleccione Tipo de Documento'),
-	('viewcustomer','nb_tipodoc_fld',59,'false'),
 	('login','anb_empresa_fld',13,'string'),
 	('login','anb_empresa_fld',11,'true'),
 	('login','anb_empresa_fld',24,'Empresa'),
@@ -2049,7 +1785,7 @@ CREATE TABLE `nb_monitoreod_vw` (
    `nb_4_fecha_salida_fld` DATETIME NULL DEFAULT NULL,
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
    `nb_5_totalhoras_fld` INT(2) NULL DEFAULT NULL,
-   `nb_6_valor_fld` INT(14) NULL DEFAULT NULL,
+   `Valor` VARCHAR(52) NULL DEFAULT NULL,
    `nbd_id_user_fld` INT(11) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
@@ -2403,11 +2139,9 @@ VALUES
 	('login','form','true','../Events/','validateUser','post',NULL),
 	('error','image','false',NULL,NULL,NULL,NULL),
 	('home','image','false',NULL,NULL,NULL,NULL),
-	('addcustomer','wizard','true','../Events/','nabuSave','post',NULL),
-	('viewcustomer','wizard','true',NULL,NULL,NULL,NULL),
-	('nb_control_pg','form','true','../Events/','nabuTransfer','post',NULL),
-	('nb_controlv_pg','form','true',NULL,NULL,NULL,NULL),
-	('nb_tarifas_pg','form','true',NULL,NULL,'post',NULL),
+	('nb_control_pg','wizard','true','../Events/','nabuTransfer','post',NULL),
+	('nb_controlv_pg','form','true',NULL,NULL,'post',NULL),
+	('nb_tarifas_pg','wizard','true',NULL,NULL,'post',NULL),
 	('nb_usuarios_pg','wizard','true',NULL,NULL,'post',NULL),
 	('construccion','image','false',NULL,NULL,NULL,NULL);
 
@@ -2423,7 +2157,7 @@ DROP TABLE IF EXISTS `nb_options_buttons_tbl`;
 CREATE TABLE `nb_options_buttons_tbl` (
   `nb_id_page_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
   `nb_id_opt_form_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
-  `nb_value_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_value_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
   `nb_title_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nb_click_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`nb_id_page_fld`,`nb_id_opt_form_fld`)
@@ -2436,12 +2170,8 @@ INSERT INTO `nb_options_buttons_tbl` (`nb_id_page_fld`, `nb_id_opt_form_fld`, `n
 VALUES
 	('login','reset','Limpiar','Limpiar',NULL),
 	('login','submit','Aceptar','Aceptar',NULL),
-	('nb_control_pg','submit','Procesar','Procesar',NULL),
-	('nb_control_pg','reset','Cancelar','Cancelar',NULL),
-	('nb_controlv_pg','submit','Confirmar','Aceptar',NULL),
-	('nb_controlv_pg','reset','Cancelar','Cancelar',NULL),
-	('nb_tarifas_pg','submit','Guardar','Guardar',NULL),
-	('nb_tarifas_pg','reset','Cancelar','Cancelar',NULL);
+	('nb_controlv_pg','submit2','Regresar','Regresar',NULL),
+	('nb_controlv_pg','submit','Procesar','Procesar',NULL);
 
 /*!40000 ALTER TABLE `nb_options_buttons_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2463,23 +2193,6 @@ LOCK TABLES `nb_pageattribute_tbl` WRITE;
 
 INSERT INTO `nb_pageattribute_tbl` (`nb_id_page_fld`, `nb_id_attribute_fld`)
 VALUES
-	('addcustomer',1),
-	('addcustomer',2),
-	('addcustomer',3),
-	('addcustomer',4),
-	('addcustomer',5),
-	('addcustomer',6),
-	('addcustomer',7),
-	('addcustomer',8),
-	('addcustomer',9),
-	('addcustomer',10),
-	('addcustomer',12),
-	('addcustomer',13),
-	('addcustomer',15),
-	('addcustomer',16),
-	('addcustomer',17),
-	('addcustomer',19),
-	('addcustomer',22),
 	('construccion',1),
 	('construccion',2),
 	('construccion',3),
@@ -2645,37 +2358,7 @@ VALUES
 	('nb_usuarios_pg',16),
 	('nb_usuarios_pg',17),
 	('nb_usuarios_pg',19),
-	('nb_usuarios_pg',22),
-	('srccustomer',1),
-	('srccustomer',2),
-	('srccustomer',3),
-	('srccustomer',6),
-	('srccustomer',9),
-	('srccustomer',10),
-	('srccustomer',12),
-	('srccustomer',13),
-	('srccustomer',16),
-	('srccustomer',17),
-	('srccustomer',18),
-	('srccustomer',19),
-	('srccustomer',20),
-	('viewcustomer',1),
-	('viewcustomer',2),
-	('viewcustomer',3),
-	('viewcustomer',4),
-	('viewcustomer',5),
-	('viewcustomer',6),
-	('viewcustomer',7),
-	('viewcustomer',8),
-	('viewcustomer',9),
-	('viewcustomer',10),
-	('viewcustomer',12),
-	('viewcustomer',13),
-	('viewcustomer',15),
-	('viewcustomer',16),
-	('viewcustomer',17),
-	('viewcustomer',19),
-	('viewcustomer',22);
+	('nb_usuarios_pg',22);
 
 /*!40000 ALTER TABLE `nb_pageattribute_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2702,15 +2385,12 @@ LOCK TABLES `nb_pages_tbl` WRITE;
 
 INSERT INTO `nb_pages_tbl` (`nb_id_page_fld`, `nb_page_title_fld`, `nb_page_style_fld`, `nb_page_type_fld`, `nb_page_view_pa_fld`, `nb_page_data_fld`, `nb_page_trace_fld`)
 VALUES
-	('addcustomer','Ingreso Clientes','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('error','Error',NULL,'alpaca','bootstrap-display',NULL,'false'),
 	('home','Inicio Administradores',NULL,'alpaca','bootstrap-display',NULL,'false'),
 	('login','Login de Usuario','formsSimple','alpaca','bootstrap-create',NULL,'false'),
-	('srccustomer','Busqueda Cliente','dataGrids','datagrid',NULL,NULL,'false'),
-	('viewcustomer','Consulta Cliente','forms','alpaca','bootstrap-edit-horizontal','nbd_customer_vw','false'),
-	('nb_control_pg','Ingreso Control Vehicular','formsSimple','alpaca','bootstrap-create-horizontal',NULL,'false'),
-	('nb_controlv_pg','Detalle Entrada/Salida','formsSimple','alpaca','bootstrap-display',NULL,'false'),
-	('nb_tarifas_pg','Parametrizacion Tarifas','formsSimple','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_control_pg','Ingreso Control Vehicular','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_controlv_pg','Detalle Entrada/Salida','forms','alpaca','bootstrap-display-horizontal',NULL,'false'),
+	('nb_tarifas_pg','Parametrizacion Tarifas','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_usuarios_pg','Usuarios Parqueaderos','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_registropago_pg','Registro Pago','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_monitoreo_pg','Monitoreo Parqueadero','dataGrids','datagrid',NULL,NULL,'false'),
@@ -2730,13 +2410,13 @@ DROP VIEW IF EXISTS `nb_reportediario_vw`;
 
 CREATE TABLE `nb_reportediario_vw` (
    `tipo` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_2_placa_fld` CHAR(6) NULL DEFAULT NULL,
-   `nb_3_tarjeta_fld` INT(3) NULL DEFAULT NULL,
-   `nb_3_fecha_ingreso_fld` DATETIME NULL DEFAULT NULL,
-   `nb_4_fecha_salida_fld` DATETIME NULL DEFAULT NULL,
+   `Placa` CHAR(6) NULL DEFAULT NULL,
+   `Tarjeta` INT(3) NULL DEFAULT NULL,
+   `Ingreso` DATETIME NULL DEFAULT NULL,
+   `Salida` DATETIME NULL DEFAULT NULL,
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
    `nb_5_totalhoras_fld` INT(2) NULL DEFAULT NULL,
-   `nb_6_valor_fld` INT(14) NULL DEFAULT NULL,
+   `Valor` VARCHAR(52) NULL DEFAULT NULL,
    `nbd_id_user_fld` INT(11) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
@@ -2758,7 +2438,6 @@ LOCK TABLES `nb_role_pag_tbl` WRITE;
 
 INSERT INTO `nb_role_pag_tbl` (`nb_id_role_fld`, `nb_id_page_fld`)
 VALUES
-	(1,'addcustomer'),
 	(1,'construccion'),
 	(1,'error'),
 	(1,'home'),
@@ -2769,8 +2448,6 @@ VALUES
 	(1,'nb_reporte_total_pg'),
 	(1,'nb_tarifas_pg'),
 	(1,'nb_usuarios_pg'),
-	(1,'srccustomer'),
-	(1,'viewcustomer'),
 	(2,'error'),
 	(2,'home'),
 	(2,'login'),
@@ -2824,14 +2501,12 @@ LOCK TABLES `nb_schema_tbl` WRITE;
 
 INSERT INTO `nb_schema_tbl` (`nb_id_page_fld`, `nb_title_fld`, `nb_description_fld`, `nb_type_fld`)
 VALUES
-	('addcustomer','Ingreso Clientes','','object'),
 	('error','Error  login',NULL,'object'),
 	('home','',NULL,'object'),
 	('login','Bienvenidos',NULL,'object'),
-	('viewcustomer','Consulta Clientes',NULL,'object'),
-	('nb_control_pg','Ingreso Control Vehicular',NULL,'object'),
+	('nb_control_pg','',NULL,'object'),
 	('nb_controlv_pg','Detalle Vehiculo',NULL,'object'),
-	('nb_tarifas_pg','Tarificacion',NULL,'object'),
+	('nb_tarifas_pg','',NULL,'object'),
 	('nb_usuarios_pg','Usuarios Parqueaderos',NULL,'object'),
 	('construccion','',NULL,'object');
 
@@ -3007,15 +2682,8 @@ LOCK TABLES `nb_value_tbl` WRITE;
 
 INSERT INTO `nb_value_tbl` (`nb_id_pr_schema_fld`, `nb_id_value_fld`, `nb_value_fld`)
 VALUES
-	('nb_estado_fld','0','Inactivo'),
-	('nbd_person_tipo_fld','1','cliente'),
-	('nb_estado_fld','1','Activo'),
-	('nb_sexo_fld','1','Masculino'),
 	('nb_tipodoc_fld','1','Cedula de Ciudadania'),
-	('nbd_person_tipo_fld','2','propietario'),
-	('nb_sexo_fld','2','Femenino'),
 	('nb_tipodoc_fld','2','Tarjeta de Identidad'),
-	('nbd_person_tipo_fld','3','transportador'),
 	('nb_tipodoc_fld','3','NIT'),
 	('nb_tipodoc_fld','4','Pasaporte'),
 	('nb_tipodoc_fld','5','Cedula de Extranjeria'),
@@ -3052,42 +2720,6 @@ LOCK TABLES `nb_wizard_bind_tbl` WRITE;
 
 INSERT INTO `nb_wizard_bind_tbl` (`nb_id_wizard_bind`, `nb_id_page_fld`, `nb_id_pr_schema_fld`, `nb_id_wizard_step`, `nb_id_wizard_step_order`)
 VALUES
-	(1,'addcustomer','nb_tipodoc_fld',1,1),
-	(2,'addcustomer','nb_numerodoc_fld',1,2),
-	(3,'addcustomer','nb_ciudadexp_fld',1,3),
-	(4,'addcustomer','nb_fechaexp_fld',1,4),
-	(5,'addcustomer','nb_sexo_fld',1,5),
-	(6,'addcustomer','nb_nombre_fld',1,6),
-	(7,'addcustomer','nb_fechanac_fld',1,7),
-	(8,'addcustomer','nb_rlegal_fld',1,8),
-	(9,'addcustomer','nb_state_fld',2,1),
-	(10,'addcustomer','nb_add_city_fld',2,2),
-	(11,'addcustomer','nb_add_direccion_fld',2,3),
-	(12,'addcustomer','nb_add_telefono_fld',2,4),
-	(13,'addcustomer','nb_add_celular_fld',2,5),
-	(14,'addcustomer','nb_add_email_fld',2,6),
-	(15,'addcustomer','nb_estado_fld',3,3),
-	(16,'addcustomer','nb_observaciones_fld',3,4),
-	(21,'addcustomer','nbd_person_id_fld',3,1),
-	(22,'addcustomer','nbd_person_tipo_fld',3,2),
-	(1,'viewcustomer','nb_tipodoc_fld',1,1),
-	(2,'viewcustomer','nb_numerodoc_fld',1,2),
-	(3,'viewcustomer','nb_ciudadexp_fld',1,3),
-	(4,'viewcustomer','nb_fechaexp_fld',1,4),
-	(5,'viewcustomer','nb_sexo_fld',1,5),
-	(6,'viewcustomer','nb_nombre_fld',1,6),
-	(7,'viewcustomer','nb_fechanac_fld',1,7),
-	(8,'viewcustomer','nb_rlegal_fld',1,8),
-	(9,'viewcustomer','nb_state_fld',2,1),
-	(10,'viewcustomer','nb_add_city_fld',2,2),
-	(11,'viewcustomer','nb_add_direccion_fld',2,3),
-	(12,'viewcustomer','nb_add_telefono_fld',2,4),
-	(13,'viewcustomer','nb_add_celular_fld',2,5),
-	(14,'viewcustomer','nb_add_email_fld',2,6),
-	(15,'viewcustomer','nb_estado_fld',3,3),
-	(16,'viewcustomer','nb_observaciones_fld',3,4),
-	(21,'viewcustomer','nbd_person_id_fld',3,1),
-	(22,'viewcustomer','nbd_person_tipo_fld',3,2),
 	(1,'nb_usuarios_pg','nb_tipodoc_fld',1,1),
 	(2,'nb_usuarios_pg','nb_numerodoc_fld',1,2),
 	(5,'nb_usuarios_pg','nb_1_tipo_vehi_fld',2,1),
@@ -3121,11 +2753,8 @@ LOCK TABLES `nb_wizard_buttons_tbl` WRITE;
 
 INSERT INTO `nb_wizard_buttons_tbl` (`nb_id_wizard_button`, `nb_id_page_fld`, `nb_wizard_button_name`, `nb_wizard_button_title`, `nb_wizard_button_validate`, `nb_wizard_button_click`)
 VALUES
-	(1,'addcustomer','submit','Guardar',NULL,NULL),
-	(2,'addcustomer','next','Siguiente',NULL,NULL),
-	(3,'addcustomer','previous','Atras',NULL,NULL),
-	(1,'viewcustomer','next','Siguiente',NULL,NULL),
-	(2,'viewcustomer','previous','Atras',NULL,NULL),
+	(1,'nb_control_pg','submit','Guardar',NULL,NULL),
+	(1,'nb_tarifas_pg','submit','Guardar',NULL,NULL),
 	(1,'nb_usuarios_pg','next','Siguiente',NULL,NULL),
 	(2,'nb_usuarios_pg','previuos','Atras',NULL,NULL),
 	(3,'nb_usuarios_pg','submit','Guardar',NULL,NULL);
@@ -3152,12 +2781,8 @@ LOCK TABLES `nb_wizard_steps_tbl` WRITE;
 
 INSERT INTO `nb_wizard_steps_tbl` (`nb_id_wizard_step`, `nb_id_page_fld`, `nb_wizard_step_title`, `nb_wizard_step_desc`)
 VALUES
-	(1,'addcustomer','1- Basicos','Informacion Basica Clientes'),
-	(2,'addcustomer','2- Localizacion','Informacion de Contacto'),
-	(3,'addcustomer','3- Negocio','Informacion Negocio'),
-	(1,'viewcustomer','1- Basicos','Informacion Basica Clientes'),
-	(2,'viewcustomer','2- Localizacion','Informacion de Contacto'),
-	(3,'viewcustomer','3- Negocio','Informacion Negocio'),
+	(1,'nb_control_pg','Registro','Registro Parqueadero'),
+	(1,'nb_tarifas_pg','Tarificacion','Parametrizacion Tarifas'),
 	(1,'nb_usuarios_pg','1-Basicos','Informacion Basica Usuarios'),
 	(2,'nb_usuarios_pg','2-Vehiculos','Informacion Vehiculos');
 
@@ -3184,131 +2809,11 @@ LOCK TABLES `nb_wizard_tbl` WRITE;
 
 INSERT INTO `nb_wizard_tbl` (`nb_id_wizard`, `nb_id_page_fld`, `nb_wizard_title`, `nb_wizard_desc`, `nb_wizard_show_progress`)
 VALUES
-	(1,'addcustomer','','','true'),
-	(2,'viewcustomer',NULL,NULL,'true'),
-	(3,'nb_usuarios_pg',NULL,NULL,'true');
+	(3,'nb_control_pg',NULL,NULL,'false'),
+	(2,'nb_tarifas_pg',NULL,NULL,'false'),
+	(1,'nb_usuarios_pg',NULL,NULL,'false');
 
 /*!40000 ALTER TABLE `nb_wizard_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table nbd_address_tbl
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `nbd_address_tbl`;
-
-CREATE TABLE `nbd_address_tbl` (
-  `nbd_person_id_fld` int(11) NOT NULL,
-  `nb_state_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_add_city_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_add_direccion_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_add_telefono_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_add_celular_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_add_email_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`nbd_person_id_fld`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
-LOCK TABLES `nbd_address_tbl` WRITE;
-/*!40000 ALTER TABLE `nbd_address_tbl` DISABLE KEYS */;
-
-INSERT INTO `nbd_address_tbl` (`nbd_person_id_fld`, `nb_state_fld`, `nb_add_city_fld`, `nb_add_direccion_fld`, `nb_add_telefono_fld`, `nb_add_celular_fld`, `nb_add_email_fld`)
-VALUES
-	(2,'76','76834','CALLE 21N NUMERO 9A-105 APTO 202','3012657760','3012657760','carlosgc4@gmail.com'),
-	(3,'0','0','','','',''),
-	(4,'76','76001','CALLE 21N NUMERO 9A-105 APTO 202','3122339700','3122339700','lilianpalfonso@gmail.com');
-
-/*!40000 ALTER TABLE `nbd_address_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table nbd_customer_tbl
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `nbd_customer_tbl`;
-
-CREATE TABLE `nbd_customer_tbl` (
-  `nbd_person_id_fld` int(11) NOT NULL,
-  `nb_estado_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_observaciones_fld` blob,
-  `nb_add_user_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_add_date_fld` datetime DEFAULT NULL,
-  `nb_mdf_user_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_mdf_date_fld` datetime DEFAULT NULL,
-  PRIMARY KEY (`nbd_person_id_fld`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
-LOCK TABLES `nbd_customer_tbl` WRITE;
-/*!40000 ALTER TABLE `nbd_customer_tbl` DISABLE KEYS */;
-
-INSERT INTO `nbd_customer_tbl` (`nbd_person_id_fld`, `nb_estado_fld`, `nb_observaciones_fld`, `nb_add_user_fld`, `nb_add_date_fld`, `nb_mdf_user_fld`, `nb_mdf_date_fld`)
-VALUES
-	(2,'1',X'5265666572656E636961646F','NABU','2015-10-09 22:02:42','NABU','2015-10-09 22:02:42'),
-	(3,'1','','NABU','2015-10-09 22:04:23','NABU','2015-10-09 22:04:23'),
-	(4,'1',X'726566657269646F','NABU','2015-10-10 01:23:52','NABU','2015-10-10 01:23:52');
-
-/*!40000 ALTER TABLE `nbd_customer_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table nbd_customer_vw
-# ------------------------------------------------------------
-
-DROP VIEW IF EXISTS `nbd_customer_vw`;
-
-CREATE TABLE `nbd_customer_vw` (
-   `nb_tipodoc_fld` VARCHAR(2) NULL DEFAULT NULL,
-   `nb_numerodoc_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_ciudadexp_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_fechaexp_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_sexo_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_nombre_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_fechanac_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_rlegal_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_state_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_add_city_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_add_direccion_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_add_telefono_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_add_celular_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_add_email_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_estado_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_observaciones_fld` BLOB NULL DEFAULT NULL,
-   `nb_add_user_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_add_date_fld` DATETIME NULL DEFAULT NULL,
-   `nb_mdf_user_fld` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_mdf_date_fld` DATETIME NULL DEFAULT NULL
-) ENGINE=MyISAM;
-
-
-
-# Dump of table nbd_person_tbl
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `nbd_person_tbl`;
-
-CREATE TABLE `nbd_person_tbl` (
-  `nbd_person_id_fld` int(11) NOT NULL,
-  `nbd_person_tipo_fld` int(11) DEFAULT NULL,
-  `nb_tipodoc_fld` varchar(2) CHARACTER SET latin1 DEFAULT NULL,
-  `nb_numerodoc_fld` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `nb_ciudadexp_fld` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `nb_fechaexp_fld` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `nb_sexo_fld` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `nb_nombre_fld` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `nb_fechanac_fld` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `nb_rlegal_fld` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`nbd_person_id_fld`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
-LOCK TABLES `nbd_person_tbl` WRITE;
-/*!40000 ALTER TABLE `nbd_person_tbl` DISABLE KEYS */;
-
-INSERT INTO `nbd_person_tbl` (`nbd_person_id_fld`, `nbd_person_tipo_fld`, `nb_tipodoc_fld`, `nb_numerodoc_fld`, `nb_ciudadexp_fld`, `nb_fechaexp_fld`, `nb_sexo_fld`, `nb_nombre_fld`, `nb_fechanac_fld`, `nb_rlegal_fld`)
-VALUES
-	(2,1,'1','14800275','76834','2002-11-19 00:00:00','1','Carlos Alberto Garcia Cobo','1984-04-04 00:00:00',''),
-	(3,1,'3','2323','0',NULL,'0','dfdf',NULL,'dfdf'),
-	(4,1,'1','1037594925','5266','2007-06-06 00:00:00','2','Lilian Patricia Alfonso Marin','1989-06-03 00:00:00','');
-
-/*!40000 ALTER TABLE `nbd_person_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -3361,36 +2866,6 @@ UNLOCK TABLES;
 
 
 
-# Replace placeholder table for nbd_customer_vw with correct view syntax
-# ------------------------------------------------------------
-
-DROP TABLE `nbd_customer_vw`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nbd_customer_vw`
-AS SELECT
-   `a`.`nb_tipodoc_fld` AS `nb_tipodoc_fld`,
-   `a`.`nb_numerodoc_fld` AS `nb_numerodoc_fld`,
-   `a`.`nb_ciudadexp_fld` AS `nb_ciudadexp_fld`,
-   `a`.`nb_fechaexp_fld` AS `nb_fechaexp_fld`,
-   `a`.`nb_sexo_fld` AS `nb_sexo_fld`,
-   `a`.`nb_nombre_fld` AS `nb_nombre_fld`,
-   `a`.`nb_fechanac_fld` AS `nb_fechanac_fld`,
-   `a`.`nb_rlegal_fld` AS `nb_rlegal_fld`,
-   `c`.`nb_state_fld` AS `nb_state_fld`,
-   `c`.`nb_add_city_fld` AS `nb_add_city_fld`,
-   `c`.`nb_add_direccion_fld` AS `nb_add_direccion_fld`,
-   `c`.`nb_add_telefono_fld` AS `nb_add_telefono_fld`,
-   `c`.`nb_add_celular_fld` AS `nb_add_celular_fld`,
-   `c`.`nb_add_email_fld` AS `nb_add_email_fld`,
-   `b`.`nb_estado_fld` AS `nb_estado_fld`,
-   `b`.`nb_observaciones_fld` AS `nb_observaciones_fld`,
-   `b`.`nb_add_user_fld` AS `nb_add_user_fld`,
-   `b`.`nb_add_date_fld` AS `nb_add_date_fld`,
-   `b`.`nb_mdf_user_fld` AS `nb_mdf_user_fld`,
-   `b`.`nb_mdf_date_fld` AS `nb_mdf_date_fld`
-FROM ((`nbd_person_tbl` `a` join `nbd_customer_tbl` `b`) join `nbd_address_tbl` `c`) where ((`a`.`nbd_person_id_fld` = `b`.`nbd_person_id_fld`) and (`b`.`nbd_person_id_fld` = `c`.`nbd_person_id_fld`));
-
-
 # Replace placeholder table for nb_monitoreod_vw with correct view syntax
 # ------------------------------------------------------------
 
@@ -3399,7 +2874,7 @@ DROP TABLE `nb_monitoreod_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_monitoreod_vw`
 AS SELECT
    (select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `nb_2_placa_fld`,`A`.`nb_3_tarjeta_fld` AS `nb_3_tarjeta_fld`,`A`.`nb_3_fecha_ingreso_fld` AS `nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld` AS `nb_4_fecha_salida_fld`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,`A`.`nb_6_valor_fld` AS `nb_6_valor_fld`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` where (date_format(`A`.`nb_3_fecha_ingreso_fld`,'%Y-%m-%d') > (curdate() - interval 1 day));
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `nb_2_placa_fld`,`A`.`nb_3_tarjeta_fld` AS `nb_3_tarjeta_fld`,`A`.`nb_3_fecha_ingreso_fld` AS `nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld` AS `nb_4_fecha_salida_fld`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` where (date_format(`A`.`nb_3_fecha_ingreso_fld`,'%Y-%m-%d') > (curdate() - interval 1 day));
 
 
 # Replace placeholder table for nb_reportediario_vw with correct view syntax
@@ -3410,7 +2885,7 @@ DROP TABLE `nb_reportediario_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_reportediario_vw`
 AS SELECT
    (select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `nb_2_placa_fld`,`A`.`nb_3_tarjeta_fld` AS `nb_3_tarjeta_fld`,`A`.`nb_3_fecha_ingreso_fld` AS `nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld` AS `nb_4_fecha_salida_fld`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,`A`.`nb_6_valor_fld` AS `nb_6_valor_fld`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` order by `A`.`nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld`;
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `Placa`,`A`.`nb_3_tarjeta_fld` AS `Tarjeta`,`A`.`nb_3_fecha_ingreso_fld` AS `Ingreso`,`A`.`nb_4_fecha_salida_fld` AS `Salida`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` order by `A`.`nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld`;
 
 
 # Replace placeholder table for nb_cobrosd_vw with correct view syntax
@@ -3421,7 +2896,7 @@ DROP TABLE `nb_cobrosd_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_cobrosd_vw`
 AS SELECT
    date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d') AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,sum(`A`.`nb_5_totalhoras_fld`) AS `sum(A.nb_5_totalhoras_fld)`,sum(`A`.`nb_6_valor_fld`) AS `sum(A.nb_6_valor_fld)` from `nb_control_tbl` `A` where (`A`.`nb_4_fecha_salida_fld` <> 'NULL') group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` not in (0,1))) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
 
 
 # Replace placeholder table for nb_cobrosm_vw with correct view syntax
@@ -3432,7 +2907,7 @@ DROP TABLE `nb_cobrosm_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_cobrosm_vw`
 AS SELECT
    date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m') AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,sum(`A`.`nb_5_totalhoras_fld`) AS `sum(A.nb_5_totalhoras_fld)`,sum(`A`.`nb_6_valor_fld`) AS `sum(A.nb_6_valor_fld)` from `nb_control_tbl` `A` where (`A`.`nb_4_fecha_salida_fld` <> 'NULL') group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` <> 0)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

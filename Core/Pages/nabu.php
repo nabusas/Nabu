@@ -48,6 +48,6 @@ THE SOFTWARE.
 		}
 		else {
 			header("location:../Pages/nabu.php?p=login");
-		}
+        }
 	}
 ?>
