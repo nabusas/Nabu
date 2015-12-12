@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 22-02-2015
+	Fecha modificacion	= 11-12-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -40,20 +40,10 @@ class Menu
 	$role = 999999;
 	if(isset($_SESSION['role']))
 		$role = $_SESSION['role'];
-	$result = $db->Execute("SELECT a.nb_sec_fld id,
-								   a.nb_id_menu_fld menu,
-								   a.nb_parent_fld papa,
-								   a.nb_descr_men_fld descr,
-								   a.nb_image_fld image,
-								   a.nb_link_fld link,
-								   a.nb_target_fld target
-							FROM nb_navigation_tbl a, nb_role_pag_tbl b
-							WHERE a.nb_id_page_fld = b.nb_id_page_fld and b.nb_id_role_fld = " . $role . " and a.nb_id_page_fld='" . $id_page . "' and
-								  (a.nb_link_fld in (select nb_id_page_fld from nb_role_pag_tbl where nb_id_role_fld = " . $role . ")  or a.nb_link_fld is null)
-							order by a.nb_sec_fld");
-?>
-		<nav id="menu">
-<?php
+	$result = $db->Execute("SELECT a.nb_sec_fld id,a.nb_id_menu_fld menu,a.nb_parent_fld papa,a.nb_descr_men_fld descr,a.nb_image_fld image,a.nb_link_fld link,a.nb_target_fld target FROM nb_navigation_tbl a, nb_role_pag_tbl b WHERE a.nb_id_page_fld = b.nb_id_page_fld and b.nb_id_role_fld = " . $role . " and a.nb_id_page_fld='" . $id_page . "' and a.nb_link_fld in (select nb_id_page_fld from nb_role_pag_tbl where nb_id_role_fld = " . $role . ") order by a.nb_sec_fld");
+        
+		echo "<nav id='menu'>";
+
 		echo '<ul>';
 		while ($row = $result->FetchRow()){
 		    $id=$row['id'];
@@ -96,9 +86,8 @@ class Menu
 		echo '</ul>';
         
         $db=$util->cx->desconectar();
-?>
-		</nav>
-<?php
+
+		echo '</nav>';
 		
 	}
 }

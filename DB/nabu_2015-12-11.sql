@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-11 19:23:58 +0000
+# Generation Time: 2015-12-12 01:18:36 +0000
 # ************************************************************
 
 
@@ -1387,7 +1387,11 @@ VALUES
 	(3,1,'KCS973',1,'2015-12-11 08:00:00','2015-12-11 09:00:00',2,1,2000,1),
 	(2,0,'OI31F',2,'2015-12-11 09:00:00',NULL,2,NULL,NULL,1),
 	(1,1,'CGF564',1,'2015-12-10 11:00:00','2015-12-10 13:00:00',2,2,4000,1),
-	(4,0,'JKC234',2,'2015-12-10 12:00:00','2015-12-10 16:00:00',2,4,8000,1);
+	(4,0,'JKC234',2,'2015-12-10 12:00:00','2015-12-10 16:00:00',2,4,8000,1),
+	(5,0,'KIY654',5,'2015-12-11 11:00:00','2015-12-11 12:00:00',0,1,0,1),
+	(6,0,'LOI764',6,'2015-12-11 20:00:00','2015-12-11 23:00:00',1,1,0,1),
+	(7,0,'POI876',56,'2015-12-11 16:00:00','2015-12-11 21:00:00',2,5,10000,1),
+	(8,0,'OIU765',76,'2015-12-11 12:00:00','2015-12-11 19:00:00',2,7,14000,1);
 
 /*!40000 ALTER TABLE `nb_control_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1895,13 +1899,9 @@ VALUES
 	('viewcustomer','nb_tipodoc_fld',55,'../Events/ValoresCampo.php?campo=nb_tipodoc_fld'),
 	('viewcustomer','nb_tipodoc_fld',58,'Seleccione Tipo de Documento'),
 	('viewcustomer','nb_tipodoc_fld',59,'false'),
-	('login','anb_empresa_fld',13,'integer'),
+	('login','anb_empresa_fld',13,'string'),
 	('login','anb_empresa_fld',11,'true'),
 	('login','anb_empresa_fld',24,'Empresa'),
-	('login','anb_empresa_fld',32,'select'),
-	('login','anb_empresa_fld',55,'../Events/ValoresCampo.php?campo=anb_empresa_fld'),
-	('login','anb_empresa_fld',59,'false'),
-	('login','anb_empresa_fld',58,'Seleccione Empresa'),
 	('nb_control_pg','nb_2_placa_fld',11,'true'),
 	('nb_control_pg','nb_1_tipo_vehi_fld',59,'false'),
 	('nb_control_pg','nb_2_placa_fld',13,'string'),
@@ -1969,6 +1969,8 @@ VALUES
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipo_vehi_fld'),
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',58,'Seleccione Tipo Vehiculo'),
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',59,'false'),
+	('nb_tarifas_pg','nb_5_tiempoG_fld',24,'Tiempo Gratis'),
+	('nb_tarifas_pg','nb_5_tiempoG_fld',13,'string'),
 	('nb_usuarios_pg','nb_4_placa_fld',24,'Placa'),
 	('nb_usuarios_pg','nb_2_placa_fld',13,'string'),
 	('nb_usuarios_pg','nb_2_placa_fld',24,'Placa'),
@@ -2073,10 +2075,10 @@ INSERT INTO `nb_navigation_tbl` (`nb_id_page_fld`, `nb_sec_fld`, `nb_parent_fld`
 VALUES
 	('nb_reporte_total_pg',26,0,7,'Ayuda',NULL,'fa fa-life-buoy','N'),
 	('nb_reporte_total_pg',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
-	('home',5,0,3,'Tarificacion',NULL,'fa fa-dollar','N'),
-	('home',9,0,4,'Usuarios Parqueadero',NULL,'fa fa-group','N'),
-	('home',18,0,5,'Usuarios Software',NULL,'fa fa-users','N'),
-	('home',22,0,6,'Reportes',NULL,'fa fa-desktop','N'),
+	('home',5,0,3,'Tarificacion','nb_tarifas_pg','fa fa-dollar','N'),
+	('home',9,0,4,'Usuarios Parqueadero','nb_usuarios_pg','fa fa-group','N'),
+	('home',18,0,5,'Usuarios Software','nb_usuarios_pg','fa fa-users','N'),
+	('home',22,0,6,'Reportes','nb_reporte_total_pg','fa fa-desktop','N'),
 	('home',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_reporte_total_pg',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_reporte_total_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
@@ -2112,20 +2114,20 @@ VALUES
 	('nb_reporte_mensual_pg',21,18,3,'Modificacion Usuarios',NULL,'fa fa-cog','N'),
 	('nb_reporte_mensual_pg',22,0,6,'Reportes',NULL,'fa fa-desktop','N'),
 	('nb_reporte_mensual_pg',23,22,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
-	('home',15,14,1,'Ingreso Pago',NULL,'fa fa-plus','N'),
+	('home',15,14,1,'Ingreso Pago','nb_usuarios_pg','fa fa-plus','N'),
 	('home',24,22,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
-	('home',7,5,2,'Consulta Tarifas',NULL,'fa fa-search','N'),
-	('home',8,5,3,'Modificacion Tarifas',NULL,'fa fa-cog','N'),
-	('home',12,10,2,'Consulta Usuarios',NULL,'fa fa-search','N'),
-	('home',13,10,3,'Modificacion Usuarios',NULL,'fa fa-cog','N'),
-	('Home',10,9,1,'Administracion',NULL,'fa fa-desktop','N'),
-	('home',14,9,2,'Pagos',NULL,'fa fa-money','N'),
-	('home',16,14,2,'Consulta Pago',NULL,'fa fa-search','N'),
-	('home',17,14,3,'Modificacion Pago',NULL,'fa fa-cog','N'),
-	('home',19,18,1,'Ingreso Usuarios',NULL,'fa fa-plus','N'),
-	('home',20,18,2,'Consulta Usuarios',NULL,'fa fa-search','N'),
-	('home',21,18,3,'Modificacion Usuarios',NULL,'fa fa-cog','N'),
-	('home',26,0,7,'Ayuda',NULL,'fa fa-life-buoy','N'),
+	('home',7,5,2,'Consulta Tarifas','nb_tarifas_pg','fa fa-search','N'),
+	('home',8,5,3,'Modificacion Tarifas','nb_tarifas_pg','fa fa-cog','N'),
+	('home',12,10,2,'Consulta Usuarios','nb_usuarios_pg','fa fa-search','N'),
+	('home',13,10,3,'Modificacion Usuarios','nb_usuarios_pg','fa fa-cog','N'),
+	('Home',10,9,1,'Administracion','nb_usuarios_pg','fa fa-desktop','N'),
+	('home',14,9,2,'Pagos','nb_usuarios_pg','fa fa-money','N'),
+	('home',16,14,2,'Consulta Pago','nb_usuarios_pg','fa fa-search','N'),
+	('home',17,14,3,'Modificacion Pago','nb_usuarios_pg','fa fa-cog','N'),
+	('home',19,18,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('home',20,18,2,'Consulta Usuarios','nb_usuarios_pg','fa fa-search','N'),
+	('home',21,18,3,'Modificacion Usuarios','nb_usuarios_pg','fa fa-cog','N'),
+	('home',26,0,7,'Ayuda','login','fa fa-life-buoy','N'),
 	('home',27,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_reporte_total_pg',5,0,3,'Tarificacion',NULL,'fa fa-dollar','N'),
 	('nb_reporte_mensual_pg',25,22,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
@@ -2715,9 +2717,6 @@ VALUES
 	(1,'error'),
 	(1,'home'),
 	(1,'login'),
-	(1,'nb_controlv_pg'),
-	(1,'nb_control_pg'),
-	(1,'nb_monitoreo_pg'),
 	(1,'nb_registropago_pg'),
 	(1,'nb_reporte_diario_pg'),
 	(1,'nb_reporte_mensual_pg'),
@@ -2725,7 +2724,13 @@ VALUES
 	(1,'nb_tarifas_pg'),
 	(1,'nb_usuarios_pg'),
 	(1,'srccustomer'),
-	(1,'viewcustomer');
+	(1,'viewcustomer'),
+	(2,'error'),
+	(2,'home'),
+	(2,'login'),
+	(2,'nb_controlv_pg'),
+	(2,'nb_control_pg'),
+	(2,'nb_monitoreo_pg');
 
 /*!40000 ALTER TABLE `nb_role_pag_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2967,7 +2972,6 @@ VALUES
 	('nb_tipodoc_fld','3','NIT'),
 	('nb_tipodoc_fld','4','Pasaporte'),
 	('nb_tipodoc_fld','5','Cedula de Extranjeria'),
-	('anb_empresa_fld','0','Fundacion Clinica Club Noel'),
 	('nb_1_tipo_vehi_fld','0','Carro'),
 	('nb_1_tipo_vehi_fld','1','Moto'),
 	('nb_1_tipotarifa_fld','0','Exenta'),
@@ -3267,18 +3271,18 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `nbd_role_user_tbl`;
 
 CREATE TABLE `nbd_role_user_tbl` (
-  `nb_id_role_fld` int(11) NOT NULL AUTO_INCREMENT,
   `nbd_id_user_fld` int(11) NOT NULL DEFAULT '0',
+  `nb_id_role_fld` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`nb_id_role_fld`,`nbd_id_user_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 LOCK TABLES `nbd_role_user_tbl` WRITE;
 /*!40000 ALTER TABLE `nbd_role_user_tbl` DISABLE KEYS */;
 
-INSERT INTO `nbd_role_user_tbl` (`nb_id_role_fld`, `nbd_id_user_fld`)
+INSERT INTO `nbd_role_user_tbl` (`nbd_id_user_fld`, `nb_id_role_fld`)
 VALUES
 	(1,1),
-	(1,2);
+	(2,2);
 
 /*!40000 ALTER TABLE `nbd_role_user_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3301,7 +3305,7 @@ LOCK TABLES `nbd_user_tbl` WRITE;
 
 INSERT INTO `nbd_user_tbl` (`nbd_id_user_fld`, `nbd_email_fld`, `nbd_password_fld`)
 VALUES
-	(1,'nabu','81dc9bdb52d04dc20036dbd8313ed055'),
+	(1,'admin','81dc9bdb52d04dc20036dbd8313ed055'),
 	(2,'guardia','81dc9bdb52d04dc20036dbd8313ed055');
 
 /*!40000 ALTER TABLE `nbd_user_tbl` ENABLE KEYS */;
