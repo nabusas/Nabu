@@ -194,13 +194,14 @@ class Utilities
         $row = $this->database->getPageType($id);
         $json = new JsonData();
         
-        if ($id <> 'viewcustomer' ){
+        $table  = $this->database->getDataRecord($id);
+        
+        if ($table[0] == '' ){
             $fields =$this->database->getData($id);
             $jsonA=$json->getData($fields);
         }
         else
         {
-            $table  = $this->database->getDataRecord($id);
             $fields = $this->database->getDataFields($table[0]);
             $jsonA=$json->getDataSelect($this->database ,$table[0],$fields);
         }

@@ -100,7 +100,7 @@ THE SOFTWARE.
         }
         
         function getDataValue($table, $field){
-            $sql = "Select ".$field." from ".$table." where nb_numerodoc_fld=14800275";
+            $sql = "Select ".$field." from ".$table."";
             return $this->executeQueryOneRow($sql); 
         }
         
