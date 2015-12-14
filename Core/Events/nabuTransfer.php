@@ -81,12 +81,14 @@ THE SOFTWARE.
 <?php    
     
     include_once "../Class/Database.php";
+    
+    session_start();
 
     $database = new Database(); 
     date_default_timezone_set("America/Bogota");
     setlocale(LC_MONETARY, 'en_US');
 
-    $oprid=1;
+    $oprid=$_SESSION['oprid'];
     
     $tipo=$_POST['nb_1_tipo_vehi_fld'];
     $placa=strtoupper($_POST['nb_2_placa_fld']);
@@ -101,51 +103,58 @@ THE SOFTWARE.
     $tarifa=$database->tarifaControl($placa);
     $error=0;
 
-    if ($existe[0] == 0){
-        $mensajeFecha = 'Fecha Ingreso = '.$fecha;
-        $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
-    }
-    else{
-        
-        $tarjetaBD=$database->tarjControl($placa);
-        
-        if ($tarjetaBD[0] == $tarjeta){
-            $database->updtControl($placa,$fecha);
-            $fechaDB=$database->fechasControl($placa);
-            $tiempo=$database->timeControl($placa);
-            $mensajeIngreso = 'Fecha Ingreso = '.date_create($fechaDB[0])->format('Y-m-d H:i:s');
-            $mensajeSalida = 'Fecha Salida = '.$fecha;
-            $mensajeFecha=$mensajeIngreso.'<br>'.$mensajeSalida;
-            
-            $valorhora=$database->dataTarifa($tipo,$tarifa[0],2);
-            $valorfraccion=$database->dataTarifa($tipo,$tarifa[0],3);
-            
-            if (( $tarifa[0] == 0 or $tarifa[0] == 1) or ($tiempo[0] <= $valorhora[1] ))
-                $costo=0;
+    $validaTarjeta=$database->tarjRepControl($tarjeta);
+    
+    
+        if ($existe[0] == 0){
+            if ($validaTarjeta[0] == 0){
+                $mensajeFecha = 'Fecha Ingreso = '.$fecha;
+                $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
+            }
             else
-                if ( $tiempo[0] <= 60 )
-                    $costo=$valorfraccion[0];
-                else
-                    $costo=$valorhora[0]+((round(($tiempo[0]/60),0)-1)*$valorfraccion[0]);
-                
-                    
-            $tiempoF=round(($tiempo[0]/60),0);
-            
-            if ($tiempo[0] <= $valorhora[1] or $tiempo[0] <= 60 )
-                $tiempoF=$tiempo[0].' Minutos';
-            else
-                $tiempoF=round(($tiempo[0]/60),0).' Horas';
-                
-            $mensajeTiempo = 'Tiempo Total = '.$tiempoF;
-            $mensajeValor = 'Valor a Cancelar= '.money_format('%(#10n', $costo);
-            
-            $database->updtCosto($placa,$costo);
-            $error=0; 
+                $error=2;
         }
-        else
-            $error=1;    
-    }
+        else{
 
+            $tarjetaBD=$database->tarjControl($placa);
+
+            if ($tarjetaBD[0] == $tarjeta){
+                $database->updtControl($placa,$fecha);
+                $fechaDB=$database->fechasControl($placa);
+                $tiempo=$database->timeControl($placa);
+                $mensajeIngreso = 'Fecha Ingreso = '.date_create($fechaDB[0])->format('Y-m-d H:i:s');
+                $mensajeSalida = 'Fecha Salida = '.$fecha;
+                $mensajeFecha=$mensajeIngreso.'<br>'.$mensajeSalida;
+
+                $valorhora=$database->dataTarifa($tipo,$tarifa[0],2);
+                $valorfraccion=$database->dataTarifa($tipo,$tarifa[0],3);
+
+                if (( $tarifa[0] == 0 or $tarifa[0] == 1) or ($tiempo[0] <= $valorhora[1] ))
+                    $costo=0;
+                else
+                    if ( $tiempo[0] <= 60 )
+                        $costo=$valorfraccion[0];
+                    else
+                        $costo=$valorhora[0]+((round(($tiempo[0]/60),0)-1)*$valorfraccion[0]);
+
+
+                $tiempoF=round(($tiempo[0]/60),0);
+
+                if ($tiempo[0] <= $valorhora[1] or $tiempo[0] <= 60 )
+                    $tiempoF=$tiempo[0].' Minutos';
+                else
+                    $tiempoF=round(($tiempo[0]/60),0).' Horas';
+
+                $mensajeTiempo = 'Tiempo Total = '.$tiempoF;
+                $mensajeValor = 'Valor a Cancelar= '.money_format('%(#10n', $costo);
+
+                $database->updtCosto($placa,$costo);
+                $error=0; 
+            }
+            else
+                $error=1;    
+        }
+    
     $tipoC=$database->tipoControl($tipo);
     
     $Mensaje='Tipo='.$tipoC[0].'<br>';
@@ -160,7 +169,11 @@ THE SOFTWARE.
         if ($error == 0  )
             echo $Mensaje;
         else
-            echo 'El numero de las tarjetas no coincide';
+            if ($error == 1  )
+                echo 'El numero de las tarjetas no coincide';
+            else
+                if ($error == 2  )
+                    echo 'Tarjeta ya asignada';
     
     echo '</div>';    
 

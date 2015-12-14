@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-14 19:10:43 +0000
+# Generation Time: 2015-12-14 22:29:11 +0000
 # ************************************************************
 
 
@@ -1382,12 +1382,8 @@ LOCK TABLES `nb_control_tbl` WRITE;
 
 INSERT INTO `nb_control_tbl` (`nb_id_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_tarjeta_fld`, `nb_3_fecha_ingreso_fld`, `nb_4_fecha_salida_fld`, `nb_1_tipotarifa_fld`, `nb_5_totalhoras_fld`, `nb_6_valor_fld`, `nbd_id_user_fld`)
 VALUES
-	(100,0,'1234',12,'2015-12-14 14:09:49',NULL,2,0,0,1),
-	(99,0,'FGFFG',12,'2015-12-14 14:08:38',NULL,2,0,0,0),
-	(98,0,'KCS954',12,'2015-12-14 13:59:08',NULL,2,0,0,0),
-	(94,0,'IIQ924',1,'2015-12-14 10:50:43','2015-12-14 10:51:24',2,1,0,0),
-	(96,0,'IIQ924',1,'2015-12-14 11:45:47','2015-12-14 13:49:46',2,123,2800,0),
-	(92,0,'KCS973',1,'2015-12-14 10:46:52',NULL,0,1,0,0);
+	(104,0,'KCS987',1,'2015-12-14 17:27:14',NULL,2,0,0,2),
+	(103,0,'KCS876',1,'2015-12-14 17:19:40','2015-12-14 17:26:48',2,7,0,2);
 
 /*!40000 ALTER TABLE `nb_control_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3111,9 +3107,9 @@ CREATE TABLE `nb_reportediario_vw` (
    `Ingreso` DATETIME NULL DEFAULT NULL,
    `Salida` DATETIME NULL DEFAULT NULL,
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
-   `nb_5_totalhoras_fld` INT(2) NULL DEFAULT NULL,
+   `Minutos` INT(2) NULL DEFAULT NULL,
    `Valor` VARCHAR(52) NULL DEFAULT NULL,
-   `nbd_id_user_fld` INT(11) NULL DEFAULT NULL
+   `Usuario` VARCHAR(255) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
 
@@ -3764,7 +3760,7 @@ DROP TABLE `nb_reportediario_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_reportediario_vw`
 AS SELECT
    (select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `Placa`,`A`.`nb_3_tarjeta_fld` AS `Tarjeta`,`A`.`nb_3_fecha_ingreso_fld` AS `Ingreso`,`A`.`nb_4_fecha_salida_fld` AS `Salida`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` order by `A`.`nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld`;
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `Placa`,`A`.`nb_3_tarjeta_fld` AS `Tarjeta`,`A`.`nb_3_fecha_ingreso_fld` AS `Ingreso`,`A`.`nb_4_fecha_salida_fld` AS `Salida`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `Minutos`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,(select `x`.`nbd_descr_fld` from `nbd_user_tbl` `x` where (`A`.`nbd_id_user_fld` = `x`.`nbd_id_user_fld`)) AS `Usuario` from `nb_control_tbl` `A` order by `A`.`nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld`;
 
 
 # Replace placeholder table for nb_usuariosclientes_vw with correct view syntax

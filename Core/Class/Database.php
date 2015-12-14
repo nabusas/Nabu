@@ -83,6 +83,11 @@ THE SOFTWARE.
             $sql =$sql." where (nb_2_placa_fld='".$placa."' or nb_3_placa_fld='".$placa."' or nb_4_placa_fld='".$placa."')";
             return $this->executeQueryOneRow($sql); 
         }
+        
+        function tarjRepControl($tipo){
+            $sql ="select count(1) from nb_control_tbl where nb_4_fecha_salida_fld is NULL and nb_3_tarjeta_fld=".$tipo;
+            return $this->executeQueryOneRow($sql); 
+        }
         function tipoControl($tipo){
             
             $sql ="select nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='nb_1_tipo_vehi_fld' and nb_id_value_fld=".$tipo;

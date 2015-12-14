@@ -32,14 +32,14 @@ THE SOFTWARE.
     include "../Class/TemplatePage.php";
 	session_start();
     
-	if($_GET['p'] == 'login') {
+    if($_GET['p'] == 'login') {
 		unset($_SESSION['role']);
 		new TemplatePage($_GET['p']);
 	}
 	else {
 		if(isset($_SESSION['role'])) {	
 			$objUtilities = new Utilities();
-			if($objUtilities->validateRole($_GET['p'], $_SESSION['role'])) {
+            if($objUtilities->validateRole($_GET['p'], $_SESSION['role'])) {
 				new TemplatePage($_GET['p']);
 			}
 			else {
