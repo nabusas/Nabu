@@ -159,3 +159,10 @@ INSERT INTO NB_WIZARD_STEPS_TBL SELECT  NB_ID_WIZARD_STEP,'nb_loginm_pg',NB_WIZA
 
 INSERT INTO NB_WIZARD_TBL SELECT '9','nb_loginm_pg',NB_WIZARD_TITLE,NB_WIZARD_DESC,NB_WIZARD_SHOW_PROGRESS FROM NB_WIZARD_TBL WHERE NB_ID_PAGE_FLD='nb_users_pg'
 
+
+SELECT	nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld,
+		nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld
+FROM NB_CONTROL_TBL
+
+
+INSERT INTO NB_CONTROL_TBL VALUES (nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld)('9','0','GFC954','1',NULL,NULL,'1','0','0','1')

@@ -71,6 +71,17 @@ THE SOFTWARE.
             return $row;
         }
         
+        function insertControl($tipo,$placa,$tarjeta,$fecha){
+            
+            $sql = "INSERT INTO NB_CONTROL_TBL (";
+            $campos = "nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld)VALUES(";
+            $valores="nb_id_fld,".$tipo.",'".$placa."',".$tarjeta.",'".$fecha."',NULL,1,0,0,1)";
+                
+            $sql=$sql.$campos.$valores;
+            
+            return $this->execute($sql);
+        }
+        
         function saveData($table,$fieldsTable,$fieldsValues){
             $sql = "INSERT INTO " .$table. "(" . $fieldsTable . ") VALUES(" . $fieldsValues . ")";
             

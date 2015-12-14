@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-13 00:54:22 +0000
+# Generation Time: 2015-12-14 04:45:36 +0000
 # ************************************************************
 
 
@@ -1377,22 +1377,6 @@ CREATE TABLE `nb_control_tbl` (
   PRIMARY KEY (`nb_id_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-LOCK TABLES `nb_control_tbl` WRITE;
-/*!40000 ALTER TABLE `nb_control_tbl` DISABLE KEYS */;
-
-INSERT INTO `nb_control_tbl` (`nb_id_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_tarjeta_fld`, `nb_3_fecha_ingreso_fld`, `nb_4_fecha_salida_fld`, `nb_1_tipotarifa_fld`, `nb_5_totalhoras_fld`, `nb_6_valor_fld`, `nbd_id_user_fld`)
-VALUES
-	(3,1,'KCS973',1,'2015-12-11 08:00:00','2015-12-11 09:00:00',2,1,2000,1),
-	(2,0,'OI31F',2,'2015-12-11 09:00:00',NULL,2,NULL,NULL,1),
-	(1,1,'CGF564',1,'2015-12-10 11:00:00','2015-12-10 13:00:00',2,2,4000,1),
-	(4,0,'JKC234',2,'2015-12-10 12:00:00','2015-12-10 16:00:00',2,4,8000,1),
-	(5,0,'KIY654',5,'2015-12-11 11:00:00','2015-12-11 12:00:00',0,1,0,1),
-	(6,0,'LOI764',6,'2015-12-11 20:00:00','2015-12-11 23:00:00',1,1,0,1),
-	(7,0,'POI876',56,'2015-12-11 16:00:00','2015-12-11 21:00:00',2,5,10000,1),
-	(8,0,'OIU765',76,'2015-12-11 12:00:00','2015-12-11 19:00:00',2,7,14000,1);
-
-/*!40000 ALTER TABLE `nb_control_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table nb_country_tbl

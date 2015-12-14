@@ -64,6 +64,7 @@ class JsonData
         
         $i=0;
         foreach($fields as $field){
+            
             $value=$database->getDataValue($table,$field[0]);
             $data[$field[0]] =$value[0];
             $i=$i+1;
