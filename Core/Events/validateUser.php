@@ -54,7 +54,7 @@ THE SOFTWARE.
 
 	if ($row[0] != null) {
 		session_start();
-		$result = $db->Execute("SELECT nb_id_role_fld FROM nbd_role_user_tbl WHERE nbd_id_user_fld = " . $row[0]);
+        $result = $db->Execute("SELECT nb_id_role_fld FROM nbd_role_user_tbl WHERE nbd_id_user_fld = " . $row[0]);
     	$row = $result->FetchRow();
 		$_SESSION['role'] = $row[0];
 		header("location:../Pages/?p=home");

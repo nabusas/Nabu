@@ -86,10 +86,12 @@ THE SOFTWARE.
     date_default_timezone_set("America/Bogota");
     setlocale(LC_MONETARY, 'en_US');
 
+    $oprid=1;
+    
     $tipo=$_POST['nb_1_tipo_vehi_fld'];
     $placa=strtoupper($_POST['nb_2_placa_fld']);
     $tarjeta=$_POST['nb_3_tarjeta_fld'];
-    $fecha=date("Y-m-d h:i:sa");
+    $fecha=date("Y-m-d H:i:sa");
         
     $existe=$database->verifiControl($placa);
     $mensajeTiempo='';
@@ -101,7 +103,7 @@ THE SOFTWARE.
 
     if ($existe[0] == 0){
         $mensajeFecha = 'Fecha Ingreso = '.$fecha;
-        $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0]);
+        $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
     }
     else{
         
@@ -112,7 +114,7 @@ THE SOFTWARE.
             $fechaDB=$database->fechasControl($placa);
             $tiempo=$database->timeControl($placa);
             $mensajeIngreso = 'Fecha Ingreso = '.date_create($fechaDB[0])->format('Y-m-d H:i:s');
-            $mensajeSalida = 'Fecha Salida = '.date_create($fecha)->format('Y-m-d H:i:s');
+            $mensajeSalida = 'Fecha Salida = '.$fecha;
             $mensajeFecha=$mensajeIngreso.'<br>'.$mensajeSalida;
             
             $valorhora=$database->dataTarifa($tipo,$tarifa[0],2);
@@ -124,7 +126,7 @@ THE SOFTWARE.
                 if ( $tiempo[0] <= 60 )
                     $costo=$valorfraccion[0];
                 else
-                    $costo=$valorhora[0]+(round(($tiempo[0]/60),0)*$valorfraccion[0]);
+                    $costo=$valorhora[0]+((round(($tiempo[0]/60),0)-1)*$valorfraccion[0]);
                 
                     
             $tiempoF=round(($tiempo[0]/60),0);

@@ -114,7 +114,7 @@ THE SOFTWARE.
         function updtControl($placa,$fecha){
             
             $sql ="Update nb_control_tbl set nb_4_fecha_salida_fld='".$fecha."',"; 
-            $sql =$sql." nb_5_totalhoras_fld=TIMESTAMPDIFF(MINUTE, nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld), nb_6_valor_fld=-1";
+            $sql =$sql." nb_5_totalhoras_fld=ABS(TIMESTAMPDIFF(MINUTE, nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld)), nb_6_valor_fld=-1";
             $sql =$sql." where nb_2_placa_fld='".$placa."' and nb_4_fecha_salida_fld IS NULL";
             return $this->execute($sql);
         }
@@ -124,11 +124,11 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
-        function insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa){
+        function insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa,$oprid){
             
             $sql = "INSERT INTO NB_CONTROL_TBL (";
             $campos = "nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld)VALUES(";
-            $valores="nb_id_fld,".$tipo.",'".$placa."',".$tarjeta.",'".$fecha."',NULL,".$tarifa.",0,0,'')";
+            $valores="nb_id_fld,".$tipo.",'".$placa."',".$tarjeta.",'".$fecha."',NULL,".$tarifa.",0,0,'".$oprid."')";
                 
             $sql=$sql.$campos.$valores;
             
