@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-14 04:45:36 +0000
+# Generation Time: 2015-12-14 17:07:35 +0000
 # ************************************************************
 
 
@@ -1377,6 +1377,17 @@ CREATE TABLE `nb_control_tbl` (
   PRIMARY KEY (`nb_id_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+LOCK TABLES `nb_control_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_control_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_control_tbl` (`nb_id_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_tarjeta_fld`, `nb_3_fecha_ingreso_fld`, `nb_4_fecha_salida_fld`, `nb_1_tipotarifa_fld`, `nb_5_totalhoras_fld`, `nb_6_valor_fld`, `nbd_id_user_fld`)
+VALUES
+	(94,0,'IIQ924',1,'2015-12-14 10:50:43','2015-12-14 11:45:28',2,54,800,0),
+	(96,0,'IIQ924',1,'2015-12-14 11:45:47','2015-12-14 12:00:31',2,14,800,0),
+	(92,0,'KCS973',1,'2015-12-14 10:46:52',NULL,0,1,0,0);
+
+/*!40000 ALTER TABLE `nb_control_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table nb_country_tbl
@@ -3449,7 +3460,7 @@ LOCK TABLES `nb_usuariosr_tbl` WRITE;
 
 INSERT INTO `nb_usuariosr_tbl` (`nb_tipodoc_fld`, `nb_numerodoc_fld`, `nb_nombre_fld`, `nb_1_tipotarifa_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_placa_fld`, `nb_4_placa_fld`)
 VALUES
-	(0,14800275,'PEDRO PEREZ',0,0,'KTR365','OIU765','KJH765');
+	(0,14800275,'PEDRO PEREZ',0,0,'KCS973','OIU765','KJH765');
 
 /*!40000 ALTER TABLE `nb_usuariosr_tbl` ENABLE KEYS */;
 UNLOCK TABLES;

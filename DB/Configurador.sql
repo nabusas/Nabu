@@ -165,4 +165,12 @@ SELECT	nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_i
 FROM NB_CONTROL_TBL
 
 
-INSERT INTO NB_CONTROL_TBL VALUES (nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld)('9','0','GFC954','1',NULL,NULL,'1','0','0','1')
+select nb_3_fecha_ingreso_fld  from nb_control_tbl 
+where nb_2_placa_fld='IIQ924' 
+AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='IIQ924' )
+
+
+
+
+
+

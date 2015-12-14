@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= GASAKAWA
-	Fecha modificacion	= 12-10-2015
+	Fecha modificacion	= 14-12-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -71,11 +71,64 @@ THE SOFTWARE.
             return $row;
         }
         
-        function insertControl($tipo,$placa,$tarjeta,$fecha){
+        function fechasControl($placa){
+            $sql ="select nb_3_fecha_ingreso_fld from nb_control_tbl where nb_2_placa_fld='".$placa."'";
+            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function tarifaControl($placa){
+            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal'),count(1)";
+            $sql =$sql." from nb_usuariosr_tbl"; 
+            $sql =$sql." where (nb_2_placa_fld='".$placa."' or nb_3_placa_fld='".$placa."' or nb_4_placa_fld='".$placa."')";
+            return $this->executeQueryOneRow($sql); 
+        }
+        function tipoControl($tipo){
+            
+            $sql ="select nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='nb_1_tipo_vehi_fld' and nb_id_value_fld=".$tipo;
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function dataTarifa ($tipo,$tarifa,$cobro){
+            $sql ="SELECT nb_4_valor_fld,nb_5_tiempoG_fld FROM nb_tarifas_tbl where nb_1_tipotarifa_fld=".$tarifa." and nb_1_tipo_vehi_fld=".$tipo." and nb_3_tipocobro_fld=".$cobro;
+            
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function updtCosto($placa,$valor){
+            $sql =" Update nb_control_tbl set nb_6_valor_fld=".$valor." where nb_2_placa_fld='".$placa."' and nb_6_valor_fld=-1";
+            return $this->execute($sql);
+        }
+        
+        function tarjControl($placa){
+            $sql ="select nb_3_tarjeta_fld from nb_control_tbl where nb_2_placa_fld='".$placa."'";
+            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
+            return $this->executeQueryOneRow($sql); 
+        }
+        function timeControl($placa){
+            
+            $sql ="select nb_5_totalhoras_fld from nb_control_tbl where nb_2_placa_fld='".$placa."'";
+            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
+            return $this->executeQueryOneRow($sql); 
+        }
+        function updtControl($placa,$fecha){
+            
+            $sql ="Update nb_control_tbl set nb_4_fecha_salida_fld='".$fecha."',"; 
+            $sql =$sql." nb_5_totalhoras_fld=TIMESTAMPDIFF(MINUTE, nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld), nb_6_valor_fld=-1";
+            $sql =$sql." where nb_2_placa_fld='".$placa."' and nb_4_fecha_salida_fld IS NULL";
+            return $this->execute($sql);
+        }
+        function verifiControl($placa){
+            
+            $sql ="select COUNT(1) from nb_control_tbl where nb_2_placa_fld='".$placa."' and nb_4_fecha_salida_fld IS NULL";
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa){
             
             $sql = "INSERT INTO NB_CONTROL_TBL (";
             $campos = "nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld)VALUES(";
-            $valores="nb_id_fld,".$tipo.",'".$placa."',".$tarjeta.",'".$fecha."',NULL,1,0,0,1)";
+            $valores="nb_id_fld,".$tipo.",'".$placa."',".$tarjeta.",'".$fecha."',NULL,".$tarifa.",0,0,'')";
                 
             $sql=$sql.$campos.$valores;
             

@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 13-12-2015
+	Fecha modificacion	= 14-12-2015
 	User modify		    = CAGC
 
 */
@@ -54,9 +54,9 @@ THE SOFTWARE.
             $(function() {
                 $( "#dialog-confirm" ).dialog({
                     resizable: false,
-                    weight:800,  
-                    height:300,
-                    modal: true,
+                    height:350,
+                    width: 500,
+                    modal: false,
                     buttons: {
                         "Aceptar": function() {
                             document.location = "../Pages/nabu.php?p=nb_control_pg";
@@ -84,22 +84,84 @@ THE SOFTWARE.
 
     $database = new Database(); 
     date_default_timezone_set("America/Bogota");
+    setlocale(LC_MONETARY, 'en_US');
 
     $tipo=$_POST['nb_1_tipo_vehi_fld'];
-    $placa=$_POST['nb_2_placa_fld'];
+    $placa=strtoupper($_POST['nb_2_placa_fld']);
     $tarjeta=$_POST['nb_3_tarjeta_fld'];
     $fecha=date("Y-m-d h:i:sa");
         
-    $database->insertControl($tipo,$placa,$tarjeta,$fecha);
+    $existe=$database->verifiControl($placa);
+    $mensajeTiempo='';
+    $mensajeFecha='';
+    $mensajeValor='';
 
-    $Mensaje='Tipo='.$tipo.'<br>';
+    $tarifa=$database->tarifaControl($placa);
+    $error=0;
+
+    if ($existe[0] == 0){
+        $mensajeFecha = 'Fecha Ingreso = '.$fecha;
+        $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0]);
+    }
+    else{
+        
+        $tarjetaBD=$database->tarjControl($placa);
+        
+        if ($tarjetaBD[0] == $tarjeta){
+            $database->updtControl($placa,$fecha);
+            $fechaDB=$database->fechasControl($placa);
+            $tiempo=$database->timeControl($placa);
+            $mensajeIngreso = 'Fecha Ingreso = '.date_create($fechaDB[0])->format('Y-m-d H:i:s');
+            $mensajeSalida = 'Fecha Salida = '.date_create($fecha)->format('Y-m-d H:i:s');
+            $mensajeFecha=$mensajeIngreso.'<br>'.$mensajeSalida;
+            
+            $valorhora=$database->dataTarifa($tipo,$tarifa[0],2);
+            $valorfraccion=$database->dataTarifa($tipo,$tarifa[0],3);
+            
+            if (( $tarifa[0] == 0 or $tarifa[0] == 1) or ($tiempo[0] <= $valorhora[1] ))
+                $costo=0;
+            else
+                if ( $tiempo[0] <= 60 )
+                    $costo=$valorfraccion[0];
+                else
+                    $costo=$valorhora[0]+(round(($tiempo[0]/60),0)*$valorfraccion[0]);
+                
+                    
+            $tiempoF=round(($tiempo[0]/60),0);
+            
+            if ($tiempo[0] <= $valorhora[1] or $tiempo[0] <= 60 )
+                $tiempoF=$tiempo[0].' Minutos';
+            else
+                $tiempoF=round(($tiempo[0]/60),0).' Horas';
+                
+            $mensajeTiempo = 'Tiempo Total = '.$tiempoF;
+            $mensajeValor = 'Valor a Cancelar= '.money_format('%(#10n', $costo);
+            
+            $database->updtCosto($placa,$costo);
+            $error=0; 
+        }
+        else
+            $error=1;    
+    }
+
+    $tipoC=$database->tipoControl($tipo);
+    
+    $Mensaje='Tipo='.$tipoC[0].'<br>';
     $Mensaje=$Mensaje.' Placa='.$placa.'<br>';
     $Mensaje=$Mensaje.' Tarjeta='.$tarjeta.'<br>';
-
+    $Mensaje=$Mensaje.'Tarifa='.$tarifa[1].'<br>';    
+    $Mensaje=$Mensaje.$mensajeFecha.'<br>';
+    $Mensaje=$Mensaje.$mensajeTiempo.'<br>';
+    $Mensaje=$Mensaje.$mensajeValor.'<br>';
+    
     echo "<div id='dialog-confirm' title='Informacion Vehiculo'>";
-    echo $Mensaje;
-    echo '</div>';
- 
+        if ($error == 0  )
+            echo $Mensaje;
+        else
+            echo 'El numero de las tarjetas no coincide';
+    
+    echo '</div>';    
+
 ?>
     
     <footer class="footer">
