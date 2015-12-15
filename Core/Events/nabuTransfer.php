@@ -134,9 +134,17 @@ THE SOFTWARE.
                 else
                     if ( $tiempo[0] <= 60 )
                         $costo=$valorfraccion[0];
-                    else
-                        $costo=$valorhora[0]+((round(($tiempo[0]/60),0)-1)*$valorfraccion[0]);
-
+                    else{
+                        
+                        $costoFraccion=round(($tiempo[0]/60),0);
+                        
+                        if ($costoFraccion < 2 )
+                            $costoFraccion=1;
+                        else
+                            $costoFraccion =$costoFraccion-1;
+                    
+                        $costo=$valorhora[0]+($costoFraccion*$valorfraccion[0]);
+                    }
 
                 $tiempoF=round(($tiempo[0]/60),0);
 

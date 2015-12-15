@@ -86,12 +86,27 @@ CREATE OR REPLACE VIEW nb_cobrosM_vw AS
 SELECT	DATE_FORMAT(A.nb_4_fecha_salida_fld,'%Y-%m') as Fecha,
 		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipo_vehi_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipo_vehi_fld) as tipo,
 		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipotarifa_fld) as tarifa,
+		COUNT(1) AS Vehiculos,
 		CONCAT('$',FORMAT(sum(A.nb_6_valor_fld),0)) Valor
 FROM	nb_control_tbl	A
 where	A.nb_4_fecha_salida_fld <> 'NULL'
 And		A.nb_1_tipotarifa_fld not in (0)
 group by Fecha,tipo,tarifa
+UNION
+SELECT  CONCAT(A.NB_YEAR_FLD,'-',A.NB_MES_FLD) AS Fecha,
+		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipo_vehi_fld' AND NB_ID_VALUE_FLD=B.nb_1_tipo_vehi_fld) as tipo,
+		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipotarifa_fld) as tarifa,
+		COUNT(1) AS Vehiculos,
+		CONCAT('$',FORMAT(sum(C.nb_4_valor_fld),0)) Valor
+FROM 	NB_PAGOS_TBL A, NB_USUARIOSR_TBL B, NB_TARIFAS_TBL C
+WHERE	A.nb_tipodoc_fld = B.nb_tipodoc_fld
+AND		A.nb_numerodoc_fld = B.nb_numerodoc_fld
+AND		A.nb_1_tipotarifa_fld = C.nb_1_tipotarifa_fld
+AND		B.nb_1_tipo_vehi_fld=C.nb_1_tipo_vehi_fld
+AND		A.NB_ESTADO_FLD=0
+group by Fecha,tipo,tarifa
 
+SELECT * FROM NB_TARIFAS_TBL
 
 ##	Tarifas
 CREATE OR REPLACE VIEW nb_tarifas_vw AS
