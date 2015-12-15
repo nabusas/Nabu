@@ -132,7 +132,7 @@ THE SOFTWARE.
                 if (( $tarifa[0] == 0 or $tarifa[0] == 1) or ($tiempo[0] <= $valorhora[1] ))
                     $costo=0;
                 else
-                    if ( $tiempo[0] <= 60 )
+                    if ( $tiempo[0] < 60 )
                         $costo=$valorfraccion[0];
                     else{
                         

@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-15 12:40:29 +0000
+# Generation Time: 2015-12-15 12:47:49 +0000
 # ************************************************************
 
 
@@ -1383,6 +1383,7 @@ LOCK TABLES `nb_control_tbl` WRITE;
 
 INSERT INTO `nb_control_tbl` (`nb_id_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_tarjeta_fld`, `nb_3_fecha_ingreso_fld`, `nb_4_fecha_salida_fld`, `nb_1_tipotarifa_fld`, `nb_5_totalhoras_fld`, `nb_6_valor_fld`, `nbd_id_user_fld`)
 VALUES
+	(108,0,'KCS874',1,'2015-12-15 06:43:41','2015-12-15 07:44:08',2,60,800,2),
 	(107,0,'KCS973',1,'2015-12-14 21:24:59','2015-12-14 21:27:55',0,2,0,2),
 	(106,1,'FR54G',1,'2015-12-14 17:23:22','2015-12-14 18:44:15',2,80,1500,2),
 	(105,0,'KCS973',2,'2015-12-14 18:32:16','2015-12-14 18:42:22',0,10,0,2),
@@ -1595,7 +1596,7 @@ VALUES
 	('nb_monitoreo_pg',7,48,'true'),
 	('nb_monitoreo_pg',7,54,'center'),
 	('nb_monitoreo_pg',8,45,'Valor'),
-	('nb_monitoreo_pg',8,46,'nb_6_valor_fld'),
+	('nb_monitoreo_pg',8,46,'Valor'),
 	('nb_monitoreo_pg',8,48,'true'),
 	('nb_monitoreo_pg',8,54,'center'),
 	('nb_monitoreo_pg',9,45,'Usuario'),
