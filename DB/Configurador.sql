@@ -50,6 +50,30 @@ and		nb_column_fld='1'
 
 delete from nb_datagridcol_tbl where nb_id_page_fld='nb_usuariosv_pg' and nb_column_fld='1'
 
+## CONFIGURACION METODO SAVE
+
+SELECT * FROM NB_FORM_TABLES_TBL
+
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_1_tipotarifa_fld','nb_1_tipotarifa_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_1_tipo_vehi_fld','nb_1_tipo_vehi_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_3_tipocobro_fld','nb_3_tipocobro_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_4_valor_fld','nb_4_valor_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_5_tiempoG_fld','nb_5_tiempoG_fld');
+
+
+SELECT * FROM NB_TABLE_FIELDS_TBL
+
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_1_tipotarifa_fld','number',2,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_1_tipo_vehi_fld','number',2,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_3_tipocobro_fld','number',2,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_4_valor_fld','number',14,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_5_tiempoG_fld','number',2,'','');
+
+
+SELECT * FROM NB_TABLES_TBL
+
+INSERT INTO NB_TABLES_TBL VALUES ('NB_TARIFAS_TBL','Tabla de Tarificacion');
+
 ##	MONITOREO
 CREATE OR REPLACE VIEW nb_monitoreoD_vw AS
 SELECT	(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipo_vehi_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipo_vehi_fld) AS tipo,

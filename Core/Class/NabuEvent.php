@@ -50,17 +50,19 @@ class NabuEvent
 	}
 	
     function Save() {
+        
         $respcode = 0;
     
         $tables = $this->database->getTables($this->page);
         $secuencia=-1;        
-
+        
         foreach($tables as $table) {
             $fields = $this->database->getFields($this->page,$table[0]);
             $fieldsValues='';  
             $fieldsTable=''; 
             
             foreach($fields as $field){
+                
                 $type =$this->database->getTypes($table[0],$field[1]);
                 
                 if (isset($_POST[$field[0]]))
@@ -69,7 +71,9 @@ class NabuEvent
                     $value ='nabuNull';
             
                 $fieldsTable .= $field[1];
-                $valueC = $this->database->getDataValue($this->page,$field[1]);
+                
+                /*
+                $valueC = $this->database->getDataValue($table[0],$field[1]);
                 $setData=false;
                     
                 if ($valueC[0] <> '' ){
@@ -86,6 +90,7 @@ class NabuEvent
                         $value=$this->objUtilities->changeValue($field[1],$valueC[0]);
                     }
                 }
+                */
                 
                 if ($value =='')
                     $value ='nabuNull';    
@@ -131,7 +136,9 @@ class NabuEvent
 			}
             
             $result =$this->database->saveData($table[0],$fieldsTable,$fieldsValues);
+            
         }
+       
 	}
-}
+} 
 ?>

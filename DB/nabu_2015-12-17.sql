@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-15 12:47:49 +0000
+# Generation Time: 2015-12-17 16:50:59 +0000
 # ************************************************************
 
 
@@ -1353,7 +1353,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas');
+	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.19');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1383,6 +1383,9 @@ LOCK TABLES `nb_control_tbl` WRITE;
 
 INSERT INTO `nb_control_tbl` (`nb_id_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_tarjeta_fld`, `nb_3_fecha_ingreso_fld`, `nb_4_fecha_salida_fld`, `nb_1_tipotarifa_fld`, `nb_5_totalhoras_fld`, `nb_6_valor_fld`, `nbd_id_user_fld`)
 VALUES
+	(111,0,'KCS987',12,'2015-12-17 11:27:08',NULL,2,0,0,2),
+	(110,0,'IUY784',8,'2015-12-15 08:40:21','2015-12-15 09:07:34',2,27,800,2),
+	(109,0,'KCS976',5,'2015-12-15 08:50:01',NULL,1,0,0,2),
 	(108,0,'KCS874',1,'2015-12-15 06:43:41','2015-12-15 07:44:08',2,60,800,2),
 	(107,0,'KCS973',1,'2015-12-14 21:24:59','2015-12-14 21:27:55',0,2,0,2),
 	(106,1,'FR54G',1,'2015-12-14 17:23:22','2015-12-14 18:44:15',2,80,1500,2),
@@ -1733,30 +1736,11 @@ LOCK TABLES `nb_form_tables_tbl` WRITE;
 
 INSERT INTO `nb_form_tables_tbl` (`nb_id_page_fld`, `nb_id_table_fld`, `nb_id_page_field_fld`, `nb_id_table_field_fld`)
 VALUES
-	('addcustomer','nbd_address_tbl','nbd_person_id_fld','nbd_person_id_fld'),
-	('addcustomer','nbd_address_tbl','nb_add_celular_fld','nb_add_celular_fld'),
-	('addcustomer','nbd_address_tbl','nb_add_city_fld','nb_add_city_fld'),
-	('addcustomer','nbd_address_tbl','nb_add_direccion_fld','nb_add_direccion_fld'),
-	('addcustomer','nbd_address_tbl','nb_add_email_fld','nb_add_email_fld'),
-	('addcustomer','nbd_address_tbl','nb_add_telefono_fld','nb_add_telefono_fld'),
-	('addcustomer','nbd_address_tbl','nb_state_fld','nb_state_fld'),
-	('addcustomer','nbd_customer_tbl','nbd_person_id_fld','nbd_person_id_fld'),
-	('addcustomer','nbd_customer_tbl','nb_add_date_fld','nb_add_date_fld'),
-	('addcustomer','nbd_customer_tbl','nb_add_user_fld','nb_add_user_fld'),
-	('addcustomer','nbd_customer_tbl','nb_estado_fld','nb_estado_fld'),
-	('addcustomer','nbd_customer_tbl','nb_mdf_date_fld','nb_mdf_date_fld'),
-	('addcustomer','nbd_customer_tbl','nb_mdf_user_fld','nb_mdf_user_fld'),
-	('addcustomer','nbd_customer_tbl','nb_observaciones_fld','nb_observaciones_fld'),
-	('addcustomer','nbd_person_tbl','nbd_person_id_fld','nbd_person_id_fld'),
-	('addcustomer','nbd_person_tbl','nbd_person_tipo_fld','nbd_person_tipo_fld'),
-	('addcustomer','nbd_person_tbl','nb_ciudadexp_fld','nb_ciudadexp_fld'),
-	('addcustomer','nbd_person_tbl','nb_fechaexp_fld','nb_fechaexp_fld'),
-	('addcustomer','nbd_person_tbl','nb_fechanac_fld','nb_fechanac_fld'),
-	('addcustomer','nbd_person_tbl','nb_nombre_fld','nb_nombre_fld'),
-	('addcustomer','nbd_person_tbl','nb_numerodoc_fld','nb_numerodoc_fld'),
-	('addcustomer','nbd_person_tbl','nb_rlegal_fld','nb_rlegal_fld'),
-	('addcustomer','nbd_person_tbl','nb_sexo_fld','nb_sexo_fld'),
-	('addcustomer','nbd_person_tbl','nb_tipodoc_fld','nb_tipodoc_fld');
+	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_1_tipotarifa_fld','nb_1_tipotarifa_fld'),
+	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_1_tipo_vehi_fld','nb_1_tipo_vehi_fld'),
+	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_3_tipocobro_fld','nb_3_tipocobro_fld'),
+	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_4_valor_fld','nb_4_valor_fld'),
+	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_5_tiempoG_fld','nb_5_tiempoG_fld');
 
 /*!40000 ALTER TABLE `nb_form_tables_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2628,7 +2612,7 @@ VALUES
 	('nb_users_pg','wizard','true',NULL,NULL,NULL,NULL),
 	('nb_control_pg','wizard','true','../Events/','nabuTransfer','post',NULL),
 	('nb_controlv_pg','form','true',NULL,NULL,'post',NULL),
-	('nb_tarifas_pg','wizard','true',NULL,NULL,'post',NULL),
+	('nb_tarifas_pg','wizard','true','../Events/','nabuSave','post',NULL),
 	('nb_usuarios_pg','wizard','true',NULL,NULL,'post',NULL),
 	('construccion','image','false',NULL,NULL,NULL,NULL),
 	('nb_tarifasm_pg','wizard','true',NULL,NULL,'post',NULL),
@@ -3327,30 +3311,11 @@ LOCK TABLES `nb_table_fields_tbl` WRITE;
 
 INSERT INTO `nb_table_fields_tbl` (`nb_id_table_fld`, `nb_id_fld`, `nb_type_fld`, `nb_long_fld`, `nb_is_null_fld`, `nb_description_fld`)
 VALUES
-	('nbd_address_tbl','nbd_person_id_fld','number',NULL,NULL,NULL),
-	('nbd_customer_tbl','nbd_person_id_fld','number',NULL,NULL,NULL),
-	('nbd_person_tbl','nbd_person_id_fld','number',NULL,NULL,NULL),
-	('nbd_person_tbl','nbd_person_tipo_fld','number',NULL,NULL,NULL),
-	('nbd_address_tbl','nb_add_celular_fld','string',NULL,NULL,NULL),
-	('nbd_address_tbl','nb_add_city_fld','number',NULL,NULL,NULL),
-	('nbd_customer_tbl','nb_add_date_fld','date',NULL,NULL,NULL),
-	('nbd_address_tbl','nb_add_direccion_fld','string',NULL,NULL,NULL),
-	('nbd_address_tbl','nb_add_email_fld','string',NULL,NULL,NULL),
-	('nbd_address_tbl','nb_add_telefono_fld','string',NULL,NULL,NULL),
-	('nbd_customer_tbl','nb_add_user_fld','string',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_ciudadexp_fld','number',NULL,NULL,NULL),
-	('nbd_customer_tbl','nb_estado_fld','number',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_fechaexp_fld','date',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_fechanac_fld','date',NULL,NULL,NULL),
-	('nbd_customer_tbl','nb_mdf_date_fld','date',NULL,NULL,NULL),
-	('nbd_customer_tbl','nb_mdf_user_fld','string',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_nombre_fld','string',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_numerodoc_fld','string',NULL,NULL,NULL),
-	('nbd_customer_tbl','nb_observaciones_fld','string',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_rlegal_fld','string',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_sexo_fld','number',NULL,NULL,NULL),
-	('nbd_address_tbl','nb_state_fld','number',NULL,NULL,NULL),
-	('nbd_person_tbl','nb_tipodoc_fld','number',NULL,NULL,NULL);
+	('NB_TARIFAS_TBL','nb_5_tiempoG_fld','number',2,'',''),
+	('NB_TARIFAS_TBL','nb_4_valor_fld','number',14,'',''),
+	('NB_TARIFAS_TBL','nb_3_tipocobro_fld','number',2,'',''),
+	('NB_TARIFAS_TBL','nb_1_tipo_vehi_fld','number',2,'',''),
+	('NB_TARIFAS_TBL','nb_1_tipotarifa_fld','number',2,'','');
 
 /*!40000 ALTER TABLE `nb_table_fields_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3372,9 +3337,7 @@ LOCK TABLES `nb_tables_tbl` WRITE;
 
 INSERT INTO `nb_tables_tbl` (`nb_id_fld`, `nb_description_fld`)
 VALUES
-	('ndb_address_tbl','Tabla de direcciones'),
-	('ndb_customer_tbl','Tabla de clientes'),
-	('ndb_person_tbl','Tabla de personas');
+	('NB_TARIFAS_TBL','Tabla de Tarificacion');
 
 /*!40000 ALTER TABLE `nb_tables_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3399,7 +3362,6 @@ LOCK TABLES `nb_tarifas_tbl` WRITE;
 
 INSERT INTO `nb_tarifas_tbl` (`nb_1_tipotarifa_fld`, `nb_1_tipo_vehi_fld`, `nb_3_tipocobro_fld`, `nb_4_valor_fld`, `nb_5_tiempoG_fld`)
 VALUES
-	(0,0,0,0,0),
 	(1,0,0,40000,0),
 	(1,1,0,20000,0),
 	(2,0,3,800,20),

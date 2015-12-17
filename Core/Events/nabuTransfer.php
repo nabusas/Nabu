@@ -36,13 +36,13 @@ THE SOFTWARE.
         <title>Informacion del Vehiculo</title>
         <link rel="stylesheet" href="../Styles/nabu.css">
         <link rel="stylesheet" href="../Framework/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/redmond/jquery-ui.css">
+        <link rel="stylesheet" href="../Framework/Datagrid/lib/js/themes/cobo/jquery-ui.custom.css">
         
       
         <link rel="stylesheet" href="../Framework/font-awesome/css/font-awesome.min.css">
         <script src="../Framework/jquery/dist/jquery.min.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-          <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="../Framework/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../Framework/bootstrap/dist/js/bootstrap.min.js"></script>
     
         <style>
             .ui-dialog-titlebar-close{

@@ -24,12 +24,15 @@ THE SOFTWARE.
 
 	Fecha creacion		= 12-05-2015
 	Desarrollador		= frajafrari
+    Fecha modificacion	= 17-12-2015
+	Usuario Modifico	= CAGC
 
 */
 
 	include "../Class/NabuEvent.php";
+    
+    $nabuEvent = new NabuEvent($_GET['p'], $_POST);
+	$nabuEvent->Save();
 
-	$nabuEvent = new NabuEvent($_GET['p'], $_POST);
-	$location = $nabuEvent->Save();
-	header($location);
+    header("location:../Pages/nabu.php?p=".$_GET['p']);
 ?>
