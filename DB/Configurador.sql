@@ -12,8 +12,10 @@ where	nb_id_page_fld='nb_usuarios_pg'
 
 delete from nb_navigation_tbl where	nb_id_page_fld<>'home';
 
+select distinct nb_link_fld from nb_navigation_tbl where nb_link_fld not in ('login','home','construccion');
+
 insert into nb_navigation_tbl
-select  'nb_users_pg',nb_sec_fld,nb_parent_fld,nb_id_menu_fld,nb_descr_men_fld,nb_link_fld,nb_image_fld,nb_target_fld
+select  'nb_reporte_total_pg',nb_sec_fld,nb_parent_fld,nb_id_menu_fld,nb_descr_men_fld,nb_link_fld,nb_image_fld,nb_target_fld
 from 	nb_navigation_tbl
 where	nb_id_page_fld='home'
 
@@ -52,27 +54,37 @@ delete from nb_datagridcol_tbl where nb_id_page_fld='nb_usuariosv_pg' and nb_col
 
 ## CONFIGURACION METODO SAVE
 
-SELECT * FROM NB_FORM_TABLES_TBL
+SELECT * FROM NB_USUARIOSR_TBL
 
-INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_1_tipotarifa_fld','nb_1_tipotarifa_fld');
-INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_1_tipo_vehi_fld','nb_1_tipo_vehi_fld');
-INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_3_tipocobro_fld','nb_3_tipocobro_fld');
-INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_4_valor_fld','nb_4_valor_fld');
-INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_tarifas_pg','NB_TARIFAS_TBL','nb_5_tiempoG_fld','nb_5_tiempoG_fld');
+DESC NB_USUARIOSR_TBL  nb_usuarios_pg
+
+SELECT * FROM NB_OPTION_TBL WHERE NB_ID_PAGE_FLD='nb_usuarios_pg'
+
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_tipodoc_fld','nb_tipodoc_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_numerodoc_fld','nb_numerodoc_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_nombre_fld','nb_nombre_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_1_tipotarifa_fld','nb_1_tipotarifa_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_1_tipo_vehi_fld','nb_1_tipo_vehi_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_2_placa_fld','nb_2_placa_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_3_placa_fld','nb_3_placa_fld');
+INSERT INTO NB_FORM_TABLES_TBL VALUES ('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_4_placa_fld','nb_4_placa_fld');
 
 
 SELECT * FROM NB_TABLE_FIELDS_TBL
 
-INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_1_tipotarifa_fld','number',2,'','');
-INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_1_tipo_vehi_fld','number',2,'','');
-INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_3_tipocobro_fld','number',2,'','');
-INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_4_valor_fld','number',14,'','');
-INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_TARIFAS_TBL','nb_5_tiempoG_fld','number',2,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_tipodoc_fld','number',2,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_numerodoc_fld','number',30,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_nombre_fld','string',255,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_1_tipotarifa_fld','number',2,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_1_tipo_vehi_fld','number',2,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_2_placa_fld','string',255,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_3_placa_fld','string',255,'','');
+INSERT INTO NB_TABLE_FIELDS_TBL VALUES ('NB_USUARIOSR_TBL','nb_4_placa_fld','string',255,'','');
 
 
 SELECT * FROM NB_TABLES_TBL
 
-INSERT INTO NB_TABLES_TBL VALUES ('NB_TARIFAS_TBL','Tabla de Tarificacion');
+INSERT INTO NB_TABLES_TBL VALUES ('NB_USUARIOSR_TBL','Tabla usuarios del proceso');
 
 ##	MONITOREO
 CREATE OR REPLACE VIEW nb_monitoreoD_vw AS
