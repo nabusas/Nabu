@@ -1,3 +1,4 @@
+<HTML>
 <?php
 /*
 The MIT License (MIT)
@@ -30,9 +31,79 @@ THE SOFTWARE.
 */
 
 	include "../Class/NabuEvent.php";
-    
-    $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-	$nabuEvent->Save();
-
-    header("location:../Pages/nabu.php?p=".$_GET['p']);
 ?>
+<head>
+        <meta charset="utf-8">
+        <title>Evento Guardar</title>
+        <link rel="stylesheet" href="../Styles/nabu.css">
+        <link rel="stylesheet" href="../Framework/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../Framework/Datagrid/lib/js/themes/cobo/jquery-ui.custom.css">
+        
+      
+        <link rel="stylesheet" href="../Framework/font-awesome/css/font-awesome.min.css">
+        <script src="../Framework/jquery/dist/jquery.min.js"></script>
+        <script src="../Framework/jquery-ui/jquery-ui.min.js"></script>
+        <script src="../Framework/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+        <style>
+            .ui-dialog-titlebar-close{
+                display: none;
+            }
+        </style>
+        
+        <script>
+            $(function() {
+                $( "#dialog-confirm" ).dialog({
+                    resizable: false,
+                    height:200,
+                    width: 500,
+                    modal: false,
+                    buttons: {
+                        "Aceptar": function() {
+                            document.location = "../Pages/nabu.php?p=home";
+                        }
+                    }
+                });
+            });
+        </script>
+    </head>
+   
+<body>
+    <header>
+			<table width="100%">
+				<tr>
+					<td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
+				</tr>
+				<tr>
+					<td class="slogan">&nbsp&nbsp Semilla de innovacion que da vida a tus ideas</td>
+				</tr>
+			</table>
+		</header>
+            
+ <?php
+
+    $nabuEvent = new NabuEvent($_GET['p'], $_POST);
+	$resu=$nabuEvent->Save();
+
+    //../Pages/nabu.php?p=".$_GET['p']
+    
+    echo "<div id='dialog-confirm' title='Informacion Guardar'>";
+        if ($resu->EOF==1)
+            echo 'Guardado Exitoso';
+        else
+            echo 'Problemas al guardar';
+
+    echo '</div>'; 
+
+?>
+    
+    <footer class="footer">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-google-plus"></i></a>
+        <a href="#"><i class="fa fa-youtube"></i></a>    
+        <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
+        <p>Nabu &copy; 2015</p>
+    </footer>
+</body>
+</html>

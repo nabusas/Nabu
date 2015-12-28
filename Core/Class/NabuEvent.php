@@ -138,6 +138,8 @@ class NabuEvent
             $result =$this->database->saveData($table[0],$fieldsTable,$fieldsValues);
             
         }
+        
+        return $result;
        
 	}
 } 
