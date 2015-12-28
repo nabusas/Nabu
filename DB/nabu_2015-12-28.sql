@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-28 15:02:59 +0000
+# Generation Time: 2015-12-28 23:46:48 +0000
 # ************************************************************
 
 
@@ -1353,7 +1353,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.21');
+	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.22');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1701,18 +1701,36 @@ VALUES
 	('nb_pagosv_pg',7,48,'true'),
 	('nb_pagosv_pg',7,50,'../Pages/nabu.php?p=nb_pagosm_pg'),
 	('nb_pagosv_pg',7,54,'center'),
-	('nb_loginv_pg',1,45,'Usuario'),
-	('nb_loginv_pg',1,46,'Usuario'),
-	('nb_loginv_pg',1,47,'true'),
-	('nb_loginv_pg',1,48,'true'),
-	('nb_loginv_pg',1,50,'../Pages/nabu.php?p=nb_loginm_pg'),
-	('nb_loginv_pg',1,54,'center'),
-	('nb_loginv_pg',2,45,'Login'),
-	('nb_loginv_pg',2,46,'Login'),
+	('nb_loginv_pg',1,45,'Id'),
+	('nb_loginv_pg',2,45,'Usuario'),
+	('nb_loginv_pg',2,46,'Usuario'),
 	('nb_loginv_pg',2,47,'true'),
 	('nb_loginv_pg',2,48,'true'),
 	('nb_loginv_pg',2,50,'../Pages/nabu.php?p=nb_loginm_pg'),
-	('nb_loginv_pg',2,54,'center');
+	('nb_loginv_pg',2,54,'center'),
+	('nb_loginv_pg',3,45,'Login'),
+	('nb_loginv_pg',3,46,'Login'),
+	('nb_loginv_pg',3,47,'true'),
+	('nb_loginv_pg',3,48,'true'),
+	('nb_loginv_pg',3,50,'../Pages/nabu.php?p=nb_loginm_pg'),
+	('nb_loginv_pg',3,54,'center'),
+	('nb_loginv_pg',1,46,'Id'),
+	('nb_loginv_pg',1,47,'true'),
+	('nb_loginv_pg',1,48,'true'),
+	('nb_loginv_pg',1,50,'../Pages/nabu.php?p=nb_usuariosm_pg'),
+	('nb_loginv_pg',1,54,'center'),
+	('nb_loginv_pg',4,45,'Role'),
+	('nb_loginv_pg',4,46,'Role'),
+	('nb_loginv_pg',4,47,'true'),
+	('nb_loginv_pg',4,48,'true'),
+	('nb_loginv_pg',4,50,'../Pages/nabu.php?p=nb_usuariosm_pg'),
+	('nb_loginv_pg',4,54,'center'),
+	('nb_loginv_pg',5,45,'Estado'),
+	('nb_loginv_pg',5,46,'Estado'),
+	('nb_loginv_pg',5,47,'true'),
+	('nb_loginv_pg',5,48,'true'),
+	('nb_loginv_pg',5,50,'../Pages/nabu.php?p=nb_usuariosm_pg'),
+	('nb_loginv_pg',5,54,'center');
 
 /*!40000 ALTER TABLE `nb_datagridcol_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1741,10 +1759,13 @@ VALUES
 	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_3_tipocobro_fld','nb_3_tipocobro_fld'),
 	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_4_valor_fld','nb_4_valor_fld'),
 	('nb_tarifas_pg','NB_TARIFAS_TBL','nb_5_tiempoG_fld','nb_5_tiempoG_fld'),
+	('nb_users_pg','nbd_role_user_tbl','nbd_id_user_fld','nbd_id_user_fld'),
+	('nb_users_pg','nbd_role_user_tbl','nb_id_role_fld','nb_id_role_fld'),
 	('nb_users_pg','NBD_USER_TBL','nbd_descr_fld','nbd_descr_fld'),
 	('nb_users_pg','NBD_USER_TBL','nbd_email_fld','nbd_email_fld'),
 	('nb_users_pg','NBD_USER_TBL','nbd_id_user_fld','nbd_id_user_fld'),
 	('nb_users_pg','NBD_USER_TBL','nbd_password_fld','nbd_password_fld'),
+	('nb_users_pg','NBD_USER_TBL','nb_estado_fld','nb_estado_fld'),
 	('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_1_tipotarifa_fld','nb_1_tipotarifa_fld'),
 	('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_1_tipo_vehi_fld','nb_1_tipo_vehi_fld'),
 	('nb_usuarios_pg','NB_USUARIOSR_TBL','nb_2_placa_fld','nb_2_placa_fld'),
@@ -1848,6 +1869,20 @@ VALUES
 	('nb_loginm_pg','nbd_descr_fld',24,'Nombre'),
 	('nb_loginm_pg','nbd_descr_fld',13,'string'),
 	('nb_loginm_pg','nbd_descr_fld',11,'true'),
+	('nb_users_pg','nb_id_role_fld',11,'true'),
+	('nb_users_pg','nb_id_role_fld',58,'Seleccione Role'),
+	('nb_users_pg','nb_id_role_fld',59,'false'),
+	('nb_users_pg','nb_id_role_fld',13,'string'),
+	('nb_users_pg','nb_id_role_fld',24,'Role'),
+	('nb_users_pg','nb_id_role_fld',32,'select'),
+	('nb_users_pg','nb_estado_fld',11,'true'),
+	('nb_users_pg','nb_id_role_fld',55,'../Events/ValoresCampo.php?campo=role'),
+	('nb_users_pg','nb_estado_fld',59,'false'),
+	('nb_users_pg','nb_estado_fld',58,'Seleccione Estado'),
+	('nb_users_pg','nb_estado_fld',13,'string'),
+	('nb_users_pg','nb_estado_fld',32,'select'),
+	('nb_users_pg','nb_estado_fld',24,'Estado'),
+	('nb_users_pg','nb_estado_fld',55,'../Events/ValoresCampo.php?campo=nb_estado_fld'),
 	('nb_usuariosm_pg','nb_tipodoc_fld',59,'false'),
 	('nb_usuariosm_pg','nb_tipodoc_fld',58,'Seleccione Tipo de Documento'),
 	('nb_usuariosm_pg','nb_tipodoc_fld',55,'../Events/ValoresCampo.php?campo=nb_tipodoc_fld'),
@@ -2011,8 +2046,11 @@ UNLOCK TABLES;
 DROP VIEW IF EXISTS `nb_login_vw`;
 
 CREATE TABLE `nb_login_vw` (
+   `Id` INT(11) NOT NULL DEFAULT '0',
    `Usuario` VARCHAR(255) NULL DEFAULT NULL,
-   `Login` VARCHAR(255) NULL DEFAULT NULL
+   `Login` VARCHAR(255) NULL DEFAULT NULL,
+   `Role` VARCHAR(255) NOT NULL DEFAULT '',
+   `Estado` VARCHAR(255) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM;
 
 
@@ -2996,7 +3034,10 @@ VALUES
 	('NB_TARIFAS_TBL','nb_1_tipo_vehi_fld','number',2,'',''),
 	('NB_TARIFAS_TBL','nb_1_tipotarifa_fld','number',2,'',''),
 	('NB_USUARIOSR_TBL','nb_3_placa_fld','string',255,'',''),
-	('NB_USUARIOSR_TBL','nb_4_placa_fld','string',255,'','');
+	('NB_USUARIOSR_TBL','nb_4_placa_fld','string',255,'',''),
+	('NBD_USER_TBL','nb_estado_fld','number',2,'',''),
+	('nbd_role_user_tbl','nbd_id_user_fld','number',11,'',''),
+	('nbd_role_user_tbl','nb_id_role_fld','number',11,'','');
 
 /*!40000 ALTER TABLE `nb_table_fields_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3020,7 +3061,8 @@ INSERT INTO `nb_tables_tbl` (`nb_id_fld`, `nb_description_fld`)
 VALUES
 	('NBD_USER_TBL','Tabla usuarios del sistema'),
 	('NB_TARIFAS_TBL','Tabla de Tarificacion'),
-	('NB_USUARIOSR_TBL','Tabla usuarios del proceso');
+	('NB_USUARIOSR_TBL','Tabla usuarios del proceso'),
+	('nbd_role_user_tbl','Tabla Roles del sistema');
 
 /*!40000 ALTER TABLE `nb_tables_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3045,6 +3087,7 @@ LOCK TABLES `nb_tarifas_tbl` WRITE;
 
 INSERT INTO `nb_tarifas_tbl` (`nb_1_tipotarifa_fld`, `nb_1_tipo_vehi_fld`, `nb_3_tipocobro_fld`, `nb_4_valor_fld`, `nb_5_tiempoG_fld`)
 VALUES
+	(1,0,1,55000,0),
 	(0,1,0,0,0),
 	(0,0,0,0,0);
 
@@ -3137,7 +3180,7 @@ INSERT INTO `nb_value_tbl` (`nb_id_pr_schema_fld`, `nb_id_value_fld`, `nb_value_
 VALUES
 	('nb_estado_fld','0','Activo'),
 	('nb_tipodoc_fld','0','Cedula de Ciudadania'),
-	('nb_estado_fld','2','Inactivo'),
+	('nb_estado_fld','1','Inactivo'),
 	('nb_tipodoc_fld','1','Tarjeta de Identidad'),
 	('nb_tipodoc_fld','2','NIT'),
 	('nb_tipodoc_fld','3','Pasaporte'),
@@ -3321,7 +3364,8 @@ LOCK TABLES `nbd_role_user_tbl` WRITE;
 INSERT INTO `nbd_role_user_tbl` (`nbd_id_user_fld`, `nb_id_role_fld`)
 VALUES
 	(1,1),
-	(2,2);
+	(2,2),
+	(5,2);
 
 /*!40000 ALTER TABLE `nbd_role_user_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3337,16 +3381,20 @@ CREATE TABLE `nbd_user_tbl` (
   `nbd_email_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nbd_descr_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nbd_password_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_estado_fld` int(2) DEFAULT '0',
   PRIMARY KEY (`nbd_id_user_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 LOCK TABLES `nbd_user_tbl` WRITE;
 /*!40000 ALTER TABLE `nbd_user_tbl` DISABLE KEYS */;
 
-INSERT INTO `nbd_user_tbl` (`nbd_id_user_fld`, `nbd_email_fld`, `nbd_descr_fld`, `nbd_password_fld`)
+INSERT INTO `nbd_user_tbl` (`nbd_id_user_fld`, `nbd_email_fld`, `nbd_descr_fld`, `nbd_password_fld`, `nb_estado_fld`)
 VALUES
-	(1,'admin','Usuario Administrador','81dc9bdb52d04dc20036dbd8313ed055'),
-	(2,'guardia','Guardia 1','81dc9bdb52d04dc20036dbd8313ed055');
+	(1,'admin','Usuario Administrador','81dc9bdb52d04dc20036dbd8313ed055',0),
+	(2,'guardia','Guardia 1','81dc9bdb52d04dc20036dbd8313ed055',0),
+	(3,'prueba','prueba','81dc9bdb52d04dc20036dbd8313ed055',1),
+	(4,'14800275','Carlos Alberto Garcia Cobo','e53db2b5b93254fddb55de43a3323970',0),
+	(5,'767565','lilian','21c3134ee5edcb618c4f9aae358d73a7',0);
 
 /*!40000 ALTER TABLE `nbd_user_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3361,9 +3409,10 @@ DROP TABLE `nb_login_vw`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_login_vw`
 AS SELECT
-   `nbd_user_tbl`.`nbd_descr_fld` AS `Usuario`,
-   `nbd_user_tbl`.`nbd_email_fld` AS `Login`
-FROM `nbd_user_tbl`;
+   `A`.`nbd_id_user_fld` AS `Id`,
+   `A`.`nbd_descr_fld` AS `Usuario`,
+   `A`.`nbd_email_fld` AS `Login`,ifnull(`C`.`nb_desc_fld`,'Asignar Role') AS `Role`,ifnull((select `nb_value_tbl`.`nb_value_fld`
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_estado_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_estado_fld`))),'Asignar Estado') AS `Estado` from ((`nbd_user_tbl` `A` left join `nbd_role_user_tbl` `B` on((`A`.`nbd_id_user_fld` = `B`.`nbd_id_user_fld`))) left join `nb_role_tbl` `C` on((`B`.`nb_id_role_fld` = `C`.`nb_id_role_fld`)));
 
 
 # Replace placeholder table for nb_pagos_vw with correct view syntax

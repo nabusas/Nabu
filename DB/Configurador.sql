@@ -23,9 +23,9 @@ where	nb_id_page_fld='home'
 
 ##	CAMPOS
 insert  into nb_forms_tbl
-SELECT	DISTINCT 'nb_users_pg','nbd_password_fld',nb_config_frmwrk_id_fld,nb_schem_value_fld
+SELECT	DISTINCT 'nb_users_pg','nb_estado_fld',nb_config_frmwrk_id_fld,nb_schem_value_fld
 FROM	nb_forms_tbl
-where	nb_id_pr_schema_fld='nb_mes_fld'
+where	nb_id_pr_schema_fld='nb_1_tipo_vehi_fld'
 
 update nb_forms_tbl set nb_id_page_fld='nb_pagos_pg' where nb_id_page_fld='1'
 
@@ -44,8 +44,8 @@ where	nb_id_page_fld='nb_monitoreo_pg'
 
 ##	COLUMNAS DE LAS GRILLAS
 insert    into nb_datagridcol_tbl
-SELECT	'nb_loginv_pg',2,nb_config_frmwrk_id_fld, 
-		case when nb_config_frmwrk_id_fld = 45  then 'Login' when nb_config_frmwrk_id_fld = 46  then 'Login' else nb_value_fld end end 
+SELECT	'nb_loginv_pg',5,nb_config_frmwrk_id_fld, 
+		case when nb_config_frmwrk_id_fld = 45  then 'Estado' when nb_config_frmwrk_id_fld = 46  then 'Estado' else nb_value_fld end end 
 FROM		nb_datagridcol_tbl
 WHERE	nb_id_page_fld='nb_usuariosv_pg'
 and		nb_column_fld='1'
@@ -169,8 +169,11 @@ FROM 	NB_USUARIOSR_TBL A
 ##	USUARIOS DEL SISTEMA
 
 CREATE OR REPLACE VIEW nb_login_vw as
-SELECT	NBD_DESCR_FLD as Usuario, NBD_EMAIL_FLD as Login
-FROM 	NBD_USER_TBL
+SELECT	A.NBD_ID_USER_FLD as Id,A.NBD_DESCR_FLD as Usuario, A.NBD_EMAIL_FLD as Login , IFNULL(C.NB_DESC_FLD,'Asignar Role') as Role, 
+IFNULL((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_estado_fld' AND NB_ID_VALUE_FLD=A.nb_estado_fld), 'Asignar Estado') AS Estado
+FROM 	NBD_USER_TBL A 
+LEFT JOIN	NBD_ROLE_USER_TBL B ON A.NBD_ID_USER_FLD = B.NBD_ID_USER_FLD
+LEFT JOIN NB_ROLE_TBL C ON B.NB_ID_ROLE_FLD = C.NB_ID_ROLE_FLD		
 
 ##	CONSULTA DE PAGOS
 CREATE OR REPLACE VIEW nb_pagos_vw as

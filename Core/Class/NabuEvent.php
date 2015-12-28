@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= frajafrari
-    Fecha modificacion	= 09-10-2015
+    Fecha modificacion	= 28-12-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -65,8 +65,13 @@ class NabuEvent
                 
                 $type =$this->database->getTypes($table[0],$field[1]);
                 
-                if (isset($_POST[$field[0]]))
+                if (isset($_POST[$field[0]])){
                     $value =trim($_POST[$field[0]]);
+                    
+                    $password=strpos($field[1],'password'); 
+                    if ($password)
+                        $value =md5(trim($_POST[$field[0]]));    
+                }
                 else    
                     $value ='nabuNull';
             
