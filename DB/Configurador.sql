@@ -12,12 +12,12 @@ where	nb_id_page_fld='nb_usuarios_pg'
 
 delete from nb_navigation_tbl where	nb_id_page_fld<>'home';
 
-select distinct nb_link_fld from nb_navigation_tbl where nb_link_fld not in ('login','home','construccion');
+select distinct nb_link_fld from nb_navigation_tbl where nb_link_fld not in ('login','home');
 
 
 
 insert into nb_navigation_tbl
-select  'nb_reporte_total_pg',nb_sec_fld,nb_parent_fld,nb_id_menu_fld,nb_descr_men_fld,nb_link_fld,nb_image_fld,nb_target_fld
+select  'construccion',nb_sec_fld,nb_parent_fld,nb_id_menu_fld,nb_descr_men_fld,nb_link_fld,nb_image_fld,nb_target_fld
 from 	nb_navigation_tbl
 where	nb_id_page_fld='home'
 
@@ -238,4 +238,15 @@ AND NOW() < DATE_ADD(nb_4_fecha_salida_fld, interval MINUTE)
 
 
 update `nb_navigation_tbl` set NB_ID_PAGE_FLD='nb_recaudo_pg' where NB_ID_PAGE_FLD='nb_recuado_pg'
+
+
+SELECT count(1) FROM nb_control_tbl WHERE  nb_4_fecha_salida_fld IS NULL 
+AND nb_2_placa_fld=(SELECT nb_2_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTARIFA_FLD=1 AND (nb_2_placa_fld='LOI987' OR nb_3_placa_fld='LOI987'  OR nb_4_placa_fld='LOI987' )) 
+OR nb_2_placa_fld=(SELECT nb_3_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTARIFA_FLD=1 AND (nb_2_placa_fld='LOI987' OR nb_3_placa_fld='LOI987'  OR nb_4_placa_fld='LOI987' )) 
+OR nb_2_placa_fld=(SELECT nb_4_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTARIFA_FLD=1 AND (nb_2_placa_fld='LOI987' OR nb_3_placa_fld='LOI987'  OR nb_4_placa_fld='LOI987' )) 
+
+
+
+
+
 

@@ -101,7 +101,7 @@ THE SOFTWARE.
 
     $tarjetaBD=$database->tarjControl($placa);
     $existe=$database->verifiControl($placa);
-    $tarifa=$database->tarifaControl($placa);
+    $tarifa=$database->tarifaControlDB($placa);
 
     if ($existe[0] == 0){
         $error=1;
@@ -116,7 +116,7 @@ THE SOFTWARE.
 
         $valorhora=$database->dataTarifa($tipo,$tarifa[0],2);
         $valorfraccion=$database->dataTarifa($tipo,$tarifa[0],3);
-
+        
         if (( $tarifa[0] == 0 or $tarifa[0] == 1) or ($tiempo[0] <= $valorhora[1] )){
             $costo=0;
             $error=0; 
@@ -135,6 +135,7 @@ THE SOFTWARE.
                 $costo=$valorhora[0]+($costoFraccion*$valorfraccion[0]);
             }
 
+        }
             $tiempoF=round(($tiempo[0]/60),0);
 
             if ($tiempo[0] <= $valorhora[1] or $tiempo[0] <= 60 )
@@ -147,7 +148,6 @@ THE SOFTWARE.
 
             $database->updtCosto($placa,$costo);
             $error=0; 
-        }
     }
     
     $tipoC=$database->tipoControl($tipo);

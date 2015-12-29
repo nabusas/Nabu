@@ -106,6 +106,12 @@ THE SOFTWARE.
             $validaTarjeta=$database->tarjRepControl($tarjeta);
             if ($validaTarjeta[0] == 0){
                 $mensajeFecha = 'Fecha Ingreso = '.$fecha;
+                
+                $val1Mensaul=$database->mas1Mensual($placa);
+                
+                if ( $val1Mensaul[0] > 0 )
+                    $tarifa[0] = 2;
+                
                 $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
             }
             else

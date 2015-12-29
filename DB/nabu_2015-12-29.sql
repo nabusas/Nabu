@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-29 16:29:52 +0000
+# Generation Time: 2015-12-29 23:44:41 +0000
 # ************************************************************
 
 
@@ -1354,7 +1354,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.23');
+	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.24');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1877,7 +1877,7 @@ VALUES
 	('nb_tarifas_pg','nb_6_tiempoS_fld',2,'nb_1_tipotarifa_fld'),
 	('nb_tarifas_pg','nb_6_tiempoS_fld',60,'{\"nb_1_tipotarifa_fld\":[\"2\"]}'),
 	('nb_tarifas_pg','nb_6_tiempoS_fld',13,'string'),
-	('nb_tarifas_pg','nb_6_tiempoS_fld',24,'Tiempo Salida'),
+	('nb_tarifas_pg','nb_6_tiempoS_fld',24,'Tiempo Salida (Min)'),
 	('nb_users_pg','nb_id_role_fld',11,'true'),
 	('nb_users_pg','nb_id_role_fld',58,'Seleccione Role'),
 	('nb_users_pg','nb_id_role_fld',59,'false'),
@@ -1986,7 +1986,7 @@ VALUES
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipo_vehi_fld'),
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',58,'Seleccione Tipo Vehiculo'),
 	('nb_usuarios_pg','nb_1_tipo_vehi_fld',59,'false'),
-	('nb_tarifas_pg','nb_5_tiempoG_fld',24,'Tiempo Gratis'),
+	('nb_tarifas_pg','nb_5_tiempoG_fld',24,'Tiempo Gratis (Min)'),
 	('nb_tarifas_pg','nb_5_tiempoG_fld',13,'string'),
 	('nb_usuarios_pg','nb_4_placa_fld',24,'Placa'),
 	('nb_usuarios_pg','nb_2_placa_fld',13,'string'),
@@ -2134,6 +2134,24 @@ VALUES
 	('nb_reporte_total_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_reporte_total_pg',19,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
 	('nb_reporte_total_pg',20,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('construccion',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('construccion',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
+	('construccion',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('construccion',6,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('construccion',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('construccion',8,6,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('construccion',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('construccion',10,9,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('construccion',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('construccion',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('construccion',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('construccion',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('construccion',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('construccion',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('construccion',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('construccion',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('construccion',19,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
+	('construccion',20,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_reporte_total_pg',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
 	('nb_reporte_total_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
 	('nb_reporte_total_pg',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
@@ -2162,6 +2180,7 @@ VALUES
 	('nb_monitoreo_pg',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('nb_monitoreo_pg',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
 	('nb_monitoreo_pg',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('construccion',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
 	('nb_monitoreo_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
 	('nb_monitoreo_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_monitoreo_pg',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
@@ -2263,6 +2282,7 @@ VALUES
 	('nb_reporte_diario_pg',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
 	('nb_reporte_diario_pg',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
 	('nb_reporte_diario_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('construccion',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_reporte_diario_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_reporte_diario_pg',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
 	('nb_recaudo_pg',19,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
@@ -3158,7 +3178,11 @@ VALUES
 	(1,0,1,55000,0,0),
 	(0,1,0,0,0,0),
 	(0,0,0,0,0,0),
-	(2,0,2,2000,15,20);
+	(2,0,2,2000,15,15),
+	(1,1,1,25000,0,0),
+	(2,0,3,1200,15,15),
+	(2,1,2,1500,15,15),
+	(2,1,3,800,15,15);
 
 /*!40000 ALTER TABLE `nb_tarifas_tbl` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -77,6 +77,14 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
+        function tarifaControlDB($placa){
+            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal'),count(1)";
+            $sql =$sql." from nb_control_tbl"; 
+            $sql =$sql." where nb_2_placa_fld='".$placa."'";
+            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
+            return $this->executeQueryOneRow($sql); 
+        }
+        
         function tarifaControl($placa){
             $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal'),count(1)";
             $sql =$sql." from nb_usuariosr_tbl"; 
@@ -150,6 +158,14 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
+        function mas1Mensual($placa){
+            $sql ="SELECT count(1) FROM nb_control_tbl WHERE  nb_4_fecha_salida_fld IS NULL ";
+            $sql =$sql." AND nb_2_placa_fld=(SELECT nb_2_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTARIFA_FLD=1 AND (nb_2_placa_fld='".$placa."' OR nb_3_placa_fld='".$placa."'  OR nb_4_placa_fld='".$placa."' )) ";
+            $sql =$sql." OR nb_2_placa_fld=(SELECT nb_3_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTARIFA_FLD=1 AND (nb_2_placa_fld='".$placa."' OR nb_3_placa_fld='".$placa."'  OR nb_4_placa_fld='".$placa."' )) ";
+            $sql =$sql." OR nb_2_placa_fld=(SELECT nb_4_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTARIFA_FLD=1 AND (nb_2_placa_fld='".$placa."' OR nb_3_placa_fld='".$placa."'  OR nb_4_placa_fld='".$placa."' )) ";
+
+            return $this->executeQueryOneRow($sql); 
+        }
         function insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa,$oprid){
             
             $sql = "INSERT INTO NB_CONTROL_TBL (";
