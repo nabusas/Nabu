@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 14-12-2015
+	Fecha modificacion	= 29-12-2015
 	User modify		    = CAGC
 
 */
@@ -95,18 +95,15 @@ THE SOFTWARE.
     $tarjeta=$_POST['nb_3_tarjeta_fld'];
     $fecha=date("Y-m-d H:i:sa");
         
-    $existe=$database->verifiControl($placa);
-    $mensajeTiempo='';
     $mensajeFecha='';
-    $mensajeValor='';
-
-    $tarifa=$database->tarifaControl($placa);
+    $mensajeSalida='';
     $error=0;
 
-    $validaTarjeta=$database->tarjRepControl($tarjeta);
-    
-    
+    $existe=$database->verifiControl($placa);
+    $tarifa=$database->tarifaControl($placa);
+
         if ($existe[0] == 0){
+            $validaTarjeta=$database->tarjRepControl($tarjeta);
             if ($validaTarjeta[0] == 0){
                 $mensajeFecha = 'Fecha Ingreso = '.$fecha;
                 $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
@@ -115,52 +112,26 @@ THE SOFTWARE.
                 $error=2;
         }
         else{
-
             $tarjetaBD=$database->tarjControl($placa);
-
             if ($tarjetaBD[0] == $tarjeta){
-                $database->updtControl($placa,$fecha);
-                $fechaDB=$database->fechasControl($placa);
-                $tiempo=$database->timeControl($placa);
-                $mensajeIngreso = 'Fecha Ingreso = '.date_create($fechaDB[0])->format('Y-m-d H:i:s');
-                $mensajeSalida = 'Fecha Salida = '.$fecha;
-                $mensajeFecha=$mensajeIngreso.'<br>'.$mensajeSalida;
-
-                $valorhora=$database->dataTarifa($tipo,$tarifa[0],2);
-                $valorfraccion=$database->dataTarifa($tipo,$tarifa[0],3);
-
-                if (( $tarifa[0] == 0 or $tarifa[0] == 1) or ($tiempo[0] <= $valorhora[1] ))
-                    $costo=0;
-                else
-                    if ( $tiempo[0] < 60 )
-                        $costo=$valorfraccion[0];
-                    else{
-                        
-                        $costoFraccion=round(($tiempo[0]/60),0);
-                        
-                        if ($costoFraccion < 2 )
-                            $costoFraccion=1;
-                        else
-                            $costoFraccion =$costoFraccion-1;
-                    
-                        $costo=$valorhora[0]+($costoFraccion*$valorfraccion[0]);
+                $validaS=$database->validaSalida($placa,$tarjeta);
+                if ($validaS[0] > 0)
+                    $error=3;
+                else{
+                    $tiempoG=$database->tiempoGracia($tarifa[0],$tipo);
+                    $validaG=$database->validaGracia($placa,$tiempoG[0]);
+                    if ($validaG[0] >0 and  $tarifa[0] == 2 ){
+                        $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
+                        $error=4;
                     }
-
-                $tiempoF=round(($tiempo[0]/60),0);
-
-                if ($tiempo[0] <= $valorhora[1] or $tiempo[0] <= 60 )
-                    $tiempoF=$tiempo[0].' Minutos';
-                else
-                    $tiempoF=round(($tiempo[0]/60),0).' Horas';
-
-                $mensajeTiempo = 'Tiempo Total = '.$tiempoF;
-                $mensajeValor = 'Valor a Cancelar= '.money_format('%(#10n', $costo);
-
-                $database->updtCosto($placa,$costo);
-                $error=0; 
+                    else{
+                        $error=0;
+                        $mensajeSalida= 'Salida Autorizada';
+                    }
+                }
             }
             else
-                $error=1;    
+                $error=1;
         }
     
     $tipoC=$database->tipoControl($tipo);
@@ -170,18 +141,23 @@ THE SOFTWARE.
     $Mensaje=$Mensaje.' Tarjeta='.$tarjeta.'<br>';
     $Mensaje=$Mensaje.'Tarifa='.$tarifa[1].'<br>';    
     $Mensaje=$Mensaje.$mensajeFecha.'<br>';
-    $Mensaje=$Mensaje.$mensajeTiempo.'<br>';
-    $Mensaje=$Mensaje.$mensajeValor.'<br>';
+    $Mensaje=$Mensaje.$mensajeSalida.'<br>';
     
     echo "<div id='dialog-confirm' title='Informacion Vehiculo'>";
-        if ($error == 0  )
+        if ($error == 0 )
             echo $Mensaje;
         else
-            if ($error == 1  )
+            if ($error == 1 )
                 echo 'El numero de las tarjetas no coincide';
             else
-                if ($error == 2  )
+                if ($error == 2 )
                     echo 'Tarjeta ya asignada';
+                else
+                    if ($error == 3 )
+                        echo 'Pasar por puesto de pago';
+                    else
+                        if ($error == 4 )
+                            echo 'Pasar por puesto de pago tiempo gracia cumplido';
     
     echo '</div>';    
 

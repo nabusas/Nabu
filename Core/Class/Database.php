@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
-	Desarrollador		= GASAKAWA
-	Fecha modificacion	= 14-12-2015
+	Desarrollador		= CAGC
+	Fecha modificacion	= 29-12-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -84,10 +84,17 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
-        function tarjRepControl($tipo){
-            $sql ="select count(1) from nb_control_tbl where nb_4_fecha_salida_fld is NULL and nb_3_tarjeta_fld=".$tipo;
+        function tarjRepControl($tarjeta){
+            $sql ="select count(1) from nb_control_tbl where nb_4_fecha_salida_fld is NULL and nb_3_tarjeta_fld=".$tarjeta;
             return $this->executeQueryOneRow($sql); 
         }
+        
+        function validaSalida($placa,$tarjeta){
+            $sql ="select count(1) from nb_control_tbl where nb_4_fecha_salida_fld is NULL and (nb_3_tarjeta_fld=".$tarjeta;
+            $sql =$sql." or nb_2_placa_fld='".$placa."') and nb_1_tipotarifa_fld=2";
+            return $this->executeQueryOneRow($sql); 
+        }
+        
         function tipoControl($tipo){
             
             $sql ="select nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='nb_1_tipo_vehi_fld' and nb_id_value_fld=".$tipo;
@@ -103,6 +110,20 @@ THE SOFTWARE.
         function updtCosto($placa,$valor){
             $sql =" Update nb_control_tbl set nb_6_valor_fld=".$valor." where nb_2_placa_fld='".$placa."' and nb_6_valor_fld=-1";
             return $this->execute($sql);
+        }
+        
+        function tiempoGracia($tarifa,$tipo){
+            $sql ="select ifnull(nb_6_tiempoS_fld,0) from nb_tarifas_tbl where nb_1_tipotarifa_fld=".$tarifa;
+            $sql =$sql." and nb_1_tipo_vehi_fld=".$tipo;
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function validaGracia($placa,$tiempoG){
+            $sql ="select  COUNT(1) from nb_control_tbl where nb_2_placa_fld='".$placa."'";
+            $sql =$sql." AND nb_4_fecha_salida_fld=(SELECT MAX(nb_4_fecha_salida_fld) FROM nb_control_tbl";
+            $sql =$sql." WHERE nb_2_placa_fld='".$placa."')";
+            $sql =$sql." AND NOW() < DATE_ADD(nb_4_fecha_salida_fld, interval ".$tiempoG." MINUTE)";
+            return $this->executeQueryOneRow($sql); 
         }
         
         function tarjControl($placa){

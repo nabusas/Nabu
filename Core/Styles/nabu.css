@@ -27,7 +27,7 @@ header{
 
 header  td.slogan{	
 	color:#fff;	
-	font-size:11px;
+	font-size:13px;
 	font-weight : bold;
 }
 
@@ -59,9 +59,23 @@ header  td.banderas{
 	text-align:center;
 	color : Black;
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:10px;
+	font-size: 12px;
 	font-style:normal;
 }
+
+.control{
+	background-color:transparent;
+	width:40%;
+	border-style:ridge;
+	border-width:thin;
+    position:center;
+	text-align:center;
+	color : Black;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	font-style:normal;
+}
+
 
 .dataGrids{
 	width:90%;

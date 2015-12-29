@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 16-10-2015
+	Fecha modificacion	= 29-12-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -92,7 +92,7 @@ class TemplatePage
 					<td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
 				</tr>
 				<tr>
-					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?></td>
+					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-1</td>
 				</tr>
 			</table>
 		</header>

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 20-02-2015
+	Fecha modificacion	= 28-12-2015
 	User modify		= CAGC
 
 */
@@ -49,7 +49,7 @@ THE SOFTWARE.
 		}
 	}
 
-    $result = $db->Execute("SELECT nbd_id_user_fld FROM nbd_user_tbl WHERE nbd_email_fld='" . $fields['Campo1'] . "' AND nbd_password_fld='" . md5($fields['Campo2']) . "'");
+    $result = $db->Execute("SELECT nbd_id_user_fld FROM nbd_user_tbl WHERE nbd_email_fld='" . $fields['Campo1'] . "' AND nbd_password_fld='" . md5($fields['Campo2']) . "' and nb_estado_fld='0' ");
     $row=$result->FetchRow();
 
 	if ($row[0] != null) {
