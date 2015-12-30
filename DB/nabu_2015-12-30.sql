@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-29 23:44:41 +0000
+# Generation Time: 2015-12-30 15:14:15 +0000
 # ************************************************************
 
 
@@ -1233,6 +1233,7 @@ CREATE TABLE `nb_cobrosd_vw` (
    `Fecha` VARCHAR(10) NULL DEFAULT NULL,
    `tipo` VARCHAR(255) NULL DEFAULT NULL,
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
+   `Usuario` INT(11) NULL DEFAULT NULL,
    `Valor` VARCHAR(82) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
@@ -1354,7 +1355,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.24');
+	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.25');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1376,6 +1377,7 @@ CREATE TABLE `nb_control_tbl` (
   `nb_5_totalhoras_fld` int(2) DEFAULT NULL,
   `nb_6_valor_fld` int(14) DEFAULT NULL,
   `nbd_id_user_fld` int(11) DEFAULT NULL,
+  `nb_estado_fld` int(1) DEFAULT NULL,
   PRIMARY KEY (`nb_id_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -2108,7 +2110,7 @@ VALUES
 	('home',6,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('home',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('home',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
-	('home',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('home',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('home',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('home',10,9,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('home',1,0,1,'Home','home','fa fa-home','N'),
@@ -2146,7 +2148,7 @@ VALUES
 	('construccion',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('construccion',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('construccion',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
-	('construccion',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('construccion',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('construccion',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('construccion',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('construccion',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
@@ -2165,13 +2167,13 @@ VALUES
 	('nb_reporte_total_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_reporte_total_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('nb_reporte_total_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
-	('nb_reporte_total_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_reporte_total_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_reporte_total_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_reporte_total_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_monitoreo_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_monitoreo_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('nb_monitoreo_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
-	('nb_monitoreo_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_monitoreo_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_monitoreo_pg',8,6,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('nb_monitoreo_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
 	('nb_monitoreo_pg',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
@@ -2190,7 +2192,7 @@ VALUES
 	('nb_loginv_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_loginv_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_loginv_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
-	('nb_loginv_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_loginv_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_loginv_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_loginv_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('nb_loginv_pg',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
@@ -2208,7 +2210,7 @@ VALUES
 	('nb_users_pg',20,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_users_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_users_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
-	('nb_users_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_users_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_users_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_users_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_users_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
@@ -2237,7 +2239,7 @@ VALUES
 	('nb_tarifasv_pg',6,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('nb_tarifasv_pg',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('nb_usuariosv_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
-	('nb_usuariosv_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_usuariosv_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_usuariosv_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_usuariosv_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('nb_usuariosv_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
@@ -2257,7 +2259,7 @@ VALUES
 	('nb_tarifasv_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_tarifasv_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_tarifasv_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
-	('nb_tarifasv_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_tarifasv_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_tarifasv_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_tarifasv_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_tarifasv_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
@@ -2269,7 +2271,7 @@ VALUES
 	('nb_reporte_diario_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_reporte_diario_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_reporte_diario_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
-	('nb_reporte_diario_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_reporte_diario_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_reporte_diario_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('nb_reporte_diario_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_reporte_diario_pg',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
@@ -2289,7 +2291,7 @@ VALUES
 	('nb_recaudo_pg',20,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_recaudo_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_recaudo_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
-	('nb_recaudo_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_recaudo_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_recaudo_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_recaudo_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_recaudo_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
@@ -2310,7 +2312,7 @@ VALUES
 	('nb_tarifas_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_tarifas_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_tarifas_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
-	('nb_tarifas_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_tarifas_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_tarifas_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_tarifas_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_tarifas_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
@@ -2330,7 +2332,7 @@ VALUES
 	('nb_control_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_control_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_control_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
-	('nb_control_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_control_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_control_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('nb_control_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_control_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
@@ -2351,7 +2353,7 @@ VALUES
 	('nb_usuarios_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('nb_usuarios_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_usuarios_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
-	('nb_usuarios_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_usuarios_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_usuarios_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('nb_usuarios_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
 	('nb_usuarios_pg',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
@@ -2369,7 +2371,7 @@ VALUES
 	('nb_reporte_mensual_pg',19,0,7,'Ayuda','construccion','fa fa-life-buoy','N'),
 	('nb_reporte_mensual_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
 	('nb_reporte_mensual_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
-	('nb_reporte_mensual_pg',15,0,6,'Reportes','construccion','fa fa-desktop','N'),
+	('nb_reporte_mensual_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
 	('nb_reporte_mensual_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_reporte_mensual_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('nb_reporte_mensual_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
@@ -2939,7 +2941,10 @@ VALUES
 	(3,'home'),
 	(3,'login'),
 	(3,'nb_monitoreo_pg'),
-	(3,'nb_recaudo_pg');
+	(3,'nb_recaudo_pg'),
+	(3,'nb_reporte_diario_pg'),
+	(3,'nb_reporte_mensual_pg'),
+	(3,'nb_reporte_total_pg');
 
 /*!40000 ALTER TABLE `nb_role_pag_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3179,7 +3184,7 @@ VALUES
 	(0,1,0,0,0,0),
 	(0,0,0,0,0,0),
 	(2,0,2,2000,15,15),
-	(1,1,1,25000,0,0),
+	(1,1,1,25000,15,0),
 	(2,0,3,1200,15,15),
 	(2,1,2,1500,15,15),
 	(2,1,3,800,15,15);
@@ -3249,7 +3254,9 @@ VALUES
 	(0,123456,'PEDRO PABLO PEREZ',1,1,'IJ87Y','',NULL),
 	(0,9876543,'PEPITA PEREZ',1,0,'KCS976','LOI987',NULL),
 	(0,111111,'MARIANA MOROSA',1,1,'IJ95H','',NULL),
-	(0,6492496,'HECTOR GARCIA',2,0,'IU89M','','');
+	(0,6492496,'HECTOR GARCIA',2,0,'IU89M','',''),
+	(0,2517745,'Luciana Garcia Alfonso',0,1,'BB12B','',''),
+	(0,31196956,'Pablo Garcia Alfonso',2,1,'CC89C','','');
 
 /*!40000 ALTER TABLE `nb_usuariosr_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3577,7 +3584,7 @@ DROP TABLE `nb_cobrosd_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_cobrosd_vw`
 AS SELECT
    date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d') AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` not in (0,1))) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nbd_id_user_fld` AS `Usuario`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` = 2)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))),`A`.`nbd_id_user_fld`;
 
 
 # Replace placeholder table for nb_monitoreod_vw with correct view syntax

@@ -92,7 +92,7 @@ class TemplatePage
 					<td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
 				</tr>
 				<tr>
-					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-2</td>
+					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-3</td>
 				</tr>
 			</table>
 		</header>

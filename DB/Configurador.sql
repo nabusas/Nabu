@@ -94,7 +94,7 @@ SELECT	(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_
 		A.nb_2_placa_fld,A.nb_3_tarjeta_fld,A.nb_3_fecha_ingreso_fld,A.nb_4_fecha_salida_fld,
 		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld) AS tarifa,
 		A.nb_5_totalhoras_fld,CONCAT('$',FORMAT(A.nb_6_valor_fld,0)) AS Valor,A.nbd_id_user_fld
-FROM		nb_control_tbl	A
+FROM	nb_control_tbl	A
 WHERE	DATE_FORMAT(A.nb_3_fecha_ingreso_fld,'%Y-%m-%d') > CURDATE() - INTERVAL 1 DAY
 
 ##  REPORTE TOTAL
@@ -112,11 +112,12 @@ CREATE OR REPLACE VIEW nb_cobrosD_vw AS
 SELECT	DATE_FORMAT(A.nb_4_fecha_salida_fld,'%Y-%m-%d') as Fecha,
 		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipo_vehi_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipo_vehi_fld) as tipo,
 		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipotarifa_fld) as tarifa,
+		A.nbd_id_user_fld Usuario,
 		CONCAT('$',FORMAT(sum(A.nb_6_valor_fld),0)) Valor
 FROM	nb_control_tbl	A
 where	A.nb_4_fecha_salida_fld <> 'NULL'
-And		nb_1_tipotarifa_fld not in (0,1)
-group by Fecha,tipo,tarifa
+And		nb_1_tipotarifa_fld = 2
+group by Fecha,tipo,tarifa,usuario
 
 ##	REPORTE MENSUAL DE COBROS
 
@@ -224,7 +225,7 @@ FROM NB_CONTROL_TBL
 
 select  COUNT(1) from 	nb_control_tbl where nb_2_placa_fld='KCS973' 
 AND  	nb_4_fecha_salida_fld=(SELECT MAX(nb_4_fecha_salida_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='KCS973' )
-AND   	NOW() < DATE_ADD(nb_4_fecha_salida_fld, interval 20 MINUTE)
+AND   	NOW() < DATE_ADD(nb_4_fecha_salida_fld, interval 15 MINUTE)
 
 select nb_6_tiempoS_fld from nb_tarifas_tbl where nb_1_tipotarifa_fld=2 and nb_1_tipo_vehi_fld='0'
 
@@ -247,6 +248,9 @@ OR nb_2_placa_fld=(SELECT nb_4_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTA
 
 
 
+select COUNT(1) from nb_control_tbl where nb_2_placa_fld='KCS973' and nb_4_fecha_salida_fld IS NULL OR (NOW() < DATE_ADD(nb_4_fecha_salida_fld, interval 15 MINUTE))
+
+ALTER TABLE nb_control_tbl AUTO_INCREMENT = 1
 
 
 

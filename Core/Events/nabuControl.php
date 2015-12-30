@@ -99,46 +99,51 @@ THE SOFTWARE.
     $mensajeSalida='';
     $error=0;
 
-    $existe=$database->verifiControl($placa);
+    
     $tarifa=$database->tarifaControl($placa);
+    $val1Mensaul=$database->mas1Mensual($placa);
+    
+    if ( $val1Mensaul[0] > 0 ){
+        $tarifa[0] = 2;
+    }
 
-        if ($existe[0] == 0){
-            $validaTarjeta=$database->tarjRepControl($tarjeta);
-            if ($validaTarjeta[0] == 0){
-                $mensajeFecha = 'Fecha Ingreso = '.$fecha;
-                
-                $val1Mensaul=$database->mas1Mensual($placa);
-                
-                if ( $val1Mensaul[0] > 0 )
-                    $tarifa[0] = 2;
-                
-                $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
-            }
-            else
-                $error=2;
+    $existe=$database->verifiControl($placa);
+
+    if ($existe[0] == 0){
+        $validaTarjeta=$database->tarjRepControl($tarjeta);
+        if ($validaTarjeta[0] == 0){
+            $mensajeFecha = 'Fecha Ingreso = '.$fecha;
+            $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid,0);
         }
         else{
-            $tarjetaBD=$database->tarjControl($placa);
-            if ($tarjetaBD[0] == $tarjeta){
-                $validaS=$database->validaSalida($placa,$tarjeta);
-                if ($validaS[0] > 0)
-                    $error=3;
+            $error=2;
+        }
+    }
+    else{
+        $tarjetaBD=$database->tarjControl($placa);
+        if ($tarjetaBD[0] == $tarjeta){
+            $validaS=$database->validaSalida($placa,$tarjeta);
+            if ($validaS[0] > 0){
+                $error=3;
+            }
+            else{
+                $tiempoG=$database->tiempoGracia($tarifa[0],$tipo);
+                $validaG=$database->validaGracia($placa,$tiempoG[0]);
+                if ($validaG[0] >0 and  $tarifa[0] == 2 ){
+                    $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid,0);
+                    $error=4;
+                }
                 else{
-                    $tiempoG=$database->tiempoGracia($tarifa[0],$tipo);
-                    $validaG=$database->validaGracia($placa,$tiempoG[0]);
-                    if ($validaG[0] >0 and  $tarifa[0] == 2 ){
-                        $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid);
-                        $error=4;
-                    }
-                    else{
-                        $error=0;
-                        $mensajeSalida= 'Salida Autorizada';
-                    }
+                    $error=0;
+                    $mensajeSalida= 'Salida Autorizada';
+                    $database->updtSalida($placa,2);
                 }
             }
-            else
-                $error=1;
         }
+        else{
+            $error=1;
+        }
+    }
     
     $tipoC=$database->tipoControl($tipo);
     

@@ -100,16 +100,24 @@ THE SOFTWARE.
     $error=0;
 
     $tarjetaBD=$database->tarjControl($placa);
-    $existe=$database->verifiControl($placa);
+    $existe=$database->verifiControlR($placa);
     $tarifa=$database->tarifaControlDB($placa);
 
     if ($existe[0] == 0){
         $error=1;
     }
     else{
-        $database->updtControl($placa,$fecha);
+        
+        if ($_SESSION['role']==2)
+            $estado=2;
+        else
+            $estado=1;
+        
+        $database->updtControl($placa,$fecha,$estado);
+        
         $fechaDB=$database->fechasControl($placa);
         $tiempo=$database->timeControl($placa);
+        
         $mensajeIngreso = 'Fecha Ingreso = '.date_create($fechaDB[0])->format('Y-m-d H:i:s');
         $mensajeSalida = 'Fecha Salida = '.$fecha;
         $mensajeFecha=$mensajeIngreso.'<br>'.$mensajeSalida;
@@ -122,32 +130,36 @@ THE SOFTWARE.
             $error=0; 
         }
         else{
-            if ( $tiempo[0] < 60 )
+            if ( $tiempo[0] < 60 ){
                 $costo=$valorhora[0];
+            }
             else{
                 $costoFraccion=round(($tiempo[0]/60),0);
                 
-                if ($costoFraccion < 2 )
+                if ($costoFraccion < 2 ){
                     $costoFraccion=1;
-                else
+                }
+                else{
                     $costoFraccion =$costoFraccion-1;
-                    
+                }
                 $costo=$valorhora[0]+($costoFraccion*$valorfraccion[0]);
             }
-
         }
-            $tiempoF=round(($tiempo[0]/60),0);
+        
+        $tiempoF=round(($tiempo[0]/60),0);
 
-            if ($tiempo[0] <= $valorhora[1] or $tiempo[0] <= 60 )
-                $tiempoF=$tiempo[0].' Minutos';
-            else
-                $tiempoF=round(($tiempo[0]/60),0).' Horas';
+        if ($tiempo[0] <= $valorhora[1] or $tiempo[0] <= 60 ){
+            $tiempoF=$tiempo[0].' Minutos';
+        }
+        else{
+            $tiempoF=round(($tiempo[0]/60),0).' Horas';
+        }
+        
+        $mensajeTiempo = 'Tiempo Total = '.$tiempoF;
+        $mensajeValor = 'Valor a Cancelar= '.money_format('%(#10n', $costo);
 
-            $mensajeTiempo = 'Tiempo Total = '.$tiempoF;
-            $mensajeValor = 'Valor a Cancelar= '.money_format('%(#10n', $costo);
-
-            $database->updtCosto($placa,$costo);
-            $error=0; 
+        $database->updtCosto($placa,$costo);
+        $error=0; 
     }
     
     $tipoC=$database->tipoControl($tipo);
