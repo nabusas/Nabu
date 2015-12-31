@@ -134,7 +134,7 @@ THE SOFTWARE.
                 $costo=$valorhora[0];
             }
             else{
-                $costoFraccion=round(($tiempo[0]/60),0);
+                $costoFraccion=ceil($tiempo[0]/60);
                 
                 if ($costoFraccion < 2 ){
                     $costoFraccion=1;

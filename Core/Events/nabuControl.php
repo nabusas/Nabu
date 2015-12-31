@@ -105,6 +105,7 @@ THE SOFTWARE.
     
     if ( $val1Mensaul[0] > 0 ){
         $tarifa[0] = 2;
+        $tarifa[1]= 'Normal';
     }
 
     $existe=$database->verifiControl($placa);
@@ -129,8 +130,10 @@ THE SOFTWARE.
             else{
                 $tiempoG=$database->tiempoGracia($tarifa[0],$tipo);
                 $validaG=$database->validaGracia($placa,$tiempoG[0]);
-                if ($validaG[0] >0 and  $tarifa[0] == 2 ){
-                    $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid,0);
+                if ($validaG[0] >0){
+                    $fecha=$database->fechaNueva($placa,$tiempoG[0]);
+                    $database->updtSalida($placa,2);
+                    $database->insertControl($tipo,$placa,$tarjeta,$fecha[0],$tarifa[0],$oprid,0);
                     $error=4;
                 }
                 else{

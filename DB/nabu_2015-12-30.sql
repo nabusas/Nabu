@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-30 15:14:15 +0000
+# Generation Time: 2015-12-31 02:18:39 +0000
 # ************************************************************
 
 
@@ -1355,7 +1355,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.25');
+	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.26');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1381,6 +1381,31 @@ CREATE TABLE `nb_control_tbl` (
   PRIMARY KEY (`nb_id_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+LOCK TABLES `nb_control_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_control_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_control_tbl` (`nb_id_fld`, `nb_1_tipo_vehi_fld`, `nb_2_placa_fld`, `nb_3_tarjeta_fld`, `nb_3_fecha_ingreso_fld`, `nb_4_fecha_salida_fld`, `nb_1_tipotarifa_fld`, `nb_5_totalhoras_fld`, `nb_6_valor_fld`, `nbd_id_user_fld`, `nb_estado_fld`)
+VALUES
+	(1,0,'KCS973',1,'2015-12-30 19:59:40','2015-12-30 20:25:03',0,25,0,2,2),
+	(2,0,'OIU765',2,'2015-12-30 20:01:33','2015-12-30 20:23:00',0,21,0,2,2),
+	(3,0,'IIQ924',3,'2015-12-30 20:01:59','2015-12-30 20:24:07',1,22,0,2,2),
+	(4,1,'IJ87Y',5,'2015-12-30 20:02:21','2015-12-30 20:50:47',1,48,0,2,2),
+	(5,0,'KCS976',6,'2015-12-30 20:02:36','2015-12-30 20:39:09',1,36,0,2,2),
+	(6,0,'LOI987',7,'2015-12-30 20:02:48','2015-12-30 20:16:09',2,13,0,2,2),
+	(8,0,'ILO876',7,'2015-12-30 20:22:18','2015-12-30 21:09:15',2,46,2000,2,2),
+	(9,0,'IUT764',8,'2015-12-30 20:22:31','2015-12-30 20:40:23',2,17,2000,2,2),
+	(10,1,'UY76T',10,'2015-12-30 20:22:41','2015-12-30 20:37:26',2,14,0,2,2),
+	(11,0,'IOV345',11,'2015-12-30 16:22:52','2015-12-30 20:54:59',2,272,6800,2,2),
+	(12,0,'XTR123',13,'2015-12-30 20:24:36','2015-12-30 20:45:58',2,21,2000,2,2),
+	(13,1,'UYT12F',15,'2015-12-30 20:24:47','2015-12-30 20:41:51',2,17,1500,2,2),
+	(14,0,'UHT564',16,'2015-12-30 20:40:19','2015-12-30 20:44:16',2,3,0,2,2),
+	(15,1,'UY76T',10,'2015-12-30 20:56:00','2015-12-30 21:09:32',2,13,0,2,2),
+	(16,0,'UYT12F',15,'2015-12-30 20:56:00','2015-12-30 21:09:47',2,13,0,2,2),
+	(17,0,'IUT764',8,'2015-12-30 20:56:23','2015-12-30 21:08:22',2,11,0,2,2),
+	(18,0,'IOV345',11,'2015-12-30 21:10:59','2015-12-30 21:11:36',2,0,0,2,2);
+
+/*!40000 ALTER TABLE `nb_control_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table nb_country_tbl
@@ -1722,7 +1747,11 @@ VALUES
 	('nb_tarifasv_pg',6,47,'false'),
 	('nb_tarifasv_pg',6,48,'true'),
 	('nb_tarifasv_pg',6,50,'../Pages/nabu.php?p=nb_tarifasm_pg'),
-	('nb_tarifasv_pg',6,54,'center');
+	('nb_tarifasv_pg',6,54,'center'),
+	('nb_monitoreo_pg',10,45,'Estado'),
+	('nb_monitoreo_pg',10,46,'estado'),
+	('nb_monitoreo_pg',10,48,'true'),
+	('nb_monitoreo_pg',10,54,'center');
 
 /*!40000 ALTER TABLE `nb_datagridcol_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2080,7 +2109,8 @@ CREATE TABLE `nb_monitoreod_vw` (
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
    `nb_5_totalhoras_fld` INT(2) NULL DEFAULT NULL,
    `Valor` VARCHAR(52) NULL DEFAULT NULL,
-   `nbd_id_user_fld` INT(11) NULL DEFAULT NULL
+   `nbd_id_user_fld` INT(11) NULL DEFAULT NULL,
+   `estado` VARCHAR(9) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
 
@@ -2856,7 +2886,8 @@ INSERT INTO `nb_pagos_tbl` (`nb_tipodoc_fld`, `nb_numerodoc_fld`, `nb_1_tipotari
 VALUES
 	(0,1037595925,1,2015,12,0),
 	(0,123456,1,2015,12,0),
-	(0,9876543,1,2015,12,0);
+	(0,9876543,1,2015,12,0),
+	(0,111111,1,2015,12,0);
 
 /*!40000 ALTER TABLE `nb_pagos_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2893,7 +2924,8 @@ CREATE TABLE `nb_reportediario_vw` (
    `tarifa` VARCHAR(255) NULL DEFAULT NULL,
    `Minutos` INT(2) NULL DEFAULT NULL,
    `Valor` VARCHAR(52) NULL DEFAULT NULL,
-   `Usuario` VARCHAR(255) NULL DEFAULT NULL
+   `Usuario` INT(11) NULL DEFAULT NULL,
+   `estado` VARCHAR(9) NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
 
@@ -3551,7 +3583,7 @@ DROP TABLE `nb_reportediario_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_reportediario_vw`
 AS SELECT
    (select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `Placa`,`A`.`nb_3_tarjeta_fld` AS `Tarjeta`,`A`.`nb_3_fecha_ingreso_fld` AS `Ingreso`,`A`.`nb_4_fecha_salida_fld` AS `Salida`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `Minutos`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,(select `x`.`nbd_descr_fld` from `nbd_user_tbl` `x` where (`A`.`nbd_id_user_fld` = `x`.`nbd_id_user_fld`)) AS `Usuario` from `nb_control_tbl` `A` order by `A`.`nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld`;
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `Placa`,`A`.`nb_3_tarjeta_fld` AS `Tarjeta`,`A`.`nb_3_fecha_ingreso_fld` AS `Ingreso`,`A`.`nb_4_fecha_salida_fld` AS `Salida`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `Minutos`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `Usuario`,(case `A`.`nb_estado_fld` when 0 then 'Parqueado' when 1 then 'Pago' when 2 then 'Salio' end) AS `estado` from `nb_control_tbl` `A` order by `A`.`nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld`;
 
 
 # Replace placeholder table for nb_usuariosclientes_vw with correct view syntax
@@ -3573,7 +3605,7 @@ DROP TABLE `nb_cobrosm_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_cobrosm_vw`
 AS SELECT
    date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m') AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,count(1) AS `Vehiculos`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` <> 0)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) union select concat(`A`.`nb_year_fld`,'-',`A`.`nb_mes_fld`) AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `B`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,count(1) AS `Vehiculos`,concat('$',format(sum(`C`.`nb_4_valor_fld`),0)) AS `Valor` from ((`nb_pagos_tbl` `A` join `nb_usuariosr_tbl` `B`) join `nb_tarifas_tbl` `C`) where ((`A`.`nb_tipodoc_fld` = `B`.`nb_tipodoc_fld`) and (`A`.`nb_numerodoc_fld` = `B`.`nb_numerodoc_fld`) and (`A`.`nb_1_tipotarifa_fld` = `C`.`nb_1_tipotarifa_fld`) and (`B`.`nb_1_tipo_vehi_fld` = `C`.`nb_1_tipo_vehi_fld`) and (`A`.`nb_estado_fld` = 0)) group by concat(`A`.`nb_year_fld`,'-',`A`.`nb_mes_fld`),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `B`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,count(1) AS `Vehiculos`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` not in (0,1)) and (`A`.`nb_estado_fld` = 2)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) union select concat(`A`.`nb_year_fld`,'-',`A`.`nb_mes_fld`) AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `B`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,count(1) AS `Vehiculos`,concat('$',format(sum(`C`.`nb_4_valor_fld`),0)) AS `Valor` from ((`nb_pagos_tbl` `A` join `nb_usuariosr_tbl` `B`) join `nb_tarifas_tbl` `C`) where ((`A`.`nb_tipodoc_fld` = `B`.`nb_tipodoc_fld`) and (`A`.`nb_numerodoc_fld` = `B`.`nb_numerodoc_fld`) and (`A`.`nb_1_tipotarifa_fld` = `C`.`nb_1_tipotarifa_fld`) and (`B`.`nb_1_tipo_vehi_fld` = `C`.`nb_1_tipo_vehi_fld`) and (`A`.`nb_estado_fld` = 0)) group by concat(`A`.`nb_year_fld`,'-',`A`.`nb_mes_fld`),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `B`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`)));
 
 
 # Replace placeholder table for nb_cobrosd_vw with correct view syntax
@@ -3584,7 +3616,7 @@ DROP TABLE `nb_cobrosd_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_cobrosd_vw`
 AS SELECT
    date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d') AS `Fecha`,(select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nbd_id_user_fld` AS `Usuario`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` = 2)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))),`A`.`nbd_id_user_fld`;
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nbd_id_user_fld` AS `Usuario`,concat('$',format(sum(`A`.`nb_6_valor_fld`),0)) AS `Valor` from `nb_control_tbl` `A` where ((`A`.`nb_4_fecha_salida_fld` <> 'NULL') and (`A`.`nb_1_tipotarifa_fld` = 2) and (`A`.`nb_estado_fld` = 2)) group by date_format(`A`.`nb_4_fecha_salida_fld`,'%Y-%m-%d'),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))),(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))),`A`.`nbd_id_user_fld`;
 
 
 # Replace placeholder table for nb_monitoreod_vw with correct view syntax
@@ -3595,7 +3627,7 @@ DROP TABLE `nb_monitoreod_vw`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_monitoreod_vw`
 AS SELECT
    (select `nb_value_tbl`.`nb_value_fld`
-FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `nb_2_placa_fld`,`A`.`nb_3_tarjeta_fld` AS `nb_3_tarjeta_fld`,`A`.`nb_3_fecha_ingreso_fld` AS `nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld` AS `nb_4_fecha_salida_fld`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld` from `nb_control_tbl` `A` where (date_format(`A`.`nb_3_fecha_ingreso_fld`,'%Y-%m-%d') > (curdate() - interval 1 day));
+FROM `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipo_vehi_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipo_vehi_fld`))) AS `tipo`,`A`.`nb_2_placa_fld` AS `nb_2_placa_fld`,`A`.`nb_3_tarjeta_fld` AS `nb_3_tarjeta_fld`,`A`.`nb_3_fecha_ingreso_fld` AS `nb_3_fecha_ingreso_fld`,`A`.`nb_4_fecha_salida_fld` AS `nb_4_fecha_salida_fld`,(select `nb_value_tbl`.`nb_value_fld` from `nb_value_tbl` where ((`nb_value_tbl`.`nb_id_pr_schema_fld` = 'nb_1_tipotarifa_fld') and (`nb_value_tbl`.`nb_id_value_fld` = `A`.`nb_1_tipotarifa_fld`))) AS `tarifa`,`A`.`nb_5_totalhoras_fld` AS `nb_5_totalhoras_fld`,concat('$',format(`A`.`nb_6_valor_fld`,0)) AS `Valor`,`A`.`nbd_id_user_fld` AS `nbd_id_user_fld`,(case `A`.`nb_estado_fld` when 0 then 'Parqueado' when 1 then 'Pago' when 2 then 'Salio' end) AS `estado` from `nb_control_tbl` `A` where (date_format(`A`.`nb_3_fecha_ingreso_fld`,'%Y-%m-%d') > (curdate() - interval 1 day));
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

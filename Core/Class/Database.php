@@ -98,7 +98,7 @@ THE SOFTWARE.
         }
         
         function validaSalida($placa,$tarjeta){
-            $sql ="select count(1) from nb_control_tbl where nb_estado_fld=0 and (nb_3_tarjeta_fld=".$tarjeta;
+            $sql ="select count(1) from nb_control_tbl where nb_estado_fld=0 and (nb_3_tarjeta_fld='".$tarjeta."'";
             $sql =$sql." or nb_2_placa_fld='".$placa."') and nb_1_tipotarifa_fld=2";
             return $this->executeQueryOneRow($sql); 
         }
@@ -126,12 +126,20 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
+        function fechaNueva($placa,$tiempoG){
+            $sql ="select  DATE_ADD(nb_4_fecha_salida_fld, interval ".($tiempoG+1)." MINUTE) from nb_control_tbl where nb_2_placa_fld='".$placa."'";
+            $sql =$sql." AND nb_4_fecha_salida_fld=(SELECT MAX(nb_4_fecha_salida_fld) FROM nb_control_tbl";
+            $sql =$sql." WHERE nb_2_placa_fld='".$placa."')";
+            $sql =$sql." AND nb_estado_fld=1 AND nb_1_tipotarifa_fld=2";
+            return $this->executeQueryOneRow($sql); 
+        }
+        
         function validaGracia($placa,$tiempoG){
             $sql ="select  COUNT(1) from nb_control_tbl where nb_2_placa_fld='".$placa."'";
             $sql =$sql." AND nb_4_fecha_salida_fld=(SELECT MAX(nb_4_fecha_salida_fld) FROM nb_control_tbl";
             $sql =$sql." WHERE nb_2_placa_fld='".$placa."')";
-            $sql =$sql." AND nb_estado_fld=1";
-            $sql =$sql." AND NOW() < DATE_ADD(nb_4_fecha_salida_fld, interval ".$tiempoG." MINUTE)";
+            $sql =$sql." AND nb_estado_fld=1 AND nb_1_tipotarifa_fld=2";
+            $sql =$sql." AND NOW() > DATE_ADD(nb_4_fecha_salida_fld, interval ".$tiempoG." MINUTE)";
             return $this->executeQueryOneRow($sql); 
         }
         

@@ -46,8 +46,8 @@ where	nb_id_page_fld='nb_monitoreo_pg'
 
 ##	COLUMNAS DE LAS GRILLAS
 insert    into nb_datagridcol_tbl
-SELECT	'nb_tarifasv_pg',6,nb_config_frmwrk_id_fld, 
-		case when nb_config_frmwrk_id_fld = 45  then 'Tiempo_Salida' when nb_config_frmwrk_id_fld = 46  then 'Tiempo_Salida' else nb_value_fld end end 
+SELECT	'nb_monitoreo_pg',10,nb_config_frmwrk_id_fld, 
+		case when nb_config_frmwrk_id_fld = 45  then 'Estado' when nb_config_frmwrk_id_fld = 46  then 'Estado' else nb_value_fld end end 
 FROM		nb_datagridcol_tbl
 WHERE	nb_id_page_fld='nb_tarifasv_pg'
 and		nb_column_fld='1'
@@ -93,7 +93,8 @@ CREATE OR REPLACE VIEW nb_monitoreoD_vw AS
 SELECT	(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipo_vehi_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipo_vehi_fld) AS tipo,
 		A.nb_2_placa_fld,A.nb_3_tarjeta_fld,A.nb_3_fecha_ingreso_fld,A.nb_4_fecha_salida_fld,
 		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld) AS tarifa,
-		A.nb_5_totalhoras_fld,CONCAT('$',FORMAT(A.nb_6_valor_fld,0)) AS Valor,A.nbd_id_user_fld
+		A.nb_5_totalhoras_fld,CONCAT('$',FORMAT(A.nb_6_valor_fld,0)) AS Valor,A.nbd_id_user_fld,
+		CASE A.NB_ESTADO_FLD WHEN  0 THEN 'Parqueado' WHEN 1 THEN 'Pago'  WHEN 2 THEN 'Salio' END as estado
 FROM	nb_control_tbl	A
 WHERE	DATE_FORMAT(A.nb_3_fecha_ingreso_fld,'%Y-%m-%d') > CURDATE() - INTERVAL 1 DAY
 
@@ -102,7 +103,8 @@ CREATE OR REPLACE VIEW nb_reporteDiario_vw AS
 SELECT	(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipo_vehi_fld' AND NB_ID_VALUE_FLD=A.nb_1_tipo_vehi_fld) AS tipo,
 		A.nb_2_placa_fld as Placa ,A.nb_3_tarjeta_fld as Tarjeta,A.nb_3_fecha_ingreso_fld as Ingreso,A.nb_4_fecha_salida_fld Salida,
 		(SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld) AS tarifa,
-		A.nb_5_totalhoras_fld,CONCAT('$',FORMAT(A.nb_6_valor_fld,0)) AS Valor,A.nbd_id_user_fld
+		A.nb_5_totalhoras_fld as Minutos,CONCAT('$',FORMAT(A.nb_6_valor_fld,0)) AS Valor,A.nbd_id_user_fld as Usuario,
+		CASE A.NB_ESTADO_FLD WHEN  0 THEN 'Parqueado' WHEN 1 THEN 'Pago'  WHEN 2 THEN 'Salio' END as estado
 FROM	nb_control_tbl	A
 ORDER BY A.nb_3_fecha_ingreso_fld,A.nb_4_fecha_salida_fld
 
@@ -117,6 +119,7 @@ SELECT	DATE_FORMAT(A.nb_4_fecha_salida_fld,'%Y-%m-%d') as Fecha,
 FROM	nb_control_tbl	A
 where	A.nb_4_fecha_salida_fld <> 'NULL'
 And		nb_1_tipotarifa_fld = 2
+And		nb_estado_fld=2
 group by Fecha,tipo,tarifa,usuario
 
 ##	REPORTE MENSUAL DE COBROS
@@ -129,7 +132,8 @@ SELECT	DATE_FORMAT(A.nb_4_fecha_salida_fld,'%Y-%m') as Fecha,
 		CONCAT('$',FORMAT(sum(A.nb_6_valor_fld),0)) Valor
 FROM	nb_control_tbl	A
 where	A.nb_4_fecha_salida_fld <> 'NULL'
-And		A.nb_1_tipotarifa_fld not in (0)
+And		A.nb_1_tipotarifa_fld not in (0,1)
+And		nb_estado_fld=2
 group by Fecha,tipo,tarifa
 UNION
 SELECT  CONCAT(A.NB_YEAR_FLD,'-',A.NB_MES_FLD) AS Fecha,
@@ -251,6 +255,15 @@ OR nb_2_placa_fld=(SELECT nb_4_placa_fld FROM NB_USUARIOSR_TBL WHERE NB_1_TIPOTA
 select COUNT(1) from nb_control_tbl where nb_2_placa_fld='KCS973' and nb_4_fecha_salida_fld IS NULL OR (NOW() < DATE_ADD(nb_4_fecha_salida_fld, interval 15 MINUTE))
 
 ALTER TABLE nb_control_tbl AUTO_INCREMENT = 1
+
+#INSERTAR PAGOS MENSAUAL
+
+INSERT INTO NB_PAGOS_TBL
+SELECT 	NB_TIPODOC_FLD, NB_NUMERODOC_FLD ,nb_1_tipotarifa_fld,2015,12,0
+FROM 	NB_USUARIOSR_TBL
+WHERE	NB_1_TIPOTARIFA_FLD=1
+
+SELECT * FROM NB_PAGOS_TBL
 
 
 
