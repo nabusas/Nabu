@@ -37,6 +37,7 @@ include_once "Chart.php";
 include_once "View.php";
 include "../Framework/Datagrid/lib/inc/jqgrid_dist.php";
 include_once "Database.php";
+include_once "ExportToExcel.php";
 
 
 class Utilities
@@ -46,11 +47,12 @@ class Utilities
 	var $result;
     var $fields;
     var $database;
-
+    var $csv;
 
     function Utilities(){
 		$this->cx=new Conexion();
-        $this->database = new Database();        
+        $this->database = new Database();
+        $this->csv = new ExportExcel();  
     }
 
     function idPage($path){
@@ -84,6 +86,14 @@ class Utilities
     	
     }
 
+    function fileDatagrid($page){
+        $table = $this->database->tableDataGrid($page);
+        $this->db=$this->cx->conectar();
+        $file=$this->csv->exportarFile($table[0]);
+        $this->db=$this->cx->desconectar();
+        return $file;
+    }
+    
     function castingDate($date){
     
        $fechaInicioF = split (' ', $date);
@@ -388,9 +398,11 @@ class Utilities
     }
     function getDataGrid($id){
     
+        
         $g = new jqgrid();
         
         $this->db=$this->cx->conectar();
+
         $type='gridoptions';
         $result = $this->db->Execute("SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nb_datagrid_tbl a , nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$id'");
         
@@ -414,7 +426,7 @@ class Utilities
                 $g->table = $value;
             }
         }
-		
+
         $this->campos = $this->db->Execute("Select distinct a.nb_column_fld from nb_datagridcol_tbl a where a.nb_id_page_fld = '$id'");
 
         $type='gridcoloptions';
@@ -444,7 +456,9 @@ class Utilities
 
         $g->set_actions(array("add"=>false,"edit"=>false,"delete"=>false,"rowactions"=>false,"search" => "advance","export"=>false,"autofilter" => true ));
 
-		return $g->render("list1");
+        return $g->render("list1");
+        
+        
     }
 }
 ?>

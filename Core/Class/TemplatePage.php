@@ -25,13 +25,14 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 30-12-2015
+	Fecha modificacion	= 04-01-2016
 	Usuario Modifico	= CAGC
 
 */
 
 include "../Class/Menu.php";
 include "../Class/Utilities.php";
+
 
 
 class TemplatePage
@@ -92,7 +93,7 @@ class TemplatePage
 					<td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
 				</tr>
 				<tr>
-					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-5</td>
+					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-6</td>
 				</tr>
 			</table>
 		</header>
@@ -126,7 +127,12 @@ class TemplatePage
                     if ($this->tipo == 'datagrid'){
                     ?>    
                         <div style="margin:10px">
-                            <?php echo $this->render ?>
+                            <?php 
+                                echo $this->render;
+                                $csv=$this->objUtilities->fileDatagrid($this->idPage); 
+                                 echo "<br><br><a href=''>Actualizar <br></a>";
+                                 echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
+                            ?>
                         </div>
                     <?php
                     }

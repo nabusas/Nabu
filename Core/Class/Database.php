@@ -71,6 +71,11 @@ THE SOFTWARE.
             return $row;
         }
         
+        function tableDataGrid($idPage){
+            $sql ="select nb_value_fld from nb_datagrid_tbl where  `nb_config_frmwrk_id_fld`=44 and nb_id_page_fld ='" . $idPage . "'";
+            return $this->executeQueryOneRow($sql);
+        }
+        
         function fechasControl($placa){
             $sql ="select nb_3_fecha_ingreso_fld from nb_control_tbl where nb_2_placa_fld='".$placa."'";
             $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
