@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 29-12-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 29-12-2015
+	Fecha modificacion	= 04-01-2016
 	User modify		    = CAGC
 
 */
@@ -90,7 +90,7 @@ THE SOFTWARE.
 
     $oprid=$_SESSION['oprid'];
     
-    $tipo=$_POST['nb_1_tipo_vehi_fld'];
+    
     $placa=strtoupper($_POST['nb_2_placa_fld']);
     $fecha=date("Y-m-d H:i:sa");
         
@@ -99,6 +99,8 @@ THE SOFTWARE.
     $mensajeValor='';
     $error=0;
 
+    $tipoD=$database->tipoControlDB($placa);
+    $tipo=$tipoD[0];
     $tarjetaBD=$database->tarjControl($placa);
     $existe=$database->verifiControlR($placa);
     $tarifa=$database->tarifaControlDB($placa);

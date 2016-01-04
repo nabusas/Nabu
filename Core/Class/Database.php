@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 30-12-2015
+	Fecha modificacion	= 04-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -100,6 +100,11 @@ THE SOFTWARE.
         function validaSalida($placa,$tarjeta){
             $sql ="select count(1) from nb_control_tbl where nb_estado_fld=0 and (nb_3_tarjeta_fld='".$tarjeta."'";
             $sql =$sql." or nb_2_placa_fld='".$placa."') and nb_1_tipotarifa_fld=2";
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function tipoControlDB($placa){
+            $sql ="SELECT DISTINCT NB_1_TIPO_VEHI_FLD FROM NB_CONTROL_TBL where nb_2_placa_fld='".$placa."'";
             return $this->executeQueryOneRow($sql); 
         }
         

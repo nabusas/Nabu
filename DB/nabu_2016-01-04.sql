@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2015-12-31 02:18:39 +0000
+# Generation Time: 2016-01-04 13:29:29 +0000
 # ************************************************************
 
 
@@ -1355,7 +1355,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.26');
+	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.27');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1402,7 +1402,8 @@ VALUES
 	(15,1,'UY76T',10,'2015-12-30 20:56:00','2015-12-30 21:09:32',2,13,0,2,2),
 	(16,0,'UYT12F',15,'2015-12-30 20:56:00','2015-12-30 21:09:47',2,13,0,2,2),
 	(17,0,'IUT764',8,'2015-12-30 20:56:23','2015-12-30 21:08:22',2,11,0,2,2),
-	(18,0,'IOV345',11,'2015-12-30 21:10:59','2015-12-30 21:11:36',2,0,0,2,2);
+	(18,0,'IOV345',11,'2015-12-30 21:10:59','2015-12-30 21:11:36',2,0,0,2,2),
+	(19,0,'KCS654',1,'2016-01-04 08:13:40','2016-01-04 08:28:36',2,14,0,2,2);
 
 /*!40000 ALTER TABLE `nb_control_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1863,13 +1864,11 @@ VALUES
 	('nb_users_pg','nbd_email_fld',24,'Usuario'),
 	('nb_users_pg','nbd_email_fld',11,'true'),
 	('mn_pagos_pg','nb_1_tipotarifa_fld',11,'true'),
-	('nb_recaudo_pg','nb_1_tipo_vehi_fld',61,'false'),
 	('nb_recaudo_pg','nb_2_placa_fld',11,'true'),
 	('nb_recaudo_pg','nb_2_placa_fld',13,'string'),
 	('nb_recaudo_pg','nb_2_placa_fld',24,'Placa'),
 	('addcustomer','nb_sexo_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
 	('nb_users_pg','nbd_id_user_fld',13,'string'),
-	('nb_recaudo_pg','nb_1_tipo_vehi_fld',59,'true'),
 	('error','image',13,'strinrg'),
 	('error','image',32,'image'),
 	('error','image',35,'bootstrap-display'),
@@ -1896,10 +1895,6 @@ VALUES
 	('nb_loginm_pg','nbd_descr_fld',24,'Nombre'),
 	('nb_loginm_pg','nbd_descr_fld',13,'string'),
 	('nb_loginm_pg','nbd_descr_fld',11,'true'),
-	('nb_recaudo_pg','nb_1_tipo_vehi_fld',55,'../Events/ValoresCampo.php?campo=nb_1_tipo_vehi_fld'),
-	('nb_recaudo_pg','nb_1_tipo_vehi_fld',32,'radio'),
-	('nb_recaudo_pg','nb_1_tipo_vehi_fld',24,'Vehiculo'),
-	('nb_recaudo_pg','nb_1_tipo_vehi_fld',13,'integer'),
 	('nb_control_pg','nb_1_tipo_vehi_fld',61,'false'),
 	('nb_tarifas_pg','nb_4_valor_fld',60,'{\"nb_1_tipotarifa_fld\":[\"1\",\"2\"]}'),
 	('nb_tarifas_pg','nb_4_valor_fld',2,'nb_1_tipotarifa_fld'),
@@ -1962,7 +1957,6 @@ VALUES
 	('nb_control_pg','nb_3_tarjeta_fld',11,'true'),
 	('nb_control_pg','nb_3_tarjeta_fld',13,'string'),
 	('nb_control_pg','nb_3_tarjeta_fld',24,'Tarjeta'),
-	('nb_recaudo_pg','nb_1_tipo_vehi_fld',11,'true'),
 	('nb_controlv_pg','nb_1_tipo_vehi_fld',24,'Tipo Vehiculo'),
 	('nb_controlv_pg','nb_1_tipo_vehi_fld',13,'string'),
 	('nb_controlv_pg','nb_2_placa_fld',13,'string'),
