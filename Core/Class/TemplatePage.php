@@ -93,7 +93,7 @@ class TemplatePage
 					<td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
 				</tr>
 				<tr>
-					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-8</td>
+					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-9</td>
 				</tr>
 			</table>
 		</header>
@@ -130,7 +130,7 @@ class TemplatePage
                             <?php 
                                 echo $this->render;
                                 $csv=$this->objUtilities->fileDatagrid($this->idPage); 
-                                 echo "<br><a href=''>Actualizar &nbsp&nbsp&nbsp&nbsp</a>";
+                                 echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
                                  echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
                             ?>
                         </div>
