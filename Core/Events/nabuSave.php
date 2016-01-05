@@ -85,13 +85,14 @@ THE SOFTWARE.
     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
 	$resu=$nabuEvent->Save();
 
-    //../Pages/nabu.php?p=".$_GET['p']
-    
     echo "<div id='dialog-confirm' title='Informacion Guardar'>";
-        if ($resu->EOF==1)
+        if ($resu == 1)
             echo 'Guardado Exitoso';
         else
-            echo 'Problemas al guardar';
+            if ($resu == 2)
+                echo 'Modificacion Exitosa';
+            else
+                echo 'Problemas al guardar';
 
     echo '</div>'; 
 

@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2016-01-05 20:57:55 +0000
+# Generation Time: 2016-01-05 22:04:10 +0000
 # ************************************************************
 
 
@@ -1355,7 +1355,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_tbl`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.29');
+	('nabu','Semilla de innovacion que da vida a tus ideas <br> V. 0.34');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2698,7 +2698,7 @@ VALUES
 	('nb_usuariosv_pg','Usuarios Parqueaderos','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_control_pg','Ingreso Control Vehicular','control','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_controlv_pg','Detalle Entrada/Salida','forms','alpaca','bootstrap-display-horizontal',NULL,'false'),
-	('nb_tarifas_pg','Parametrizacion Tarifas','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_tarifas_pg','Parametrizacion Tarifas','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
 	('nb_usuarios_pg','Usuarios Parqueaderos','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_registropago_pg','Registro Pago','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_monitoreo_pg','Monitoreo Parqueadero','dataGrids','datagrid',NULL,NULL,'false'),

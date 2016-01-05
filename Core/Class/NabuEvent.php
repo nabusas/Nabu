@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= frajafrari
-    Fecha modificacion	= 28-12-2015
+    Fecha modificacion	= 05-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -77,26 +77,6 @@ class NabuEvent
             
                 $fieldsTable .= $field[1];
                 
-                /*
-                $valueC = $this->database->getDataValue($table[0],$field[1]);
-                $setData=false;
-                    
-                if ($valueC[0] <> '' ){
-                    if ($valueC[0] == 'nb_secuencia'){
-                        if ($secuencia == -1) {
-                            $value=$this->objUtilities->changeValue($field[1],$valueC[0]);
-                            $secuencia=$value;
-                        }
-                        else
-                            $value=$secuencia;
-                    }
-                    else{
-                        $setData=true;
-                        $value=$this->objUtilities->changeValue($field[1],$valueC[0]);
-                    }
-                }
-                */
-                
                 if ($value =='')
                     $value ='nabuNull';    
                 
@@ -142,9 +122,19 @@ class NabuEvent
             
             $result =$this->database->saveData($table[0],$fieldsTable,$fieldsValues);
             
+            $accion=0;
+            
+            if ($result->EOF == 1)
+                $accion=1;
+            else{
+                $result =$this->database->updtData();
+                if ($result->EOF == 1)
+                    $accion=2;
+            }
+            
         }
         
-        return $result;
+        return $accion;
        
 	}
 } 

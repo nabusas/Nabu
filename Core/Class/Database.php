@@ -209,6 +209,10 @@ THE SOFTWARE.
             return $this->execute($sql);
         }
         
+        function updtData(){
+            
+        }
+        
         function saveData($table,$fieldsTable,$fieldsValues){
             $sql = "INSERT INTO " .$table. "(" . $fieldsTable . ") VALUES(" . $fieldsValues . ")";
             
