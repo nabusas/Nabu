@@ -160,7 +160,7 @@ class TemplatePage
                         <a href="#"><i class="fa fa-google-plus"></i></a>
                         <a href="#"><i class="fa fa-youtube"></i></a>    
 				        <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
-                        <p>Nabu &copy; 2015</p>
+                        <p>Nabu &copy; 2016</p>
 		        </footer>
             
                 </div>    
