@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 04-01-2016
+	Fecha modificacion	= 05-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -237,8 +237,18 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);
         }
         
+        function getDatavalueW($table, $field ,$where){
+            $sql = "Select ".$field." from ".$table." ".$where;
+            return $this->executeQueryOneRow($sql);             
+        }
+        
         function getDataValue($table, $field){
-            $sql = "Select ".$field." from ".$table."";
+            $sql = "Select ".$field." from ".$table;
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function getTableLink($idPage){
+            $sql ="select a.nb_id2_page_fld from nb_link_tbl a where a.nb_id_page_fld = '" .$idPage . "'";
             return $this->executeQueryOneRow($sql); 
         }
         
@@ -246,6 +256,17 @@ THE SOFTWARE.
             $sql ="select a.nb_page_data_fld from nb_pages_tbl a where a.nb_id_page_fld = '" .$idPage . "'";
             return $this->executeQueryOneRow($sql); 
         }    
+        
+        function getDataChange($campo, $valor){
+            $sql="select nb_id_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."' and nb_value_fld='".$valor."'";
+            return $this->executeQueryOneRow($sql);
+        }
+        
+        function getFieldsPage($idPage,$key){
+            $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld FROM NB_FORM_TABLES_TBL A , NB_TABLE_FIELDS_TBL B WHERE  A.nb_id_table_fld = B.nb_id_table_fld";
+            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND B.NB_KEY_FLD='".$key."' AND nb_id_page_fld = '" .$idPage . "'";
+            return $this->execute($sql);  
+        }
         
         function getDataFields($table){
             $sql ="describe " .$table;

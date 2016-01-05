@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 12-10-2015
+	Fecha modificacion	= 05-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -201,18 +201,66 @@ class Utilities
    
 	function getData($id){
     
-        $row = $this->database->getPageType($id);
         $json = new JsonData();
         
         $table  = $this->database->getDataRecord($id);
         
         if ($table[0] == '' ){
-            $fields =$this->database->getData($id);
-            $jsonA=$json->getData($fields);
+            
+            $parametros=false;
+            $fields = $this->database->getFieldsPage($id,'Y');
+            
+            foreach($fields as $field){
+               if (isset($_GET[$field[0]])){
+                   $parametros=true;
+                    break;
+                }
+            }
+            
+            if ($parametros){
+                $fieldsData = array();
+                
+                $where ="Where ";
+                $i=1;
+                
+                
+                foreach($fields as $field){
+                    if (isset($_GET[$field[0]])){
+                        $value=$this->database->getDataChange($field[0],$_GET[$field[0]]);
+                        
+                        if ($value[0] == ' ')
+                            $value[0]=$_GET[$field[0]];
+                        
+                        $fieldsData[$field[0]]=$value[0];
+                        
+                        if ($i == 1)
+                            $where=$where.$field[0]."='".$value[0]."' ";
+                        else
+                            $where=$where." AND ".$field[0]."='".$value[0]."' ";
+                    }
+                    $i++;
+                }
+                
+                $fields = $this->database->getFieldsPage($id,'N');
+                
+                foreach($fields as $field){
+                    $value=$this->database->getDatavalueW($field[1],$field[0],$where);
+                    $fieldsData[$field[0]]=$value[0];
+                }
+                
+                $jsonA=$json->getData2($fieldsData);
+            }
+            else{
+                $table  = $this->database->getDataRecord($id);
+                $fields = $this->database->getDataFields($table[0]);
+                $fields =$this->database->getData($id);
+                $jsonA=$json->getData($fields);
+            }
+            
+            
         }
         else
         {
-            $fields = $this->database->getDataFields($table[0]);
             $jsonA=$json->getDataSelect($this->database ,$table[0],$fields);
         }
         
@@ -400,6 +448,7 @@ class Utilities
     
         
         $g = new jqgrid();
+        $pageL = $this->database->getTableLink($id);
         
         $this->db=$this->cx->conectar();
 
@@ -436,7 +485,10 @@ class Utilities
             $col = array();
             while ($row = $result->FetchRow()){
                 $value=$row[2];
-            
+                
+                if ($row[0]=='link')
+                    $value="nabu.php?p=".$pageL[0]."&".$value;
+                
                  if ( $row[1] == 'number')
                     $value= (int)$value;
                 

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 12-10-2015
+	Fecha modificacion	= 05-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -44,6 +44,17 @@ class JsonData
             
         return $value;    
     }
+    
+    
+    function getData2($array){
+        if (!isset($data))
+            $data = array();
+        
+        $data=$array;
+        
+        return $data;
+    }
+    
     
     function getData($setData){
         

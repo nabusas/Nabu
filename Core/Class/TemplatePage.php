@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 04-01-2016
+	Fecha modificacion	= 05-01-2016
 	Usuario Modifico	= CAGC
 
 */
