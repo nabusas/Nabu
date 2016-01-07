@@ -2491,41 +2491,74 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         var optionsSource = null;
         var viewSource = null;
 
-        // hands back the field instance that is bound directly under the element el
-        var findExistingAlpacaBinding = function()
+        /**
+         * Finds the Alpaca field instance bound to the dom element.
+         *
+         * First considers the immediate dom element and then looks 1 level deep to children and then up to parent.
+         *
+         * @returns {*}
+         */
+        var findExistingAlpacaBinding = function(domElement, skipPivot)
         {
             var existing = null;
 
-            var topElements = $(el).find(":first");
-            if (topElements.length > 0)
+            // look at "data-alpaca-field-id"
+            var alpacaFieldId = $(domElement).attr("data-alpaca-field-id");
+            if (alpacaFieldId)
             {
-                // does a field binding exist?
-                var fieldId = $(topElements[0]).attr("data-alpaca-field-id");
-                if (fieldId)
+                var alpacaField = Alpaca.fieldInstances[alpacaFieldId];
+                if (alpacaField)
                 {
-                    var _existing = Alpaca.fieldInstances[fieldId];
-                    if (_existing) {
-                        existing = _existing;
-                    }
+                    existing = alpacaField;
                 }
-                else
+            }
+
+            // if not found, look at "data-alpaca-form-id"
+            if (!existing)
+            {
+                var formId = $(domElement).attr("data-alpaca-form-id");
+                if (formId)
                 {
-                    // does a form binding exist?
-                    var formId = $(topElements[0]).attr("data-alpaca-form-id");
-                    if (formId)
+                    var subElements = $(domElement).find(":first");
+                    if (subElements.length > 0)
                     {
-                        var subElements = $(topElements[0]).find(":first");
-                        if (subElements.length > 0)
+                        var subFieldId = $(subElements[0]).attr("data-alpaca-field-id");
+                        if (subFieldId)
                         {
-                            var subFieldId = $(subElements[0]).attr("data-alpaca-field-id");
-                            if (subFieldId)
+                            var subField = Alpaca.fieldInstances[subFieldId];
+                            if (subField)
                             {
-                                var _existing = Alpaca.fieldInstances[subFieldId];
-                                if (_existing) {
-                                    existing = _existing;
-                                }
+                                existing = subField;
                             }
                         }
+                    }
+                }
+            }
+
+            // if not found, check for children 0th element
+            if (!existing && !skipPivot)
+            {
+                var childDomElements = $(el).find(":first");
+                if (childDomElements.length > 0)
+                {
+                    var childField = findExistingAlpacaBinding(childDomElements[0], true);
+                    if (childField)
+                    {
+                        existing = childField;
+                    }
+                }
+            }
+
+            // if not found, check parent
+            if (!existing && !skipPivot)
+            {
+                var parentEl = $(el).parent();
+                if (parentEl)
+                {
+                    var parentField = findExistingAlpacaBinding(parentEl, true);
+                    if (parentField)
+                    {
+                        existing = parentField;
                     }
                 }
             }
@@ -2536,7 +2569,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         var specialFunctionNames = ["get", "exists", "destroy"];
         var isSpecialFunction = (args.length > 1 && Alpaca.isString(args[1]) && (specialFunctionNames.indexOf(args[1]) > -1));
 
-        var existing = findExistingAlpacaBinding();
+        var existing = findExistingAlpacaBinding(el);
         if (existing || isSpecialFunction)
         {
             if (isSpecialFunction)
@@ -2632,21 +2665,28 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             errorCallback = Alpaca.defaultErrorCallback;
         }
 
-        var connectorId = "default";
-        var connectorConfig = {};
-        if (Alpaca.isString(connector)) {
-            connectorId = connector;
-        }
-        else if (Alpaca.isObject(connector) && connector.id) {
-            connectorId = connector.id;
-            if (connector.config) {
-                connectorConfig = connector.config;
+        // instantiate the connector (if not already instantiated)
+        // if config is passed in (as object), we instantiate
+        if (!connector || !connector.connect)
+        {
+            var connectorId = "default";
+            var connectorConfig = {};
+            if (Alpaca.isString(connector)) {
+                connectorId = connector;
             }
-        }
+            else if (Alpaca.isObject(connector) && connector.id) {
+                connectorId = connector.id;
+                if (connector.config) {
+                    connectorConfig = connector.config;
+                }
+            }
 
-        // instantiate the connector
-        var ConnectorClass = Alpaca.getConnectorClass(connectorId);
-        connector = new ConnectorClass(connectorId, connectorConfig);
+            var ConnectorClass = Alpaca.getConnectorClass(connectorId);
+            if (!ConnectorClass) {
+                ConnectorClass = Alpaca.getConnectorClass("default");
+            }
+            connector = new ConnectorClass(connectorId, connectorConfig);
+        }
 
         // For second or deeper level of fields, default loader should be the one to do loadAll
         // since schema, data, options and view should have already been loaded.
@@ -2698,6 +2738,28 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             if (!field.parent)
             {
                 field.observableScope = Alpaca.generateId();
+            }
+
+            // if we are the top-most control
+            // fire "ready" event on every control
+            // go down depth first and fire to lowest controls before trickling back up
+            var fireReady = function(_field)
+            {
+                if (_field.children && _field.children.length > 0)
+                {
+                    for (var g = 0; g < _field.children.length; g++)
+                    {
+                        fireReady(_field.children[g]);
+                    }
+                }
+
+                _field.trigger("ready");
+            };
+            if (!field.parent)
+            {
+                fireReady(field);
+
+                // field.triggerWithPropagation.call(field, "ready", "down");
             }
 
             // if top level and focus has not been specified, then auto-set
@@ -3111,6 +3173,18 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             return copy;
         },
 
+        copyInto: function(target, source)
+        {
+            for (var i in source)
+            {
+                if (source.hasOwnProperty(i) && !this.isFunction(this[i]))
+                {
+                    target[i] = source[i];
+                }
+            }
+        },
+
+
         /**
          * Retained for legacy purposes.  Alias for copyOf().
          *
@@ -3203,6 +3277,21 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
          * Whether to set focus by default
          */
         defaultFocus: true,
+
+        /**
+         * The default sort function to use for enumerations.
+         */
+        defaultSort: function(a, b) {
+
+            if (a.text > b.text) {
+                return 1;
+            }
+            else if (a.text < b.text) {
+                return -1;
+            }
+
+            return 0;
+        },
 
         /**
          * Sets the default Locale.
@@ -4025,9 +4114,12 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                 if (Alpaca.isArray(val) && val.length === 0) {
                     empty = true;
                 }
+
+                /*
                 if (Alpaca.isNumber(val) && isNaN(val)) {
                     empty = true;
                 }
+                */
             }
             return empty;
         },
@@ -5572,8 +5664,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         {
             if (!chain || chain.length === 0)
             {
-                done();
-                return;
+                return done();
             }
 
             var current = chain[0];
@@ -5685,7 +5776,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             else
             {
                 // we don't markup invalidation state for readonly fields
-                if (!field.options.readonly)
+                if (!field.options.readonly || Alpaca.showReadOnlyInvalidState)
                 {
                     var hidden = false;
                     if (field.hideInitValidationError) {
@@ -5729,7 +5820,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                 if (!field.initializing)
                 {
                     // we don't markup invalidation state for readonly fields
-                    if (!field.options.readonly)
+                    if (!field.options.readonly || Alpaca.showReadOnlyInvalidState)
                     {
                         // messages
                         var messages = [];
@@ -7183,6 +7274,27 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    // Moment.js static
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    Alpaca.moment = function() {
+
+        if (!Alpaca._moment) {
+            if (window.moment) {
+                Alpaca._moment = window.moment;
+            }
+        }
+
+        if (!Alpaca._moment) {
+            throw new Error("The moment.js library has not been included, cannot produce moment object");
+        }
+
+        return Alpaca._moment.call(this, arguments);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     // CSRF Support
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -7191,6 +7303,18 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
     Alpaca.CSRF_COOKIE_NAMES = ["CSRF-TOKEN", "XSRF-TOKEN"];
     Alpaca.CSRF_HEADER_NAME = "X-CSRF-TOKEN";
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // STATIC DEFAULTS
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // use this to set the default "sticky" toolbar behavior
+    // set to true to have toolbars always stick or undefined to have them appear on hover
+    Alpaca.defaultToolbarSticky = undefined;
+
+    // use this to have invalid messages show up for read-only fields
+    Alpaca.showReadOnlyInvalidState = false;
 
 })(jQuery);
 
@@ -8929,38 +9053,68 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             {
                 var self = this;
 
-                if (typeof(val) !== "undefined")
+                var _ensure = function(v, type)
                 {
-                    if (Alpaca.isString(val))
+                    if (Alpaca.isString(v))
                     {
-                        if (self.schema.type === "number")
+                        if (type === "number")
                         {
-                            val = parseFloat(val);
+                            v = parseFloat(v);
                         }
-                        else if (self.schema.type === "boolean")
+                        else if (type === "integer")
                         {
-                            if (val === "" || val.toLowerCase() === "false") {
-                                val = false;
+                            v = parseInt(v);
+                        }
+                        else if (type === "boolean")
+                        {
+                            if (v === "" || v.toLowerCase() === "false")
+                            {
+                                v = false;
                             }
-                            else {
-                                val = true;
+                            else
+                            {
+                                v = true;
                             }
                         }
                     }
-                    else if (Alpaca.isNumber(val))
+                    else if (Alpaca.isNumber(v))
                     {
-                        if (self.schema.type === "string")
+                        if (type === "string")
                         {
-                            val = "" + val;
+                            v = "" + v;
                         }
-                        else if (self.schema.type === "boolean")
+                        else if (type === "boolean")
                         {
-                            if (val === -1 || val === 0) {
-                                val = false;
+                            if (v === -1 || v === 0)
+                            {
+                                v = false;
                             }
                             else {
-                                val = true;
+                                v = true;
                             }
+                        }
+                    }
+
+                    return v;
+                };
+
+                if (typeof(val) !== "undefined")
+                {
+                    if (Alpaca.isArray(val))
+                    {
+                        for (var i = 0; i < val.length; i++)
+                        {
+                            if (self.schema.items && self.schema.items.type)
+                            {
+                                val[i] = _ensure(val[i], self.schema.items.type);
+                            }
+                        }
+                    }
+                    else if (Alpaca.isString(val) || Alpaca.isNumber(val))
+                    {
+                        if (self.schema.type)
+                        {
+                            val = _ensure(val, self.schema.type);
                         }
                     }
                 }
@@ -9089,18 +9243,78 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         },
 
         /**
-         * Triggers an event and propagates the event up the parent chain.
+         * Triggers an event and propagates the event.
+         *
+         * By default, the behavior is to propagate up to the parent chain (bubble up).
+         *
+         * If "direction" is set to "down" and the field is a container, then the event is propagated down
+         * to children (trickle down).
+         *
+         * If "direction" is set to "both", then both up and down are triggered.
          *
          * @param name
          * @param event
+         * @param direction (optional) see above
          */
-        triggerWithPropagation: function(name, event)
+        triggerWithPropagation: function(name, event, direction)
         {
-            this.trigger.call(this, name, event);
+            if (typeof(event) === "string") {
+                direction = event;
+                event = null;
+            }
 
-            if (this.parent)
+            if (!direction) {
+                direction = "up";
+            }
+
+            if (direction === "up")
             {
-                this.parent.triggerWithPropagation.call(this.parent, name, event);
+                // we trigger ourselves first
+                this.trigger.call(this, name, event);
+
+                // then we trigger parents
+                if (this.parent)
+                {
+                    this.parent.triggerWithPropagation.call(this.parent, name, event, direction);
+                }
+            }
+            else if (direction === "down")
+            {
+                // do any children first
+                if (this.children && this.children.length > 0)
+                {
+                    for (var i = 0; i < this.children.length; i++)
+                    {
+                        var child = this.children[i];
+
+                        child.triggerWithPropagation.call(child, name, event, direction);
+                    }
+                }
+
+                // do ourselves last
+                this.trigger.call(this, name, event);
+            }
+            else if (direction === "both")
+            {
+                // do any children first
+                if (this.children && this.children.length > 0)
+                {
+                    for (var i = 0; i < this.children.length; i++)
+                    {
+                        var child = this.children[i];
+
+                        child.triggerWithPropagation.call(child, name, event, "down");
+                    }
+                }
+
+                // then do ourselves
+                this.trigger.call(this, name, event);
+
+                // then we trigger parents
+                if (this.parent)
+                {
+                    this.parent.triggerWithPropagation.call(this.parent, name, event, "up");
+                }
             }
         },
 
@@ -9164,6 +9378,8 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
          */
         render: function(view, callback)
         {
+            var self = this;
+
             if (view && (Alpaca.isString(view) || Alpaca.isObject(view)))
             {
                 this.view.setView(view);
@@ -9193,7 +9409,13 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
             this.setup();
 
-            this._render(callback);
+            this._render(function() {
+
+                // trigger the render event
+                self.trigger("render");
+
+                callback();
+            });
         },
 
         calculateName: function()
@@ -9680,6 +9902,9 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
             // reset domEl so that we're rendering into the right place
             //self.domEl = self.field.parent();
+
+            // mark that we are initializing
+            this.initializing = true;
 
             // re-setup the field
             self.setup();
@@ -10485,9 +10710,19 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
                         if (Alpaca.isFunction(func))
                         {
-                            _this.field.on(event, function(e) {
-                                func.call(_this,e);
-                            });
+                            if (event === "render" || event === "ready" || event === "blur" || event === "focus")
+                            {
+                                _this.on(event, function(e, a, b, c) {
+                                    func.call(_this, e, a, b, c);
+                                })
+                            }
+                            else
+                            {
+                                // legacy support
+                                _this.field.on(event, function(e) {
+                                    func.call(_this,e);
+                                });
+                            }
                         }
                     });
                 }
@@ -10590,15 +10825,28 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                 {
                     var pathElement = pathArray[i];
 
-                    if (pathElement.indexOf("[") === 0)
+                    var _name = pathElement;
+                    var _index = -1;
+
+                    var z1 = pathElement.indexOf("[");
+                    if (z1 >= 0)
                     {
-                        // index into an array
-                        var index = parseInt(pathElement.substring(1, pathElement.length - 1), 10);
-                        current = current.children[index];
+                        var z2 = pathElement.indexOf("]", z1 + 1);
+                        if (z2 >= 0)
+                        {
+                            _index = parseInt(pathElement.substring(z1 + 1, z2));
+                            _name = pathElement.substring(0, z1);
+                        }
                     }
-                    else
+
+                    if (_name)
                     {
-                        current = current.childrenByPropertyId[pathElement];
+                        current = current.childrenByPropertyId[_name];
+
+                        if (_index > -1)
+                        {
+                            current = current.children[_index];
+                        }
                     }
                 }
 
@@ -10606,6 +10854,74 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             }
 
             return result;
+        },
+
+        /**
+         * Retrieves an array of Alpaca controls by their Alpaca field type (i.e. "text", "checkbox", "ckeditor")
+         * This does a deep traversal across the graph of Alpaca field instances.
+         *
+         * @param fieldType
+         * @returns {Array}
+         */
+        getControlsByFieldType: function(fieldType) {
+
+            var array = [];
+
+            if (fieldType)
+            {
+                var f = function(parent, fieldType, array)
+                {
+                    for (var i = 0; i < parent.children.length; i++)
+                    {
+                        if (parent.children[i].getFieldType() === fieldType)
+                        {
+                            array.push(parent.children[i]);
+                        }
+
+                        if (parent.children[i].isContainer())
+                        {
+                            f(parent.children[i], fieldType, array);
+                        }
+                    }
+                };
+                f(this, fieldType, array);
+            }
+
+            return array;
+        },
+
+        /**
+         * Retrieves an array of Alpaca controls by their schema type (i.e. "string", "number").
+         * This does a deep traversal across the graph of Alpaca field instances.
+         *
+         * @param schemaType
+         * @returns {Array}
+         */
+        getControlsBySchemaType: function(schemaType) {
+
+            var array = [];
+
+            if (schemaType)
+            {
+                var f = function(parent, schemaType, array)
+                {
+                    for (var i = 0; i < parent.children.length; i++)
+                    {
+                        if (parent.children[i].getType() === schemaType)
+                        {
+                            array.push(parent.children[i]);
+                        }
+
+                        if (parent.children[i].isContainer())
+                        {
+                            f(parent.children[i], schemaType, array);
+                        }
+                    }
+                };
+                f(this, schemaType, array);
+            }
+
+            return array;
         },
 
         /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -11659,7 +11975,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                 setTimeout(function() {
                     self.onChange.call(self, e);
                     self.triggerWithPropagation("change", e);
-                }, 250);
+                }, 200);
             });
 
             control.focus(function(e) {
@@ -11876,22 +12192,16 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         {
             var self = this;
 
-            var defaultSort = function(a, b) {
-
-                if (a.text > b.text) {
-                    return 1;
-                }
-                else if (a.text < b.text) {
-                    return -1;
-                }
-
-                return 0;
-            };
+            // if sort is false, just return
+            if (self.options.sort === false)
+            {
+                return;
+            }
 
             // assume a default sort function
-            var sortFn = defaultSort;
+            var sortFn = Alpaca.defaultSort;
 
-            // is there a custom sort function defined?
+            // if they provide a custom sort function, use that instead
             if (self.options.sort) {
                 if (typeof(self.options.sort) === "function") {
                     sortFn = self.options.sort;
@@ -11952,7 +12262,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                     },
                     "sort": {
                         "title": "Sort Function",
-                        "description": "Defines an f(a,b) sort function for the array of enumerated values [{text, value}].  This is used to sort enum and optionLabels as well as results that come back from any data sources (for select and radio controls).",
+                        "description": "Defines an f(a,b) sort function for the array of enumerated values [{text, value}].  This is used to sort enum and optionLabels as well as results that come back from any data sources (for select and radio controls).  By default the items are sorted alphabetically.   Don't apply any sorting if false.",
                         "type": "function"
                     }
                 }
@@ -12659,16 +12969,14 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             var invalidIndex = -1;
 
             // use the dom to create an array that orders things as they are laid out on the page
-            var pageOrderedChildren = new Array(this.children.length);
+            var pageOrderedChildren = [];
             var el = this.getContainerEl();
             if (this.form) {
                 el = this.form.getFormEl();
             }
-            var pageOrder = 0;
             $(el).find(".alpaca-container-item[data-alpaca-container-item-parent-field-id='" + this.getId() + "']").each(function() {
                 var childIndex = $(this).attr("data-alpaca-container-item-index");
-                pageOrderedChildren[pageOrder] = self.children[childIndex];
-                pageOrder++;
+                pageOrderedChildren.push(self.children[childIndex]);
             });
 
             // walk the ordered children and find first invalid
@@ -13911,6 +14219,30 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             {
                 successCallback(resource);
             }
+        },
+
+        /**
+         * Loads data source (value/text) pairs from a remote source.
+         * This default implementation allows for config to be a string identifying a URL.
+         *
+         * @param config
+         * @param successCallback
+         * @param errorCallback
+         * @returns {*}
+         */
+        loadDataSource: function (config, successCallback, errorCallback)
+        {
+            return this._handleLoadDataSource(config, successCallback, errorCallback);
+        },
+
+        _handleLoadDataSource: function(config, successCallback, errorCallback)
+        {
+            var url = config;
+            if (Alpaca.isObject(url)) {
+                url = config.url;
+            }
+
+            return this._handleLoadJsonResource(url, successCallback, errorCallback);
         }
 
     });
@@ -14301,26 +14633,63 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         {
             var self = this;
 
-            Gitana.connect(this.config, function(err) {
-
-                if (err) {
+            var cfn = function(err, branch)
+            {
+                if (err)
+                {
                     onError(err);
                     return;
                 }
 
-                self.gitana = this;
-
-                self.gitana.datastore("content").readBranch("master").then(function() {
-
-                    self.branch = this;
+                if (branch)
+                {
+                    self.branch = Chain(branch);
 
                     self.bindHelperFunctions(self.branch);
+                }
 
-                    // also store a reference on Alpaca for global use
-                    Alpaca.branch = self.branch;
+                onSuccess();
+            };
 
-                    onSuccess();
+            if (Alpaca.globalContext && Alpaca.globalContext.branch)
+            {
+                cfn(null, Alpaca.globalContext.branch);
+            }
+            else
+            {
+                self.branch = null;
+
+                self.doConnect(function (err, branch) {
+                    cfn(err, branch);
                 });
+            }
+        },
+
+        doConnect: function(callback)
+        {
+            var self = this;
+
+            if (!this.config.key) {
+                this.config.key = "default";
+            }
+
+            Gitana.connect(this.config, function(err) {
+
+                if (err) {
+                    callback(err);
+                    return;
+                }
+
+                if (this.getDriver().getOriginalConfiguration().loadAppHelper)
+                {
+                    this.datastore("content").readBranch("master").then(function() {
+                        callback(null, this);
+                    });
+                }
+                else
+                {
+                    callback();
+                }
             });
         },
 
@@ -14380,6 +14749,28 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                     });
                 };
             }
+
+            if (!branch.loadAlpacaDataSource)
+            {
+                branch.loadAlpacaDataSource = function(config, pagination, callback)
+                {
+                    var params = {};
+                    if (pagination)
+                    {
+                        Alpaca.copyInto(params, pagination);
+                    }
+
+                    var uriFunction = function()
+                    {
+                        return branch.getUri() + "/alpaca/datasource";
+                    };
+
+                    return this.chainPostResponse(this, uriFunction, params, config).then(function(response) {
+                        callback.call(this, null, response.datasource);
+                    });
+                };
+            }
+
         },
 
         /**
@@ -14394,6 +14785,13 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         {
             var self = this;
 
+            // if we didn't connect to a branch, then use the default method
+            if (!self.branch)
+            {
+                return this.base(nodeId, resources, successCallback, errorCallback);
+            }
+
+            // load from cloud cms
             self.branch.loadAlpacaData(nodeId, resources, function(err, data) {
 
                 if (err)
@@ -14425,6 +14823,13 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         {
             var self = this;
 
+            // if we didn't connect to a branch, then use the default method
+            if (!self.branch)
+            {
+                return this.base(schemaIdentifier, resources, successCallback, errorCallback);
+            }
+
+            // load from cloud cms
             self.branch.loadAlpacaSchema(schemaIdentifier, resources, function(err, schema) {
 
                 if (err)
@@ -14451,6 +14856,13 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
         {
             var self = this;
 
+            // if we didn't connect to a branch, then use the default method
+            if (!self.branch)
+            {
+                return this.base(optionsIdentifier, resources, successCallback, errorCallback);
+            }
+
+            // load from cloud cms
             self.branch.loadAlpacaOptions(optionsIdentifier, resources, function(err, options) {
 
                 if (err)
@@ -14499,7 +14911,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
                 if (typeof(options.focus) === "undefined")
                 {
-                    options.focus = true;
+                    options.focus = Alpaca.defaultFocus;
                 }
 
                 // adjust the action handler relative to baseURL
@@ -14535,6 +14947,37 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             var self = this;
 
             return self.loadOptions(optionsIdentifier, successCallback, errorCallback);
+        },
+
+        /**
+         * Loads data source elements based on a content query to Cloud CMS.
+         *
+         * @param config
+         * @param successCallback
+         * @param errorCallback
+         * @returns {*}
+         */
+        loadDataSource: function (config, successCallback, errorCallback)
+        {
+            var self = this;
+
+            // if we didn't connect to a branch, then use the default method
+            if (!self.branch)
+            {
+                return this.base(config, successCallback, errorCallback);
+            }
+
+            var pagination = config.pagination;
+            delete config.pagination;
+
+            return self.branch.loadAlpacaDataSource(config, pagination, function(err, array) {
+                if (err) {
+                    errorCallback(err);
+                    return;
+                }
+
+                successCallback(array);
+            });
         }
 
     });
@@ -16153,6 +16596,18 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                     }
                 }
             }
+
+            // if they provided "datasource", we copy to "dataSource"
+            if (self.options.datasource && !self.options.dataSource) {
+                self.options.dataSource = self.options.datasource;
+                delete self.options.datasource;
+            }
+
+            // we optionally allow the data source return values to override the schema and options
+            if (typeof(self.options.useDataSourceAsEnum) === "undefined")
+            {
+                self.options.useDataSourceAsEnum = true;
+            }
         },
 
         prepareControlModel: function(callback)
@@ -16240,23 +16695,29 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
                     var completionFunction = function()
                     {
+                        var self = this;
+
                         // apply sorting to whatever we produce
                         self.sortSelectableOptions(self.selectOptions);
 
-                        // now build out the enum and optionLabels
-                        self.schema.enum = [];
-                        self.options.optionLabels = [];
-                        for (var i = 0; i < self.selectOptions.length; i++)
+                        if (self.options.useDataSourceAsEnum)
                         {
-                            self.schema.enum.push(self.selectOptions[i].value);
-                            self.options.optionLabels.push(self.selectOptions[i].text);
+                            // now build out the enum and optionLabels
+                            self.schema.enum = [];
+                            self.options.optionLabels = [];
+                            for (var i = 0; i < self.selectOptions.length; i++)
+                            {
+                                self.schema.enum.push(self.selectOptions[i].value);
+                                self.options.optionLabels.push(self.selectOptions[i].text);
+                            }
                         }
 
                         // push back to model
                         model.selectOptions = self.selectOptions;
 
                         callback();
-                    };
+
+                    }.bind(self);
 
                     if (Alpaca.isFunction(self.options.dataSource))
                     {
@@ -16380,15 +16841,64 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                     }
                     else if (Alpaca.isObject(self.options.dataSource))
                     {
-                        for (var k in self.options.dataSource)
+                        if (self.options.dataSource.connector)
                         {
-                            self.selectOptions.push({
-                                "text": self.options.dataSource[k],
-                                "value": k
+                            var connector = self.connector;
+
+                            if (Alpaca.isObject(self.options.dataSource.connector))
+                            {
+                                var connectorId = self.options.dataSource.connector.id;
+                                var connectorConfig = self.options.dataSource.connector.config;
+                                if (!connectorConfig) {
+                                    connectorConfig = {};
+                                }
+
+                                var ConnectorClass = Alpaca.getConnectorClass(connectorId);
+                                if (ConnectorClass) {
+                                    connector = new ConnectorClass(connectorId, connectorConfig);
+                                }
+                            }
+
+                            var config = self.options.dataSource.config;
+                            if (!config) {
+                                config = {};
+                            }
+
+                            // load using connector
+                            connector.loadDataSource(config, function(array) {
+
+                                for (var i = 0; i < array.length; i++)
+                                {
+                                    if (typeof(array[i]) === "string")
+                                    {
+                                        self.selectOptions.push({
+                                            "text": array[i],
+                                            "value": array[i]
+                                        });
+                                    }
+                                    else if (Alpaca.isObject(array[i]))
+                                    {
+                                        self.selectOptions.push(array[i]);
+                                    }
+                                }
+
+                                completionFunction();
                             });
                         }
+                        else
+                        {
+                            // load from standard object
+                            for (var k in self.options.dataSource)
+                            {
+                                self.selectOptions.push({
+                                    "text": self.options.dataSource[k],
+                                    "value": k
+                                });
+                            }
 
-                        completionFunction();
+                            completionFunction();
+                        }
+
                     }
                     else
                     {
@@ -16458,6 +16968,12 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                         "description": "Whether to hide the None option from a list (select, radio or otherwise).  This will be true if the field is required and false otherwise.",
                         "type": "boolean",
                         "default": false
+                    },
+                    "useDataSourceAsEnum": {
+                        "title": "Use Data Source as Enumerated Values",
+                        "description": "Whether to constrain the field's schema enum property to the values that come back from the data source.",
+                        "type": "boolean",
+                        "default": true
                     }
                 }
             });
@@ -17743,7 +18259,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                 }
             }
 
-            var toolbarSticky = undefined;
+            var toolbarSticky = Alpaca.defaultToolbarSticky;
 
             if (!Alpaca.isEmpty(this.view.toolbarSticky))
             {
@@ -18462,16 +18978,20 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             if (this.schema.items && this.schema.uniqueItems)
             {
                 var hash = {};
-                for (var i = 0, l = this.children.length; i < l; ++i)
+
+                for (var i = 0; i < this.children.length; i++)
                 {
-                    if (!hash.hasOwnProperty(this.children[i]))
-                    {
-                        hash[this.children[i]] = true;
+                    var key = this.children[i].getValue();
+                    if (!key) {
+                        key = "";
                     }
-                    else
+
+                    if (hash[key])
                     {
                         return false;
                     }
+
+                    hash[key] = true;
                 }
             }
 
@@ -18961,6 +19481,9 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
                     // trigger update
                     self.triggerUpdate();
+
+                    // trigger "ready"
+                    item.triggerWithPropagation.call(item, "ready", "down");
 
                     if (callback)
                     {
@@ -20031,7 +20554,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
             status = this._validateMinProperties();
             valInfo["tooFewProperties"] = {
-                "message": status ? "" : Alpaca.substituteTokens(this.getMessage("tooManyItems"), [this.schema.items.minProperties]),
+                "message": status ? "" : Alpaca.substituteTokens(this.getMessage("tooManyItems"), [this.schema.minProperties]),
                 "status": status
             };
 
@@ -20493,6 +21016,9 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
                     // trigger update
                     self.triggerUpdate();
+
+                    // trigger "ready"
+                    child.triggerWithPropagation.call(child, "ready", "down");
 
                     if (callback)
                     {
@@ -22072,12 +22598,15 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                 // see if we can render CK Editor
                 if (!self.isDisplayOnly() && self.control && typeof(CKEDITOR) !== "undefined")
                 {
-                    // use a timeout because CKEditor has some odd timing dependencies
-                    setTimeout(function() {
+                    // wait for Alpaca to declare the DOM swapped and ready before we attempt to do anything with CKEditor
+                    self.on("ready", function() {
+                        if (!self.editor)
+                        {
+                            self.editor = CKEDITOR.replace($(self.control)[0], self.options.ckeditor);
 
-                        self.editor = CKEDITOR.replace($(self.control)[0], self.options.ckeditor);
-
-                    }, 500);
+                            self.initCKEditorEvents();
+                        }
+                    });
                 }
 
                 // if the ckeditor's dom element gets destroyed, make sure we clean up the editor instance
@@ -22098,61 +22627,57 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             });
         },
 
-        initControlEvents: function()
+        initCKEditorEvents: function()
         {
             var self = this;
 
-            setTimeout(function() {
+            if (self.editor)
+            {
+                // click event
+                self.editor.on("click", function (e) {
+                    self.onClick.call(self, e);
+                    self.trigger("click", e);
+                });
 
-                if (self.editor)
-                {
-                    // click event
-                    self.editor.on("click", function (e) {
-                        self.onClick.call(self, e);
-                        self.trigger("click", e);
-                    });
+                // change event
+                self.editor.on("change", function (e) {
+                    self.onChange();
+                    self.triggerWithPropagation("change", e);
+                });
 
-                    // change event
-                    self.editor.on("change", function (e) {
-                        self.onChange();
-                        self.triggerWithPropagation("change", e);
-                    });
+                // blur event
+                self.editor.on('blur', function (e) {
+                    self.onBlur();
+                    self.trigger("blur", e);
+                });
 
-                    // blur event
-                    self.editor.on('blur', function (e) {
-                        self.onBlur();
-                        self.trigger("blur", e);
-                    });
+                // focus event
+                self.editor.on("focus", function (e) {
+                    self.onFocus.call(self, e);
+                    self.trigger("focus", e);
+                });
 
-                    // focus event
-                    self.editor.on("focus", function (e) {
-                        self.onFocus.call(self, e);
-                        self.trigger("focus", e);
-                    });
+                // keypress event
+                self.editor.on("key", function (e) {
+                    self.onKeyPress.call(self, e);
+                    self.trigger("keypress", e);
+                });
 
-                    // keypress event
-                    self.editor.on("key", function (e) {
-                        self.onKeyPress.call(self, e);
-                        self.trigger("keypress", e);
-                    });
+                // NOTE: these do not seem to work with CKEditor?
+                /*
+                 // keyup event
+                 self.editor.on("keyup", function(e) {
+                 self.onKeyUp.call(self, e);
+                 self.trigger("keyup", e);
+                 });
 
-                    // NOTE: these do not seem to work with CKEditor?
-                    /*
-                     // keyup event
-                     self.editor.on("keyup", function(e) {
-                     self.onKeyUp.call(self, e);
-                     self.trigger("keyup", e);
-                     });
-
-                     // keydown event
-                     self.editor.on("keydown", function(e) {
-                     self.onKeyDown.call(self, e);
-                     self.trigger("keydown", e);
-                     });
-                     */
-                }
-
-            }, 525); // NOTE: odd timing dependencies
+                 // keydown event
+                 self.editor.on("keydown", function(e) {
+                 self.onKeyDown.call(self, e);
+                 self.trigger("keydown", e);
+                 });
+                 */
+            }
         },
 
         setValue: function(value)
@@ -22257,6 +22782,10 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
 })(jQuery);
 
+/**
+ * Uses the spectrum plugin to provide a color picker.
+ * This used to rely on HTML5 but no longer.
+ */
 (function($) {
 
     var Alpaca = $.alpaca;
@@ -22271,10 +22800,44 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
          */
         setup: function()
         {
+            var self = this;
+
+            this.spectrumAvailable = false;
+            if (!self.isDisplayOnly() && typeof($.fn.spectrum) !== "undefined")
+            {
+                this.spectrumAvailable = true;
+            }
+
             // default html5 input type = "color";
-            this.inputType = "color";
+            if (typeof(this.options.spectrum) === "undefined" && self.spectrumAvailable)
+            {
+                this.inputType = "color";
+            }
 
             this.base();
+
+            // set up default spectrum settings
+            if (typeof(this.options.spectrum) === "undefined")
+            {
+                this.options.spectrum = {};
+            }
+            if (typeof(this.options.spectrum.showInput) === "undefined")
+            {
+                this.options.spectrum.showInput = true;
+            }
+            if (typeof(this.options.spectrum.showPalette) === "undefined")
+            {
+                this.options.spectrum.showPalette = true;
+            }
+            if (typeof(this.options.spectrum.preferredFormat) === "undefined")
+            {
+                this.options.spectrum.preferredFormat = "hex3";
+            }
+            if (typeof(this.options.spectrum.clickoutFiresChange) === "undefined")
+            {
+                this.options.spectrum.clickoutFiresChange = true;
+            }
+            this.options.spectrum.color = this.data;
         },
 
         /**
@@ -22289,6 +22852,28 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
          */
         getType: function() {
             return "string";
+        },
+
+        afterRenderControl: function(model, callback)
+        {
+            var self = this;
+
+            this.base(model, function() {
+
+                // if we can render the spectrum plugin...
+                if (self.spectrumAvailable && self.control)
+                {
+                    setTimeout(function() {
+                        $((self.control)[0]).spectrum(self.options.spectrum);
+                    }, 100);
+
+                    $(self.control).on('change.spectrum', function(e, tinycolor) {
+                        self.setValue(tinycolor.toHexString());
+                    });
+                }
+
+                callback();
+            });
         },
 
         /* builder_helpers */
@@ -22815,6 +23400,13 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
             }
         },
 
+        beforeRenderControl: function(model, callback)
+        {
+            this.field.css("position", "relative");
+
+            callback();
+        },
+
         /**
          * @see Alpaca.Fields.TextField#afterRenderControl
          */
@@ -22850,6 +23442,11 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                             }, 250);
 
                         });
+
+                        // set value if provided
+                        if (self.data) {
+                            self.picker.date(self.data);
+                        }
                     }
                 }
 
@@ -22969,7 +23566,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
                     for (var i = 0; i < dateFormats.length; i++)
                     {
-                        isValid = isValid || moment(value, self.options.dateFormat, true).isValid();
+                        isValid = isValid || Alpaca.moment(value, self.options.dateFormat, true).isValid();
                     }
                 }
             }
@@ -22988,7 +23585,7 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
             if (this.picker)
             {
-                if (moment(value, self.options.dateFormat, true).isValid())
+                if (Alpaca.moment(value, self.options.dateFormat, true).isValid())
                 {
                     this.picker.date(value);
                 }
@@ -26780,83 +27377,86 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
                 return value;
             },
 
-            initControlEvents: function()
+            initTinyMCEEvents: function()
             {
                 var self = this;
 
-                setTimeout(function() {
+                if (self.editor) {
 
-                    if (self.editor) {
+                    // click event
+                    self.editor.on("click", function (e) {
+                        self.onClick.call(self, e);
+                        self.trigger("click", e);
+                    });
 
-                        // click event
-                        self.editor.on("click", function (e) {
-                            self.onClick.call(self, e);
-                            self.trigger("click", e);
-                        });
+                    // change event
+                    self.editor.on("change", function (e) {
+                        self.onChange();
+                        self.triggerWithPropagation("change", e);
+                    });
 
-                        // change event
-                        self.editor.on("change", function (e) {
-                            self.onChange();
-                            self.triggerWithPropagation("change", e);
-                        });
+                    // blur event
+                    self.editor.on('blur', function (e) {
+                        self.onBlur();
+                        self.trigger("blur", e);
+                    });
 
-                        // blur event
-                        self.editor.on('blur', function (e) {
-                            self.onBlur();
-                            self.trigger("blur", e);
-                        });
+                    // focus event
+                    self.editor.on("focus", function (e) {
+                        self.onFocus.call(self, e);
+                        self.trigger("focus", e);
+                    });
 
-                        // focus event
-                        self.editor.on("focus", function (e) {
-                            self.onFocus.call(self, e);
-                            self.trigger("focus", e);
-                        });
+                    // keypress event
+                    self.editor.on("keypress", function (e) {
+                        self.onKeyPress.call(self, e);
+                        self.trigger("keypress", e);
+                    });
 
-                        // keypress event
-                        self.editor.on("keypress", function (e) {
-                            self.onKeyPress.call(self, e);
-                            self.trigger("keypress", e);
-                        });
+                    // keyup event
+                    self.editor.on("keyup", function (e) {
+                        self.onKeyUp.call(self, e);
+                        self.trigger("keyup", e);
+                    });
 
-                        // keyup event
-                        self.editor.on("keyup", function (e) {
-                            self.onKeyUp.call(self, e);
-                            self.trigger("keyup", e);
-                        });
-
-                        // keydown event
-                        self.editor.on("keydown", function (e) {
-                            self.onKeyDown.call(self, e);
-                            self.trigger("keydown", e);
-                        });
-                    }
-
-                }, 525);
+                    // keydown event
+                    self.editor.on("keydown", function (e) {
+                        self.onKeyDown.call(self, e);
+                        self.trigger("keydown", e);
+                    });
+                }
             },
 
             afterRenderControl: function(model, callback)
             {
                 var self = this;
+
                 this.base(model, function() {
 
                     if (!self.isDisplayOnly() && self.control && typeof(tinyMCE) !== "undefined")
                     {
-                        var rteFieldID = self.control[0].id;
+                        // wait for Alpaca to declare the DOM swapped and ready before we attempt to do anything with CKEditor
+                        self.on("ready", function() {
 
-                        setTimeout(function () {
+                            if (!self.editor)
+                            {
+                                var rteFieldID = $(self.control)[0].id;
 
-                            tinyMCE.init({
-                                init_instance_callback: function(editor) {
-                                    self.editor = editor;
+                                tinyMCE.init({
+                                    init_instance_callback: function(editor) {
+                                        self.editor = editor;
 
-                                    callback();
-                                },
-                                selector: "#" + rteFieldID,
-                                toolbar: self.options.toolbar
-                            });
+                                        self.initTinyMCEEvents();
+                                    },
+                                    selector: "#" + rteFieldID,
+                                    toolbar: self.options.toolbar
+                                });
 
-                        }, 500);
+                            }
+                        });
                     }
+
+                    callback();
                 });
             },
 
@@ -26931,6 +27531,149 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
     Alpaca.registerFieldClass("tinymce", Alpaca.Fields.TinyMCEField);
 
 })(jQuery);
+(function($) {
+
+    var Alpaca = $.alpaca;
+
+    Alpaca.Fields.TokenField = Alpaca.Fields.TextField.extend(
+    /**
+     * @lends Alpaca.Fields.TokenField.prototype
+     */
+    {
+        /**
+         * @override
+         */
+        getFieldType: function() {
+            return "token";
+        },
+
+        /**
+         * @override
+         */
+        setup: function()
+        {
+            this.base();
+
+            if (!this.options.separator)
+            {
+                this.options.separator = ",";
+            }
+
+            if (typeof(this.options.tokenfield) == "undefined")
+            {
+                this.options.tokenfield = {};
+            }
+
+            if (typeof(this.options.tokenfield.showAutocompleteOnFocus) === "undefined")
+            {
+                this.options.tokenfield.showAutocompleteOnFocus = true;
+            }
+        },
+
+        /**
+         * @override
+         */
+        getControlValue: function()
+        {
+            return this.base();
+        },
+
+        /**
+         * @override
+         */
+        setValue: function(val)
+        {
+            this.base(val);
+        },
+
+        /**
+         * @override
+         */
+        onBlur: function(e)
+        {
+            this.base(e);
+        },
+
+        afterRenderControl: function(model, callback)
+        {
+            var self = this;
+
+            this.base(model, function() {
+
+                // see if we can render CK Editor
+                if (!self.isDisplayOnly() && self.control && typeof($.fn.tokenfield) !== "undefined")
+                {
+                    // wait for Alpaca to declare the DOM swapped and ready before we attempt to do anything
+                    self.on("ready", function() {
+                        $(self.control).tokenfield(self.options.tokenfield);
+                    });
+                }
+
+                callback();
+            });
+        }
+
+
+
+        /* builder_helpers */
+        ,
+
+        /**
+         * @override
+         */
+        getTitle: function() {
+            return "Token Field";
+        },
+
+        /**
+         * @override
+         */
+        getDescription: function() {
+            return "Token field for entering list of tokens separated by delimiter.";
+        },
+
+        /**
+         * @override
+         */
+        getSchemaOfOptions: function() {
+            return Alpaca.merge(this.base(), {
+                "properties": {
+                    "separator": {
+                        "title": "Separator",
+                        "description": "Separator used to split tokens.",
+                        "type": "string",
+                        "default":","
+                    },
+                    "tokenfield": {
+                        "title": "Token Field options",
+                        "description": "Settings to pass into the underlying bootstrap-tokenfield control",
+                        "type": "object",
+                        "default": undefined
+                    }
+                }
+            });
+        },
+
+        /**
+         * @override
+         */
+        getOptionsForOptions: function() {
+            return Alpaca.merge(this.base(), {
+                "fields": {
+                    "separator": {
+                        "type": "text"
+                    }
+                }
+            });
+        }
+
+        /* end_builder_helpers */
+    });
+
+    Alpaca.registerFieldClass("token", Alpaca.Fields.TokenField);
+
+})(jQuery);
+
 (function($) {
 
     var Alpaca = $.alpaca;
@@ -28737,6 +29480,115 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 })(jQuery);
 (function($) {
 
+	// czech - czech republic
+
+	var Alpaca = $.alpaca;
+
+	Alpaca.registerView ({
+		"id": "base",
+		"messages": {
+			"cs_CZ": {
+				required: "Toto pole je vyžadováno",
+				invalid: "Toto pole je neplatné",
+				months: ["Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"],
+				timeUnits: {
+					SECOND: "sekundy",
+					MINUTE: "minuty",
+					HOUR: "hodiny",
+					DAY: "dny",
+					MONTH: "měsíce",
+					YEAR: "roky"
+				},
+				// ControlField.js
+				"invalidValueOfEnum": "Toto pole musí obsahovat jednu hodnotu z {0}. Aktuální hodnota je: {1}",
+
+				// Field.js
+				"notOptional": "Toto pole není volitelné",
+				"disallowValue": "{0} jsou zakázané hodnoty.",
+
+				// fields/basic/ArrayField.js
+				"notEnoughItems": "Minimální počet položek je {0}",
+				"tooManyItems": "Maximální počet položek je {0}",
+				"valueNotUnique": "Hodnoty nejsou unikátní",
+				"notAnArray": "Tato hodnota není pole",
+				"addItemButtonLabel": "Přidat novou položku",
+				"addButtonLabel": "Přidat",
+				"removeButtonLabel": "Odebrat",
+				"upButtonLabel": "Nahoru",
+				"downButtonLabel": "Dolů",
+
+				// fields/basic/ListField.js
+				"noneLabel": "Žádný",
+
+				// fields/basic/NumberField.js
+				"stringValueTooSmall": "Minimální hodnota tohoto pole je {0}",
+				"stringValueTooLarge": "Maximální hodnota tohoto pole je {0}",
+				"stringValueTooSmallExclusive": "Hodnota tohoto pole musí být větší než {0}",
+				"stringValueTooLargeExclusive": "Hodnota tohoto pole musí být menší než {0}",
+				"stringDivisibleBy": "Hodnota musí být dělitelná {0}",
+				"stringNotANumber": "Hodnota není číslo.",
+				"stringValueNotMultipleOf": "Číslo není násobkem {0}",
+
+				// fields/basic/ObjectField.js
+				"tooManyProperties": "Maximální počet vlastností ({0}) byl překročen.",
+				"tooFewProperties": "Není dostatek vlastností (je požadováno {0})",
+
+				// fields/basic/TextAreaField.js
+				"wordLimitExceeded": "Maximální počet slov ({0}) byl překročen.",
+
+				// fields/basic/TextField.js
+				"invalidPattern": "Toto pole má mít vzor {0}",
+				"stringTooShort": "Toto pole musí obsahovat nejmeně {0} znaků",
+				"stringTooLong": "Toto pole musí obsahovat maximálně {0} znaků",
+
+				// fields/advanced/DateField.js
+				"invalidDate": "Nesprávné datum pro formát {0}",
+
+				// fields/advaned/EditorField.js
+				"editorAnnotationsExist": "Editor má v sobě chyby, které musí být opraveny",
+
+				// fields/advanced/EmailField.js
+				"invalidEmail": "Chybná e-mailová adresa, př.: info@cloudcms.com",
+
+				// fields/advanced.IntegerField.js
+				"stringNotAnInteger": "Tato hodnota není číslo.",
+
+				// fields/advanced/IPv4Field.js
+				"invalidIPv4": "Chybná IPv4 adresa, ex: 192.168.0.1",
+
+				// fields/advanced/JSONField.js
+				"stringNotAJSON": "Tato hodnota není platný JSON text.",
+
+				// fields/advanced/MapField.js
+				"keyMissing": "Mapa obsahuje prázdný klíč.",
+				"keyNotUnique": "Klíče nejsou jedinečné.",
+
+				// fields/advanced/PasswordField.js
+				"invalidPassword": "Špatné heslo",
+
+				// fields/advanced/PasswordField.js
+				"invalidPhone": "Špatné telefonní číslo, př.: (123) 456-9999", // TODO: invalid pattern for czech locale
+
+				// fields/advanced/UploadField.js
+				"chooseFile": "Vyberte soubor...",
+				"chooseFiles": "Vyberte soubory...",
+				"dropZoneSingle": "Vyberte soubor nebo jej přetáhněte sem pro nahrání...",
+				"dropZoneMultiple": "Vyberte soubory nebo je přetáhněte sem pro nahrání...",
+
+				// fields/advanced/URLField.js
+				"invalidURLFormat": "Uvedená URL není platna webová adresa.",
+
+				// fields/advanced/CipcodeField.js
+				"invalidZipcodeFormatFive": "Chybné poštovní směrovací číslo (#####)",
+				"invalidZipcodeFormatNine": "Chybné devíti-místné poštovní směrovací číslo (#####-####)"
+			}
+        }
+	});
+
+})(jQuery);
+
+(function($) {
+
 	// german - austria
 
 	var Alpaca = $.alpaca;
@@ -28744,43 +29596,92 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 	Alpaca.registerView ({
 		"id": "base",
 		"messages": {
-			"zh_CN": {
-				required: "&#27492;&#22495;&#24517;&#39035;",
-				invalid: "&#27492;&#22495;&#19981;&#21512;&#26684;",
-				months: ["&#19968;&#26376;", "&#20108;&#26376;", "&#19977;&#26376;", "&#22235;&#26376;", "&#20116;&#26376;", "&#20845;&#26376;", "&#19971;&#26376;", "&#20843;&#26376;", "&#20061;&#26376;", "&#21313;&#26376;", "&#21313;&#19968;&#26376;", "&#21313;&#20108;&#26376;"],
-				timeUnits: {
-					SECOND: "&#31186;",
-					MINUTE: "&#20998;",
-					HOUR: "&#26102;",
-					DAY: "&#26085;",
-					MONTH: "&#26376;",
-					YEAR: "&#24180;"
-				},
-				"notOptional": "&#27492;&#22495;&#38750;&#20219;&#36873;",
-				"disallowValue": "&#38750;&#27861;&#36755;&#20837;&#21253;&#25324; {0}.",
-				"invalidValueOfEnum": "&#20801;&#35768;&#36755;&#20837;&#21253;&#25324; {0}. [{1}]",
-				"notEnoughItems": "&#26368;&#23567;&#20010;&#25968; {0}",
-				"tooManyItems": "&#26368;&#22823;&#20010;&#25968; {0}",
-				"valueNotUnique": "&#36755;&#20837;&#20540;&#19981;&#29420;&#29305;",
-				"notAnArray": "&#19981;&#26159;&#25968;&#32452;",
-				"invalidDate": "&#26085;&#26399;&#26684;&#24335;&#22240;&#35813;&#26159; {0}",
-				"invalidEmail": "&#20234;&#22969;&#20799;&#26684;&#24335;&#19981;&#23545;, ex: info@cloudcms.com",
-				"stringNotAnInteger": "&#19981;&#26159;&#25972;&#25968;.",
-				"invalidIPv4": "&#19981;&#26159;&#21512;&#27861;IP&#22320;&#22336;, ex: 192.168.0.1",
-				"stringValueTooSmall": "&#26368;&#23567;&#20540;&#26159; {0}",
-				"stringValueTooLarge": "&#26368;&#22823;&#20540;&#26159; {0}",
-				"stringValueTooSmallExclusive": "&#20540;&#24517;&#39035;&#22823;&#20110; {0}",
-				"stringValueTooLargeExclusive": "&#20540;&#24517;&#39035;&#23567;&#20110; {0}",
-				"stringDivisibleBy": "&#20540;&#24517;&#39035;&#33021;&#34987; {0} &#25972;&#38500;",
-				"stringNotANumber": "&#19981;&#26159;&#25968;&#23383;.",
-				"invalidPassword": "&#38750;&#27861;&#23494;&#30721;",
-				"invalidPhone": "&#38750;&#27861;&#30005;&#35805;&#21495;&#30721;, ex: (123) 456-9999",
-				"invalidPattern": "&#27492;&#22495;&#39035;&#26377;&#26684;&#24335; {0}",
-				"stringTooShort": "&#27492;&#22495;&#33267;&#23569;&#38271;&#24230; {0}",
-				"stringTooLong": "&#27492;&#22495;&#26368;&#22810;&#38271;&#24230; {0}"
-			}
-        }
-    });
+            "de_AT": {
+                required: "Eingabe erforderlich",
+                invalid: "Eingabe invalid",
+                months: ["Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+                timeUnits: {
+                    SECOND: "Sekunden",
+                    MINUTE: "Minuten",
+                    HOUR: "Stunden",
+                    DAY: "Tage",
+                    MONTH: "Monate",
+                    YEAR: "Jahre"
+                },
+                "notOptional": "Dieses Feld ist nicht optional",
+                "disallowValue": "Diese Werte sind nicht erlaubt: {0}",
+                "invalidValueOfEnum": "Diese Feld sollte einen der folgenden Werte enthalten: {0}. [{1}]",
+                "notEnoughItems": "Die Mindestanzahl von Elementen ist {0}",
+                "tooManyItems": "Die Maximalanzahl von Elementen ist {0}",
+                "valueNotUnique": "Diese Werte sind nicht eindeutig",
+                "notAnArray": "Keine Liste von Werten",
+                "invalidDate": "Falsches Datumsformat: {0}",
+                "invalidEmail": "Ungültige e-Mail Adresse, z.B.: info@cloudcms.com",
+                "stringNotAnInteger": "Eingabe ist keine Ganz Zahl.",
+                "invalidIPv4": "Ungültige IPv4 Adresse, z.B.: 192.168.0.1",
+                "stringValueTooSmall": "Die Mindestanzahl von Zeichen ist {0}",
+                "stringValueTooLarge": "Die Maximalanzahl von Zeichen ist {0}",
+                "stringValueTooSmallExclusive": "Die Anzahl der Zeichen muss größer sein als {0}",
+                "stringValueTooLargeExclusive": "Die Anzahl der Zeichen muss kleiner sein als {0}",
+                "stringDivisibleBy": "Der Wert muss durch {0} dividierbar sein",
+                "stringNotANumber": "Die Eingabe ist keine Zahl",
+                "invalidPassword": "Ungültiges Passwort.",
+                "invalidPhone": "Ungültige Telefonnummer, z.B.: (123) 456-9999",
+                "invalidPattern": "Diese Feld stimmt nicht mit folgender Vorgabe überein {0}",
+                "stringTooShort": "Dieses Feld sollte mindestens {0} Zeichen enthalten",
+                "stringTooLong": "Dieses Feld sollte höchstens {0} Zeichen enthalten"
+            }
+		}
+	});
+
+})(jQuery);
+
+(function($) {
+
+	// german - germany
+
+	var Alpaca = $.alpaca;
+
+	Alpaca.registerView ({
+		"id": "base",
+		"messages": {
+            "de_DE": {
+                required: "Eingabe erforderlich",
+                invalid: "Eingabe ungültig",
+                months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+                timeUnits: {
+                    SECOND: "Sekunden",
+                    MINUTE: "Minuten",
+                    HOUR: "Stunden",
+                    DAY: "Tage",
+                    MONTH: "Monate",
+                    YEAR: "Jahre"
+                },
+                "notOptional": "Dieses Feld ist nicht optional",
+                "disallowValue": "Diese Werte sind nicht erlaubt: {0}",
+                "invalidValueOfEnum": "Diese Feld sollte einen der folgenden Werte enthalten: {0}. [{1}]",
+                "notEnoughItems": "Die Mindestanzahl von Elementen ist {0}",
+                "tooManyItems": "Die Maximalanzahl von Elementen ist {0}",
+                "valueNotUnique": "Diese Werte sind nicht eindeutig",
+                "notAnArray": "Keine Liste von Werten",
+                "invalidDate": "Falsches Datumsformat: {0}",
+                "invalidEmail": "Keine gültige E-Mail Adresse",
+                "stringNotAnInteger": "Keine Ganze Zahl",
+                "invalidIPv4": "Ungültige IPv4 Adresse",
+                "stringValueTooSmall": "Die Mindestanzahl von Zeichen ist {0}",
+                "stringValueTooLarge": "Die Maximalanzahl von Zeichen ist {0}",
+                "stringValueTooSmallExclusive": "Die Anzahl der Zeichen muss größer sein als {0}",
+                "stringValueTooLargeExclusive": "Die Anzahl der Zeichen muss kleiner sein als {0}",
+                "stringDivisibleBy": "Der Wert muss durch {0} dividierbar sein",
+                "stringNotANumber": "Die Eingabe ist keine Zahl",
+                "invalidPassword": "Ungültiges Passwort",
+                "invalidPhone": "Ungültige Telefonnummer",
+                "invalidPattern": "Diese Feld stimmt nicht mit folgender Vorgabe überein {0}",
+                "stringTooShort": "Dieses Feld sollte mindestens {0} Zeichen enthalten",
+                "stringTooLong": "Dieses Feld sollte höchstens {0} Zeichen enthalten"
+            }
+		}
+	});
 
 })(jQuery);
 
@@ -29055,6 +29956,55 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 
 (function($) {
 
+	// dutch - belgium
+
+	var Alpaca = $.alpaca;
+
+	Alpaca.registerView ({
+		"id": "base",
+		"messages": {
+			"nl_BE": {
+				required: "Dit veld is verplicht",
+				invalid: "Dit veld is ongeldig",
+				months: ["Januari", "Februari", "Maart", "April", "Mei", "Juni", "July", "Augustus", "September", "Oktober", "November", "December"],
+				timeUnits: {
+					SECOND: "seconden",
+					MINUTE: "minuten",
+					HOUR: "uren",
+					DAY: "dagen",
+					MONTH: "maanden",
+					YEAR: "jaren"
+				},
+				"notOptional": "Dit veld is niet optioneel.",
+				"disallowValue": "{0} zijn verboden waarden.",
+				"invalidValueOfEnum": "Dit veld moet één van volgende bevatten : {0}. [{1}]",
+				"notEnoughItems": "Het minimum aantal elementen is {0}",
+				"tooManyItems": "Het maximum aantal elementen is {0}",
+				"valueNotUnique": "De waarden zijn uniek",
+				"notAnArray": "Deze waarde is geen lijst",
+				"invalidDate": "De datum komt niet overeen met formaat {0}",
+				"invalidEmail": "Ongeldig e-mailadres, vb.: info@cloudcms.com",
+				"stringNotAnInteger": "Deze waarde is geen geheel getal.",
+				"invalidIPv4": "Ongeldig IPv4 adres, vb.: 192.168.0.1",
+				"stringValueTooSmall": "De minimale waarde voor dit veld is {0}",
+				"stringValueTooLarge": "De maximale waarde voor dit veld is {0}",
+				"stringValueTooSmallExclusive": "De waarde moet groter zijn dan {0}",
+				"stringValueTooLargeExclusive": "De waarde moet kleiner zijn dan {0}",
+				"stringDivisibleBy": "De waarde moet deelbaar zijn door {0}",
+				"stringNotANumber": "Deze waarde is geen getal.",
+				"invalidPassword": "Ongeldig wachtwoord",
+				"invalidPhone": "Ongeldig telefoonnummer, vb: (123) 456-9999",
+				"invalidPattern": "Dit veld moet overeenkomen met patroon {0}",
+                "stringTooShort": "Dit veld moet minstens {0} tekens bevatten",
+                "stringTooLong": "Dit veld moet minder dan {0} tekens bevatten"
+            }
+        }
+    });
+
+})(jQuery);
+
+(function($) {
+
     // polish - poland
 
     var Alpaca = $.alpaca;
@@ -29159,43 +30109,43 @@ this["HandlebarsPrecompiled"]["jquerymobile-edit"]["message"] = Handlebars.templ
 	Alpaca.registerView ({
 		"id": "base",
 		"messages": {
-            "de_AT": {
-                required: "Eingabe erforderlich",
-                invalid: "Eingabe invalid",
-                months: ["Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
-                timeUnits: {
-                    SECOND: "Sekunden",
-                    MINUTE: "Minuten",
-                    HOUR: "Stunden",
-                    DAY: "Tage",
-                    MONTH: "Monate",
-                    YEAR: "Jahre"
-                },
-                "notOptional": "Dieses Feld ist nicht optional",
-                "disallowValue": "Diese Werte sind nicht erlaubt: {0}",
-                "invalidValueOfEnum": "Diese Feld sollte einen der folgenden Werte enthalten: {0}. [{1}]",
-                "notEnoughItems": "Die Mindestanzahl von Elementen ist {0}",
-                "tooManyItems": "Die Maximalanzahl von Elementen ist {0}",
-                "valueNotUnique": "Diese Werte sind nicht eindeutig",
-                "notAnArray": "Keine Liste von Werten",
-                "invalidDate": "Falsches Datumsformat: {0}",
-                "invalidEmail": "Ungültige e-Mail Adresse, z.B.: info@cloudcms.com",
-                "stringNotAnInteger": "Eingabe ist keine Ganz Zahl.",
-                "invalidIPv4": "Ungültige IPv4 Adresse, z.B.: 192.168.0.1",
-                "stringValueTooSmall": "Die Mindestanzahl von Zeichen ist {0}",
-                "stringValueTooLarge": "Die Maximalanzahl von Zeichen ist {0}",
-                "stringValueTooSmallExclusive": "Die Anzahl der Zeichen muss größer sein als {0}",
-                "stringValueTooLargeExclusive": "Die Anzahl der Zeichen muss kleiner sein als {0}",
-                "stringDivisibleBy": "Der Wert muss durch {0} dividierbar sein",
-                "stringNotANumber": "Die Eingabe ist keine Zahl",
-                "invalidPassword": "Ungültiges Passwort.",
-                "invalidPhone": "Ungültige Telefonnummer, z.B.: (123) 456-9999",
-                "invalidPattern": "Diese Feld stimmt nicht mit folgender Vorgabe überein {0}",
-                "stringTooShort": "Dieses Feld sollte mindestens {0} Zeichen enthalten",
-                "stringTooLong": "Dieses Feld sollte höchstens {0} Zeichen enthalten"
-            }
-		}
-	});
+			"zh_CN": {
+				required: "&#27492;&#22495;&#24517;&#39035;",
+				invalid: "&#27492;&#22495;&#19981;&#21512;&#26684;",
+				months: ["&#19968;&#26376;", "&#20108;&#26376;", "&#19977;&#26376;", "&#22235;&#26376;", "&#20116;&#26376;", "&#20845;&#26376;", "&#19971;&#26376;", "&#20843;&#26376;", "&#20061;&#26376;", "&#21313;&#26376;", "&#21313;&#19968;&#26376;", "&#21313;&#20108;&#26376;"],
+				timeUnits: {
+					SECOND: "&#31186;",
+					MINUTE: "&#20998;",
+					HOUR: "&#26102;",
+					DAY: "&#26085;",
+					MONTH: "&#26376;",
+					YEAR: "&#24180;"
+				},
+				"notOptional": "&#27492;&#22495;&#38750;&#20219;&#36873;",
+				"disallowValue": "&#38750;&#27861;&#36755;&#20837;&#21253;&#25324; {0}.",
+				"invalidValueOfEnum": "&#20801;&#35768;&#36755;&#20837;&#21253;&#25324; {0}. [{1}]",
+				"notEnoughItems": "&#26368;&#23567;&#20010;&#25968; {0}",
+				"tooManyItems": "&#26368;&#22823;&#20010;&#25968; {0}",
+				"valueNotUnique": "&#36755;&#20837;&#20540;&#19981;&#29420;&#29305;",
+				"notAnArray": "&#19981;&#26159;&#25968;&#32452;",
+				"invalidDate": "&#26085;&#26399;&#26684;&#24335;&#22240;&#35813;&#26159; {0}",
+				"invalidEmail": "&#20234;&#22969;&#20799;&#26684;&#24335;&#19981;&#23545;, ex: info@cloudcms.com",
+				"stringNotAnInteger": "&#19981;&#26159;&#25972;&#25968;.",
+				"invalidIPv4": "&#19981;&#26159;&#21512;&#27861;IP&#22320;&#22336;, ex: 192.168.0.1",
+				"stringValueTooSmall": "&#26368;&#23567;&#20540;&#26159; {0}",
+				"stringValueTooLarge": "&#26368;&#22823;&#20540;&#26159; {0}",
+				"stringValueTooSmallExclusive": "&#20540;&#24517;&#39035;&#22823;&#20110; {0}",
+				"stringValueTooLargeExclusive": "&#20540;&#24517;&#39035;&#23567;&#20110; {0}",
+				"stringDivisibleBy": "&#20540;&#24517;&#39035;&#33021;&#34987; {0} &#25972;&#38500;",
+				"stringNotANumber": "&#19981;&#26159;&#25968;&#23383;.",
+				"invalidPassword": "&#38750;&#27861;&#23494;&#30721;",
+				"invalidPhone": "&#38750;&#27861;&#30005;&#35805;&#21495;&#30721;, ex: (123) 456-9999",
+				"invalidPattern": "&#27492;&#22495;&#39035;&#26377;&#26684;&#24335; {0}",
+				"stringTooShort": "&#27492;&#22495;&#33267;&#23569;&#38271;&#24230; {0}",
+				"stringTooLong": "&#27492;&#22495;&#26368;&#22810;&#38271;&#24230; {0}"
+			}
+        }
+    });
 
 })(jQuery);
 

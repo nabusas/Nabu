@@ -67,41 +67,74 @@
         var optionsSource = null;
         var viewSource = null;
 
-        // hands back the field instance that is bound directly under the element el
-        var findExistingAlpacaBinding = function()
+        /**
+         * Finds the Alpaca field instance bound to the dom element.
+         *
+         * First considers the immediate dom element and then looks 1 level deep to children and then up to parent.
+         *
+         * @returns {*}
+         */
+        var findExistingAlpacaBinding = function(domElement, skipPivot)
         {
             var existing = null;
 
-            var topElements = $(el).find(":first");
-            if (topElements.length > 0)
+            // look at "data-alpaca-field-id"
+            var alpacaFieldId = $(domElement).attr("data-alpaca-field-id");
+            if (alpacaFieldId)
             {
-                // does a field binding exist?
-                var fieldId = $(topElements[0]).attr("data-alpaca-field-id");
-                if (fieldId)
+                var alpacaField = Alpaca.fieldInstances[alpacaFieldId];
+                if (alpacaField)
                 {
-                    var _existing = Alpaca.fieldInstances[fieldId];
-                    if (_existing) {
-                        existing = _existing;
-                    }
+                    existing = alpacaField;
                 }
-                else
+            }
+
+            // if not found, look at "data-alpaca-form-id"
+            if (!existing)
+            {
+                var formId = $(domElement).attr("data-alpaca-form-id");
+                if (formId)
                 {
-                    // does a form binding exist?
-                    var formId = $(topElements[0]).attr("data-alpaca-form-id");
-                    if (formId)
+                    var subElements = $(domElement).find(":first");
+                    if (subElements.length > 0)
                     {
-                        var subElements = $(topElements[0]).find(":first");
-                        if (subElements.length > 0)
+                        var subFieldId = $(subElements[0]).attr("data-alpaca-field-id");
+                        if (subFieldId)
                         {
-                            var subFieldId = $(subElements[0]).attr("data-alpaca-field-id");
-                            if (subFieldId)
+                            var subField = Alpaca.fieldInstances[subFieldId];
+                            if (subField)
                             {
-                                var _existing = Alpaca.fieldInstances[subFieldId];
-                                if (_existing) {
-                                    existing = _existing;
-                                }
+                                existing = subField;
                             }
                         }
+                    }
+                }
+            }
+
+            // if not found, check for children 0th element
+            if (!existing && !skipPivot)
+            {
+                var childDomElements = $(el).find(":first");
+                if (childDomElements.length > 0)
+                {
+                    var childField = findExistingAlpacaBinding(childDomElements[0], true);
+                    if (childField)
+                    {
+                        existing = childField;
+                    }
+                }
+            }
+
+            // if not found, check parent
+            if (!existing && !skipPivot)
+            {
+                var parentEl = $(el).parent();
+                if (parentEl)
+                {
+                    var parentField = findExistingAlpacaBinding(parentEl, true);
+                    if (parentField)
+                    {
+                        existing = parentField;
                     }
                 }
             }
@@ -112,7 +145,7 @@
         var specialFunctionNames = ["get", "exists", "destroy"];
         var isSpecialFunction = (args.length > 1 && Alpaca.isString(args[1]) && (specialFunctionNames.indexOf(args[1]) > -1));
 
-        var existing = findExistingAlpacaBinding();
+        var existing = findExistingAlpacaBinding(el);
         if (existing || isSpecialFunction)
         {
             if (isSpecialFunction)
@@ -208,21 +241,28 @@
             errorCallback = Alpaca.defaultErrorCallback;
         }
 
-        var connectorId = "default";
-        var connectorConfig = {};
-        if (Alpaca.isString(connector)) {
-            connectorId = connector;
-        }
-        else if (Alpaca.isObject(connector) && connector.id) {
-            connectorId = connector.id;
-            if (connector.config) {
-                connectorConfig = connector.config;
+        // instantiate the connector (if not already instantiated)
+        // if config is passed in (as object), we instantiate
+        if (!connector || !connector.connect)
+        {
+            var connectorId = "default";
+            var connectorConfig = {};
+            if (Alpaca.isString(connector)) {
+                connectorId = connector;
             }
-        }
+            else if (Alpaca.isObject(connector) && connector.id) {
+                connectorId = connector.id;
+                if (connector.config) {
+                    connectorConfig = connector.config;
+                }
+            }
 
-        // instantiate the connector
-        var ConnectorClass = Alpaca.getConnectorClass(connectorId);
-        connector = new ConnectorClass(connectorId, connectorConfig);
+            var ConnectorClass = Alpaca.getConnectorClass(connectorId);
+            if (!ConnectorClass) {
+                ConnectorClass = Alpaca.getConnectorClass("default");
+            }
+            connector = new ConnectorClass(connectorId, connectorConfig);
+        }
 
         // For second or deeper level of fields, default loader should be the one to do loadAll
         // since schema, data, options and view should have already been loaded.
@@ -274,6 +314,28 @@
             if (!field.parent)
             {
                 field.observableScope = Alpaca.generateId();
+            }
+
+            // if we are the top-most control
+            // fire "ready" event on every control
+            // go down depth first and fire to lowest controls before trickling back up
+            var fireReady = function(_field)
+            {
+                if (_field.children && _field.children.length > 0)
+                {
+                    for (var g = 0; g < _field.children.length; g++)
+                    {
+                        fireReady(_field.children[g]);
+                    }
+                }
+
+                _field.trigger("ready");
+            };
+            if (!field.parent)
+            {
+                fireReady(field);
+
+                // field.triggerWithPropagation.call(field, "ready", "down");
             }
 
             // if top level and focus has not been specified, then auto-set
@@ -687,6 +749,18 @@
             return copy;
         },
 
+        copyInto: function(target, source)
+        {
+            for (var i in source)
+            {
+                if (source.hasOwnProperty(i) && !this.isFunction(this[i]))
+                {
+                    target[i] = source[i];
+                }
+            }
+        },
+
+
         /**
          * Retained for legacy purposes.  Alias for copyOf().
          *
@@ -779,6 +853,21 @@
          * Whether to set focus by default
          */
         defaultFocus: true,
+
+        /**
+         * The default sort function to use for enumerations.
+         */
+        defaultSort: function(a, b) {
+
+            if (a.text > b.text) {
+                return 1;
+            }
+            else if (a.text < b.text) {
+                return -1;
+            }
+
+            return 0;
+        },
 
         /**
          * Sets the default Locale.
@@ -1601,9 +1690,12 @@
                 if (Alpaca.isArray(val) && val.length === 0) {
                     empty = true;
                 }
+
+                /*
                 if (Alpaca.isNumber(val) && isNaN(val)) {
                     empty = true;
                 }
+                */
             }
             return empty;
         },
@@ -3148,8 +3240,7 @@
         {
             if (!chain || chain.length === 0)
             {
-                done();
-                return;
+                return done();
             }
 
             var current = chain[0];
@@ -3261,7 +3352,7 @@
             else
             {
                 // we don't markup invalidation state for readonly fields
-                if (!field.options.readonly)
+                if (!field.options.readonly || Alpaca.showReadOnlyInvalidState)
                 {
                     var hidden = false;
                     if (field.hideInitValidationError) {
@@ -3305,7 +3396,7 @@
                 if (!field.initializing)
                 {
                     // we don't markup invalidation state for readonly fields
-                    if (!field.options.readonly)
+                    if (!field.options.readonly || Alpaca.showReadOnlyInvalidState)
                     {
                         // messages
                         var messages = [];
@@ -4759,6 +4850,27 @@
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
+    // Moment.js static
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    Alpaca.moment = function() {
+
+        if (!Alpaca._moment) {
+            if (window.moment) {
+                Alpaca._moment = window.moment;
+            }
+        }
+
+        if (!Alpaca._moment) {
+            throw new Error("The moment.js library has not been included, cannot produce moment object");
+        }
+
+        return Alpaca._moment.call(this, arguments);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
     // CSRF Support
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4767,5 +4879,17 @@
     Alpaca.CSRF_COOKIE_NAMES = ["CSRF-TOKEN", "XSRF-TOKEN"];
     Alpaca.CSRF_HEADER_NAME = "X-CSRF-TOKEN";
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // STATIC DEFAULTS
+    //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // use this to set the default "sticky" toolbar behavior
+    // set to true to have toolbars always stick or undefined to have them appear on hover
+    Alpaca.defaultToolbarSticky = undefined;
+
+    // use this to have invalid messages show up for read-only fields
+    Alpaca.showReadOnlyInvalidState = false;
 
 })(jQuery);
