@@ -123,12 +123,6 @@
                             valid = valid &amp;&amp; (key >= 48 &amp;&amp; key &lt;= 57);
                         }
 
-                        if(!valid) {
-                            // don't even allow entry of invalid characters
-                            e.preventDefault();
-                            e.stopImmediatePropagation();
-                        }
-
                         return valid;
                     });
                 }
@@ -207,6 +201,27 @@
             {
                 valInfo["stringValueNotMultipleOf"]["message"] = Alpaca.substituteTokens(this.getMessage("stringValueNotMultipleOf"), [this.schema.multipleOf]);
             }
+
+            // TODO: is this necessary?  isn't this handled by TextField parent method (via this.base())?
+            /*
+            var status =  this._validatePattern();
+            valInfo["invalidPattern"] = {
+                "message": status ? "" : Alpaca.substituteTokens(this.getMessage("invalidPattern"), [this.schema.pattern]),
+                "status": status
+            };
+
+            status = this._validateMaxLength();
+            valInfo["stringTooLong"] = {
+                "message": status ? "" : Alpaca.substituteTokens(this.getMessage("stringTooLong"), [this.schema.maxLength]),
+                "status": status
+            };
+
+            status = this._validateMinLength();
+            valInfo["stringTooShort"] = {
+                "message": status ? "" : Alpaca.substituteTokens(this.getMessage("stringTooShort"), [this.schema.minLength]),
+                "status": status
+            };
+            */
 
             // hand back a true/false
             return baseStatus &amp;&amp; valInfo["stringNotANumber"]["status"] &amp;&amp; valInfo["stringDivisibleBy"]["status"] &amp;&amp; valInfo["stringValueTooLarge"]["status"] &amp;&amp; valInfo["stringValueTooSmall"]["status"] &amp;&amp; valInfo["stringValueNotMultipleOf"]["status"] &amp;&amp; valInfo["invalidPattern"]["status"] &amp;&amp; valInfo["stringTooLong"]["status"] &amp;&amp; valInfo["stringTooShort"]["status"];
@@ -325,6 +340,94 @@
         },
 
         /**
+         * Validates against the schema pattern property.
+         *
+         * @returns {Boolean} True if it matches the pattern, false otherwise.
+         */
+        _validatePattern: function()
+        {
+            if (this.schema.pattern)
+            {
+                var val = this.getValue();
+                if(Alpaca.isNumber(val)) {
+                    val = val.toString();
+                }
+                if (val === "" &amp;&amp; this.options.allowOptionalEmpty &amp;&amp; !this.isRequired())
+                {
+                    return true;
+                }
+                if (Alpaca.isEmpty(val))
+                {
+                    val = "";
+                }
+                if (!val.match(this.schema.pattern))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        /**
+         * Validates against the schema minLength property.
+         *
+         * @returns {Boolean} True if its size is greater than minLength, false otherwise.
+         */
+        _validateMinLength: function()
+        {
+            if (!Alpaca.isEmpty(this.schema.minLength))
+            {
+                var val = this.getValue();
+                if(Alpaca.isNumber(val)) {
+                    val = val.toString();
+                }
+                if (val === "" &amp;&amp; this.options.allowOptionalEmpty &amp;&amp; !this.isRequired())
+                {
+                    return true;
+                }
+                if (Alpaca.isEmpty(val))
+                {
+                    val = "";
+                }
+                if (val.length &lt; this.schema.minLength)
+                {
+                    return false;
+                }
+            }
+            return true;
+        },
+
+        /**
+         * Validates against the schema maxLength property.
+         *
+         * @returns {Boolean} True if its size is less than maxLength , false otherwise.
+         */
+        _validateMaxLength: function()
+        {
+            if (!Alpaca.isEmpty(this.schema.maxLength))
+            {
+                var val = this.getValue();
+                if(Alpaca.isNumber(val)) {
+                    val = val.toString();
+                }
+                if (val === "" &amp;&amp; this.options.allowOptionalEmpty &amp;&amp; !this.isRequired())
+                {
+                    return true;
+                }
+                if (Alpaca.isEmpty(val))
+                {
+                    val = "";
+                }
+                if (val.length > this.schema.maxLength)
+                {
+                    return false;
+                }
+            }
+            return true;
+        },
+
+        /**
          * @see Alpaca.Fields.TextField#getType
          */
         getType: function() {
@@ -334,7 +437,7 @@
         /**
          * @see Alpaca.ControlField#onKeyPress
          */
-        onKeyPress: function(e)
+        onKeyDown: function(e)
         {
             var self = this;
 
@@ -551,7 +654,7 @@
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
-	on Thu Sep 24th 2015 using the <a
+	on Sat Aug 1st 2015 using the <a
 	href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 </span>
 </footer>

@@ -513,7 +513,6 @@
                         }
                         if (holder.length > 0)
                         {
-                            // appending into a layout binding holder
                             $(item.containerItemEl).appendTo(holder);
 
                             // reset domEl to allow for refresh
@@ -623,57 +622,65 @@
 
             this.base();
 
-            if (self.children.length > 0)
-            {
-                $(self.getContainerEl()).addClass("alpaca-container-has-items");
-                $(self.getContainerEl()).attr("data-alpaca-container-item-count", self.children.length);
-            }
-            else
-            {
-                $(self.getContainerEl()).removeClass("alpaca-container-has-items");
-                $(self.getContainerEl()).removeAttr("data-alpaca-container-item-count");
+            var layoutBindings = null;
+            if (self.view.getLayout()) {
+                layoutBindings = self.view.getLayout().bindings;
             }
 
-            for (var i = 0; i &lt; self.children.length; i++)
+            if (!layoutBindings)
             {
-                var child = self.children[i];
-
-                // set path if not set
-                if (!child.path)
+                if (self.children.length > 0)
                 {
-                    if (child.schema.type === "array")
+                    $(self.getContainerEl()).addClass("alpaca-container-has-items");
+                    $(self.getContainerEl()).attr("data-alpaca-container-item-count", self.children.length);
+                }
+                else
+                {
+                    $(self.getContainerEl()).removeClass("alpaca-container-has-items");
+                    $(self.getContainerEl()).removeAttr("data-alpaca-container-item-count");
+                }
+
+                for (var i = 0; i &lt; self.children.length; i++)
+                {
+                    var child = self.children[i];
+
+                    // set path if not set
+                    if (!child.path)
                     {
-                        child.path = self.path + "[" + i + "]";
+                        if (child.schema.type === "array")
+                        {
+                            child.path = self.path + "[" + i + "]";
+                        }
+                        else
+                        {
+                            child.path = self.path + "/" + child.propertyId;
+                        }
                     }
-                    else
+
+                    child.calculateName();
+
+                    $(child.containerItemEl).removeClass("alpaca-container-item-first");
+                    $(child.containerItemEl).removeClass("alpaca-container-item-last");
+                    $(child.containerItemEl).removeClass("alpaca-container-item-index");
+                    $(child.containerItemEl).removeClass("alpaca-container-item-key");
+
+                    $(child.containerItemEl).addClass("alpaca-container-item");
+
+                    if (i === 0)
                     {
-                        child.path = self.path + "/" + child.propertyId;
+                        $(child.containerItemEl).addClass("alpaca-container-item-first");
                     }
+                    if (i + 1 === self.children.length)
+                    {
+                        $(child.containerItemEl).addClass("alpaca-container-item-last");
+                    }
+
+                    $(child.containerItemEl).attr("data-alpaca-container-item-index", i);
+                    $(child.containerItemEl).attr("data-alpaca-container-item-name", child.name);
+                    $(child.containerItemEl).attr("data-alpaca-container-item-parent-field-id", self.getId());
+
+                    child.updateDOMElement();
                 }
-
-                child.calculateName();
-
-                $(child.containerItemEl).removeClass("alpaca-container-item-first");
-                $(child.containerItemEl).removeClass("alpaca-container-item-last");
-                $(child.containerItemEl).removeClass("alpaca-container-item-index");
-                $(child.containerItemEl).removeClass("alpaca-container-item-key");
-
-                $(child.containerItemEl).addClass("alpaca-container-item");
-
-                if (i === 0)
-                {
-                    $(child.containerItemEl).addClass("alpaca-container-item-first");
-                }
-                if (i + 1 === self.children.length)
-                {
-                    $(child.containerItemEl).addClass("alpaca-container-item-last");
-                }
-
-                $(child.containerItemEl).attr("data-alpaca-container-item-index", i);
-                $(child.containerItemEl).attr("data-alpaca-container-item-name", child.name);
-                $(child.containerItemEl).attr("data-alpaca-container-item-parent-field-id", self.getId());
-
-                child.updateDOMElement();
             }
         },
 
@@ -729,14 +736,6 @@
         focus: function(onFocusCallback)
         {
             var self = this;
-
-            if (this.isDisplayOnly())
-            {
-                if (onFocusCallback) {
-                    onFocusCallback();
-                }
-                return;
-            }
 
             this.base();
 
@@ -975,7 +974,7 @@
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
-	on Thu Sep 24th 2015 using the <a
+	on Sat Aug 1st 2015 using the <a
 	href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 </span>
 </footer>

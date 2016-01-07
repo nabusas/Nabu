@@ -17,63 +17,26 @@
         {
             var self = this;
 
-            var cfn = function(err, branch)
-            {
-                if (err)
-                {
+            Gitana.connect(this.config, function(err) {
+
+                if (err) {
                     onError(err);
                     return;
                 }
 
-                if (branch)
-                {
-                    self.branch = Chain(branch);
+                self.gitana = this;
+
+                self.gitana.datastore("content").readBranch("master").then(function() {
+
+                    self.branch = this;
 
                     self.bindHelperFunctions(self.branch);
-                }
 
-                onSuccess();
-            };
+                    // also store a reference on Alpaca for global use
+                    Alpaca.branch = self.branch;
 
-            if (Alpaca.globalContext && Alpaca.globalContext.branch)
-            {
-                cfn(null, Alpaca.globalContext.branch);
-            }
-            else
-            {
-                self.branch = null;
-
-                self.doConnect(function (err, branch) {
-                    cfn(err, branch);
+                    onSuccess();
                 });
-            }
-        },
-
-        doConnect: function(callback)
-        {
-            var self = this;
-
-            if (!this.config.key) {
-                this.config.key = "default";
-            }
-
-            Gitana.connect(this.config, function(err) {
-
-                if (err) {
-                    callback(err);
-                    return;
-                }
-
-                if (this.getDriver().getOriginalConfiguration().loadAppHelper)
-                {
-                    this.datastore("content").readBranch("master").then(function() {
-                        callback(null, this);
-                    });
-                }
-                else
-                {
-                    callback();
-                }
             });
         },
 
@@ -133,28 +96,6 @@
                     });
                 };
             }
-
-            if (!branch.loadAlpacaDataSource)
-            {
-                branch.loadAlpacaDataSource = function(config, pagination, callback)
-                {
-                    var params = {};
-                    if (pagination)
-                    {
-                        Alpaca.copyInto(params, pagination);
-                    }
-
-                    var uriFunction = function()
-                    {
-                        return branch.getUri() + "/alpaca/datasource";
-                    };
-
-                    return this.chainPostResponse(this, uriFunction, params, config).then(function(response) {
-                        callback.call(this, null, response.datasource);
-                    });
-                };
-            }
-
         },
 
         /**
@@ -169,13 +110,6 @@
         {
             var self = this;
 
-            // if we didn't connect to a branch, then use the default method
-            if (!self.branch)
-            {
-                return this.base(nodeId, resources, successCallback, errorCallback);
-            }
-
-            // load from cloud cms
             self.branch.loadAlpacaData(nodeId, resources, function(err, data) {
 
                 if (err)
@@ -207,13 +141,6 @@
         {
             var self = this;
 
-            // if we didn't connect to a branch, then use the default method
-            if (!self.branch)
-            {
-                return this.base(schemaIdentifier, resources, successCallback, errorCallback);
-            }
-
-            // load from cloud cms
             self.branch.loadAlpacaSchema(schemaIdentifier, resources, function(err, schema) {
 
                 if (err)
@@ -240,13 +167,6 @@
         {
             var self = this;
 
-            // if we didn't connect to a branch, then use the default method
-            if (!self.branch)
-            {
-                return this.base(optionsIdentifier, resources, successCallback, errorCallback);
-            }
-
-            // load from cloud cms
             self.branch.loadAlpacaOptions(optionsIdentifier, resources, function(err, options) {
 
                 if (err)
@@ -295,7 +215,7 @@
 
                 if (typeof(options.focus) === "undefined")
                 {
-                    options.focus = Alpaca.defaultFocus;
+                    options.focus = true;
                 }
 
                 // adjust the action handler relative to baseURL
@@ -331,37 +251,6 @@
             var self = this;
 
             return self.loadOptions(optionsIdentifier, successCallback, errorCallback);
-        },
-
-        /**
-         * Loads data source elements based on a content query to Cloud CMS.
-         *
-         * @param config
-         * @param successCallback
-         * @param errorCallback
-         * @returns {*}
-         */
-        loadDataSource: function (config, successCallback, errorCallback)
-        {
-            var self = this;
-
-            // if we didn't connect to a branch, then use the default method
-            if (!self.branch)
-            {
-                return this.base(config, successCallback, errorCallback);
-            }
-
-            var pagination = config.pagination;
-            delete config.pagination;
-
-            return self.branch.loadAlpacaDataSource(config, pagination, function(err, array) {
-                if (err) {
-                    errorCallback(err);
-                    return;
-                }
-
-                successCallback(array);
-            });
         }
 
     });

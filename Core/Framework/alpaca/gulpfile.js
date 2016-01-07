@@ -101,7 +101,6 @@ var paths = {
             "src/js/fields/advanced/TagField.js",
             "src/js/fields/advanced/TimeField.js",
             "src/js/fields/advanced/TinyMCEField.js",
-            "src/js/fields/advanced/TokenField.js",
             "src/js/fields/advanced/UploadField.js",
             "src/js/fields/advanced/UpperCaseField.js",
             "src/js/fields/advanced/URLField.js",
@@ -111,15 +110,12 @@ var paths = {
             "src/js/views/base.js",
 
             // i18n
-            "src/js/messages/i18n/cs_CZ.js",
             "src/js/messages/i18n/de_AT.js",
-            "src/js/messages/i18n/de_DE.js",
             "src/js/messages/i18n/es_ES.js",
             "src/js/messages/i18n/fr_FR.js",
             "src/js/messages/i18n/hr_HR.js",
             "src/js/messages/i18n/it_IT.js",
             "src/js/messages/i18n/ja_JP.js",
-            "src/js/messages/i18n/nl_BE.js",
             "src/js/messages/i18n/pl_PL.js",
             "src/js/messages/i18n/pt_BR.js",
             "src/js/messages/i18n/zh_CN.js"
@@ -919,7 +915,7 @@ var applyFieldAnnotationsToFile = function(filePath, Alpaca)
 
 var applyFieldAnnotations = function(basePath, callback)
 {
-    var jsdom = require("jsdom");
+    var env = require('jsdom').env;
     var html = '<html><body><div id="form"></div></html>';
 
     var jQuerySrc = fs.readFileSync("./lib/jquery/dist/jquery.js", "utf-8");
@@ -928,12 +924,9 @@ var applyFieldAnnotations = function(basePath, callback)
 
     var wrench = require("wrench");
 
-    var virtualConsole = jsdom.createVirtualConsole().sendTo(console);
-
     // first argument can be html string, filename, or url
-    jsdom.env(html, {
-        src: [jQuerySrc, handlebarsSrc, alpacaSrc],
-        virtualConsole: virtualConsole
+    env(html, {
+        src: [jQuerySrc, handlebarsSrc, alpacaSrc]
     }, function (errors, window) {
 
         global.$ = window.$;

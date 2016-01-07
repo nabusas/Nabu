@@ -81,9 +81,9 @@ git push origin $VERSION
 
 #
 # STEP 5: NPM
-# This copies essentials into a new directory.
 #
-source deploy-npm.sh
+
+#npm publish
 
 
 

@@ -454,7 +454,7 @@
                 setTimeout(function() {
                     self.onChange.call(self, e);
                     self.triggerWithPropagation("change", e);
-                }, 200);
+                }, 250);
             });
 
             control.focus(function(e) {
@@ -671,16 +671,22 @@
         {
             var self = this;
 
-            // if sort is false, just return
-            if (self.options.sort === false)
-            {
-                return;
-            }
+            var defaultSort = function(a, b) {
+
+                if (a.text > b.text) {
+                    return 1;
+                }
+                else if (a.text < b.text) {
+                    return -1;
+                }
+
+                return 0;
+            };
 
             // assume a default sort function
-            var sortFn = Alpaca.defaultSort;
+            var sortFn = defaultSort;
 
-            // if they provide a custom sort function, use that instead
+            // is there a custom sort function defined?
             if (self.options.sort) {
                 if (typeof(self.options.sort) === "function") {
                     sortFn = self.options.sort;
@@ -741,7 +747,7 @@
                     },
                     "sort": {
                         "title": "Sort Function",
-                        "description": "Defines an f(a,b) sort function for the array of enumerated values [{text, value}].  This is used to sort enum and optionLabels as well as results that come back from any data sources (for select and radio controls).  By default the items are sorted alphabetically.   Don't apply any sorting if false.",
+                        "description": "Defines an f(a,b) sort function for the array of enumerated values [{text, value}].  This is used to sort enum and optionLabels as well as results that come back from any data sources (for select and radio controls).",
                         "type": "function"
                     }
                 }

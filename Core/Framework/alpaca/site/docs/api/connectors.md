@@ -154,84 +154,6 @@ $("#field3").alpaca({
 </script>
 {% endraw %}
 
-## Data Source loading with the Cloud CMS Connector
-
-The Cloud CMS connector supports loading a data source array based on a Cloud CMS node query.  A configuration is passed to the
-loader that indicates the <code>query</code> to be executed as well as an optional <code>mapping</code> to convert node structures
-into <code>text</code> and <code>value</code> pairs.
-
-Here is an example where we query for <code>custom:hero</code> instances.  The results will come back with <code>text</code> set
-to the node's <code>title</code> field and <code>value</code> set to the node's <code>_doc</code> identifier.
-
-<div id="field4"> </div>
-{% raw %}
-<script type="text/javascript" id="field4-script">
-$("#field4").alpaca({
-    "schema": {
-        "type": "string",
-        "title": "Pick an Action Hero"
-    },
-    "options": {
-        "type": "select",
-        "dataSource": {
-            "connector": true,
-            "config": {
-                "query": {
-                    "_type": "custom:hero"
-                },
-                "mappings": {
-                    "value": "_doc",
-                    "text": "title"
-                }
-            }
-        }
-    }
-});
-</script>
-{% endraw %}
-
-## Data Source loading with the Cloud CMS Connector (Pagination and Mappings)
-
-When using the Cloud CMS connector to load data source arrays, you may further specify pagination and text/value mappings
-between your node instances and the data source array.
-
-Here is an example where we sort heroes by <code>strength</code> descending and paginate starting from record #20 in the result set
-and only getting back 10 heroes.  We also adjust the mapping so that the <code>key</code> field maps to the data source array's
-<code>value</code> and <code>fullName</code> maps to the display <code>text</code>.
-
-<div id="field5"> </div>
-{% raw %}
-<script type="text/javascript" id="field5-script">
-$("#field5").alpaca({
-    "schema": {
-        "type": "string",
-        "title": "Pick an Action Hero"
-    },
-    "options": {
-        "type": "select",
-        "dataSource": {
-            "connector": true,
-            "config": {
-                "query": {
-                    "_type": "test:chapter"
-                },
-                "pagination": {
-                    "skip": 20,
-                    "limit": 10,
-                    "sort": {
-                        "strength": -1
-                    }
-                },
-                "mappings": {
-                    "value": "key",
-                    "text": "fullName"
-                }
-            }
-        }
-    }
-});
-</script>
-{% endraw %}
 
 ## Custom Connector (using SSO Header)
 
@@ -241,9 +163,9 @@ option.  Simply declare your connector and register it with the framework first.
 Here is an example where we extend the default connector and set a custom SSO header for use in connecting
 to a backend server to load things:
 
-<div id="field40"></div>
+<div id="field4"></div>
 {% raw %}
-<script type="text/javascript" id="field40-script">
+<script type="text/javascript" id="field4-script">
 var CustomConnector = Alpaca.Connector.extend({
     buildAjaxConfig: function(uri, isJson)
     {
@@ -255,7 +177,7 @@ var CustomConnector = Alpaca.Connector.extend({
     }
 });
 Alpaca.registerConnectorClass("custom", CustomConnector);
-$("#field40").alpaca({
+$("#field4").alpaca({
     "connector": "custom",
     "dataSource": "/data/connector-custom-data.json?a=1",
     "schemaSource": "/data/connector-custom-schema.json?a=1",
@@ -264,6 +186,3 @@ $("#field40").alpaca({
 });
 </script>
 {% endraw %}
-
-
-## Custom Connector 

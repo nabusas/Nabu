@@ -82,7 +82,7 @@
                 }
             }
 
-            var toolbarSticky = Alpaca.defaultToolbarSticky;
+            var toolbarSticky = undefined;
 
             if (!Alpaca.isEmpty(this.view.toolbarSticky))
             {
@@ -801,20 +801,16 @@
             if (this.schema.items && this.schema.uniqueItems)
             {
                 var hash = {};
-
-                for (var i = 0; i < this.children.length; i++)
+                for (var i = 0, l = this.children.length; i < l; ++i)
                 {
-                    var key = this.children[i].getValue();
-                    if (!key) {
-                        key = "";
+                    if (!hash.hasOwnProperty(this.children[i]))
+                    {
+                        hash[this.children[i]] = true;
                     }
-
-                    if (hash[key])
+                    else
                     {
                         return false;
                     }
-
-                    hash[key] = true;
                 }
             }
 
@@ -1304,9 +1300,6 @@
 
                     // trigger update
                     self.triggerUpdate();
-
-                    // trigger "ready"
-                    item.triggerWithPropagation.call(item, "ready", "down");
 
                     if (callback)
                     {
