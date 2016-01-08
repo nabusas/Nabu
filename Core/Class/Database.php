@@ -3,7 +3,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) <2015> <Gabriel Asakawa - gabriel.asakawa@gmail.com>
+Copyright (c) <2016> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -209,15 +209,7 @@ THE SOFTWARE.
             return $this->execute($sql);
         }
         
-        function updtData(){
-            
-        }
-        
-        function saveData($table,$fieldsTable,$fieldsValues){
-            $sql = "INSERT INTO " .$table. "(" . $fieldsTable . ") VALUES(" . $fieldsValues . ")";
-            
-            $fin =',)';$correccionF=')';
-            $sql=str_replace($fin,$correccionF,$sql);
+        function executeSqlEvent($sql){
             return $this->execute($sql);
         }
         
@@ -266,6 +258,10 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);
         }
         
+        function getKeyField($tabla,$campo){
+            $sql="SELECT COUNT(1) FROM NB_TABLE_FIELDS_TBL WHERE nb_id_table_fld='".$tabla."' AND NB_ID_FLD='".$campo."' AND NB_KEY_FLD='Y'";
+            return $this->executeQueryOneRow($sql);
+        }
         function getFieldsPage($idPage,$key){
             $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld FROM NB_FORM_TABLES_TBL A , NB_TABLE_FIELDS_TBL B WHERE  A.nb_id_table_fld = B.nb_id_table_fld";
             $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND B.NB_KEY_FLD='".$key."' AND nb_id_page_fld = '" .$idPage . "'";
@@ -365,7 +361,7 @@ THE SOFTWARE.
         }
         
         function getOptionsEvents($idPage){
-            $sql = "SELECT A.NB_TYPEALPACA_FLD ALPACA,CONCAT(A.NB_ACTION_PATH,A.NB_ACTION_FLD,'.php?p=$idPage') EVENT FROM NB_OPTION_TBL A WHERE A.NB_ID_PAGE_FLD = '$idPage'";
+            $sql = "SELECT A.NB_TYPEALPACA_FLD ALPACA,CONCAT(CONCAT(A.NB_ACTION_PATH,A.NB_ACTION_FLD,'.php?p=$idPage&accion='),A.nb_typeaccion_fld) EVENT FROM NB_OPTION_TBL A WHERE A.NB_ID_PAGE_FLD = '$idPage'";
             return $this->executeQueryOneRow($sql);   
         }
         

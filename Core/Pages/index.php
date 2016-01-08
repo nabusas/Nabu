@@ -3,7 +3,8 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) <2015> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
+Copyright (c) <2016> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +27,7 @@ THE SOFTWARE.
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
 	Fecha modificacion	= 20-02-2015
-	User modify		= CAGC
+	User modify		    = CAGC
 
 */
     header("location:nabu.php?p=".$_GET['p']);

@@ -3,7 +3,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) <2015> <Francisco Javier Franco Rivera - frajafrari@gmail.com>
+Copyright (c) <2016> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -82,17 +82,21 @@ THE SOFTWARE.
             
  <?php
 
+    $accion=$_GET['accion'];
+    
     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-	$resu=$nabuEvent->Save();
-
+	$sql=$nabuEvent->getEventSql($accion);
+    $result=$nabuEvent->executeSql($sql);
+    
     echo "<div id='dialog-confirm' title='Informacion Guardar'>";
-        if ($resu == 1)
-            echo 'Guardado Exitoso';
-        else
-            if ($resu == 2)
-                echo 'Modificacion Exitosa';
+        if ($result->EOF == 1){
+            if ($accion== 0)
+                echo 'Guardado Exitoso';
             else
-                echo 'Problemas al guardar';
+                echo 'Actualizacion Exitosa';
+        }
+        else
+            echo 'Problemas al realizar la Operacion';
 
     echo '</div>'; 
 

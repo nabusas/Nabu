@@ -229,6 +229,11 @@
                 var propertyId = this.children[i].propertyId;
                 var fieldValue = this.children[i].getValue();
 
+                if(fieldValue !== fieldValue) {
+                    // NaN
+                    fieldValue = undefined;
+                }
+
                 if (typeof(fieldValue) !== "undefined")
                 {
                     if (this.determineAllDependenciesValid(propertyId))
@@ -377,7 +382,7 @@
                             // we only allow addition if the resolved schema isn't circularly referenced
                             // or the schema is optional
                             if (circular) {
-                                return Alpaca.throwErrorWithCallback("Circular reference detected for schema: " + JSON.stringify(schema), _this.errorCallback);
+                                return Alpaca.throwErrorWithCallback("Circular reference detected for schema: " + JSON.stringify(schema), self.errorCallback);
                             }
 
                             if (!schema) {
@@ -408,20 +413,34 @@
 
             Alpaca.series(propertyFunctions, function(err) {
 
-                // sort by order
-                items.sort(function(a, b) {
-
-                    var orderA = a.options.order;
-                    if (!orderA) {
-                        orderA = 0;
+                // is there any order information in the items?
+                var hasOrderInformation = false;
+                for (var i = 0; i &lt; items.length; i++) {
+                    if (typeof(items[i].options.order) !== "undefined") {
+                        hasOrderInformation = true;
+                        break;
                     }
-                    var orderB = b.options.order;
-                    if (!orderB) {
-                        orderB = 0;
-                    }
+                }
 
-                    return (orderA - orderB);
-                });
+                if (hasOrderInformation)
+                {
+                    // sort by order?
+                    items.sort(function (a, b) {
+
+                        var orderA = a.options.order;
+                        if (!orderA)
+                        {
+                            orderA = 0;
+                        }
+                        var orderB = b.options.order;
+                        if (!orderB)
+                        {
+                            orderB = 0;
+                        }
+
+                        return (orderA - orderB);
+                    });
+                }
 
                 cf();
             });
@@ -771,6 +790,49 @@
         },
 
         /**
+         * Helper function for resolving dependencies for a child property.
+         * This takes into account JSON Schema v4 and also provides for legacy v3 support.
+         *
+         * @param propertyId
+         */
+        getChildDependencies: function(propertyId)
+        {
+            // first, check for dependencies declared within the object (container)
+            var itemDependencies = null;
+            if (this.schema.dependencies)
+            {
+                itemDependencies = this.schema.dependencies[propertyId];
+            }
+            if (!itemDependencies)
+            {
+                // second, check for dependencies declared on the item itself
+                // this is to support legacy v3 json schema
+                var item = this.childrenByPropertyId[propertyId];
+                if (item)
+                {
+                    itemDependencies = item.schema.dependencies;
+                }
+            }
+
+            return itemDependencies;
+        },
+
+        getChildConditionalDependencies: function(propertyId)
+        {
+            var itemConditionalDependencies = null;
+
+            // second, check for conditional dependencies declared on the item itself
+            // this is to support legacy v3 json options
+            var item = this.childrenByPropertyId[propertyId];
+            if (item)
+            {
+                itemConditionalDependencies = item.options.dependencies;
+            }
+
+            return itemConditionalDependencies;
+        },
+
+        /**
          * Determines whether the dependencies for a property pass.
          *
          * @param propertyId
@@ -785,7 +847,8 @@
                 return Alpaca.throwErrorWithCallback("Missing property: " + propertyId, self.errorCallback);
             }
 
-            var itemDependencies = item.schema.dependencies;
+            // first check for dependencies declared within the object (container)
+            var itemDependencies = self.getChildDependencies(propertyId);;
             if (!itemDependencies)
             {
                 // no dependencies, so yes, we pass
@@ -822,7 +885,7 @@
                 return Alpaca.throwErrorWithCallback("Missing property: " + propertyId, self.errorCallback);
             }
 
-            var itemDependencies = item.schema.dependencies;
+            var itemDependencies = self.getChildDependencies(propertyId);
             if (!itemDependencies)
             {
                 // no dependencies, so simple return
@@ -878,7 +941,7 @@
                 return Alpaca.throwErrorWithCallback("Missing property: " + propertyId, self.errorCallback);
             }
 
-            var itemDependencies = propertyField.schema.dependencies;
+            var itemDependencies = self.getChildDependencies(propertyId);
             if (!itemDependencies)
             {
                 // no dependencies, so simple return
@@ -940,7 +1003,7 @@
             var valid = false;
 
             // go one of two directions depending on whether we have conditional dependencies or not
-            var conditionalDependencies = this.childrenByPropertyId[propertyId].options.dependencies;
+            var conditionalDependencies = this.getChildConditionalDependencies(propertyId);
             if (!conditionalDependencies || conditionalDependencies.length === 0)
             {
                 //
@@ -1800,11 +1863,11 @@
             }
 
             var step = 1;
-            var col = [];
+            var stepFields = [];
             do
             {
                 // collect fields in this step
-                col = [];
+                stepFields = [];
                 for (var propertyId in stepBindings)
                 {
                     if (stepBindings[propertyId] === step)
@@ -1812,12 +1875,13 @@
                         if (this.childrenByPropertyId &amp;&amp; this.childrenByPropertyId[propertyId])
                         {
                             //col.push(this.childrenByPropertyId[propertyId].field);
-                            col.push(this.childrenByPropertyId[propertyId].containerItemEl);
+                            //col.push(this.childrenByPropertyId[propertyId].containerItemEl);
+                            stepFields.push(this.childrenByPropertyId[propertyId]);
                         }
                     }
                 }
 
-                if (col.length > 0)
+                if (stepFields.length > 0)
                 {
                     var stepEl = null;
                     if (createSteps)
@@ -1830,16 +1894,45 @@
                         stepEl = $($(this.field).find("[data-alpaca-wizard-role='step']")[step-1]);
                     }
 
-                    // move elements in
-                    for (var i = 0; i &lt; col.length; i++)
+                    // is there any order information in the items?
+                    var hasOrderInformation = false;
+                    for (var i = 0; i &lt; stepFields.length; i++) {
+                        if (typeof(stepFields[i].options.order) !== "undefined") {
+                            hasOrderInformation = true;
+                            break;
+                        }
+                    }
+
+                    if (hasOrderInformation)
                     {
-                        $(stepEl).append(col[i]);
+                        // sort by order?
+                        stepFields.sort(function (a, b) {
+
+                            var orderA = a.options.order;
+                            if (!orderA)
+                            {
+                                orderA = 0;
+                            }
+                            var orderB = b.options.order;
+                            if (!orderB)
+                            {
+                                orderB = 0;
+                            }
+
+                            return (orderA - orderB);
+                        });
+                    }
+
+                    // move elements in
+                    for (var i = 0; i &lt; stepFields.length; i++)
+                    {
+                        $(stepEl).append(stepFields[i].containerItemEl);
                     }
 
                     step++;
                 }
             }
-            while (col.length > 0);
+            while (stepFields.length > 0);
 
             // now run the normal wizard
             this.wizard();
@@ -2121,7 +2214,7 @@
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a>
-	on Sat Aug 1st 2015 using the <a
+	on Thu Sep 24th 2015 using the <a
 	href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 </span>
 </footer>

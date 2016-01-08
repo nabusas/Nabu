@@ -3,7 +3,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) <2015> <Francisco Javier Franco Rivera - frajafrari@gmail.com>
+Copyright (c) <2016> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= frajafrari
-    Fecha modificacion	= 05-01-2016
+    Fecha modificacion	= 07-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -49,7 +49,7 @@ class NabuEvent
         $this->objUtilities = new Utilities();
 	}
 	
-    function Save() {
+    function getEventSql($accion) {
         
         $respcode = 0;
     
@@ -59,8 +59,12 @@ class NabuEvent
         foreach($tables as $table) {
             $fields = $this->database->getFields($this->page,$table[0]);
             $fieldsValues='';  
-            $fieldsTable=''; 
+            $fieldsTable='';
+            $setValue='Set ';
+            $whereValue='Where ';
             
+            $i1=1;
+            $i2=1;
             foreach($fields as $field){
                 
                 $type =$this->database->getTypes($table[0],$field[1]);
@@ -113,6 +117,26 @@ class NabuEvent
 					}
 				}
                 
+                if ($accion == 1){
+                    
+                    $key =$this->database->getKeyField($table[0],$field[1]);
+                    
+                    if ($key[0] == 0){
+                        if ($i1== 1)
+                            $setValue .= $field[1]."=".$value.' ';
+                        else
+                            $setValue .= ', '.$field[1]."=".$value;
+                        $i1++;    
+                    }
+                    else{
+                        if ($i2== 1)
+                            $whereValue .= $field[1]."=".$value.' ';
+                        else
+                            $whereValue .= 'AND '.$field[1]."=".$value.' ';
+                        $i2++;
+                    }
+                }
+                
                 if($field[0]) {
 					$fieldsTable .= ",";
 					$fieldsValues .= ",";
@@ -120,22 +144,25 @@ class NabuEvent
                 
 			}
             
-            $result =$this->database->saveData($table[0],$fieldsTable,$fieldsValues);
-            
-            $accion=0;
-            
-            if ($result->EOF == 1)
-                $accion=1;
-            else{
-                $result =$this->database->updtData();
-                if ($result->EOF == 1)
-                    $accion=2;
+            if ($accion == 0){
+                $sql = "INSERT INTO " .$table[0]. "(" . $fieldsTable . ") VALUES(" . $fieldsValues . ")";
+                $fin =',)';$correccionF=')';
+                $sql=str_replace($fin,$correccionF,$sql);
             }
+            else
+                $sql ='Update '.$table[0].' '.$setValue.' '.$whereValue;
             
         }
         
-        return $accion;
-       
-	}
+        return $sql;
+    }
+    
+    
+    function executeSql($sql){
+        
+        $result =$this->database->executeSqlEvent($sql);
+        
+        return $result;
+    }
 } 
 ?>

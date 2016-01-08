@@ -3,7 +3,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) <2015> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
+Copyright (c) <2016> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -93,7 +93,7 @@ class TemplatePage
 					<td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
 				</tr>
 				<tr>
-					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-10</td>
+					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-11</td>
 				</tr>
 			</table>
 		</header>
