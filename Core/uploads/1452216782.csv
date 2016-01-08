@@ -1,9 +1,0 @@
-tipo,tarifa,cobro,Valor,Tiempo_Gratis,Tiempo_Salida
-Carro,Mensualidad,Mensual,$56,000,0,0
-Moto,Exenta,Sin Cobro,$0,0,0
-Carro,Exenta,Sin Cobro,$0,0,0
-Carro,Normal,Hora,$2,000,15,15
-Moto,Mensualidad,Mensual,$25,000,0,0
-Carro,Normal,Fraccion,$1,200,15,15
-Moto,Normal,Hora,$1,500,15,15
-Moto,Normal,Fraccion,$800,15,15

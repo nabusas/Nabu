@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 05-01-2016
+	Fecha modificacion	= 08-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -208,7 +208,7 @@ class Utilities
         if ($table[0] == '' ){
             
             $parametros=false;
-            $fields = $this->database->getFieldsPage($id,'Y');
+            $fields = $this->database->getFieldsPage($id);
             
             foreach($fields as $field){
                if (isset($_GET[$field[0]])){
@@ -222,30 +222,40 @@ class Utilities
                 
                 $where ="Where ";
                 $i=1;
-                
+                $tabla='';
                 
                 foreach($fields as $field){
-                    if (isset($_GET[$field[0]])){
-                        $value=$this->database->getDataChange($field[0],$_GET[$field[0]]);
-                        
-                        if ($value[0] == ' ')
-                            $value[0]=$_GET[$field[0]];
-                        
-                        $fieldsData[$field[0]]=$value[0];
-                        
-                        if ($i == 1)
-                            $where=$where.$field[0]."='".$value[0]."' ";
+                    
+                    $key=$field[2];
+                    $tabla=$field[1];
+                    
+                    if ($tabla=='' OR $tabla == $field[1]){
+                        if ( $key=='Y' ){
+                            if (isset($_GET[$field[0]])){
+
+                                $value=$this->database->getDataChange($field[0],$_GET[$field[0]]);
+
+                                if ($value[0] == '')
+                                    $value[0]=$_GET[$field[0]];
+
+                                if ($i == 1)
+                                    $where=$where.$field[0]."='".$value[0]."' ";
+                                else
+                                    $where=$where." AND ".$field[0]."='".$value[0]."' ";
+                            }
+                            $i++;
+                        }
                         else
-                            $where=$where." AND ".$field[0]."='".$value[0]."' ";
+                            $value=$this->database->getDatavalueW($field[1],$field[0],$where);
+                        
+                        $password=strpos($field[0],'password'); 
+                        if ($password)
+                            $value[0]='';    
+                    
+                        $fieldsData[$field[0]]=$value[0];
                     }
-                    $i++;
-                }
-                
-                $fields = $this->database->getFieldsPage($id,'N');
-                
-                foreach($fields as $field){
-                    $value=$this->database->getDatavalueW($field[1],$field[0],$where);
-                    $fieldsData[$field[0]]=$value[0];
+                    else
+                        $tabla =$field[1];
                 }
                 
                 $jsonA=$json->getData2($fieldsData);

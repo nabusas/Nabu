@@ -263,8 +263,8 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);
         }
         function getFieldsPage($idPage,$key){
-            $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld FROM NB_FORM_TABLES_TBL A , NB_TABLE_FIELDS_TBL B WHERE  A.nb_id_table_fld = B.nb_id_table_fld";
-            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND B.NB_KEY_FLD='".$key."' AND nb_id_page_fld = '" .$idPage . "'";
+            $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld,B.NB_KEY_FLD FROM NB_FORM_TABLES_TBL A , NB_TABLE_FIELDS_TBL B WHERE  A.nb_id_table_fld = B.nb_id_table_fld";
+            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND nb_id_page_fld = '" .$idPage . "' ORDER BY A.nb_id_table_fld, B.NB_KEY_FLD  desc";
             return $this->execute($sql);  
         }
         

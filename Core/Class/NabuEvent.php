@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= frajafrari
-    Fecha modificacion	= 07-01-2016
+    Fecha modificacion	= 08-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -88,22 +88,20 @@ class NabuEvent
                   
                     switch($type[0]) {
 						case 'string':
-							$fieldsValues .= "'" . $value . "'";
-							break;
-						case 'number':
-							$fieldsValues .= $value;
+							$value = "'" . $value . "'";
 							break;
 						case 'date':
                             if (!$setData)
                                 $value=$this->objUtilities->castingDate($value);
                             
-                            $fieldsValues .= "STR_TO_DATE('" .$value. "','%Y-%m-%d %H:%i:%s')";
+                            $value= "STR_TO_DATE('" .$value. "','%Y-%m-%d %H:%i:%s')";
                             
 							break;
 					}
 					
-				}
-				else {
+				    $fieldsValues .=$value;
+                }
+                else {
 					switch($type[0]) {
 						case 'string':
 							$fieldsValues .= "''";
