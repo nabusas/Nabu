@@ -269,5 +269,18 @@ WHERE	NB_1_TIPOTARIFA_FLD=1
 SELECT * FROM NB_PAGOS_TBL
 
 
+insert into nb_forms_tbl 
+select 	nb_id_page_fld,concat(nb_id_pr_schema_fld,'X'), nb_config_frmwrk_id_fld, nb_schem_value_fld
+from		nb_forms_tbl
+where	nb_id_page_fld='nb_usersm_pg'
+and		nb_id_pr_schema_fld='nbd_email_fld'
+
+insert into nb_forms_tbl 
+select 	nb_id_page_fld,concat(nb_id_pr_schema_fld,'X'), 29, 'true'
+#select 	nb_id_page_fld,nb_id_pr_schema_fld, 36, 'true'
+from		nb_forms_tbl
+where	nb_id_page_fld='nb_usersm_pg'
+and		nb_id_pr_schema_fld='nbd_email_fld'
+and      nb_config_frmwrk_id_fld=11
 
 

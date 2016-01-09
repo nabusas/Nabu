@@ -242,17 +242,19 @@ class Utilities
                                     $where=$where.$field[0]."='".$value[0]."' ";
                                 else
                                     $where=$where." AND ".$field[0]."='".$value[0]."' ";
+                            
+                                $fieldsData[$field[0]]=$value[0];
+                                $fieldsData[$field[0].'X']=$value[0];
                             }
                             $i++;
                         }
-                        else
+                        else{
                             $value=$this->database->getDatavalueW($field[1],$field[0],$where);
-                        
-                        $password=strpos($field[0],'password'); 
-                        if ($password)
-                            $value[0]='';    
-                    
-                        $fieldsData[$field[0]]=$value[0];
+                            $password=strpos($field[0],'password'); 
+                            if ($password)
+                                $value[0]='';
+                                $fieldsData[$field[0]]=$value[0];
+                        }
                     }
                     else
                         $tabla =$field[1];
