@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
-	Desarrollador		= frajafrari
-    Fecha modificacion	= 08-01-2016
+	Desarrollador		= CAGC
+    Fecha modificacion	= 10-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -119,19 +119,21 @@ class NabuEvent
                     
                     $key =$this->database->getKeyField($table[0],$field[1]);
                     
-                    if ($key[0] == 0){
-                        if ($i1== 1)
-                            $setValue .= $field[1]."=".$value.' ';
-                        else
-                            $setValue .= ', '.$field[1]."=".$value;
-                        $i1++;    
-                    }
-                    else{
-                        if ($i2== 1)
-                            $whereValue .= $field[1]."=".$value.' ';
-                        else
-                            $whereValue .= 'AND '.$field[1]."=".$value.' ';
-                        $i2++;
+                    if ($value <> 'nabuNull' ){
+                        if ($key[0] == 0){
+                            if ($i1== 1)
+                                $setValue .= $field[1]."=".$value.' ';
+                            else
+                                $setValue .= ', '.$field[1]."=".$value;
+                            $i1++;    
+                        }
+                        else{
+                            if ($i2== 1)
+                                $whereValue .= $field[1]."=".$value.' ';
+                            else
+                                $whereValue .= 'AND '.$field[1]."=".$value.' ';
+                            $i2++;
+                        }
                     }
                 }
                 
@@ -149,9 +151,9 @@ class NabuEvent
             }
             else
                 $sql ='Update '.$table[0].' '.$setValue.' '.$whereValue;
-            
+                    
         }
-        
+         
         return $sql;
     }
     

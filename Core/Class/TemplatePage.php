@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 08-01-2016
+	Fecha modificacion	= 10-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -43,14 +43,14 @@ class TemplatePage
 	var $objUtilities;
 	var $pageProperties;
     var $render;
-    var $slogan;
+    var $config;
 
 	function TemplatePage($id_page){
         
 		$this->objUtilities = new Utilities();
 		$this->idPage=$this->objUtilities->idPage($id_page);
-        $this->slogan=$this->objUtilities->setupConfig();
-		$this->pageProperties=$this->objUtilities->pageProperties($this->idPage);
+        $this->config=$this->objUtilities->setupConfig();
+        $this->pageProperties=$this->objUtilities->pageProperties($this->idPage);
 		$this->title=$this->pageProperties['title'];
 		$this->tipo=$this->pageProperties['tipo'];
 		if ($this->tipo == 'datagrid')
@@ -93,7 +93,7 @@ class TemplatePage
 					<td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
 				</tr>
 				<tr>
-					<td class="slogan">&nbsp&nbsp<?php echo $this->slogan ?>-1.0</td>
+					<td class="slogan">&nbsp&nbsp<?php echo $this->config[0] ?></td>
 				</tr>
 			</table>
 		</header>
@@ -155,12 +155,18 @@ class TemplatePage
 	function tail() {
 ?>
 		      <footer class="footer">
-			            <a href="#"><i class="fa fa-facebook"></i></a>
+                  <table width="100%">
+                      <tr>
+			            <td><a href="#"><i class="fa fa-facebook"></i></a>
 				        <a href="#"><i class="fa fa-twitter"></i></a>
                         <a href="#"><i class="fa fa-google-plus"></i></a>
                         <a href="#"><i class="fa fa-youtube"></i></a>    
 				        <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
-                        <p>Nabu &copy; 2016</p>
+                            <p>Nabu &copy; 2016</pp>
+                        </td>
+                        <td align='right'>&nbsp&nbsp<?php echo "Version App ".$this->config[2]."-DB ".$this->config[1] ?></td>
+                      </tr>
+                  </table>          
 		        </footer>
             
                 </div>    

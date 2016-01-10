@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 	Fecha creacion		= 12-05-2015
-	Desarrollador		= frajafrari
-    Fecha modificacion	= 17-12-2015
+	Desarrollador		= CAGC
+    Fecha modificacion	= 10-12-2015
 	Usuario Modifico	= CAGC
 
 */

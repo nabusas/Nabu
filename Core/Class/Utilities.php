@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 08-01-2016
+	Fecha modificacion	= 10-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -137,7 +137,7 @@ class Utilities
     
     function setupConfig(){
           $row = $this->database->getsetupConfig();
-          return $row[0];
+          return $row;
     }
     
     function pageProperties($id){
@@ -250,10 +250,9 @@ class Utilities
                         }
                         else{
                             $value=$this->database->getDatavalueW($field[1],$field[0],$where);
-                            $password=strpos($field[0],'password'); 
-                            if ($password)
-                                $value[0]='';
-                                $fieldsData[$field[0]]=$value[0];
+                            
+                            
+                            $fieldsData[$field[0]]=$value[0];
                         }
                     }
                     else

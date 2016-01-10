@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 05-01-2016
+	Fecha modificacion	= 10-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -64,7 +64,6 @@ THE SOFTWARE.
         function executeQueryOneRow($sql){
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
-            $i = 0;
             $row = $result->FetchRow();
 
             $this->db=$this->cx->desconectar();
@@ -327,7 +326,7 @@ THE SOFTWARE.
         }
         
         function getsetupConfig(){
-            $sql = "SELECT NB_SLOGAN_TBL FROM NB_CONFIG_TBL";
+            $sql = "SELECT NB_SLOGAN_FLD,nb_versionbd_fld,nb_versionap_fld FROM NB_CONFIG_TBL";
             return $this->executeQueryOneRow($sql); 
         }
         function getPageProperties($idPage){
