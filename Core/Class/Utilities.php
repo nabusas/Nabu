@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 10-01-2016
+	Fecha modificacion	= 13-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -42,17 +42,14 @@ include_once "ExportToExcel.php";
 
 class Utilities
 {
-	var $cx;
 	var $db;
 	var $result;
     var $fields;
     var $database;
     var $csv;
 
-    function Utilities(){
-		$this->cx=new Conexion();
-        $this->database = new Database();
-        $this->csv = new ExportExcel();  
+    function Utilities($host,$user,$password,$database){
+        $this->database = new Database($host,$user,$password,$database);
     }
 
     function idPage($path){
@@ -61,8 +58,8 @@ class Utilities
     }
 	
 	function validateRole($page, $role) {
-		session_start();
-		if($role != 9999) {
+        
+        if($role != 9999) {
             $row = $this->database->getValidateRole($role, $page);
             if ($row != null)
                 return true;
@@ -87,10 +84,11 @@ class Utilities
     }
 
     function fileDatagrid($page){
+        $this->csv = new ExportExcel();
         $table = $this->database->tableDataGrid($page);
-        $this->db=$this->cx->conectar();
+        $this->database->conectar();
         $file=$this->csv->exportarFile($table[0]);
-        $this->db=$this->cx->desconectar();
+        $this->database->desconectar();
         return $file;
     }
     
@@ -165,42 +163,46 @@ class Utilities
     }
     
 	function getSchema($id){
-
-	    $id = strtolower($id);
+       
+        $id = strtolower($id);
 	    $type = 'schema';
 		
 		$row = $this->database->getSchemaDescription($id);
-		$typePage = $row[0];
+        $typePage = $row[0];
 		$json = new Schema($row[0],$row[1],$row[2]);
 		
 		if  ($typePage == 'array'){
 			$json->addItems('type','object');
 			$properties = array();
 		}
-		else{
+		else
 			unset($json->items);
-        }
+        
         
         $rows = $this->database->getFormFields($id, $type);
+        
         foreach($rows as $row){
-           if  ($typePage == 'array'){
-               $properties[$row[0]] = $json->addField($id,$type,$row[0]);
-           }else{
-               $campo = $json->addField($id,$type,$row[0]);
+            
+           $rowsI = $this->database->getFormFieldsTypes($id, $type, $row[0]); 
+            
+           if  ($typePage == 'array')
+               $properties[$row[0]] = $json->addField($rowsI);
+           else{
+               $campo = $json->addField($rowsI);
                $json->addProperties($row[0],$campo);
 			} 
         }				
         
-		if  ($typePage == 'array'){
+        if  ($typePage == 'array'){
 			$json->addItems("properties",$properties);
 			unset($json->properties);
 		}
 
-		return $json;
+        return $json;
 	}
    
 	function getData($id){
-    
+        
         $json = new JsonData();
         
         $table  = $this->database->getDataRecord($id);
@@ -280,20 +282,19 @@ class Utilities
     
     function getView($id){
         
-        $view = new View();        
-		$row = $this->database->getOptionsEvents($id);
-		$alpaca = $row['ALPACA'];
-        
+        $view = new View();
+        $row = $this->database->getOptionsEvents($id);
+        $alpaca = $row['ALPACA'];
         $parent = $this->database->getViewParent($id);
-        $view->setView($parent[0], $alpaca, $id); 
+        $view->setView($this->database,$parent[0], $alpaca, $id); 
         
         return $view;
             
     }
     
     function getOption($id){
-		
-        $id = strtolower($id);
+        
+		$id = strtolower($id);
 		$type = 'options';
 		$row = $this->database->getOptionsEvents($id);
 		$alpaca = $row['ALPACA'];  		
@@ -304,6 +305,7 @@ class Utilities
             $event = $row['EVENT'];
 			$attributes=$json->addElement($event,'post','');
 			$json->addForm("attributes",$attributes);
+            unset($json->datatables);
         }
         
         if ($alpaca == 'form'){
@@ -329,7 +331,6 @@ class Utilities
             unset($json->fields);
 		}
 
-        
         if ($alpaca == 'image'){
             unset($json->type);
 			unset($json->renderForm);
@@ -340,12 +341,14 @@ class Utilities
 		}
 		
         $rows = $this->database->getFormFields($id, $type);
+        
         foreach($rows as $row){
-            $campo=$json->addField($id,$type,$row[0]);
+            $rowsI = $this->database->getFormFieldsTypes($id,$type,$row[0]);
+            $campo=$json->addField($rowsI);
 		    $json->addFields($row[0],$campo);
         }
         
-		return $json;
+        return $json;
 
 	}
     
@@ -418,11 +421,11 @@ class Utilities
     
     function charts($id,$user){
         
-        $this->db=$this->cx->conectar();
+        $this->database->conectar();
         $json = new Chart();
-        $json->labels($this->db,$id,$user);
-        $json->bars($this->db,$id,$user);
-        $this->db=$this->cx->desconectar();
+        $json->labels($this->database,$id,$user);
+        $json->bars($this->database,$id,$user);
+        $this->database->desconectar();
         
 ?>
        <script>
@@ -457,14 +460,13 @@ class Utilities
     }
     function getDataGrid($id){
     
-        
         $g = new jqgrid();
         $pageL = $this->database->getTableLink($id);
         
-        $this->db=$this->cx->conectar();
-
         $type='gridoptions';
-        $result = $this->db->Execute("SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nb_datagrid_tbl a , nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$id'");
+        
+        $result = $this->database->getGrid1($type,$id);
+        
         
         while ($row = $result->FetchRow()){
             $value=$row[2];
@@ -487,12 +489,12 @@ class Utilities
             }
         }
 
-        $this->campos = $this->db->Execute("Select distinct a.nb_column_fld from nb_datagridcol_tbl a where a.nb_id_page_fld = '$id'");
-
+        $campos = $this->database->getGrid2($id);
+        
         $type='gridcoloptions';
         
-    	while ($camposDescribe = $this->campos->FetchRow()){
-            $result = $this->db->Execute("SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nb_datagridcol_tbl a , nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$id' and a.nb_column_fld='$camposDescribe[0]'");
+        while ($camposDescribe = $campos->FetchRow()){
+            $result = $this->database->getGrid3($type,$id,$camposDescribe[0]);
             $col = array();
             while ($row = $result->FetchRow()){
                 $value=$row[2];
@@ -514,6 +516,7 @@ class Utilities
             $cols[] = $col;
         }
 
+        $this->database->conectar();
         $g->set_columns($cols);
         $g->set_options($grid);
 

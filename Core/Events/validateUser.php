@@ -25,45 +25,41 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 28-12-2015
-	User modify		= CAGC
+	Fecha modificacion	= 13-01-2016
+	User modify	   	    = CAGC
 
 */
 
     include "../Class/Utilities.php";
 
-	$objUtilities = new Utilities();
-
+    $objUtilities = new Utilities('localhost','root','','nabu');
+    
 	$idPage=$_GET['p'];
 
-	$db = $objUtilities->cx->conectar();
-   
-    $result =$db->Execute("SELECT distinct nb_id_pr_Schema_fld FROM nb_forms_tbl where nb_id_page_fld = '$idPage'");
-
-	while ($row = $result->FetchRow()){
-		if (isset($_POST[$row[0]])){
-	        if (!isset($fields)){
+	$result=$objUtilities->database->getPageFields($idPage);
+    
+	foreach($result as $row){
+        if (isset($_POST[$row[0]])){
+	        if (!isset($fields))
 				$fields = array();
-			}
+			
 			$fields[$row[0]]=$_POST[$row[0]];
-		}
+        }
 	}
 
-    $result = $db->Execute("SELECT nbd_id_user_fld FROM nbd_user_tbl WHERE nbd_email_fld='" . $fields['Campo1'] . "' AND nbd_password_fld='" . md5($fields['Campo2']) . "' and nb_estado_fld='0' ");
-    $row=$result->FetchRow();
-
-	if ($row[0] != null) {
+    $row=$objUtilities->database->validateUser($fields['Campo1'],$fields['Campo2']);    
+    
+    if ($row[0] != null) {
 		session_start();
+        $row = $objUtilities->database->validateRole($row[0]);
         $_SESSION['oprid'] = $row[0];
-        $result = $db->Execute("SELECT nb_id_role_fld FROM nbd_role_user_tbl WHERE nbd_id_user_fld = " . $row[0]);
-    	$row = $result->FetchRow();
-		$_SESSION['role'] = $row[0];
+    	$_SESSION['role'] = $row[0];
 		header("location:../Pages/?p=home");
 	}
 	else
 	{
+        unset($_SESSION['oprid']);
         unset($_SESSION['role']);
         header("location:../Pages/?p=error");
 	}
-	$db=$objUtilities->cx->desconectar();
 ?>

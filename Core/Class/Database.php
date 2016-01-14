@@ -25,20 +25,29 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 10-01-2016
+	Fecha modificacion	= 13-01-2016
 	Usuario Modifico	= CAGC
 
 */
-
-    include_once "Conexion.php";
-
+    include "Conexion.php";
+    
     class Database{
         
         var $cx;
         var $db;
+        var $cx2;
         
-        function Database(){
-            $this->cx=new Conexion();   
+        function Database($host,$user,$password,$database){
+            $this->cx=new Conexion($host,$user,$password,$database); 
+            $this->cx2=$this->cx;
+        }
+        
+        function conectar(){
+            $this->cx2->conectar();
+        }
+        
+        function desconectar(){
+            $this->cx2->desconectar();
         }
         
         function execute($sql){
@@ -68,6 +77,35 @@ THE SOFTWARE.
 
             $this->db=$this->cx->desconectar();
             return $row;
+        }
+        
+        function menu3($id_page,$papa2){
+            $sql ="SELECT a.nb_parent_fld,a.nb_id_menu_fld FROM nb_navigation_tbl a WHERE a.nb_id_page_fld='$id_page' and a.nb_sec_fld='$papa2'";
+            return $this->executeQueryOneRow($sql);
+        }
+        function menu2($id){
+            $sql ="SELECT a.nb_parent_fld FROM nb_navigation_tbl a WHERE a.nb_id_page_fld='$id_page' and a.nb_sec_fld='$id'";
+            return $this->executeQueryOneRow($sql);
+        }
+        
+        function menu1($idPage,$role){
+            $sql ="SELECT a.nb_sec_fld id,a.nb_id_menu_fld menu,a.nb_parent_fld papa,a.nb_descr_men_fld descr,a.nb_image_fld image,a.nb_link_fld link,a.nb_target_fld target FROM nb_navigation_tbl a, nb_role_pag_tbl b WHERE a.nb_id_page_fld = b.nb_id_page_fld and b.nb_id_role_fld = " . $role . " and a.nb_id_page_fld='" . $idPage . "' and a.nb_link_fld in (select nb_id_page_fld from nb_role_pag_tbl where nb_id_role_fld = " . $role . ") order by a.nb_sec_fld";
+            return $this->execute($sql);
+        }
+        
+        function getGrid3($type,$idPage,$col){
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nb_datagridcol_tbl a , nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage' and a.nb_column_fld='$col'";
+            return $this->execute($sql);
+        }
+        
+        function getGrid2($idPage){
+            $sql ="Select distinct a.nb_column_fld from nb_datagridcol_tbl a where a.nb_id_page_fld = '$idPage'";
+            return $this->execute($sql);
+        }
+        
+        function getGrid1($type,$idPage){
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nb_datagrid_tbl a , nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage'";
+            return $this->execute($sql);
         }
         
         function tableDataGrid($idPage){
@@ -289,7 +327,7 @@ THE SOFTWARE.
         }
         
         function getWizardQuery($idPage){
-            $sql = " SELECT NB_WIZARD_TITLE,NB_WIZARD_DESC,NB_WIZARD_SHOW_PROGRESS FROM NB_WIZARD_TBL WHERE NB_ID_PAGE_FLD = '$idPage'";
+            $sql = "SELECT NB_WIZARD_TITLE,NB_WIZARD_DESC,NB_WIZARD_SHOW_PROGRESS FROM NB_WIZARD_TBL WHERE NB_ID_PAGE_FLD = '$idPage'";
             return $this->executeQuery($sql);
             
         }
@@ -339,9 +377,24 @@ THE SOFTWARE.
             return $this->executeQuery($sql);
         }
         
+        function validateRole($usuario){
+            $sql="SELECT nb_id_role_fld FROM nbd_role_user_tbl WHERE nbd_id_user_fld = ".$usuario;
+            return $this->executeQueryOneRow($sql);  
+        }
+        
+        function validateUser($usuario,$password){
+            $sql="SELECT nbd_id_user_fld FROM nbd_user_tbl WHERE nbd_email_fld='".$usuario."' AND nbd_password_fld='".md5($password)."' and nb_estado_fld='0' ";
+            return $this->executeQueryOneRow($sql);  
+        }
+        
         function getSchemaDescription($idPage){
             $sql = "SELECT A.NB_TITLE_FLD, A.NB_DESCRIPTION_FLD, A.NB_TYPE_FLD FROM NB_SCHEMA_TBL A WHERE  A.NB_ID_PAGE_FLD = '$idPage'";
             return $this->executeQueryOneRow($sql);   
+        }
+        
+        function getPageFields($idPage){
+            $sql = "SELECT distinct nb_id_pr_Schema_fld FROM nb_forms_tbl where nb_id_page_fld = '$idPage'";
+            return $this->executeQuery($sql);   
         }
         
         function getFormFields($idPage, $type){

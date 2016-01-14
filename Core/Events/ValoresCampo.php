@@ -23,19 +23,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-	Fecha creacion		= 10-04-2015
+	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
+	Fecha modificacion	= 13-01-2016
+	Usuario Modifico	= CAGC
+
 */
 
-include "../Class/Conexion.php";
+include "../Class/Database.php";
 
-    $cx=new Conexion();
-   
-	
-	if (isset($_GET["campo"]))
-		$campo=$_GET["campo"];
+    if (isset($_GET["campo"]))
+	   $campo=$_GET["campo"];
 	else
-		$campo='X';	
+	   $campo='X';	
 	
     if ($campo <> 'X'){
 		
@@ -58,31 +58,33 @@ include "../Class/Conexion.php";
                     else
                         $sql="Select nb_id_value_fld,nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."'";
         
-		$db=$cx->conectar();
-        $rs =  $db->Execute($sql);
-		$rows_returned = $rs->RecordCount();
-
-		$rs->MoveFirst();
+		
+        
+        $db = new Database('localhost','root','','nabu');
+        
+        $rows=$db->executeQuery($sql);
+            
+        $rows_returned =  count($rows);
+		
+        
 
 		$i=1;
         $vector='{';
         
-		while (!$rs->EOF) {
+		foreach($rows as $row){
 			if ($i==$rows_returned ){
-					$vector=$vector.'"'.$rs->fields[0].'":"'.$rs->fields[1].'"}';
+					$vector=$vector.'"'.$row[0].'":"'.$row[1].'"}';
 				}
 				else{
-					$vector=$vector.'"'.$rs->fields[0].'":"'.$rs->fields[1].'",';
+					$vector=$vector.'"'.$row[0].'":"'.$row[1].'",';
 
 				}
             $i=$i+1;
-			$rs->MoveNext();
 		}
         
-        $db=$cx->desconectar();
-		echo $vector;
+        echo $vector;
 	}
-    else
+    else 
        echo '{"-1": "No hay valores"}';
 
 ?>

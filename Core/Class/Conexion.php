@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 20-02-2015
+	Fecha modificacion	= 13-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -39,14 +39,14 @@ THE SOFTWARE.
 		var $password;
 		var $database;
 
-		function Conexion()
+		function Conexion($host,$user,$password,$database)
 		{
-			$this->host="localhost";
-			$this->user="root";
-			$this->password="";
-			$this->database="nabu";
-		}
-
+	        $this->host=$host;
+			$this->user=$user;
+			$this->password=$password;
+			$this->database=$database;
+        }
+        
 		function conectar()
 		{
 			$this->db = ADONewConnection('mysql');

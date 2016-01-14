@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 05-04-2015
 	Desarrollador		= GASAKAWA
-	Fecha modificacion	= 11-10-2015
+	Fecha modificacion	= 13-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -35,14 +35,13 @@ THE SOFTWARE.
         var $parent;
         var $wizard;
         
-        function setView($par, $type, $idPage){
-            
+        function setView($db,$par, $type, $idPage){
             if($type == "wizard"){
                 $this->parent = $par;
-                $this->wizard = new Wizard($idPage);
-                $this->wizard->buildBindings($idPage);
-                $this->wizard->buildSteps($idPage);
-                $this->wizard->buildButtons($idPage);
+                $this->wizard = new Wizard($db,$idPage);
+                $this->wizard->buildBindings($db,$idPage);
+                $this->wizard->buildSteps($db,$idPage);
+                $this->wizard->buildButtons($db,$idPage);
             }else{
                 $this->parent = $par;
                 unset($this->wizard);

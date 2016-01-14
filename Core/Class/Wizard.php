@@ -25,12 +25,11 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= GASAKAWA
-	Fecha modificacion	= 23-02-2015
-	Usuario Modifico	= GASAKAWA
+	Fecha modificacion	= 13-01-2016
+	Usuario Modifico	= CAGC
 
 */
     include_once "Step.php";
-   // include_once "Database.php";
     include_once "Button.php";
 
     class Wizard{
@@ -42,17 +41,17 @@ THE SOFTWARE.
         var $buttons;
         var $showProgressBar;
         
-        function Wizard($idPage){
+        function Wizard($db,$idPage){
             $this->steps = array();
             $this->bindings = array();
             $this->title = $title;
             $this->description = $desc;
-            $this->buildWizard($idPage);
+            $this->buildWizard($db,$idPage);
         }
         
-        function buildWizard($idPage){
-            $db = new Database();
-            $rows = $db->getWizardQuery($idPage);            
+        function buildWizard($db,$idPage){
+            $rows = $db->getWizardQuery($idPage);
+            
             foreach($rows as $row){
                 $this->title = $row['NB_WIZARD_TITLE'];
                 $this->description = $row['NB_WIZARD_DESC'];
@@ -63,24 +62,21 @@ THE SOFTWARE.
             }
         }
         
-        function buildSteps($idPage){
-            $db = new Database();
+        function buildSteps($db,$idPage){
             $rows = $db->getWizardStepsQuery($idPage); 
-            foreach($rows as $row){
+            foreach($rows as $row)
                 array_push($this->steps, new Step($row["NB_WIZARD_STEP_TITLE"], $row["NB_WIZARD_STEP_DESC"]));        
-            }
         }
         
-        function buildBindings($idPage){
-            $db = new Database();
+        function buildBindings($db,$idPage){
             $rows = $db->getWizardBindingsQuery($idPage);
-            foreach($rows as $row){
+            
+            foreach($rows as $row)
                 $this->bindings[$row["NB_ID_PR_SCHEMA_FLD"]] = intval($row["NB_ID_WIZARD_STEP"]);   
-            }
+            
         }
         
-        function buildButtons($idPage){
-            $db = new Database();
+        function buildButtons($db,$idPage){
             $rows = $db->getWizardButtonQuery($idPage);
             foreach($rows as $row){
                 $button = new Button($row["NB_WIZARD_BUTTON_TITLE"]);
@@ -88,8 +84,6 @@ THE SOFTWARE.
                 $button->validate = $row["NB_WIZARD_BUTTON_VALIDATE"];
                 $this->buttons[$row["NB_WIZARD_BUTTON_NAME"]] = $button;   
             }
-            //$button = new Button("Finalizar");
-            //$this->buttons["submit"] =  $button; 
         }
     }
 ?>

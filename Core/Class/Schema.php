@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 08-10-2015
+	Fecha modificacion	= 13-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -65,13 +65,12 @@ class Schema{
    }
   
   
-    function addField($id,$type,$field){
+    function addField($rows){
 
         if (!isset($fields)){
             $fields = array();
         }
-        $database = new Database();
-        $rows = $database->getFormFieldsTypes($id, $type, $field);
+        
         foreach($rows as $row){
             if ( $row[1] == "boolean" ) {
                 if ($row[2] == 'true' )

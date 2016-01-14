@@ -25,15 +25,12 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 10-01-2016
+	Fecha modificacion	= 14-01-2016
 	Usuario Modifico	= CAGC
 
 */
 
 include "../Class/Menu.php";
-include "../Class/Utilities.php";
-
-
 
 class TemplatePage
 {
@@ -45,23 +42,23 @@ class TemplatePage
     var $render;
     var $config;
 
-	function TemplatePage($id_page){
-        
-		$this->objUtilities = new Utilities();
-		$this->idPage=$this->objUtilities->idPage($id_page);
-        $this->config=$this->objUtilities->setupConfig();
-        $this->pageProperties=$this->objUtilities->pageProperties($this->idPage);
-		$this->title=$this->pageProperties['title'];
-		$this->tipo=$this->pageProperties['tipo'];
-		if ($this->tipo == 'datagrid')
-			$this->render=$this->objUtilities->getDataGrid($this->idPage);
-		
-		$this->header();
-		$this->body();
-		$this->tail();
+	function TemplatePage($objUtilities){
+        $this->objUtilities=$objUtilities;
     }
 
-
+    function initTemplate($id_page){
+        $this->idPage=$this->objUtilities->idPage($id_page);
+        $this->config=$this->objUtilities->setupConfig();
+        $this->pageProperties=$this->objUtilities->pageProperties($this->idPage);
+        $this->tipo=$this->pageProperties['tipo'];
+        if ($this->tipo == 'datagrid')
+        	$this->render=$this->objUtilities->getDataGrid($this->idPage);
+        
+        $this->header();
+        $this->body();
+        $this->tail();
+    }
+    
 	function header(){
 ?>
 		<!DOCTYPE html>
@@ -72,8 +69,8 @@ class TemplatePage
 				<meta charset="UTF-8"/>
 				<meta name="author" content="nabu" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-
-                <title><?php echo $this->title ?></title>
+                <?php ?>    
+                <title><?php echo $this->pageProperties['title']; ?></title>
 
                 <!-- Atributos Pagina -->
                 <?php $this->objUtilities->pageAttribute($this->idPage);?>
@@ -111,19 +108,17 @@ class TemplatePage
 			<?php $this->banner();?>
 			 <div align='center'>
 				<?php
-
+                    
                     $style=$this->pageProperties['style'];
-					$trace=$this->pageProperties['trace'];
+                    $trace=$this->pageProperties['trace'];
                     
                     if ($this->tipo == 'alpaca' or $this->tipo == 'wizard'){
-	
                         $schema=$this->objUtilities->getSchema($this->idPage);
                         $options=$this->objUtilities->getOption($this->idPage);
                         $data =$this->objUtilities->getData($this->idPage);
                         $view =$this->objUtilities->getView($this->idPage);
-                        
                         $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view);
-					}
+                    }
                     if ($this->tipo == 'datagrid'){
                     ?>    
                         <div style="margin:10px">

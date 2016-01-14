@@ -25,16 +25,12 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 10-01-2016
+    Fecha modificacion	= 13-01-2016
 	Usuario Modifico	= CAGC
 
 */
 
 include_once "Utilities.php";
-include_once "Conexion.php";
-include_once "Database.php";
-
-
 
 class NabuEvent
 {
@@ -45,8 +41,9 @@ class NabuEvent
 	function NabuEvent($id_page, $post) {
         
 		$this->page = $id_page;
-        $this->database = new Database(); 
-        $this->objUtilities = new Utilities();
+        $objUtilities = new Utilities('localhost','root','','nabu');
+        $this->database = $objUtilities->database;
+        
 	}
 	
     function getEventSql($accion) {
