@@ -34,7 +34,7 @@ THE SOFTWARE.
     
 	session_start();
     
-    $objUtilities = new Utilities('localhost','nabu','n4b62015','nabu_vanilla');
+    $objUtilities = new Utilities('172.31.25.48','nabu','n4b62015','nabu_vanilla');
     $objTemplate =new TemplatePage($objUtilities);
 
     if($_GET['p'] == 'login'){
