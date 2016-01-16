@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2016-01-10 17:43:12 +0000
+# Generation Time: 2016-01-16 17:22:54 +0000
 # ************************************************************
 
 
@@ -1357,7 +1357,7 @@ LOCK TABLES `nb_config_tbl` WRITE;
 
 INSERT INTO `nb_config_tbl` (`nb_id_fld`, `nb_slogan_fld`, `nb_versionbd_fld`, `nb_versionap_fld`)
 VALUES
-	('nabu','Semilla de innovacion que da vida a tus ideas','1.0','1.0');
+	('nabu','Semilla de innovacion que da vida a tus ideas','1.1','1.1');
 
 /*!40000 ALTER TABLE `nb_config_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2272,12 +2272,20 @@ VALUES
 	('nb_reporte_diario_pg',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('home',19,0,7,'Configuracion','home','fa fa-cog','N'),
 	('home',20,19,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_usersm_pg',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('nb_usersm_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('nb_usersm_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
 	('home',10,9,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
 	('home',1,0,1,'Home','home','fa fa-home','N'),
 	('home',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
 	('home',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
 	('home',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
 	('home',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
+	('nb_usersm_pg',10,9,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('nb_usersm_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('nb_usersm_pg',8,6,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('nb_usersm_pg',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('nb_usersm_pg',6,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
 	('home',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
 	('home',8,6,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
 	('home',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
@@ -2286,6 +2294,59 @@ VALUES
 	('home',21,19,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('home',22,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('home',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_tarifasm_pg',22,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_tarifasm_pg',21,19,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_tarifasm_pg',20,19,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_tarifasm_pg',19,0,7,'Configuracion','home','fa fa-cog','N'),
+	('nb_tarifasm_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('nb_tarifasm_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_tarifasm_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
+	('nb_tarifasm_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('nb_tarifasm_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('nb_tarifasm_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_tarifasm_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('nb_tarifasm_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('nb_tarifasm_pg',10,9,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('nb_tarifasm_pg',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('nb_usuariosm_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('nb_usuariosm_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('nb_usuariosm_pg',19,0,7,'Configuracion','home','fa fa-cog','N'),
+	('nb_usuariosm_pg',20,19,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_usuariosm_pg',21,19,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_usuariosm_pg',22,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_tarifasm_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_tarifasm_pg',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
+	('nb_tarifasm_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_tarifasm_pg',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
+	('nb_tarifasm_pg',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_tarifasm_pg',6,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('nb_tarifasm_pg',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('nb_tarifasm_pg',8,6,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('nb_usuariosm_pg',8,6,2,'Consulta Tarifas','nb_tarifasv_pg','fa fa-search','N'),
+	('nb_usuariosm_pg',9,0,4,'Usuarios Parqueadero','construccion','fa fa-group','N'),
+	('nb_usuariosm_pg',10,9,1,'Ingreso Usuarios','nb_usuarios_pg','fa fa-plus','N'),
+	('nb_usuariosm_pg',11,9,2,'Consulta Usuarios','nb_usuariosv_pg','fa fa-search','N'),
+	('nb_usuariosm_pg',12,0,5,'Usuarios Software','construccion','fa fa-users','N'),
+	('nb_usuariosm_pg',13,12,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_usuariosm_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_usuariosm_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
+	('nb_usuariosm_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('nb_usuariosm_pg',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_usuariosm_pg',6,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('nb_usuariosm_pg',7,6,1,'Ingreso Tarifas','nb_tarifas_pg','fa fa-plus','N'),
+	('nb_usersm_pg',19,0,7,'Configuracion','home','fa fa-cog','N'),
+	('nb_usersm_pg',20,19,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_usersm_pg',21,19,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_usersm_pg',22,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_usuariosm_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_usuariosm_pg',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
+	('nb_usuariosm_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_usuariosm_pg',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
+	('nb_usersm_pg',18,15,3,'Reporte Mensual Cobros','nb_reporte_mensual_pg','fa fa-calculator','N'),
+	('nb_usersm_pg',17,15,2,'Reporte Diario Cobros','nb_reporte_diario_pg','fa fa-money','N'),
+	('nb_usersm_pg',15,0,6,'Reportes','nb_reporte_diario_pg','fa fa-desktop','N'),
+	('nb_usersm_pg',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
+	('nb_usersm_pg',14,12,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
 	('home',16,15,1,'Reporte Total','nb_reporte_total_pg','fa fa-table','N'),
 	('nb_password_pg',19,0,7,'Configuracion','home','fa fa-cog','N'),
 	('nb_password_pg',20,19,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -2309,6 +2370,11 @@ VALUES
 	('nb_password_pg',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
 	('nb_password_pg',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
 	('nb_password_pg',6,0,3,'Tarificacion','construccion','fa fa-dollar','N'),
+	('nb_usersm_pg',5,2,3,'Monitoreo','nb_monitoreo_pg','fa fa-table','N'),
+	('nb_usersm_pg',4,2,2,'Recaudo','nb_recaudo_pg','fa fa-money','N'),
+	('nb_usersm_pg',3,2,1,'Control','nb_control_pg','fa fa-check-square','N'),
+	('nb_usersm_pg',2,0,2,'Vehiculos','nb_monitoreo_pg','fa fa-car','N'),
+	('nb_usersm_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('ayuda',22,0,8,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('ayuda',21,19,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('ayuda',20,19,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -2609,7 +2675,7 @@ LOCK TABLES `nb_option_tbl` WRITE;
 
 INSERT INTO `nb_option_tbl` (`nb_id_page_fld`, `nb_typealpaca_fld`, `nb_renderform_fld`, `nb_action_path`, `nb_action_fld`, `nb_typeaccion_fld`, `nb_method_fld`, `nb_enctype_fld`)
 VALUES
-	('login','form','true','../Events/','validateUser','0','post',NULL),
+	('login','form','true','../Events/','ValidateUser','0','post',NULL),
 	('error','image','false',NULL,NULL,NULL,NULL,NULL),
 	('home','image','false',NULL,NULL,NULL,NULL,NULL),
 	('nb_recaudo_pg','wizard','true','../Events/','nabuRecaudo','0','post',NULL),

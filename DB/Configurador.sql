@@ -17,7 +17,7 @@ select distinct nb_link_fld from nb_navigation_tbl where nb_link_fld not in ('lo
 
 
 insert into nb_navigation_tbl
-select  'construccion',nb_sec_fld,nb_parent_fld,nb_id_menu_fld,nb_descr_men_fld,nb_link_fld,nb_image_fld,nb_target_fld
+select  'nb_tarifasm_pg',nb_sec_fld,nb_parent_fld,nb_id_menu_fld,nb_descr_men_fld,nb_link_fld,nb_image_fld,nb_target_fld
 from 	nb_navigation_tbl
 where	nb_id_page_fld='home'
 
