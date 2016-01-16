@@ -60,7 +60,7 @@ include "../Class/Database.php";
         
 		
         
-        $db = new Database('localhost','root','','nabu');
+        $db = new Database('localhost','root','n4b62015','nabu_vanilla');
         
         $rows=$db->executeQuery($sql);
             

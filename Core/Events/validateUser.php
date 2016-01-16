@@ -32,7 +32,7 @@ THE SOFTWARE.
 
     include "../Class/Utilities.php";
 
-    $objUtilities = new Utilities('localhost','root','','nabu');
+    $objUtilities = new Utilities('localhost','root','n4b62015','nabu_vanilla');
     
 	$idPage=$_GET['p'];
 

@@ -41,7 +41,7 @@ class NabuEvent
 	function NabuEvent($id_page, $post) {
         
 		$this->page = $id_page;
-        $objUtilities = new Utilities('localhost','root','','nabu');
+        $objUtilities = new Utilities('localhost','root','n4b62015','nabu_vanilla');
         $this->database = $objUtilities->database;
         
 	}
