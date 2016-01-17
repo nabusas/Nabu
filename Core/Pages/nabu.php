@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 14-01-2016
+	Fecha modificacion	= 16-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -35,6 +35,8 @@ THE SOFTWARE.
 	session_start();
     
     $objUtilities = new Utilities('localhost','nabu','n4b62015','nabu_vanilla');
+    $_SESSION['objUtilities']=$objUtilities;
+
     $objTemplate =new TemplatePage($objUtilities);
 
     if($_GET['p'] == 'login'){

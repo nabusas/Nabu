@@ -25,12 +25,14 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 13-01-2016
+	Fecha modificacion	= 16-01-2016
 	Usuario Modifico	= CAGC
 
 */
 
-include "../Class/Database.php";
+include "../Class/Utilities.php";
+
+session_start();
 
     if (isset($_GET["campo"]))
 	   $campo=$_GET["campo"];
@@ -60,9 +62,10 @@ include "../Class/Database.php";
         
 		
         
-        $db = new Database('localhost','nabu','n4b62015','nabu_vanilla');
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
         
-        $rows=$db->executeQuery($sql);
+        $rows=$database->executeQuery($sql);
             
         $rows_returned =  count($rows);
 		

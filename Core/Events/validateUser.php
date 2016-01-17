@@ -25,14 +25,15 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 13-01-2016
+	Fecha modificacion	= 16-01-2016
 	User modify	   	    = CAGC
 
 */
 
     include "../Class/Utilities.php";
+    session_start();
 
-    $objUtilities = new Utilities('localhost','nabu','n4b62015','nabu_vanilla');
+    $objUtilities = $_SESSION['objUtilities'];
     
 	$idPage=$_GET['p'];
 

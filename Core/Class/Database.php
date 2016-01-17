@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 13-01-2016
+	Fecha modificacion	= 16-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -35,19 +35,17 @@ THE SOFTWARE.
         
         var $cx;
         var $db;
-        var $cx2;
         
         function Database($host,$user,$password,$database){
             $this->cx=new Conexion($host,$user,$password,$database); 
-            $this->cx2=$this->cx;
         }
         
         function conectar(){
-            $this->cx2->conectar();
+            $this->cx->conectar();
         }
         
         function desconectar(){
-            $this->cx2->desconectar();
+            $this->cx->desconectar();
         }
         
         function execute($sql){
