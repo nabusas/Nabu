@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 14-01-2016
+	Fecha modificacion	= 17-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -80,9 +80,12 @@ class TemplatePage
     }
 
 	function banner(){
+    if ($this->idPage <> 'login'){                 
 ?>
-    <div class="Menuheader"><a href="#menu"></a></div>
-
+        <div class="Menuheader"><a href="#menu"></a></div>
+<?php
+    }
+?>
     <div class="content">
 	<header>
 			<table width="100%">
@@ -98,7 +101,9 @@ class TemplatePage
 
 		<br><br>
 <?php
-		$this->menu = new Menu($this->idPage,$this->objUtilities);
+		if ($this->idPage <> 'login')
+            $this->menu = new Menu($this->idPage,$this->objUtilities);
+                      
 	}
     
 	function body(){

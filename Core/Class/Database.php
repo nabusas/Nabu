@@ -77,6 +77,11 @@ THE SOFTWARE.
             return $row;
         }
         
+        function getEnterprise($enter){
+            $sql ="select nb_host_fld,nb_db_fld,nb_user_fld,nb_pass_fld from nb_enterprise_tbl where nb_enterprise_id_fld='" .$enter. "'";
+            return $this->executeQueryOneRow($sql);
+        }
+        
         function menu3($id_page,$papa2){
             $sql ="SELECT a.nb_parent_fld,a.nb_id_menu_fld FROM nb_navigation_tbl a WHERE a.nb_id_page_fld='$id_page' and a.nb_sec_fld='$papa2'";
             return $this->executeQueryOneRow($sql);

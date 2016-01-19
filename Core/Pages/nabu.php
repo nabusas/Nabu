@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 16-01-2016
+	Fecha modificacion	= 17-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -34,17 +34,17 @@ THE SOFTWARE.
     
 	session_start();
     
-    $objUtilities = new Utilities('localhost','nabu','n4b62015','nabu_vanilla');
-    $_SESSION['objUtilities']=$objUtilities;
-
-    $objTemplate =new TemplatePage($objUtilities);
-
+    
     if($_GET['p'] == 'login'){
+        $objUtilities = new Utilities('localhost','root','','nabu');
+        $_SESSION['objUtilities']=$objUtilities;
+        $objTemplate =new TemplatePage($objUtilities);
         $objTemplate->initTemplate($_GET['p']);
 		unset($_SESSION['role']);
     }
 	else {
         if(isset($_SESSION['role']) and $_SESSION['role'] <>'') {
+            $objTemplate =new TemplatePage($_SESSION['objUtilities']);
             if($objTemplate->objUtilities->validateRole($_GET['p'], $_SESSION['role'])){
                 $objTemplate->initTemplate($_GET['p']);
             }    
