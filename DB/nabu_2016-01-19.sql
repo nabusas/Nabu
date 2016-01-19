@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2016-01-19 21:50:24 +0000
+# Generation Time: 2016-01-19 22:18:25 +0000
 # ************************************************************
 
 
@@ -162,8 +162,8 @@ LOCK TABLES `nb_enterprise_tbl` WRITE;
 
 INSERT INTO `nb_enterprise_tbl` (`nb_enterprise_id_fld`, `nb_host_fld`, `nb_db_fld`, `nb_user_fld`, `nb_pass_fld`)
 VALUES
-	('fccn','localhost','nabufccn','root',''),
-	('rest','localhost','naburest','root','');
+	('fccn','localhost','nabufccn','userfccn','148002750'),
+	('rest','localhost','naburest','userrest','148002751');
 
 /*!40000 ALTER TABLE `nb_enterprise_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
