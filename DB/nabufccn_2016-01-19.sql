@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
-# Database: nabu
-# Generation Time: 2016-01-16 17:22:54 +0000
+# Database: nabufccn
+# Generation Time: 2016-01-19 21:50:43 +0000
 # ************************************************************
 
 
@@ -1408,7 +1408,8 @@ VALUES
 	(19,0,'KCS654',1,'2016-01-04 08:13:40','2016-01-04 08:28:36',2,14,0,2,2),
 	(20,0,'KCS987',21,'2016-01-07 09:52:04','2016-01-07 19:35:24',2,583,12800,2,2),
 	(21,0,'KCS973',2,'2016-01-07 19:35:03',NULL,0,0,0,2,0),
-	(22,0,'KCS987',1,'2016-01-08 09:44:26',NULL,1,0,0,2,0);
+	(22,0,'KCS987',1,'2016-01-08 09:44:26',NULL,1,0,0,2,0),
+	(23,0,'OPI987',12,'2016-01-19 13:18:14','2016-01-19 13:18:32',2,0,0,2,2);
 
 /*!40000 ALTER TABLE `nb_control_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1895,7 +1896,6 @@ VALUES
 	('nb_recaudo_pg','nb_2_placa_fld',24,'Placa'),
 	('nb_usersm_pg','nb_estado_fld',32,'select'),
 	('nb_usersm_pg','nb_estado_fld',24,'Estado'),
-	('addcustomer','nb_sexo_fld',60,'{\"nb_tipodoc_fld\": [\"1\",\"2\",\"4\",\"5\"] }'),
 	('nb_usersm_pg','nb_id_role_fld',55,'../Events/ValoresCampo.php?campo=role'),
 	('nb_usersm_pg','nb_id_role_fld',32,'select'),
 	('nb_usersm_pg','nb_id_role_fld',24,'Role'),
@@ -2085,7 +2085,6 @@ VALUES
 	('nb_tarifasm_pg','nb_3_tipocobro_fldX',59,'false'),
 	('nb_tarifasm_pg','nb_1_tipo_vehi_fldX',29,'true'),
 	('nb_tarifasm_pg','nb_3_tipocobro_fldX',29,'true'),
-	('0','0',0,NULL),
 	('nb_tarifasm_pg','nb_1_tipo_vehi_fld',36,'true'),
 	('nb_tarifasm_pg','nb_3_tipocobro_fld',36,'true'),
 	('nb_usuariosm_pg','nb_tipodoc_fldX',11,'true'),
@@ -3473,7 +3472,7 @@ LOCK TABLES `nb_tarifas_tbl` WRITE;
 
 INSERT INTO `nb_tarifas_tbl` (`nb_1_tipotarifa_fld`, `nb_1_tipo_vehi_fld`, `nb_3_tipocobro_fld`, `nb_4_valor_fld`, `nb_5_tiempoG_fld`, `nb_6_tiempoS_fld`)
 VALUES
-	(1,0,1,55000,0,0),
+	(1,0,1,56000,0,0),
 	(0,1,0,0,0,0),
 	(0,0,0,0,0,0),
 	(2,0,2,2000,15,15),
