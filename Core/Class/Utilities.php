@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 16-01-2016
+	Fecha modificacion	= 19-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -168,10 +168,10 @@ class Utilities
 	    $type = 'schema';
 		
 		$row = $this->database->getSchemaDescription($id);
-        $typePage = $row[0];
+        $typePage = $row[2];
 		$json = new Schema($row[0],$row[1],$row[2]);
 		
-		if  ($typePage == 'array'){
+        if  ($typePage == 'array'){
 			$json->addItems('type','object');
 			$properties = array();
 		}
@@ -308,7 +308,7 @@ class Utilities
             unset($json->datatables);
         }
         
-        if ($alpaca == 'form'){
+        if ($alpaca == 'form' or $alpaca == 'table'){
 			
 			$rows = $this->database->getFormButtonsQuery($id);
             $button = array();
@@ -324,13 +324,13 @@ class Utilities
 		}
         
         if ($alpaca == 'table'){
-			$json->addType($alpaca,'false');
-            $json->addDatatables();
-			unset($json->renderForm);
-			unset($json->form);
-            unset($json->fields);
-		}
-
+			$json->addType($alpaca,'true');
+            $fieldsA = array();
+            $info = array();
+        }
+        else
+            unset($json->items);
+        
         if ($alpaca == 'image'){
             unset($json->type);
 			unset($json->renderForm);
@@ -345,8 +345,20 @@ class Utilities
         foreach($rows as $row){
             $rowsI = $this->database->getFormFieldsTypes($id,$type,$row[0]);
             $campo=$json->addField($rowsI);
-		    $json->addFields($row[0],$campo);
+		    
+            if  ($alpaca == 'table')
+                $fieldsA[$row[0]] = $campo;
+            else
+                $json->addFields($row[0],$campo);
         }
+        
+        if  ($alpaca == 'table'){
+			$json->addItems("fields",$fieldsA);
+            $info['emptyTable']=' ';
+            $json->addDatatables($info);
+			unset($json->renderForm);
+			unset($json->fields);
+		}
         
         return $json;
 

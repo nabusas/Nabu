@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 29-12-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 04-01-2016
+	Fecha modificacion	= 19-01-2016
 	User modify		    = CAGC
 
 */
@@ -80,11 +80,13 @@ THE SOFTWARE.
 
 <?php    
     
-    include_once "../Class/Database.php";
+    include "../Class/Utilities.php";
     
     session_start();
 
-    $database = new Database(); 
+    $objUtilities = $_SESSION['objUtilities'];
+    $database = $objUtilities->database;
+    
     date_default_timezone_set("America/Bogota");
     setlocale(LC_MONETARY, 'en_US');
 

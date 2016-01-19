@@ -24,9 +24,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-	Fecha creacion		= 20-02-2015
+	Fecha creacion		= 20-12-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 29-12-2015
+	Fecha modificacion	= 19-01-2016
 	User modify		    = CAGC
 
 */
@@ -80,11 +80,13 @@ THE SOFTWARE.
 
 <?php    
     
-    include_once "../Class/Database.php";
+    include "../Class/Utilities.php";
     
     session_start();
 
-    $database = new Database(); 
+    $objUtilities = $_SESSION['objUtilities'];
+    $database = $objUtilities->database;
+    
     date_default_timezone_set("America/Bogota");
     setlocale(LC_MONETARY, 'en_US');
 
