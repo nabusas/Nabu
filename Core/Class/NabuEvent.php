@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 16-01-2016
+    Fecha modificacion	= 20-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -50,13 +50,26 @@ class NabuEvent
 	
     function getEventSql($accion) {
         
-        $respcode = 0;
-    
+        if ($accion == 2 or $accion==3){
+            
+            $tomanoArray=sizeof($_REQUEST)-2;
+            $numeroColumnas=4;
+            $numeroFilas =$tomanoArray/$numeroColumnas;
+            
+            if ($numeroFilas < 9)
+                $recortar=3;
+            else
+                $recortar=4;
+        }
+        else
+            $numeroFilas=1;
+        
         $tables = $this->database->getTables($this->page);
-        $secuencia=-1;        
+        $resultado=1;
         
         foreach($tables as $table) {
             $fields = $this->database->getFields($this->page,$table[0]);
+            
             $fieldsValues='';  
             $fieldsTable='';
             $setValue='Set ';
@@ -64,104 +77,134 @@ class NabuEvent
             
             $i1=1;
             $i2=1;
-            foreach($fields as $field){
-                
-                $type =$this->database->getTypes($table[0],$field[1]);
-                
-                if (isset($_POST[$field[0]])){
-                    $value =trim($_POST[$field[0]]);
-                    
-                    $password=strpos($field[1],'password'); 
-                    if ($password)
-                        $value =md5(trim($_POST[$field[0]]));    
-                }
-                else    
-                    $value ='nabuNull';
             
-                $fieldsTable .= $field[1];
+            for ($i=0; $i<$numeroFilas; $i++){
+                foreach($fields as $field){
                 
-                if ($value =='')
-                    $value ='nabuNull';    
-                
-                if ($value <> 'nabuNull' ){
-                  
-                    switch($type[0]) {
-						case 'string':
-							$value = "'" . $value . "'";
-							break;
-						case 'date':
-                            if (!$setData)
-                                $value=$this->objUtilities->castingDate($value);
-                            
-                            $value= "STR_TO_DATE('" .$value. "','%Y-%m-%d %H:%i:%s')";
-                            
-							break;
-					}
-					
-				    $fieldsValues .=$value;
-                }
-                else {
-					switch($type[0]) {
-						case 'string':
-							$fieldsValues .= "''";
-							break;
-						case 'number':
-							$fieldsValues .= "0";
-							break;
-						case 'date':
-							$fieldsValues .= "null";
-							break;
-					}
-				}
-                
-                if ($accion == 1){
-                    
-                    $key =$this->database->getKeyField($table[0],$field[1]);
-                    
-                    if ($value <> 'nabuNull' ){
-                        if ($key[0] == 0){
-                            if ($i1== 1)
-                                $setValue .= $field[1]."=".$value.' ';
-                            else
-                                $setValue .= ', '.$field[1]."=".$value;
-                            $i1++;    
+                    $type =$this->database->getTypes($table[0],$field[1]);
+
+                    if ($accion == 0 or $accion==1){
+                        if (isset($_POST[$field[0]])){
+                            $value =trim($_POST[$field[0]]);
+
+                            $password=strpos($field[1],'password'); 
+                            if ($password)
+                                $value =md5(trim($_POST[$field[0]]));    
                         }
-                        else{
-                            if ($i2== 1)
-                                $whereValue .= $field[1]."=".$value.' ';
-                            else
-                                $whereValue .= 'AND '.$field[1]."=".$value.' ';
-                            $i2++;
+                        else    
+                            $value ='nabuNull';
+                    }
+                    else{
+                        if (isset($_POST['_'.$i.'_'.$field[1]])){
+                            $value =trim($_POST['_'.$i.'_'.$field[1]]);   
+                        }
+                        else    
+                            $value ='nabuNull';
+                    }
+                    
+                    $fieldsTable .= $field[1];
+
+                    if ($value =='')
+                        $value ='nabuNull';    
+
+                    if ($value <> 'nabuNull' ){
+
+                        switch($type[0]) {
+                            case 'string':
+                                $value = "'" . $value . "'";
+                                break;
+                            case 'date':
+                                if (!$setData)
+                                    $value=$this->objUtilities->castingDate($value);
+
+                                $value= "STR_TO_DATE('" .$value. "','%Y-%m-%d %H:%i:%s')";
+
+                                break;
+                        }
+
+                        $fieldsValues .=$value;
+                    }
+                    else {
+                        switch($type[0]) {
+                            case 'string':
+                                $fieldsValues .= "''";
+                                break;
+                            case 'number':
+                                $fieldsValues .= "0";
+                                break;
+                            case 'date':
+                                $fieldsValues .= "null";
+                                break;
                         }
                     }
+
+                    if ($accion == 1 or $accion == 3){
+                        $key =$this->database->getKeyField($table[0],$field[1]);
+
+                        if ($value <> 'nabuNull' ){
+                            if ($key[0] == 0){
+                                if ($i1== 1)
+                                    $setValue .= $field[1]."=".$value.' ';
+                                else
+                                    $setValue .= ', '.$field[1]."=".$value;
+                                $i1++;    
+                            }
+                            else{
+                                if ($i2== 1)
+                                    $whereValue .= $field[1]."=".$value.' ';
+                                else
+                                    $whereValue .= 'AND '.$field[1]."=".$value.' ';
+                                $i2++;
+                            }
+                        }
+                    }
+
+                    if($field[0]) {
+                        $fieldsTable .= ",";
+                        $fieldsValues .= ",";
+                    }
                 }
-                
-                if($field[0]) {
-					$fieldsTable .= ",";
-					$fieldsValues .= ",";
-				}
-                
-			}
             
-            if ($accion == 0){
-                $sql = "INSERT INTO " .$table[0]. "(" . $fieldsTable . ") VALUES(" . $fieldsValues . ")";
-                $fin =',)';$correccionF=')';
-                $sql=str_replace($fin,$correccionF,$sql);
-            }
-            else
-                $sql ='Update '.$table[0].' '.$setValue.' '.$whereValue;
+                if ($accion == 0 or $accion == 2){
                     
+                    if ($i ==0 and $numeroFilas==1)
+                        $sql= " INSERT INTO " .$table[0]. "(" . $fieldsTable . ") VALUES(" . $fieldsValues . ") ";
+                    else{
+                        
+                        if ($i ==0){
+                            $sql= " INSERT INTO " .$table[0]. "(" . $fieldsTable . ") VALUES";
+                            $values= "(" . $fieldsValues . ") ";        
+                        }
+                        else
+                            $values.=",(" . $fieldsValues . ") ";
+                        
+                    }
+                    
+                    $fin =',)';$correccionF=')';
+                    $sql=str_replace($fin,$correccionF,$sql);
+                    $values=str_replace($fin,$correccionF,$values);
+                    $fieldsTable='';
+                    $fieldsValues='';
+                }
+                else{
+                    $sql='Update '.$table[0].' '.$setValue.' '.$whereValue;
+                    $setValue='';
+                    $whereValue='';
+                }
+            }
+            
+            if ($accion == 0 or $accion == 2)
+                $sql .=$values;
+            
+            $result =$this->database->executeSqlEvent($sql);
+            
+            if ($result->EOF <> 1){
+                $resultado=0;
+            }
         }
-         
-        return $sql;
+        
+        return $resultado;
     }
     
-    
-    function executeSql($sql){
-        
-        $result =$this->database->executeSqlEvent($sql);
-        
-        return $result;
-    }
 } 
 ?>

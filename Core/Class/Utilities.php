@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-01-2016
+	Fecha modificacion	= 20-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -301,7 +301,7 @@ class Utilities
 		
         $json = new Options();
         
-        if ($alpaca == 'wizard' or $alpaca =='form'){
+        if ($alpaca == 'wizard' or $alpaca =='form' or $alpaca == 'table'){
             $event = $row['EVENT'];
 			$attributes=$json->addElement($event,'post','');
 			$json->addForm("attributes",$attributes);

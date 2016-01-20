@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: naburest
-# Generation Time: 2016-01-19 21:50:52 +0000
+# Generation Time: 2016-01-20 20:20:12 +0000
 # ************************************************************
 
 
@@ -409,6 +409,10 @@ VALUES
 	('nb_product_pg','nb_productos_tbl','nb_desc_producto_fld','nb_desc_producto_fld'),
 	('nb_product_pg','nb_productos_tbl','nb_id_producto_fld','nb_id_producto_fld'),
 	('nb_product_pg','nb_productos_tbl','nb_marc_producto_fld','nb_marc_producto_fld'),
+	('NB_PRUEBA_PG','PRUEBA','NB_INVE_1_FLD','NB_INVE_1_FLD'),
+	('NB_PRUEBA_PG','PRUEBA','NB_INVE_2_FLD','NB_INVE_2_FLD'),
+	('NB_PRUEBA_PG','PRUEBA','NB_INVE_3_FLD','NB_INVE_3_FLD'),
+	('NB_PRUEBA_PG','PRUEBA','NB_INVE_4_FLD','NB_INVE_4_FLD'),
 	('nb_usersm_pg','NBD_ROLE_USER_TBL','nbd_id_user_fld','nbd_id_user_fld'),
 	('nb_usersm_pg','NBD_ROLE_USER_TBL','nb_id_role_fld','nb_id_role_fld'),
 	('nb_usersm_pg','NBD_USER_TBL','nbd_descr_fld','nbd_descr_fld'),
@@ -1232,7 +1236,7 @@ LOCK TABLES `nb_option_tbl` WRITE;
 INSERT INTO `nb_option_tbl` (`nb_id_page_fld`, `nb_typealpaca_fld`, `nb_renderform_fld`, `nb_action_path`, `nb_action_fld`, `nb_typeaccion_fld`, `nb_method_fld`, `nb_enctype_fld`)
 VALUES
 	('home','image','false','','','','',''),
-	('NB_PRUEBA_PG','table','true','../Events/','nabuSave','0','post',''),
+	('NB_PRUEBA_PG','table','true','../Events/','nabuSave','2','post',''),
 	('nb_users_pg','wizard','true','../Events/','nabuSave','0','post',''),
 	('NB_INVENTARIO_PG','wizard','true','../Events/','nabuSave','0','post',''),
 	('NB_FACTURACION_PG','wizard','true','../Events/','nabuSave','0','post',''),
@@ -1458,17 +1462,11 @@ VALUES
 	('NB_PRUEBA_PG',8),
 	('NB_PRUEBA_PG',9),
 	('NB_PRUEBA_PG',10),
-	('NB_PRUEBA_PG',11),
 	('NB_PRUEBA_PG',12),
 	('NB_PRUEBA_PG',13),
 	('NB_PRUEBA_PG',14),
 	('NB_PRUEBA_PG',15),
 	('NB_PRUEBA_PG',16),
-	('NB_PRUEBA_PG',17),
-	('NB_PRUEBA_PG',18),
-	('NB_PRUEBA_PG',19),
-	('NB_PRUEBA_PG',20),
-	('NB_PRUEBA_PG',21),
 	('NB_PRUEBA_PG',22),
 	('NB_REPORTE_1_PG',1),
 	('NB_REPORTE_1_PG',2),
@@ -1795,7 +1793,11 @@ VALUES
 	('NB_INVENTARIO_TBL','NB_INVE_17_FLD','string',255,'N','N','NULL'),
 	('NB_INVENTARIO_TBL','NB_INVE_18_FLD','string',255,'N','N','NULL'),
 	('NB_INVENTARIO_TBL','NB_INVE_19_FLD','string',255,'N','N','NULL'),
-	('NB_INVENTARIO_TBL','NB_INVE_20_FLD','string',255,'N','N','NULL');
+	('NB_INVENTARIO_TBL','NB_INVE_20_FLD','string',255,'N','N','NULL'),
+	('PRUEBA','NB_INVE_1_FLD','string',255,'N','N','NULL'),
+	('PRUEBA','NB_INVE_2_FLD','string',255,'N','N','NULL'),
+	('PRUEBA','NB_INVE_3_FLD','string',255,'N','N','NULL'),
+	('PRUEBA','NB_INVE_4_FLD','string',255,'N','N','NULL');
 
 /*!40000 ALTER TABLE `nb_table_fields_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1822,7 +1824,8 @@ VALUES
 	('NB_PRODUCTOS_TBL','Productos'),
 	('NBD_ROLE_USER_TBL','Tabla Roles del sistema'),
 	('NB_FACTURACION_TBL','FACTURACION'),
-	('NB_INVENTARIO_TBL','Inventario');
+	('NB_INVENTARIO_TBL','Inventario'),
+	('PRUEBA','Inventario');
 
 /*!40000 ALTER TABLE `nb_tables_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2124,6 +2127,37 @@ VALUES
 	(1,'admin','Usuario Administrador','21232f297a57a5a743894a0e4a801fc3',0);
 
 /*!40000 ALTER TABLE `nbd_user_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table PRUEBA
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `PRUEBA`;
+
+CREATE TABLE `PRUEBA` (
+  `NB_INVE_1_FLD` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
+  `NB_INVE_2_FLD` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `NB_INVE_3_FLD` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `NB_INVE_4_FLD` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`NB_INVE_1_FLD`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+LOCK TABLES `PRUEBA` WRITE;
+/*!40000 ALTER TABLE `PRUEBA` DISABLE KEYS */;
+
+INSERT INTO `PRUEBA` (`NB_INVE_1_FLD`, `NB_INVE_2_FLD`, `NB_INVE_3_FLD`, `NB_INVE_4_FLD`)
+VALUES
+	('prod 3','8','9','10'),
+	('prod','4','5','6'),
+	('prod 1','1','2','3'),
+	('prod 6','89','89','89'),
+	('prod 78','12','4','5'),
+	('pr1','1','2','3'),
+	('pr2','2','4','5'),
+	('pr3','5','6','8');
+
+/*!40000 ALTER TABLE `PRUEBA` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

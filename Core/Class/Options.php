@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-01-2016
+	Fecha modificacion	= 20-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -64,7 +64,7 @@ class Options{
       
       	$this->datatables["paging"] = false;
         $this->datatables["searching"] = false;
-        $this->datatables["ordering"] = true;
+        $this->datatables["ordering"] = false;
         $this->datatables["lengthChange"] = false;
         $this->datatables["info"] = false;
         $this->datatables["language"] =$info;

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 12-05-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 10-12-2015
+    Fecha modificacion	= 20-12-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -60,7 +60,7 @@ THE SOFTWARE.
                     modal: false,
                     buttons: {
                         "Aceptar": function() {
-                            document.location = "../Pages/nabu.php?p=home";
+                           document.location = "../Pages/nabu.php?p=home";
                         }
                     }
                 });
@@ -85,15 +85,15 @@ THE SOFTWARE.
     $accion=$_GET['accion'];
     
     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-	$sql=$nabuEvent->getEventSql($accion);
-    $result=$nabuEvent->executeSql($sql);
+	$result=$nabuEvent->getEventSql($accion);
     
     echo "<div id='dialog-confirm' title='Informacion Guardar'>";
-        if ($result->EOF == 1){
-            if ($accion== 0)
+        if ($result== 1){
+            if ($accion== 0 or $accion== 2)
                 echo 'Guardado Exitoso';
             else
-                echo 'Actualizacion Exitosa';
+                if ($accion== 1 or $accion== 3)
+                    echo 'Actualizacion Exitosa';
         }
         else
             echo 'Problemas al realizar la Operacion';
