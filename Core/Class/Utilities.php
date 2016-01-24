@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 20-01-2016
+	Fecha modificacion	= 24-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -231,35 +231,45 @@ class Utilities
                     $key=$field[2];
                     $tabla=$field[1];
                     
-                    if ($tabla=='' OR $tabla == $field[1]){
-                        if ( $key=='Y' ){
-                            if (isset($_GET[$field[0]])){
+                    if (isset($_GET['accion'])){
+                        if ($_GET['accion']=='b'){
+                            if ($tabla=='' OR $tabla == $field[1]){
+                                if ( $key=='Y' ){
+                                    if (isset($_GET[$field[0]])){
+                                        if ($_GET[$field[0]] <> ''){    
+                                            $value=$this->database->getDataChange($field[0],$_GET[$field[0]]);
 
-                                $value=$this->database->getDataChange($field[0],$_GET[$field[0]]);
+                                            if ($value[0] == '')
+                                                $value[0]=$_GET[$field[0]];
 
-                                if ($value[0] == '')
-                                    $value[0]=$_GET[$field[0]];
+                                            if ($i == 1)
+                                                $where=$where.$field[0]."='".$value[0]."' ";
+                                            else
+                                                $where=$where." AND ".$field[0]."='".$value[0]."' ";
 
-                                if ($i == 1)
-                                    $where=$where.$field[0]."='".$value[0]."' ";
-                                else
-                                    $where=$where." AND ".$field[0]."='".$value[0]."' ";
-                            
-                                $fieldsData[$field[0]]=$value[0];
-                                $fieldsData[$field[0].'X']=$value[0];
+                                            $fieldsData[$field[0]]=$value[0];
+                                            $fieldsData[$field[0].'X']=$value[0];
+                                        }
+                                    }
+                                    $i++;
+                                }
+                                else{
+                                    $value=$this->database->getDatavalueW($field[1],$field[0],$where);
+                                    $fieldsData[$field[0]]=$value[0];
+                                }
                             }
-                            $i++;
+                            else
+                                $tabla =$field[1];
                         }
                         else{
-                            $value=$this->database->getDatavalueW($field[1],$field[0],$where);
-                            
-                            
-                            $fieldsData[$field[0]]=$value[0];
+                            if ($_GET[$field[0]] <> '')
+                                $fieldsData[$field[0]]=$_GET[$field[0]];
+                            else{
+                                $fieldsData['nb_fact_4_fld']='Carlos Alberto Garcia Cobo';
+                            }
                         }
                     }
-                    else
-                        $tabla =$field[1];
-                }
+                }    
                 
                 $jsonA=$json->getData2($fieldsData);
             }
@@ -350,6 +360,7 @@ class Utilities
                 $fieldsA[$row[0]] = $campo;
             else
                 $json->addFields($row[0],$campo);
+            
         }
         
         if  ($alpaca == 'table'){
@@ -366,16 +377,18 @@ class Utilities
     
     function fixedJson($json) {
         
-        $v1=chr(34)."function("; $c1="function(";               // "function(   se cambia por function(
-        $v2=chr(59).chr(125).chr(34); $c2=chr(59).chr(125);     // ;}"          se cambia por  ;}    
-        $v3=chr(40).chr(92).chr(34); $c3=chr(40).chr(34);       // (\"          se cambia por  ("
-        $v4=chr(92).chr(34).chr(43); $c4=chr(34).chr(43);       // \"+          se cambia por  "+  
-        $v5=chr(34).chr(123); $c5=chr(123);                     // "{           se cambia por  {
-        $v6=chr(92).chr(34);  $c6=chr(34);                      // \"           se cambia por  "
-        $v7=chr(125).chr(34);  $c7=chr(125);                    // }"           se cambia por  }
+        $v1=chr(34)."function("; $c1="function(";                           // "function(   se cambia por function(
+        $v2=chr(59).chr(125).chr(34); $c2=chr(59).chr(125);                 // ;}"          se cambia por  ;}    
+        $v3=chr(40).chr(92).chr(34); $c3=chr(40).chr(34);                   // (\"          se cambia por  ("
+        $v4=chr(92).chr(34).chr(43); $c4=chr(34).chr(43);                   // \"+          se cambia por  "+  
+        $v5=chr(34).chr(123); $c5=chr(123);                                 // "{           se cambia por  {
+        $v6=chr(92).chr(34);  $c6=chr(34);                                  // \"           se cambia por  "
+        $v7=chr(125).chr(34);  $c7=chr(125);                                // }"           se cambia por  }
+        $v8=chr(125).chr(32).chr(34).chr(125);  $c8=chr(125).chr(125);      // }espacio"}    se cambia por  }}
         
-        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7);
-        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7);
+        
+        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8);
+        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8);
         
         for ($i=0; $i<sizeof($chars); $i++)
             $json=str_replace($chars[$i],$correc[$i],$json);    
@@ -512,7 +525,7 @@ class Utilities
                 $value=$row[2];
                 
                 if ($row[0]=='link')
-                    $value="nabu.php?p=".$pageL[0]."&".$value;
+                    $value="nabu.php?p=".$pageL[0]."&accion=b&".$value;
                 
                  if ( $row[1] == 'number')
                     $value= (int)$value;

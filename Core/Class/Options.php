@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 20-01-2016
+	Fecha modificacion	= 24-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -109,7 +109,6 @@ class Options{
 				else
 					$row[2]= false;
 			}
-
             $fields[$row[0]]=$row[2];
         }
 

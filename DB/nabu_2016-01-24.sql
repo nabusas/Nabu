@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2016-01-19 22:18:25 +0000
+# Generation Time: 2016-01-24 23:49:35 +0000
 # ************************************************************
 
 
@@ -99,7 +99,8 @@ VALUES
 	(58,'options','noneLabel','string','none'),
 	(59,'options','removeDefaultNone','boolean',NULL),
 	(60,'options','dependencies','array',NULL),
-	(61,'options','vertical','boolean',NULL);
+	(61,'options','vertical','boolean',NULL),
+	(62,'options','onFieldChange','string',NULL);
 
 /*!40000 ALTER TABLE `nb_config_frmwrk_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -162,8 +163,8 @@ LOCK TABLES `nb_enterprise_tbl` WRITE;
 
 INSERT INTO `nb_enterprise_tbl` (`nb_enterprise_id_fld`, `nb_host_fld`, `nb_db_fld`, `nb_user_fld`, `nb_pass_fld`)
 VALUES
-	('fccn','localhost','nabufccn','userfccn','148002750'),
-	('rest','localhost','naburest','userrest','148002751');
+	('fccn','localhost','nabufccn','root',''),
+	('rest','localhost','naburest','root','');
 
 /*!40000 ALTER TABLE `nb_enterprise_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -244,7 +245,8 @@ VALUES
 	(19,'script','../Framework/Datagrid/lib/js/themes/jquery-ui.custom.min.js','text/javascript',NULL,'Datagrid'),
 	(20,'script','../Framework/Datagrid/lib/js/jqgrid/js/jquery.jqGrid.min.js','text/javascript',NULL,'Datagrid'),
 	(21,'script','../Framework/Chart.js/Chart.js','text/javascript',NULL,'Charts'),
-	(22,'script','../Framework/jquery-ui/jquery-ui.min.js','text/javascript',NULL,'jQuery UI Support');
+	(22,'script','../Framework/jquery-ui/jquery-ui.min.js','text/javascript',NULL,'jQuery UI Support'),
+	(23,'script','../Script/funciones.js','text/javascript',NULL,'Funciones Propias');
 
 /*!40000 ALTER TABLE `nb_htmlattribute_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
