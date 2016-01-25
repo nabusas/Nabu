@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 16-01-2016
+	Fecha modificacion	= 25-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -176,6 +176,15 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
+        function getpromptField($idpage,$field){
+            $sql="Select nb_id_field_2_fld FROM nb_event_tbl where	nb_id_page_fld='".$idpage."' and nb_id_field_1_fld='".$field."'";
+            return $this->executeQueryOneRow($sql); 
+        }
+        function getPromptSelect($idpage,$field,$value){
+            $sql ="SELECT Concat(Concat('Select ',nb_id_field_4_fld), ' from ',nb_id_table_fld, ' Where ',nb_id_field_3_fld,'=','".$value."')";
+            $sql.=" FROM nb_event_tbl where	nb_id_page_fld='".$idpage."' and nb_id_field_1_fld='".$field."'";
+            return $this->executeQueryOneRow($sql); 
+        }
         function fechaNueva($placa,$tiempoG){
             $sql ="select  DATE_ADD(nb_4_fecha_salida_fld, interval ".($tiempoG+1)." MINUTE) from nb_control_tbl where nb_2_placa_fld='".$placa."'";
             $sql =$sql." AND nb_4_fecha_salida_fld=(SELECT MAX(nb_4_fecha_salida_fld) FROM nb_control_tbl";

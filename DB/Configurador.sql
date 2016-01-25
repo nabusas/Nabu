@@ -18,7 +18,7 @@ select  distinct nb_id_page_fld from nb_pages_tbl where nb_id_page_fld<>'home';
 insert into nb_navigation_tbl
 select  'nb_users_pg',nb_sec_fld,nb_parent_fld,nb_id_menu_fld,nb_descr_men_fld,nb_link_fld,nb_image_fld,nb_target_fld
 from 	nb_navigation_tbl
-where	nb_id_page_fld='nb_clientes_pg'
+where	nb_id_page_fld='home'
 
 
 

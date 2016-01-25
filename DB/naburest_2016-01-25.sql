@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: naburest
-# Generation Time: 2016-01-24 23:49:15 +0000
+# Generation Time: 2016-01-25 16:14:28 +0000
 # ************************************************************
 
 
@@ -47,6 +47,46 @@ CREATE TABLE `nb_chart_tbl` (
   PRIMARY KEY (`nb_id_page_fld`,`nb_source_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
+
+
+# Dump of table nb_clientes_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_clientes_tbl`;
+
+CREATE TABLE `nb_clientes_tbl` (
+  `nb_clie_1_fld` int(11) NOT NULL AUTO_INCREMENT,
+  `nb_clie_2_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_10_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_11_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_12_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_13_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_14_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_15_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_16_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_17_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_18_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_19_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_clie_20_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_clie_1_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+LOCK TABLES `nb_clientes_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_clientes_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_clientes_tbl` (`nb_clie_1_fld`, `nb_clie_2_fld`, `nb_clie_3_fld`, `nb_clie_4_fld`, `nb_clie_5_fld`, `nb_clie_6_fld`, `nb_clie_7_fld`, `nb_clie_8_fld`, `nb_clie_9_fld`, `nb_clie_10_fld`, `nb_clie_11_fld`, `nb_clie_12_fld`, `nb_clie_13_fld`, `nb_clie_14_fld`, `nb_clie_15_fld`, `nb_clie_16_fld`, `nb_clie_17_fld`, `nb_clie_18_fld`, `nb_clie_19_fld`, `nb_clie_20_fld`)
+VALUES
+	(1,'1','14800275','','','Carlos Alberto Garcia Cobo','','','','','0','','','','','','','','','');
+
+/*!40000 ALTER TABLE `nb_clientes_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table nb_config_frmwrk_tbl
@@ -205,21 +245,21 @@ VALUES
 	('nb_clientes_v_pg',40,'true'),
 	('nb_clientes_v_pg',41,'true'),
 	('nb_clientes_v_pg',43,'350'),
-	('nb_clientes_v_pg',44,'nb_pruebaData_vw'),
+	('nb_clientes_v_pg',44,'nb_clientes_tbl'),
 	('nb_facturacion_v_pg',37,'Data'),
 	('nb_facturacion_v_pg',38,'true'),
 	('nb_facturacion_v_pg',39,'44'),
 	('nb_facturacion_v_pg',40,'true'),
 	('nb_facturacion_v_pg',41,'true'),
 	('nb_facturacion_v_pg',43,'350'),
-	('nb_facturacion_v_pg',44,'nb_pruebaData_vw'),
+	('nb_facturacion_v_pg',44,'nb_facturacion_tbl'),
 	('nb_inventario_v_pg',37,'Data'),
 	('nb_inventario_v_pg',38,'true'),
 	('nb_inventario_v_pg',39,'44'),
 	('nb_inventario_v_pg',40,'true'),
 	('nb_inventario_v_pg',41,'true'),
 	('nb_inventario_v_pg',43,'350'),
-	('nb_inventario_v_pg',44,'nb_pruebaData_vw'),
+	('nb_inventario_v_pg',44,'nb_inventario_tbl'),
 	('nb_loginv_pg',37,'Usuarios del Sistema'),
 	('nb_loginv_pg',38,'true'),
 	('nb_loginv_pg',39,'44'),
@@ -233,7 +273,7 @@ VALUES
 	('nb_productos_v_pg',40,'true'),
 	('nb_productos_v_pg',41,'true'),
 	('nb_productos_v_pg',43,'350'),
-	('nb_productos_v_pg',44,'nb_pruebaData_vw'),
+	('nb_productos_v_pg',44,'nb_productos_tbl'),
 	('nb_reporte_1_pg',37,'Data'),
 	('nb_reporte_1_pg',38,'true'),
 	('nb_reporte_1_pg',39,'44'),
@@ -300,6 +340,63 @@ VALUES
 
 /*!40000 ALTER TABLE `nb_datagridcol_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table nb_event_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_event_tbl`;
+
+CREATE TABLE `nb_event_tbl` (
+  `nb_id_page_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
+  `nb_id_field_1_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
+  `nb_id_field_2_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
+  `nb_id_table_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_id_field_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_id_field_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_id_page_fld`,`nb_id_field_1_fld`,`nb_id_field_2_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+LOCK TABLES `nb_event_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_event_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_event_tbl` (`nb_id_page_fld`, `nb_id_field_1_fld`, `nb_id_field_2_fld`, `nb_id_table_fld`, `nb_id_field_3_fld`, `nb_id_field_4_fld`)
+VALUES
+	('nb_facturacion_pg','nb_fact_3_fld','nb_fact_4_fld','nb_clientes_tbl','nb_clie_3_fld','nb_clie_6_fld');
+
+/*!40000 ALTER TABLE `nb_event_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table nb_facturacion_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_facturacion_tbl`;
+
+CREATE TABLE `nb_facturacion_tbl` (
+  `nb_fact_1_fld` int(11) NOT NULL AUTO_INCREMENT,
+  `nb_fact_2_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_10_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_11_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_12_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_13_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_14_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_15_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_16_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_17_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_18_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_19_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_fact_20_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_fact_1_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
 
 
 # Dump of table nb_form_tables_tbl
@@ -410,6 +507,26 @@ VALUES
 	('nb_product_pg','nb_productos_tbl','nb_desc_producto_fld','nb_desc_producto_fld'),
 	('nb_product_pg','nb_productos_tbl','nb_id_producto_fld','nb_id_producto_fld'),
 	('nb_product_pg','nb_productos_tbl','nb_marc_producto_fld','nb_marc_producto_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_10_fld','nb_prov_10_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_11_fld','nb_prov_11_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_12_fld','nb_prov_12_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_13_fld','nb_prov_13_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_14_fld','nb_prov_14_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_15_fld','nb_prov_15_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_16_fld','nb_prov_16_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_17_fld','nb_prov_17_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_18_fld','nb_prov_18_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_19_fld','nb_prov_19_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_1_fld','nb_prov_1_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_20_fld','nb_prov_20_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_2_fld','nb_prov_2_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_3_fld','nb_prov_3_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_4_fld','nb_prov_4_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_5_fld','nb_prov_5_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_6_fld','nb_prov_6_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_7_fld','nb_prov_7_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_8_fld','nb_prov_8_fld'),
+	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_9_fld','nb_prov_9_fld'),
 	('nb_prueba_pg','prueba','nb_inve_1_fld','nb_inve_1_fld'),
 	('nb_prueba_pg','prueba','nb_inve_2_fld','nb_inve_2_fld'),
 	('nb_prueba_pg','prueba','nb_inve_3_fld','nb_inve_3_fld'),
@@ -427,7 +544,27 @@ VALUES
 	('nb_users_pg','nbd_user_tbl','nbd_email_fld','nbd_email_fld'),
 	('nb_users_pg','nbd_user_tbl','nbd_id_user_fld','nbd_id_user_fld'),
 	('nb_users_pg','nbd_user_tbl','nbd_password_fld','nbd_password_fld'),
-	('nb_users_pg','nbd_user_tbl','nb_estado_fld','nb_estado_fld');
+	('nb_users_pg','nbd_user_tbl','nb_estado_fld','nb_estado_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_10_fld','nb_vend_10_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_11_fld','nb_vend_11_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_12_fld','nb_vend_12_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_13_fld','nb_vend_13_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_14_fld','nb_vend_14_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_15_fld','nb_vend_15_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_16_fld','nb_vend_16_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_17_fld','nb_vend_17_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_18_fld','nb_vend_18_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_19_fld','nb_vend_19_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_1_fld','nb_vend_1_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_20_fld','nb_vend_20_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_2_fld','nb_vend_2_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_3_fld','nb_vend_3_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_4_fld','nb_vend_4_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_5_fld','nb_vend_5_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_6_fld','nb_vend_6_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_7_fld','nb_vend_7_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_8_fld','nb_vend_8_fld'),
+	('nb_vendedores_pg','nb_vendedores_tbl','nb_vend_9_fld','nb_vend_9_fld');
 
 /*!40000 ALTER TABLE `nb_form_tables_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -882,7 +1019,167 @@ VALUES
 	('nb_users_pg','nb_id_role_fld',32,'select'),
 	('nb_users_pg','nb_id_role_fld',55,'../Events/ValoresCampo.php?campo=role'),
 	('nb_users_pg','nb_id_role_fld',58,'Seleccione Role'),
-	('nb_users_pg','nb_id_role_fld',59,'false');
+	('nb_users_pg','nb_id_role_fld',59,'false'),
+	('nb_vendedores_pg','nb_vend_1_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_1_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_1_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_1_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_2_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_2_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_2_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_2_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_3_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_3_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_3_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_3_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_4_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_4_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_4_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_4_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_5_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_5_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_5_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_5_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_6_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_6_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_6_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_6_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_7_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_7_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_7_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_7_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_8_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_8_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_8_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_8_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_9_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_9_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_9_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_9_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_10_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_10_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_10_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_10_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_11_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_11_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_11_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_11_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_12_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_12_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_12_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_12_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_13_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_13_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_13_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_13_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_14_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_14_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_14_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_14_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_15_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_15_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_15_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_15_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_16_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_16_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_16_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_16_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_17_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_17_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_17_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_17_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_18_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_18_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_18_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_18_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_19_fld',11,'false'),
+	('nb_vendedores_pg','nb_vend_19_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_19_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_19_fld',36,'false'),
+	('nb_vendedores_pg','nb_vend_20_fld',11,'campo 18'),
+	('nb_vendedores_pg','nb_vend_20_fld',13,'string'),
+	('nb_vendedores_pg','nb_vend_20_fld',24,'campo'),
+	('nb_vendedores_pg','nb_vend_20_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_1_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_1_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_1_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_1_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_2_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_2_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_2_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_2_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_3_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_3_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_3_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_3_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_4_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_4_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_4_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_4_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_5_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_5_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_5_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_5_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_6_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_6_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_6_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_6_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_7_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_7_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_7_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_7_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_8_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_8_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_8_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_8_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_9_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_9_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_9_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_9_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_10_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_10_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_10_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_10_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_11_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_11_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_11_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_11_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_12_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_12_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_12_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_12_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_13_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_13_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_13_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_13_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_14_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_14_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_14_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_14_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_15_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_15_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_15_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_15_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_16_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_16_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_16_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_16_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_17_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_17_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_17_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_17_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_18_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_18_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_18_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_18_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_19_fld',11,'false'),
+	('nb_proveedores_pg','nb_prov_19_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_19_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_19_fld',36,'false'),
+	('nb_proveedores_pg','nb_prov_20_fld',11,'campo 18'),
+	('nb_proveedores_pg','nb_prov_20_fld',13,'string'),
+	('nb_proveedores_pg','nb_prov_20_fld',24,'campo'),
+	('nb_proveedores_pg','nb_prov_20_fld',36,'false');
 
 /*!40000 ALTER TABLE `nb_forms_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -934,6 +1231,37 @@ VALUES
 
 /*!40000 ALTER TABLE `nb_htmlattribute_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table nb_inventario_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_inventario_tbl`;
+
+CREATE TABLE `nb_inventario_tbl` (
+  `nb_inve_1_fld` int(11) NOT NULL AUTO_INCREMENT,
+  `nb_inve_2_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_10_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_11_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_12_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_13_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_14_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_15_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_16_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_17_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_18_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_19_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_inve_20_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_inve_1_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
 
 
 # Dump of table nb_link_tbl
@@ -1020,7 +1348,7 @@ VALUES
 	('home',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('home',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
 	('nb_loginv_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_loginv_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_loginv_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_loginv_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_loginv_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_loginv_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1030,7 +1358,7 @@ VALUES
 	('nb_loginv_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_loginv_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_loginv_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('nb_inventario_v_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',6,5,1,'Ingreso Vendedores','nb_vendedores_pg','fa fa-plus','N'),
 	('nb_inventario_v_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_inventario_v_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_inventario_v_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -1050,7 +1378,7 @@ VALUES
 	('nb_inventario_v_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
 	('nb_inventario_v_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_inventario_v_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_inventario_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_inventario_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_inventario_v_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_inventario_v_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_inventario_v_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1060,7 +1388,7 @@ VALUES
 	('nb_inventario_v_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_inventario_v_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_inventario_v_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('nb_inventario_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_inventario_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_inventario_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_inventario_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -1080,7 +1408,7 @@ VALUES
 	('nb_inventario_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
 	('nb_inventario_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_inventario_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_inventario_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_inventario_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_inventario_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_inventario_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_inventario_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1090,7 +1418,7 @@ VALUES
 	('nb_inventario_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_inventario_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_inventario_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('nb_facturacion_v_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_facturacion_v_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_facturacion_v_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_facturacion_v_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -1110,7 +1438,7 @@ VALUES
 	('nb_facturacion_v_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
 	('nb_facturacion_v_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_facturacion_v_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_facturacion_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_facturacion_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_facturacion_v_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_facturacion_v_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_facturacion_v_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1120,7 +1448,7 @@ VALUES
 	('nb_facturacion_v_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_facturacion_v_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_facturacion_v_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('nb_facturacion_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_facturacion_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_facturacion_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_facturacion_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -1140,7 +1468,7 @@ VALUES
 	('nb_facturacion_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
 	('nb_facturacion_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_facturacion_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_facturacion_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_facturacion_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_facturacion_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_facturacion_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_facturacion_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1150,7 +1478,6 @@ VALUES
 	('nb_facturacion_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_facturacion_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_facturacion_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('nb_clientes_v_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
 	('nb_clientes_v_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_clientes_v_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_clientes_v_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -1170,7 +1497,7 @@ VALUES
 	('nb_clientes_v_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
 	('nb_clientes_v_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_clientes_v_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_clientes_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_clientes_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_clientes_v_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_clientes_v_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_clientes_v_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1180,7 +1507,7 @@ VALUES
 	('nb_clientes_v_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_clientes_v_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_clientes_v_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('nb_clientes_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_clientes_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_clientes_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_clientes_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -1200,7 +1527,7 @@ VALUES
 	('nb_clientes_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
 	('nb_clientes_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_clientes_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_clientes_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_clientes_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_clientes_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_clientes_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_clientes_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1210,7 +1537,7 @@ VALUES
 	('nb_clientes_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_clientes_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_clientes_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('nb_users_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_users_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
 	('nb_users_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_users_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
@@ -1230,7 +1557,7 @@ VALUES
 	('nb_users_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
 	('nb_users_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_users_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
-	('nb_users_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_users_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_users_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('nb_users_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_users_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1240,7 +1567,7 @@ VALUES
 	('nb_users_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_users_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_users_pg',1,0,1,'Home','home','fa fa-home','N'),
-	('home',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('home',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('home',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
 	('home',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('home',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
@@ -1264,7 +1591,6 @@ VALUES
 	('nb_loginv_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_loginv_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_loginv_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_loginv_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
 	('nb_password_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_password_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_password_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
@@ -1274,7 +1600,7 @@ VALUES
 	('nb_password_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_password_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_password_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
-	('nb_password_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_password_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_password_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_password_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_password_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
@@ -1294,7 +1620,7 @@ VALUES
 	('nb_password_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_password_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_password_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_password_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',5,0,3,'Vendedores','nb_vendedores_pg','fa fa-user','N'),
 	('nb_productos_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_productos_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_productos_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
@@ -1304,7 +1630,7 @@ VALUES
 	('nb_productos_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_productos_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_productos_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
-	('nb_productos_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_productos_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_productos_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_productos_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_productos_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
@@ -1324,7 +1650,6 @@ VALUES
 	('nb_productos_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_productos_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_productos_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_productos_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
 	('nb_productos_v_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_productos_v_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_productos_v_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
@@ -1334,7 +1659,7 @@ VALUES
 	('nb_productos_v_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_productos_v_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_productos_v_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
-	('nb_productos_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_productos_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_productos_v_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_productos_v_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_productos_v_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
@@ -1354,7 +1679,7 @@ VALUES
 	('nb_productos_v_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_productos_v_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_productos_v_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_productos_v_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',4,2,2,'Consulta Clientes','nb_clientes_v_pg','fa fa-search','N'),
 	('nb_prueba_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_prueba_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_prueba_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
@@ -1364,7 +1689,7 @@ VALUES
 	('nb_prueba_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_prueba_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_prueba_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
-	('nb_prueba_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_prueba_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_prueba_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_prueba_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_prueba_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
@@ -1384,7 +1709,6 @@ VALUES
 	('nb_prueba_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_prueba_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_prueba_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_prueba_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
 	('nb_reporte_1_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_reporte_1_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_reporte_1_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
@@ -1394,7 +1718,7 @@ VALUES
 	('nb_reporte_1_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_reporte_1_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_reporte_1_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
-	('nb_reporte_1_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_reporte_1_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_reporte_1_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_reporte_1_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_reporte_1_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
@@ -1414,7 +1738,7 @@ VALUES
 	('nb_reporte_1_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_reporte_1_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_reporte_1_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_reporte_1_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
 	('nb_reporte_2_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_reporte_2_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_reporte_2_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
@@ -1424,7 +1748,7 @@ VALUES
 	('nb_reporte_2_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_reporte_2_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_reporte_2_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
-	('nb_reporte_2_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_reporte_2_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_reporte_2_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_reporte_2_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_reporte_2_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
@@ -1444,7 +1768,6 @@ VALUES
 	('nb_reporte_2_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_reporte_2_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_reporte_2_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_reporte_2_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
 	('nb_usersm_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_usersm_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
 	('nb_usersm_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
@@ -1454,7 +1777,7 @@ VALUES
 	('nb_usersm_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
 	('nb_usersm_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
 	('nb_usersm_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
-	('nb_usersm_pg',10,8,2,'Consulta Proveedores','nb_proveedores_pg','fa fa-search','N'),
+	('nb_usersm_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_usersm_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_usersm_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
 	('nb_usersm_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
@@ -1474,7 +1797,117 @@ VALUES
 	('nb_usersm_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_usersm_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_usersm_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_usersm_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N');
+	('nb_proveedores_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
+	('nb_proveedores_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
+	('nb_proveedores_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
+	('nb_proveedores_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
+	('nb_proveedores_pg',14,0,6,'Inventario','nb_inventario_pg','fa fa-archive','N'),
+	('nb_proveedores_pg',15,14,1,'Ingreso Inventario','nb_inventario_pg','fa fa-plus','N'),
+	('nb_proveedores_pg',16,14,2,'Consulta Inventario','nb_inventario_v_pg','fa fa-search','N'),
+	('nb_proveedores_pg',17,0,7,'Facturacion','nb_facturacion_pg','fa fa-dollar','N'),
+	('nb_proveedores_pg',18,17,1,'Ingreso factura','nb_facturacion_pg','fa fa-plus','N'),
+	('nb_proveedores_pg',19,17,2,'Consulta Factura','nb_facturacion_v_pg','fa fa-search','N'),
+	('nb_proveedores_pg',20,0,8,'Reportes','nb_reporte_1_pg','fa fa-line-chart','N'),
+	('nb_proveedores_pg',21,20,1,'Facturacion Diaria','nb_reporte_1_pg','fa fa-area-chart','N'),
+	('nb_proveedores_pg',22,20,2,'Facturacion Mensual','nb_reporte_2_pg','fa fa-bar-chart','N'),
+	('nb_proveedores_pg',23,0,9,'Usuarios Software','nb_users_pg','fa fa-users','N'),
+	('nb_proveedores_pg',24,23,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_proveedores_pg',25,23,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_proveedores_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
+	('nb_proveedores_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_proveedores_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_proveedores_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_proveedores_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_proveedores_v_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_proveedores_v_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
+	('nb_proveedores_v_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
+	('nb_proveedores_v_pg',4,2,2,'Consulta Clientes','nb_clientes_v_pg','fa fa-search','N'),
+	('nb_proveedores_v_pg',5,0,3,'Vendedores','nb_vendedores_pg','fa fa-user','N'),
+	('nb_proveedores_v_pg',6,5,1,'Ingreso Vendedores','nb_vendedores_pg','fa fa-plus','N'),
+	('nb_proveedores_v_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
+	('nb_proveedores_v_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
+	('nb_proveedores_v_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
+	('nb_proveedores_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
+	('nb_proveedores_v_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
+	('nb_proveedores_v_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
+	('nb_proveedores_v_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
+	('nb_proveedores_v_pg',14,0,6,'Inventario','nb_inventario_pg','fa fa-archive','N'),
+	('nb_proveedores_v_pg',15,14,1,'Ingreso Inventario','nb_inventario_pg','fa fa-plus','N'),
+	('nb_proveedores_v_pg',16,14,2,'Consulta Inventario','nb_inventario_v_pg','fa fa-search','N'),
+	('nb_proveedores_v_pg',17,0,7,'Facturacion','nb_facturacion_pg','fa fa-dollar','N'),
+	('nb_proveedores_v_pg',18,17,1,'Ingreso factura','nb_facturacion_pg','fa fa-plus','N'),
+	('nb_proveedores_v_pg',19,17,2,'Consulta Factura','nb_facturacion_v_pg','fa fa-search','N'),
+	('nb_proveedores_v_pg',20,0,8,'Reportes','nb_reporte_1_pg','fa fa-line-chart','N'),
+	('nb_proveedores_v_pg',21,20,1,'Facturacion Diaria','nb_reporte_1_pg','fa fa-area-chart','N'),
+	('nb_proveedores_v_pg',22,20,2,'Facturacion Mensual','nb_reporte_2_pg','fa fa-bar-chart','N'),
+	('nb_proveedores_v_pg',23,0,9,'Usuarios Software','nb_users_pg','fa fa-users','N'),
+	('nb_proveedores_v_pg',24,23,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_proveedores_v_pg',25,23,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_proveedores_v_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
+	('nb_proveedores_v_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_proveedores_v_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_proveedores_v_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_proveedores_v_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_vendedores_v_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_vendedores_v_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
+	('nb_vendedores_v_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
+	('nb_vendedores_v_pg',4,2,2,'Consulta Clientes','nb_clientes_v_pg','fa fa-search','N'),
+	('nb_vendedores_v_pg',5,0,3,'Vendedores','nb_vendedores_pg','fa fa-user','N'),
+	('nb_vendedores_v_pg',6,5,1,'Ingreso Vendedores','nb_vendedores_pg','fa fa-plus','N'),
+	('nb_vendedores_v_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
+	('nb_vendedores_v_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
+	('nb_vendedores_v_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
+	('nb_vendedores_v_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
+	('nb_vendedores_v_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
+	('nb_vendedores_v_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
+	('nb_vendedores_v_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
+	('nb_vendedores_v_pg',14,0,6,'Inventario','nb_inventario_pg','fa fa-archive','N'),
+	('nb_vendedores_v_pg',15,14,1,'Ingreso Inventario','nb_inventario_pg','fa fa-plus','N'),
+	('nb_vendedores_v_pg',16,14,2,'Consulta Inventario','nb_inventario_v_pg','fa fa-search','N'),
+	('nb_vendedores_v_pg',17,0,7,'Facturacion','nb_facturacion_pg','fa fa-dollar','N'),
+	('nb_vendedores_v_pg',18,17,1,'Ingreso factura','nb_facturacion_pg','fa fa-plus','N'),
+	('nb_vendedores_v_pg',19,17,2,'Consulta Factura','nb_facturacion_v_pg','fa fa-search','N'),
+	('nb_vendedores_v_pg',20,0,8,'Reportes','nb_reporte_1_pg','fa fa-line-chart','N'),
+	('nb_vendedores_v_pg',21,20,1,'Facturacion Diaria','nb_reporte_1_pg','fa fa-area-chart','N'),
+	('nb_vendedores_v_pg',22,20,2,'Facturacion Mensual','nb_reporte_2_pg','fa fa-bar-chart','N'),
+	('nb_vendedores_v_pg',23,0,9,'Usuarios Software','nb_users_pg','fa fa-users','N'),
+	('nb_vendedores_v_pg',24,23,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_vendedores_v_pg',25,23,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_vendedores_v_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
+	('nb_vendedores_v_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_vendedores_v_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_vendedores_v_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_vendedores_v_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_vendedores_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_vendedores_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
+	('nb_vendedores_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
+	('nb_vendedores_pg',4,2,2,'Consulta Clientes','nb_clientes_v_pg','fa fa-search','N'),
+	('nb_vendedores_pg',5,0,3,'Vendedores','nb_vendedores_pg','fa fa-user','N'),
+	('nb_vendedores_pg',6,5,1,'Ingreso Vendedores','nb_vendedores_pg','fa fa-plus','N'),
+	('nb_vendedores_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
+	('nb_vendedores_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
+	('nb_vendedores_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
+	('nb_vendedores_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
+	('nb_vendedores_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
+	('nb_vendedores_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
+	('nb_vendedores_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
+	('nb_vendedores_pg',14,0,6,'Inventario','nb_inventario_pg','fa fa-archive','N'),
+	('nb_vendedores_pg',15,14,1,'Ingreso Inventario','nb_inventario_pg','fa fa-plus','N'),
+	('nb_vendedores_pg',16,14,2,'Consulta Inventario','nb_inventario_v_pg','fa fa-search','N'),
+	('nb_vendedores_pg',17,0,7,'Facturacion','nb_facturacion_pg','fa fa-dollar','N'),
+	('nb_vendedores_pg',18,17,1,'Ingreso factura','nb_facturacion_pg','fa fa-plus','N'),
+	('nb_vendedores_pg',19,17,2,'Consulta Factura','nb_facturacion_v_pg','fa fa-search','N'),
+	('nb_vendedores_pg',20,0,8,'Reportes','nb_reporte_1_pg','fa fa-line-chart','N'),
+	('nb_vendedores_pg',21,20,1,'Facturacion Diaria','nb_reporte_1_pg','fa fa-area-chart','N'),
+	('nb_vendedores_pg',22,20,2,'Facturacion Mensual','nb_reporte_2_pg','fa fa-bar-chart','N'),
+	('nb_vendedores_pg',23,0,9,'Usuarios Software','nb_users_pg','fa fa-users','N'),
+	('nb_vendedores_pg',24,23,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_vendedores_pg',25,23,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_vendedores_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
+	('nb_vendedores_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_vendedores_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_vendedores_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_vendedores_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N');
 
 /*!40000 ALTER TABLE `nb_navigation_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1510,7 +1943,9 @@ VALUES
 	('nb_password_pg','wizard','true','../Events/','nabuSave','1','post',''),
 	('nb_productos_pg','wizard','TRUE','../Events/','nabuSave','0','post',''),
 	('nb_users_pg','wizard','true','../Events/','nabuSave','0','post',''),
-	('nb_usuariosm_pg','wizard','true','../Events/','nabuSave','1','post','');
+	('nb_usuariosm_pg','wizard','true','../Events/','nabuSave','1','post',''),
+	('nb_vendedores_pg','wizard','TRUE','../Events/','nabuSave','0','post',''),
+	('nb_proveedores_pg','wizard','TRUE','../Events/','nabuSave','0','post','');
 
 /*!40000 ALTER TABLE `nb_option_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1720,6 +2155,23 @@ VALUES
 	('nb_productos_v_pg',18),
 	('nb_productos_v_pg',19),
 	('nb_productos_v_pg',20),
+	('nb_proveedores_pg',1),
+	('nb_proveedores_pg',2),
+	('nb_proveedores_pg',3),
+	('nb_proveedores_pg',4),
+	('nb_proveedores_pg',5),
+	('nb_proveedores_pg',6),
+	('nb_proveedores_pg',7),
+	('nb_proveedores_pg',8),
+	('nb_proveedores_pg',9),
+	('nb_proveedores_pg',10),
+	('nb_proveedores_pg',12),
+	('nb_proveedores_pg',13),
+	('nb_proveedores_pg',15),
+	('nb_proveedores_pg',16),
+	('nb_proveedores_pg',17),
+	('nb_proveedores_pg',19),
+	('nb_proveedores_pg',22),
 	('nb_prueba_pg',1),
 	('nb_prueba_pg',2),
 	('nb_prueba_pg',3),
@@ -1795,7 +2247,24 @@ VALUES
 	('nb_users_pg',16),
 	('nb_users_pg',17),
 	('nb_users_pg',19),
-	('nb_users_pg',22);
+	('nb_users_pg',22),
+	('nb_vendedores_pg',1),
+	('nb_vendedores_pg',2),
+	('nb_vendedores_pg',3),
+	('nb_vendedores_pg',4),
+	('nb_vendedores_pg',5),
+	('nb_vendedores_pg',6),
+	('nb_vendedores_pg',7),
+	('nb_vendedores_pg',8),
+	('nb_vendedores_pg',9),
+	('nb_vendedores_pg',10),
+	('nb_vendedores_pg',12),
+	('nb_vendedores_pg',13),
+	('nb_vendedores_pg',15),
+	('nb_vendedores_pg',16),
+	('nb_vendedores_pg',17),
+	('nb_vendedores_pg',19),
+	('nb_vendedores_pg',22);
 
 /*!40000 ALTER TABLE `nb_pageattribute_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1837,10 +2306,74 @@ VALUES
 	('nb_reporte_1_pg','Reporte','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_reporte_2_pg','Reporte','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_usersm_pg','Usuarios del Sistema','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
-	('nb_users_pg','Usuarios del Sistema','forms','alpaca','bootstrap-create-horizontal',NULL,'false');
+	('nb_users_pg','Usuarios del Sistema','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_vendedores_pg','PRUEBA','forms','alpaca','bootstrap-create-horizontal','','false'),
+	('nb_proveedores_pg','PRUEBA','forms','alpaca','bootstrap-create-horizontal','','false');
 
 /*!40000 ALTER TABLE `nb_pages_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table nb_productos_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_productos_tbl`;
+
+CREATE TABLE `nb_productos_tbl` (
+  `nb_prod_1_fld` int(11) NOT NULL AUTO_INCREMENT,
+  `nb_prod_2_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_10_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_11_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_12_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_13_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_14_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_15_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_16_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_17_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_18_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_19_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prod_20_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_prod_1_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+
+
+# Dump of table nb_proveedores_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_proveedores_tbl`;
+
+CREATE TABLE `nb_proveedores_tbl` (
+  `nb_prov_1_fld` int(11) NOT NULL AUTO_INCREMENT,
+  `nb_prov_2_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_10_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_11_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_12_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_13_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_14_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_15_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_16_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_17_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_18_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_19_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_prov_20_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_prov_1_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
 
 
 # Dump of table nb_pruebadata_vw
@@ -1952,7 +2485,9 @@ VALUES
 	('nb_productos_pg','','','object'),
 	('nb_prueba_pg',NULL,NULL,'array'),
 	('nb_usersm_pg',NULL,NULL,'object'),
-	('nb_users_pg',NULL,NULL,'object');
+	('nb_users_pg',NULL,NULL,'object'),
+	('nb_vendedores_pg','','','object'),
+	('nb_proveedores_pg','','','object');
 
 /*!40000 ALTER TABLE `nb_schema_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2069,7 +2604,47 @@ VALUES
 	('nb_productos_tbl','nb_prod_6_fld','string',255,'N','',''),
 	('nb_productos_tbl','nb_prod_7_fld','string',255,'N','',''),
 	('nb_productos_tbl','nb_prod_8_fld','string',255,'N','',''),
-	('nb_productos_tbl','nb_prod_9_fld','string',255,'N','','');
+	('nb_productos_tbl','nb_prod_9_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_1_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_2_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_3_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_4_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_5_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_6_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_7_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_8_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_9_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_10_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_11_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_12_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_13_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_14_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_15_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_16_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_17_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_18_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_19_fld','string',255,'N','',''),
+	('nb_vendedores_tbl','nb_vend_20_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_1_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_2_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_3_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_4_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_5_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_6_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_7_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_8_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_9_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_10_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_11_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_12_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_13_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_14_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_15_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_16_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_17_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_18_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_19_fld','string',255,'N','',''),
+	('nb_proveedores_tbl','nb_prov_20_fld','string',255,'N','','');
 
 /*!40000 ALTER TABLE `nb_table_fields_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2097,7 +2672,9 @@ VALUES
 	('nb_facturacion_tbl','facturacion'),
 	('nb_inventario_tbl','inventario'),
 	('nb_productos_tbl','productos'),
-	('prueba','Inventario');
+	('prueba','Inventario'),
+	('nb_vendedores_tbl','vendedores'),
+	('nb_proveedores_tbl','proveedores');
 
 /*!40000 ALTER TABLE `nb_tables_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2133,6 +2710,37 @@ VALUES
 
 /*!40000 ALTER TABLE `nb_value_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table nb_vendedores_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_vendedores_tbl`;
+
+CREATE TABLE `nb_vendedores_tbl` (
+  `nb_vend_1_fld` int(11) NOT NULL AUTO_INCREMENT,
+  `nb_vend_2_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_10_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_11_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_12_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_13_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_14_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_15_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_16_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_17_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_18_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_19_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_vend_20_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_vend_1_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
 
 
 # Dump of table nb_wizard_bind_tbl
@@ -2244,7 +2852,47 @@ VALUES
 	(20,'nb_clientes_pg','nb_clie_20_fld',4,5),
 	(20,'nb_facturacion_pg','nb_fact_20_fld',4,5),
 	(20,'nb_inventario_pg','nb_inve_20_fld',4,5),
-	(20,'nb_productos_pg','nb_prod_20_fld',4,5);
+	(20,'nb_productos_pg','nb_prod_20_fld',4,5),
+	(1,'nb_vendedores_pg','nb_vend_1_fld',1,1),
+	(2,'nb_vendedores_pg','nb_vend_2_fld',1,2),
+	(3,'nb_vendedores_pg','nb_vend_3_fld',1,3),
+	(4,'nb_vendedores_pg','nb_vend_4_fld',1,4),
+	(5,'nb_vendedores_pg','nb_vend_5_fld',1,5),
+	(6,'nb_vendedores_pg','nb_vend_6_fld',2,1),
+	(7,'nb_vendedores_pg','nb_vend_7_fld',2,2),
+	(8,'nb_vendedores_pg','nb_vend_8_fld',2,3),
+	(9,'nb_vendedores_pg','nb_vend_9_fld',2,4),
+	(10,'nb_vendedores_pg','nb_vend_10_fld',2,5),
+	(11,'nb_vendedores_pg','nb_vend_11_fld',3,1),
+	(12,'nb_vendedores_pg','nb_vend_12_fld',3,2),
+	(13,'nb_vendedores_pg','nb_vend_13_fld',3,3),
+	(14,'nb_vendedores_pg','nb_vend_14_fld',3,4),
+	(15,'nb_vendedores_pg','nb_vend_15_fld',3,5),
+	(16,'nb_vendedores_pg','nb_vend_16_fld',4,1),
+	(17,'nb_vendedores_pg','nb_vend_17_fld',4,2),
+	(18,'nb_vendedores_pg','nb_vend_18_fld',4,3),
+	(19,'nb_vendedores_pg','nb_vend_19_fld',4,4),
+	(20,'nb_vendedores_pg','nb_vend_20_fld',4,5),
+	(1,'nb_proveedores_pg','nb_prov_1_fld',1,1),
+	(2,'nb_proveedores_pg','nb_prov_2_fld',1,2),
+	(3,'nb_proveedores_pg','nb_prov_3_fld',1,3),
+	(4,'nb_proveedores_pg','nb_prov_4_fld',1,4),
+	(5,'nb_proveedores_pg','nb_prov_5_fld',1,5),
+	(6,'nb_proveedores_pg','nb_prov_6_fld',2,1),
+	(7,'nb_proveedores_pg','nb_prov_7_fld',2,2),
+	(8,'nb_proveedores_pg','nb_prov_8_fld',2,3),
+	(9,'nb_proveedores_pg','nb_prov_9_fld',2,4),
+	(10,'nb_proveedores_pg','nb_prov_10_fld',2,5),
+	(11,'nb_proveedores_pg','nb_prov_11_fld',3,1),
+	(12,'nb_proveedores_pg','nb_prov_12_fld',3,2),
+	(13,'nb_proveedores_pg','nb_prov_13_fld',3,3),
+	(14,'nb_proveedores_pg','nb_prov_14_fld',3,4),
+	(15,'nb_proveedores_pg','nb_prov_15_fld',3,5),
+	(16,'nb_proveedores_pg','nb_prov_16_fld',4,1),
+	(17,'nb_proveedores_pg','nb_prov_17_fld',4,2),
+	(18,'nb_proveedores_pg','nb_prov_18_fld',4,3),
+	(19,'nb_proveedores_pg','nb_prov_19_fld',4,4),
+	(20,'nb_proveedores_pg','nb_prov_20_fld',4,5);
 
 /*!40000 ALTER TABLE `nb_wizard_bind_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2284,7 +2932,13 @@ VALUES
 	(3,'nb_clientes_pg','next','Siguiente',NULL,NULL),
 	(3,'nb_facturacion_pg','next','Siguiente','',''),
 	(3,'nb_inventario_pg','next','Siguiente','',''),
-	(3,'nb_productos_pg','next','Siguiente','','');
+	(3,'nb_productos_pg','next','Siguiente','',''),
+	(1,'nb_vendedores_pg','submit','Guardar','',''),
+	(2,'nb_vendedores_pg','previous','Atras','',''),
+	(3,'nb_vendedores_pg','next','Siguiente','',''),
+	(1,'nb_proveedores_pg','submit','Guardar','',''),
+	(2,'nb_proveedores_pg','previous','Atras','',''),
+	(3,'nb_proveedores_pg','next','Siguiente','','');
 
 /*!40000 ALTER TABLE `nb_wizard_buttons_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2319,7 +2973,15 @@ VALUES
 	(2,'nb_facturacion_pg','Cliente','Datos Contacto'),
 	(2,'nb_productos_pg','Producto','Precio Venta'),
 	(3,'nb_clientes_pg','Otros Datos','Observaciones'),
-	(3,'nb_facturacion_pg','Factura','Detalle');
+	(3,'nb_facturacion_pg','Factura','Detalle'),
+	(1,'nb_vendedores_pg','Paso 1','Informacion 1'),
+	(2,'nb_vendedores_pg','Paso 2','Informacion 2'),
+	(3,'nb_vendedores_pg','Paso 3','Informacion 3'),
+	(4,'nb_vendedores_pg','Paso 4','Informacion 4'),
+	(1,'nb_proveedores_pg','Paso 1','Informacion 1'),
+	(2,'nb_proveedores_pg','Paso 2','Informacion 2'),
+	(3,'nb_proveedores_pg','Paso 3','Informacion 3'),
+	(4,'nb_proveedores_pg','Paso 4','Informacion 4');
 
 /*!40000 ALTER TABLE `nb_wizard_steps_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2350,7 +3012,9 @@ VALUES
 	(4,'nb_productos_pg','Productos',NULL,'true'),
 	(5,'nb_clientes_pg','Clientes',NULL,'true'),
 	(6,'nb_inventario_pg','Inventario',NULL,'true'),
-	(7,'nb_facturacion_pg','Facturacion',NULL,'true');
+	(7,'nb_facturacion_pg','Facturacion',NULL,'true'),
+	(8,'nb_vendedores_pg','','','true'),
+	(9,'nb_proveedores_pg','','','true');
 
 /*!40000 ALTER TABLE `nb_wizard_tbl` ENABLE KEYS */;
 UNLOCK TABLES;

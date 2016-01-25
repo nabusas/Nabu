@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 24-01-2016
+	Fecha modificacion	= 25-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -225,14 +225,13 @@ class Utilities
                 $where ="Where ";
                 $i=1;
                 $tabla='';
+                $j=1;
                 
-                foreach($fields as $field){
-                    
-                    $key=$field[2];
-                    $tabla=$field[1];
-                    
-                    if (isset($_GET['accion'])){
-                        if ($_GET['accion']=='b'){
+                if (isset($_GET['accion'])){
+                    if ($_GET['accion']=='b'){    
+                        foreach($fields as $field){
+                            $key=$field[2];
+                            $tabla=$field[1];
                             if ($tabla=='' OR $tabla == $field[1]){
                                 if ( $key=='Y' ){
                                     if (isset($_GET[$field[0]])){
@@ -261,16 +260,21 @@ class Utilities
                             else
                                 $tabla =$field[1];
                         }
-                        else{
-                            if ($_GET[$field[0]] <> '')
-                                $fieldsData[$field[0]]=$_GET[$field[0]];
-                            else{
-                                $fieldsData['nb_fact_4_fld']='Carlos Alberto Garcia Cobo';
-                            }
-                        }
                     }
-                }    
-                
+                    else{
+                        if (isset($_GET[$field[0]])){
+                            if ($_GET[$field[0]] <> ''){
+                                
+                                $sql=$this->database->getPromptSelect($id,$field[0],$_GET[$field[0]]);
+                                
+                                $fieldx=$this->database->getpromptField($id,$field[0]);
+                                $value=$this->database->executeQueryOneRow($sql[0]);
+                                $fieldsData[$field[0]]=$_GET[$field[0]];
+                                $fieldsData[$fieldx[0]]=$value[0];
+                            }    
+                        }    
+                    }
+                }
                 $jsonA=$json->getData2($fieldsData);
             }
             else{
