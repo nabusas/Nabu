@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: nabu
-# Generation Time: 2016-01-25 16:15:00 +0000
+# Generation Time: 2016-01-26 23:59:27 +0000
 # ************************************************************
 
 
@@ -142,6 +142,32 @@ CREATE TABLE `nb_data_tbl` (
   PRIMARY KEY (`nb_id_page_fld`,`nb_id_pr_schema_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
+
+
+# Dump of table nb_enterprise_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_enterprise_tbl`;
+
+CREATE TABLE `nb_enterprise_tbl` (
+  `nb_enterprise_id_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
+  `nb_host_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_db_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_user_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_pass_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_enterprise_id_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+LOCK TABLES `nb_enterprise_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_enterprise_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_enterprise_tbl` (`nb_enterprise_id_fld`, `nb_host_fld`, `nb_db_fld`, `nb_user_fld`, `nb_pass_fld`)
+VALUES
+	('fccn','localhost','nabufccn','root',''),
+	('demo','localhost','naburest','root','');
+
+/*!40000 ALTER TABLE `nb_enterprise_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table nb_event_tbl

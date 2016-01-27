@@ -25,63 +25,9 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 05-01-2016
+	Fecha modificacion	= 26-01-2016
 	Usuario Modifico	= CAGC
 
 */
-
-class JsonData
-{
-    public function JsonData(){
-    }
-    
-    function replaceData($value){
-        
-        date_default_timezone_set("America/Bogota");
-        
-        if ( $value=='nb_sysdate' )
-            return date("Y-m-d H:i:sa");  
-            
-        return $value;    
-    }
-    
-    
-    function getData2($array){
-        if (!isset($data))
-            $data = array();
-        
-        $data=$array;
-        
-        return $data;
-    }
-    
-    
-    function getData($setData){
-        
-        if (!isset($data))
-            $data = array();
-        
-        foreach($setData as $rowData)
-            $data[$rowData[0]] = $this->replaceData($rowData[1]);
-        
-        return $data;
-        
-    }
-
-    function getDataSelect($database, $table,$fields){
-        
-        if (!isset($data))
-            $data = array();
-        
-        $i=0;
-        foreach($fields as $field){
-            $value=$database->getDataValue($table,$field[0]);
-            $data[$field[0]] =$value[0];
-            $i=$i+1;
-        }
-        return $data;
-    
-    }
-}
-
+    header("location:../Pages/nabu.php?p=nb_detallef_pg&accion=bd?nb_detaf_6_fld=1");
 ?>

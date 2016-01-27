@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: naburest
-# Generation Time: 2016-01-25 16:14:28 +0000
+# Generation Time: 2016-01-26 23:59:37 +0000
 # ************************************************************
 
 
@@ -83,7 +83,9 @@ LOCK TABLES `nb_clientes_tbl` WRITE;
 
 INSERT INTO `nb_clientes_tbl` (`nb_clie_1_fld`, `nb_clie_2_fld`, `nb_clie_3_fld`, `nb_clie_4_fld`, `nb_clie_5_fld`, `nb_clie_6_fld`, `nb_clie_7_fld`, `nb_clie_8_fld`, `nb_clie_9_fld`, `nb_clie_10_fld`, `nb_clie_11_fld`, `nb_clie_12_fld`, `nb_clie_13_fld`, `nb_clie_14_fld`, `nb_clie_15_fld`, `nb_clie_16_fld`, `nb_clie_17_fld`, `nb_clie_18_fld`, `nb_clie_19_fld`, `nb_clie_20_fld`)
 VALUES
-	(1,'1','14800275','','','Carlos Alberto Garcia Cobo','','','','','0','','','','','','','','','');
+	(1,'1','14800275','','','Carlos Alberto Garcia Cobo','','','','','0','','','','','','','','',''),
+	(2,'1','1037594925','','','Lilian Patricia Alfonso Marin','','','','','0','','','','','','','','',''),
+	(3,'1','12345','','','Pepito Perez','','Calle 1 Cr 1 Cali','2234566','pepito@gmail.com','0','','','','','','','','','');
 
 /*!40000 ALTER TABLE `nb_clientes_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -342,6 +344,37 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table nb_detallef_tbl
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nb_detallef_tbl`;
+
+CREATE TABLE `nb_detallef_tbl` (
+  `nb_detaf_1_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
+  `nb_detaf_2_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
+  `nb_detaf_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_detaf_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_detaf_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_detaf_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_detaf_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_detaf_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `nb_detaf_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`nb_detaf_1_fld`,`nb_detaf_2_fld`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+LOCK TABLES `nb_detallef_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_detallef_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_detallef_tbl` (`nb_detaf_1_fld`, `nb_detaf_2_fld`, `nb_detaf_3_fld`, `nb_detaf_4_fld`, `nb_detaf_5_fld`, `nb_detaf_6_fld`, `nb_detaf_7_fld`, `nb_detaf_8_fld`, `nb_detaf_9_fld`)
+VALUES
+	('1','1','1','prod 1','12','kg','16','2500','4000'),
+	('1','2','2','prod 2','1','kg','14','23','123'),
+	('','','','','','','','','');
+
+/*!40000 ALTER TABLE `nb_detallef_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # Dump of table nb_event_tbl
 # ------------------------------------------------------------
 
@@ -362,7 +395,10 @@ LOCK TABLES `nb_event_tbl` WRITE;
 
 INSERT INTO `nb_event_tbl` (`nb_id_page_fld`, `nb_id_field_1_fld`, `nb_id_field_2_fld`, `nb_id_table_fld`, `nb_id_field_3_fld`, `nb_id_field_4_fld`)
 VALUES
-	('nb_facturacion_pg','nb_fact_3_fld','nb_fact_4_fld','nb_clientes_tbl','nb_clie_3_fld','nb_clie_6_fld');
+	('nb_facturacion_pg','nb_fact_3_fld','nb_fact_4_fld','nb_clientes_tbl','nb_clie_3_fld','nb_clie_6_fld'),
+	('nb_facturacion_pg','nb_fact_3_fld','nb_fact_5_fld','nb_clientes_tbl','nb_clie_3_fld','nb_clie_8_fld'),
+	('nb_facturacion_pg','nb_fact_3_fld','nb_fact_6_fld','nb_clientes_tbl','nb_clie_3_fld','nb_clie_9_fld'),
+	('nb_facturacion_pg','nb_fact_3_fld','nb_fact_7_fld','nb_clientes_tbl','nb_clie_3_fld','nb_clie_10_fld');
 
 /*!40000 ALTER TABLE `nb_event_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -437,6 +473,15 @@ VALUES
 	('nb_clientes_pg','nb_clientes_tbl','nb_clie_7_fld','nb_clie_7_fld'),
 	('nb_clientes_pg','nb_clientes_tbl','nb_clie_8_fld','nb_clie_8_fld'),
 	('nb_clientes_pg','nb_clientes_tbl','nb_clie_9_fld','nb_clie_9_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_1_fld','nb_detaf_1_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_2_fld','nb_detaf_2_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_3_fld','nb_detaf_3_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_4_fld','nb_detaf_4_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_5_fld','nb_detaf_5_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_6_fld','nb_detaf_6_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_7_fld','nb_detaf_7_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_8_fld','nb_detaf_8_fld'),
+	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_9_fld','nb_detaf_9_fld'),
 	('nb_facturacion_pg','nb_facturacion_tbl','nb_fact_10_fld','nb_fact_10_fld'),
 	('nb_facturacion_pg','nb_facturacion_tbl','nb_fact_11_fld','nb_fact_11_fld'),
 	('nb_facturacion_pg','nb_facturacion_tbl','nb_fact_12_fld','nb_fact_12_fld'),
@@ -527,10 +572,6 @@ VALUES
 	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_7_fld','nb_prov_7_fld'),
 	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_8_fld','nb_prov_8_fld'),
 	('nb_proveedores_pg','nb_proveedores_tbl','nb_prov_9_fld','nb_prov_9_fld'),
-	('nb_prueba_pg','prueba','nb_inve_1_fld','nb_inve_1_fld'),
-	('nb_prueba_pg','prueba','nb_inve_2_fld','nb_inve_2_fld'),
-	('nb_prueba_pg','prueba','nb_inve_3_fld','nb_inve_3_fld'),
-	('nb_prueba_pg','prueba','nb_inve_4_fld','nb_inve_4_fld'),
 	('nb_usersm_pg','nbd_role_user_tbl','nbd_id_user_fld','nbd_id_user_fld'),
 	('nb_usersm_pg','nbd_role_user_tbl','nb_id_role_fld','nb_id_role_fld'),
 	('nb_usersm_pg','nbd_user_tbl','nbd_descr_fld','nbd_descr_fld'),
@@ -945,18 +986,18 @@ VALUES
 	('nb_productos_pg','nb_prod_9_fld',13,'string'),
 	('nb_productos_pg','nb_prod_9_fld',24,'campo'),
 	('nb_productos_pg','nb_prod_9_fld',36,'true'),
-	('nb_prueba_pg','nb_inve_1_fld',11,'FALSE'),
-	('nb_prueba_pg','nb_inve_1_fld',13,'string'),
-	('nb_prueba_pg','nb_inve_1_fld',24,'Campo 1'),
-	('nb_prueba_pg','nb_inve_2_fld',11,'FALSE'),
-	('nb_prueba_pg','nb_inve_2_fld',13,'string'),
-	('nb_prueba_pg','nb_inve_2_fld',24,'Campo 2'),
-	('nb_prueba_pg','nb_inve_3_fld',11,'FALSE'),
-	('nb_prueba_pg','nb_inve_3_fld',13,'string'),
-	('nb_prueba_pg','nb_inve_3_fld',24,'Campo 3'),
-	('nb_prueba_pg','nb_inve_4_fld',11,'FALSE'),
-	('nb_prueba_pg','nb_inve_4_fld',13,'string'),
-	('nb_prueba_pg','nb_inve_4_fld',24,'Campo 4'),
+	('nb_detallef_pg','nb_detaf_1_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_1_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_1_fld',24,'No Factura'),
+	('nb_detallef_pg','nb_detaf_2_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_2_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_2_fld',24,'No Linea'),
+	('nb_detallef_pg','nb_detaf_3_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_3_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_3_fld',24,'Codigo Producto'),
+	('nb_detallef_pg','nb_detaf_4_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_4_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_4_fld',24,'Descr Producto'),
 	('nb_usersm_pg','nbd_descr_fld',11,'true'),
 	('nb_usersm_pg','nbd_descr_fld',13,'string'),
 	('nb_usersm_pg','nbd_descr_fld',24,'Nombre'),
@@ -1179,7 +1220,23 @@ VALUES
 	('nb_proveedores_pg','nb_prov_20_fld',11,'campo 18'),
 	('nb_proveedores_pg','nb_prov_20_fld',13,'string'),
 	('nb_proveedores_pg','nb_prov_20_fld',24,'campo'),
-	('nb_proveedores_pg','nb_prov_20_fld',36,'false');
+	('nb_proveedores_pg','nb_prov_20_fld',36,'false'),
+	('0','0',0,NULL),
+	('nb_detallef_pg','nb_detaf_5_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_5_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_5_fld',24,'Cantidad'),
+	('nb_detallef_pg','nb_detaf_6_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_6_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_6_fld',24,'Unidad'),
+	('nb_detallef_pg','nb_detaf_7_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_7_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_7_fld',24,'Iva'),
+	('nb_detallef_pg','nb_detaf_8_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_8_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_8_fld',24,'Valor Unitario'),
+	('nb_detallef_pg','nb_detaf_9_fld',11,'false'),
+	('nb_detallef_pg','nb_detaf_9_fld',13,'string'),
+	('nb_detallef_pg','nb_detaf_9_fld',24,'Valor Total');
 
 /*!40000 ALTER TABLE `nb_forms_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1262,6 +1319,15 @@ CREATE TABLE `nb_inventario_tbl` (
   PRIMARY KEY (`nb_inve_1_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
+LOCK TABLES `nb_inventario_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_inventario_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_inventario_tbl` (`nb_inve_1_fld`, `nb_inve_2_fld`, `nb_inve_3_fld`, `nb_inve_4_fld`, `nb_inve_5_fld`, `nb_inve_6_fld`, `nb_inve_7_fld`, `nb_inve_8_fld`, `nb_inve_9_fld`, `nb_inve_10_fld`, `nb_inve_11_fld`, `nb_inve_12_fld`, `nb_inve_13_fld`, `nb_inve_14_fld`, `nb_inve_15_fld`, `nb_inve_16_fld`, `nb_inve_17_fld`, `nb_inve_18_fld`, `nb_inve_19_fld`, `nb_inve_20_fld`)
+VALUES
+	(1,'1','250','','','','','','','','','','','','','','','','','');
+
+/*!40000 ALTER TABLE `nb_inventario_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table nb_link_tbl
@@ -1346,7 +1412,7 @@ VALUES
 	('home',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('home',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('home',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('home',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_detallef_pg',1,0,1,'Home','home','fa fa-home','N'),
 	('nb_loginv_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
 	('nb_loginv_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
 	('nb_loginv_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
@@ -1907,7 +1973,35 @@ VALUES
 	('nb_vendedores_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_vendedores_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
 	('nb_vendedores_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
-	('nb_vendedores_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N');
+	('nb_vendedores_pg',30,0,12,'Prueba','nb_prueba_pg','fa fa-cog','N'),
+	('nb_detallef_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
+	('nb_detallef_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
+	('nb_detallef_pg',4,2,2,'Consulta Clientes','nb_clientes_v_pg','fa fa-search','N'),
+	('nb_detallef_pg',5,0,3,'Vendedores','nb_vendedores_pg','fa fa-user','N'),
+	('nb_detallef_pg',6,5,1,'Ingreso Vendedores','nb_vendedores_pg','fa fa-plus','N'),
+	('nb_detallef_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
+	('nb_detallef_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
+	('nb_detallef_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
+	('nb_detallef_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
+	('nb_detallef_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
+	('nb_detallef_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
+	('nb_detallef_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
+	('nb_detallef_pg',14,0,6,'Inventario','nb_inventario_pg','fa fa-archive','N'),
+	('nb_detallef_pg',15,14,1,'Ingreso Inventario','nb_inventario_pg','fa fa-plus','N'),
+	('nb_detallef_pg',16,14,2,'Consulta Inventario','nb_inventario_v_pg','fa fa-search','N'),
+	('nb_detallef_pg',17,0,7,'Facturacion','nb_facturacion_pg','fa fa-dollar','N'),
+	('nb_detallef_pg',18,17,1,'Ingreso factura','nb_facturacion_pg','fa fa-plus','N'),
+	('nb_detallef_pg',19,17,2,'Consulta Factura','nb_facturacion_v_pg','fa fa-search','N'),
+	('nb_detallef_pg',20,0,8,'Reportes','nb_reporte_1_pg','fa fa-line-chart','N'),
+	('nb_detallef_pg',21,20,1,'Facturacion Diaria','nb_reporte_1_pg','fa fa-area-chart','N'),
+	('nb_detallef_pg',22,20,2,'Facturacion Mensual','nb_reporte_2_pg','fa fa-bar-chart','N'),
+	('nb_detallef_pg',23,0,9,'Usuarios Software','nb_users_pg','fa fa-users','N'),
+	('nb_detallef_pg',24,23,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_detallef_pg',25,23,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_detallef_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
+	('nb_detallef_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_detallef_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_detallef_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N');
 
 /*!40000 ALTER TABLE `nb_navigation_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1936,16 +2030,16 @@ LOCK TABLES `nb_option_tbl` WRITE;
 INSERT INTO `nb_option_tbl` (`nb_id_page_fld`, `nb_typealpaca_fld`, `nb_renderform_fld`, `nb_action_path`, `nb_action_fld`, `nb_typeaccion_fld`, `nb_method_fld`, `nb_enctype_fld`)
 VALUES
 	('home','image','false','','','','',''),
-	('nb_prueba_pg','table','true','../Events/','nabuSave','2','post',''),
+	('nb_detallef_pg','table','true','../Events/','nabuSave','2','post',''),
 	('nb_clientes_pg','wizard','true','../Events/','nabuSave','0','post',''),
-	('nb_facturacion_pg','wizard','TRUE','../Events/','nabuSave','0','post',''),
-	('nb_inventario_pg','wizard','TRUE','../Events/','nabuSave','0','post',''),
+	('nb_facturacion_pg','wizard','true','../Events/','nabuFactura','0','post',''),
+	('nb_inventario_pg','wizard','true','../Events/','nabuSave','0','post',''),
 	('nb_password_pg','wizard','true','../Events/','nabuSave','1','post',''),
-	('nb_productos_pg','wizard','TRUE','../Events/','nabuSave','0','post',''),
+	('nb_productos_pg','wizard','true','../Events/','nabuSave','0','post',''),
 	('nb_users_pg','wizard','true','../Events/','nabuSave','0','post',''),
 	('nb_usuariosm_pg','wizard','true','../Events/','nabuSave','1','post',''),
-	('nb_vendedores_pg','wizard','TRUE','../Events/','nabuSave','0','post',''),
-	('nb_proveedores_pg','wizard','TRUE','../Events/','nabuSave','0','post','');
+	('nb_vendedores_pg','wizard','true','../Events/','nabuSave','0','post',''),
+	('nb_proveedores_pg','wizard','true','../Events/','nabuSave','0','post','');
 
 /*!40000 ALTER TABLE `nb_option_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -1970,7 +2064,7 @@ LOCK TABLES `nb_options_buttons_tbl` WRITE;
 
 INSERT INTO `nb_options_buttons_tbl` (`nb_id_page_fld`, `nb_id_opt_form_fld`, `nb_value_fld`, `nb_title_fld`, `nb_click_fld`)
 VALUES
-	('nb_prueba_pg','submit','Guardar',NULL,NULL);
+	('nb_detallef_pg','submit','Guardar',NULL,NULL);
 
 /*!40000 ALTER TABLE `nb_options_buttons_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2034,6 +2128,22 @@ VALUES
 	('nb_clientes_v_pg',18),
 	('nb_clientes_v_pg',19),
 	('nb_clientes_v_pg',20),
+	('nb_detallef_pg',1),
+	('nb_detallef_pg',2),
+	('nb_detallef_pg',3),
+	('nb_detallef_pg',4),
+	('nb_detallef_pg',5),
+	('nb_detallef_pg',6),
+	('nb_detallef_pg',7),
+	('nb_detallef_pg',8),
+	('nb_detallef_pg',9),
+	('nb_detallef_pg',10),
+	('nb_detallef_pg',12),
+	('nb_detallef_pg',13),
+	('nb_detallef_pg',14),
+	('nb_detallef_pg',15),
+	('nb_detallef_pg',16),
+	('nb_detallef_pg',22),
 	('nb_facturacion_pg',1),
 	('nb_facturacion_pg',2),
 	('nb_facturacion_pg',3),
@@ -2172,22 +2282,6 @@ VALUES
 	('nb_proveedores_pg',17),
 	('nb_proveedores_pg',19),
 	('nb_proveedores_pg',22),
-	('nb_prueba_pg',1),
-	('nb_prueba_pg',2),
-	('nb_prueba_pg',3),
-	('nb_prueba_pg',4),
-	('nb_prueba_pg',5),
-	('nb_prueba_pg',6),
-	('nb_prueba_pg',7),
-	('nb_prueba_pg',8),
-	('nb_prueba_pg',9),
-	('nb_prueba_pg',10),
-	('nb_prueba_pg',12),
-	('nb_prueba_pg',13),
-	('nb_prueba_pg',14),
-	('nb_prueba_pg',15),
-	('nb_prueba_pg',16),
-	('nb_prueba_pg',22),
 	('nb_reporte_1_pg',1),
 	('nb_reporte_1_pg',2),
 	('nb_reporte_1_pg',3),
@@ -2296,19 +2390,19 @@ VALUES
 	('nb_clientes_v_pg','Consulta de Clientes','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_facturacion_pg','Facturacion','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
 	('nb_facturacion_v_pg','Facturacion','dataGrids','datagrid',NULL,NULL,'false'),
-	('nb_inventario_pg','PRUEBA','forms','alpaca','bootstrap-create-horizontal','','false'),
+	('nb_inventario_pg','Ingreso Inventario','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_inventario_v_pg','Inventario','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_loginv_pg','Usuarios del Sistema','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_password_pg','Cambio de Contrase&#241;a','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
-	('nb_productos_pg','PRUEBA','forms','alpaca','bootstrap-create-horizontal','','false'),
+	('nb_productos_pg','Ingreso Productos','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
 	('nb_productos_v_pg','Consulta Productos','dataGrids','datagrid',NULL,NULL,'false'),
-	('nb_prueba_pg','PRUEBA','dataGrids','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_detallef_pg','Detalle Factura','dataGrids','alpaca','bootstrap-edit-horizontal',NULL,'false'),
 	('nb_reporte_1_pg','Reporte','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_reporte_2_pg','Reporte','dataGrids','datagrid',NULL,NULL,'false'),
 	('nb_usersm_pg','Usuarios del Sistema','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
 	('nb_users_pg','Usuarios del Sistema','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
-	('nb_vendedores_pg','PRUEBA','forms','alpaca','bootstrap-create-horizontal','','false'),
-	('nb_proveedores_pg','PRUEBA','forms','alpaca','bootstrap-create-horizontal','','false');
+	('nb_vendedores_pg','Ingreso Vendedores','forms','alpaca','bootstrap-create-horizontal',NULL,'false'),
+	('nb_proveedores_pg','Ingreso Proveedores','forms','alpaca','bootstrap-create-horizontal',NULL,'false');
 
 /*!40000 ALTER TABLE `nb_pages_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2343,6 +2437,15 @@ CREATE TABLE `nb_productos_tbl` (
   PRIMARY KEY (`nb_prod_1_fld`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
+LOCK TABLES `nb_productos_tbl` WRITE;
+/*!40000 ALTER TABLE `nb_productos_tbl` DISABLE KEYS */;
+
+INSERT INTO `nb_productos_tbl` (`nb_prod_1_fld`, `nb_prod_2_fld`, `nb_prod_3_fld`, `nb_prod_4_fld`, `nb_prod_5_fld`, `nb_prod_6_fld`, `nb_prod_7_fld`, `nb_prod_8_fld`, `nb_prod_9_fld`, `nb_prod_10_fld`, `nb_prod_11_fld`, `nb_prod_12_fld`, `nb_prod_13_fld`, `nb_prod_14_fld`, `nb_prod_15_fld`, `nb_prod_16_fld`, `nb_prod_17_fld`, `nb_prod_18_fld`, `nb_prod_19_fld`, `nb_prod_20_fld`)
+VALUES
+	(1,'Comida 1','1','2','','','12400','16','','','','','','','','','','','','');
+
+/*!40000 ALTER TABLE `nb_productos_tbl` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table nb_proveedores_tbl
@@ -2415,6 +2518,7 @@ VALUES
 	(1,'login'),
 	(1,'nb_clientes_pg'),
 	(1,'nb_clientes_v_pg'),
+	(1,'nb_detallef_pg'),
 	(1,'nb_facturacion_pg'),
 	(1,'nb_facturacion_v_pg'),
 	(1,'nb_inventario_pg'),
@@ -2425,7 +2529,6 @@ VALUES
 	(1,'nb_productos_v_pg'),
 	(1,'nb_proveedores_pg'),
 	(1,'nb_proveedores_v_pg'),
-	(1,'nb_prueba_pg'),
 	(1,'nb_reporte_1_pg'),
 	(1,'nb_reporte_2_pg'),
 	(1,'nb_usersm_pg'),
@@ -2477,17 +2580,17 @@ LOCK TABLES `nb_schema_tbl` WRITE;
 
 INSERT INTO `nb_schema_tbl` (`nb_id_page_fld`, `nb_title_fld`, `nb_description_fld`, `nb_type_fld`)
 VALUES
-	('home','',NULL,'object'),
-	('nb_clientes_pg','Creacion Clientes',NULL,'object'),
-	('nb_facturacion_pg','','','object'),
-	('nb_inventario_pg','','','object'),
-	('nb_password_pg',NULL,NULL,'object'),
-	('nb_productos_pg','','','object'),
-	('nb_prueba_pg',NULL,NULL,'array'),
-	('nb_usersm_pg',NULL,NULL,'object'),
-	('nb_users_pg',NULL,NULL,'object'),
-	('nb_vendedores_pg','','','object'),
-	('nb_proveedores_pg','','','object');
+	('home',NULL,NULL,'object'),
+	('nb_clientes_pg','Clientes',NULL,'object'),
+	('nb_facturacion_pg','Facturacion',NULL,'object'),
+	('nb_inventario_pg','Inventario',NULL,'object'),
+	('nb_password_pg','Cambio Password',NULL,'object'),
+	('nb_productos_pg','Productos',NULL,'object'),
+	('nb_detallef_pg','Detalle Factura',NULL,'array'),
+	('nb_usersm_pg','Usuarios del Sistema',NULL,'object'),
+	('nb_users_pg','Usuarios del Sistema',NULL,'object'),
+	('nb_vendedores_pg','Vendedores',NULL,'object'),
+	('nb_proveedores_pg','Proveedores',NULL,'object');
 
 /*!40000 ALTER TABLE `nb_schema_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2572,14 +2675,14 @@ VALUES
 	('nb_inventario_tbl','nb_inve_18_fld','string',255,'N','',''),
 	('nb_inventario_tbl','nb_inve_19_fld','string',255,'N','',''),
 	('nb_inventario_tbl','nb_inve_1_fld','string',255,'N','',''),
-	('prueba','nb_inve_1_fld','string',255,'N','N','NULL'),
+	('nb_detallef_tbl','nb_detaf_1_fld','string',255,'N','N',NULL),
 	('nb_inventario_tbl','nb_inve_20_fld','string',255,'N','',''),
 	('nb_inventario_tbl','nb_inve_2_fld','string',255,'N','',''),
-	('prueba','nb_inve_2_fld','string',255,'N','N','NULL'),
+	('nb_detallef_tbl','nb_detaf_2_fld','string',255,'N','N',NULL),
 	('nb_inventario_tbl','nb_inve_3_fld','string',255,'N','',''),
-	('prueba','nb_inve_3_fld','string',255,'N','N','NULL'),
+	('nb_detallef_tbl','nb_detaf_3_fld','string',255,'N','N',NULL),
 	('nb_inventario_tbl','nb_inve_4_fld','string',255,'N','',''),
-	('prueba','nb_inve_4_fld','string',255,'N','N','NULL'),
+	('nb_detallef_tbl','nb_detaf_4_fld','string',255,'N','N',NULL),
 	('nb_inventario_tbl','nb_inve_5_fld','string',255,'N','',''),
 	('nb_inventario_tbl','nb_inve_6_fld','string',255,'N','',''),
 	('nb_inventario_tbl','nb_inve_7_fld','string',255,'N','',''),
@@ -2644,7 +2747,13 @@ VALUES
 	('nb_proveedores_tbl','nb_prov_17_fld','string',255,'N','',''),
 	('nb_proveedores_tbl','nb_prov_18_fld','string',255,'N','',''),
 	('nb_proveedores_tbl','nb_prov_19_fld','string',255,'N','',''),
-	('nb_proveedores_tbl','nb_prov_20_fld','string',255,'N','','');
+	('nb_proveedores_tbl','nb_prov_20_fld','string',255,'N','',''),
+	('0','',NULL,NULL,'N',NULL,NULL),
+	('nb_detallef_tbl','nb_detaf_5_fld','string',255,'N','N',NULL),
+	('nb_detallef_tbl','nb_detaf_6_fld','string',255,'N','N',NULL),
+	('nb_detallef_tbl','nb_detaf_7_fld','string',255,'N','N',NULL),
+	('nb_detallef_tbl','nb_detaf_8_fld','string',255,'N','N',NULL),
+	('nb_detallef_tbl','nb_detaf_9_fld','string',255,'N','N',NULL);
 
 /*!40000 ALTER TABLE `nb_table_fields_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2672,7 +2781,7 @@ VALUES
 	('nb_facturacion_tbl','facturacion'),
 	('nb_inventario_tbl','inventario'),
 	('nb_productos_tbl','productos'),
-	('prueba','Inventario'),
+	('nb_detallef_tbl','Detalle Factura'),
 	('nb_vendedores_tbl','vendedores'),
 	('nb_proveedores_tbl','proveedores');
 
@@ -2919,7 +3028,7 @@ LOCK TABLES `nb_wizard_buttons_tbl` WRITE;
 INSERT INTO `nb_wizard_buttons_tbl` (`nb_id_wizard_button`, `nb_id_page_fld`, `nb_wizard_button_name`, `nb_wizard_button_title`, `nb_wizard_button_validate`, `nb_wizard_button_click`)
 VALUES
 	(1,'nb_clientes_pg','submit','Guardar',NULL,NULL),
-	(1,'nb_facturacion_pg','submit','Guardar','',''),
+	(1,'nb_facturacion_pg','submit','Detalle','',''),
 	(1,'nb_inventario_pg','submit','Guardar','',''),
 	(1,'nb_password_pg','submit','Actualizar',NULL,NULL),
 	(1,'nb_productos_pg','submit','Guardar','',''),
@@ -3064,37 +3173,6 @@ VALUES
 	(1,'admin','Usuario Administrador','21232f297a57a5a743894a0e4a801fc3',0);
 
 /*!40000 ALTER TABLE `nbd_user_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table prueba
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `prueba`;
-
-CREATE TABLE `prueba` (
-  `NB_INVE_1_FLD` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
-  `NB_INVE_2_FLD` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `NB_INVE_3_FLD` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `NB_INVE_4_FLD` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`NB_INVE_1_FLD`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
-LOCK TABLES `prueba` WRITE;
-/*!40000 ALTER TABLE `prueba` DISABLE KEYS */;
-
-INSERT INTO `prueba` (`NB_INVE_1_FLD`, `NB_INVE_2_FLD`, `NB_INVE_3_FLD`, `NB_INVE_4_FLD`)
-VALUES
-	('pr1','1','2','3'),
-	('pr2','2','4','5'),
-	('pr3','5','6','8'),
-	('prod','4','5','6'),
-	('prod 1','1','2','3'),
-	('prod 3','8','9','10'),
-	('prod 6','89','89','89'),
-	('prod 78','12','4','5');
-
-/*!40000 ALTER TABLE `prueba` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

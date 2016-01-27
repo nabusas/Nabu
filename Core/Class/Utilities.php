@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
-	Desarrollador		= CAGC
-	Fecha modificacion	= 25-01-2016
+	Desarrollador		= CAGC  
+	Fecha modificacion	= 26-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -206,17 +206,26 @@ class Utilities
         $json = new JsonData();
         
         $table  = $this->database->getDataRecord($id);
+        $fields = $this->database->getFieldsPage($id);
         
         if ($table[0] == '' ){
             
             $parametros=false;
-            $fields = $this->database->getFieldsPage($id);
-            
+        
             foreach($fields as $field){
-               if (isset($_GET[$field[0]])){
-                   $parametros=true;
-                    break;
-                }
+                if (isset($_GET['accion']))
+                    if ($_GET['accion']=='b' or $_GET['accion']=='s'){
+                        if (isset($_GET[$field[0]])){
+                           $parametros=true;
+                            break;
+                        }
+                    }    
+                    else{
+                       if (isset($_GET['_1_'.$field[0]])){
+                           $parametros=true;
+                            break;
+                        } 
+                    }
             }
             
             if ($parametros){
@@ -228,7 +237,7 @@ class Utilities
                 $j=1;
                 
                 if (isset($_GET['accion'])){
-                    if ($_GET['accion']=='b'){    
+                    if ($_GET['accion']=='b'){
                         foreach($fields as $field){
                             $key=$field[2];
                             $tabla=$field[1];
@@ -262,29 +271,33 @@ class Utilities
                         }
                     }
                     else{
-                        if (isset($_GET[$field[0]])){
-                            if ($_GET[$field[0]] <> ''){
-                                
-                                $sql=$this->database->getPromptSelect($id,$field[0],$_GET[$field[0]]);
-                                
-                                $fieldx=$this->database->getpromptField($id,$field[0]);
-                                $value=$this->database->executeQueryOneRow($sql[0]);
-                                $fieldsData[$field[0]]=$_GET[$field[0]];
-                                $fieldsData[$fieldx[0]]=$value[0];
-                            }    
-                        }    
+                        if ($_GET['accion']=='s'){
+                            if (isset($_GET[$field[0]])){
+                                if ($_GET[$field[0]] <> ''){
+                                    $fieldxs=$this->database->getPromptSelect($id,$field[0],$_GET[$field[0]]);
+                                    foreach($fieldxs as $fieldx){
+                                        $value=$this->database->executeQueryOneRow($fieldx[1]);
+                                        $fieldsData[$field[0]]=$_GET[$field[0]];
+                                        $fieldsData[$fieldx[0]]=$value[0];
+                                    }    
+                                }    
+                            }
+                        }
+                        else{
+                            if ($_GET['accion']=='bd'){
+                            }
+                        }
                     }
                 }
-                $jsonA=$json->getData2($fieldsData);
+                if ($_GET['accion']<>'bd')
+                    $jsonA=$json->getData2($fieldsData);
             }
             else{
-                $table  = $this->database->getDataRecord($id);
-                $fields = $this->database->getDataFields($table[0]);
+                //$table  = $this->database->getDataRecord($id);
+                //$fields = $this->database->getDataFields($table[0]);
                 $fields =$this->database->getData($id);
                 $jsonA=$json->getData($fields);
             }
-            
-            
         }
         else
         {
