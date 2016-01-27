@@ -1,8 +1,0 @@
-Id,Usuario,Login,Role,Estado
-1,Usuario Administrador,admin,Administrador,Activo
-3,Carlos Alberto Garcia Cobo,14800275,Administrador,Activo
-2,Guardia 1,guardia,Guardia,Activo
-4,Vigilante Carabali,12345,Guardia,Activo
-5,Recaudador,recaudo,Recaudo,Activo
-7,prueba8,prueba7,Guardia,Activo
-6,prueba3,prueba,Administrador,Activo

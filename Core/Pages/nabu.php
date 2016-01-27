@@ -31,6 +31,7 @@ THE SOFTWARE.
 */
     include "../Class/Utilities.php";
     include "../Class/TemplatePage.php";
+    include "../Class/analyticstracking.php";
     
 	session_start();
     
