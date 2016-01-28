@@ -1,6 +1,0 @@
-Id,Tipo_Documento,Documento,Nombre,Direccion,Telefono,Email,Estado
-1,Cedula Ciudadania,14800275,Carlos Alberto Garcia Cobo,CALLE 21N NUMERO 9A-105 APTO 202,0301 265 7760,carlosgc4@gmail.com,Activo
-2,Cedula Ciudadania,1037594925,Lilian Patricia Alfonso Marin,CALLE 21N NUMERO 9A-105 APTO 202,,,Activo
-3,Cedula Ciudadania,12345,Pepito Perez,Calle 1 Cr 1 Cali,2234566,pepito@gmail.com,Activo
-4,Cedula Ciudadania,444444,Roger Federer,Calle 56 Suiza,4567890,roger@tenis.com,Activo
-5,Cedula Ciudadania,99999,Andy Murray,Calle 2,098654323,,Activo
