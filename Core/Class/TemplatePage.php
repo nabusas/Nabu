@@ -113,7 +113,7 @@ class TemplatePage
 			<?php $this->banner();?>
 			 <div align='center'>
 				<?php
-                    
+                    include "../Class/analyticstracking.php";
                     $style=$this->pageProperties['style'];
                     $trace=$this->pageProperties['trace'];
                     
