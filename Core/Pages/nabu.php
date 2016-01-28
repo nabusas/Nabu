@@ -25,15 +25,14 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 17-01-2016
+	Fecha modificacion	= 27-01-2016
 	Usuario Modifico	= CAGC
 
 */
     include "../Class/Utilities.php";
     include "../Class/TemplatePage.php";
-    include "../Class/analyticstracking.php";
     
-	session_start();
+    session_start();
     
     
     if($_GET['p'] == 'login'){

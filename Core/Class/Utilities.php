@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 26-01-2016
+	Fecha modificacion	= 28-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -274,10 +274,17 @@ class Utilities
                         if ($_GET['accion']=='s'){
                             if (isset($_GET[$field[0]])){
                                 if ($_GET[$field[0]] <> ''){
+                                    
+                                    $type =$this->database->getTypes($field[1],$field[0]);
+                                        if ($type[0] == 'number')
+                                            if ( !is_numeric($_GET[$field[0]]) )
+                                                $_GET[$field[0]]=0;
+                                        
+                                    $fieldsData[$field[0]]=$_GET[$field[0]];
+                                    
                                     $fieldxs=$this->database->getPromptSelect($id,$field[0],$_GET[$field[0]]);
                                     foreach($fieldxs as $fieldx){
                                         $value=$this->database->executeQueryOneRow($fieldx[1]);
-                                        $fieldsData[$field[0]]=$_GET[$field[0]];
                                         $fieldsData[$fieldx[0]]=$value[0];
                                     }    
                                 }    
