@@ -25,9 +25,32 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 26-01-2016
+	Fecha modificacion	= 29-01-2016
 	Usuario Modifico	= CAGC
 
 */
-    header("location:../Pages/nabu.php?p=nb_detallef_pg&accion=bd?nb_detaf_6_fld=1");
+    include "../Class/Utilities.php";
+    include "../Class/NabuEvent.php";
+
+    $objUtilities = $_SESSION['objUtilities'];
+    $database = $objUtilities->database;
+
+    $facturaN=$database->getInvoiceNum();
+    $factura=$facturaN[0];
+        
+    $_POST["nb_fact_1_fld"]=$factura.'-';
+    $accion=$_GET['accion'];
+    
+    $nabuEvent = new NabuEvent($_GET['p'], $_POST);
+	$result=$nabuEvent->getEventSql($accion);
+    $database->setInvoiceDeta($factura);
+
+
+    if ($factura != 0)
+        header("location:../Pages/nabu.php?p=nb_factura_de_pg&factura=".$factura);
+    else
+        header("location:../Pages/nabu.php?p=nb_facturacion_pg");
+        
+
+
 ?>

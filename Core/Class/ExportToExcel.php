@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 12-10-2015
+	Fecha modificacion	= 29-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -94,7 +94,7 @@ class ExportExcel
         }
 		else
 		{
-			echo "Error en CX BD";
+			return '';
 		}
 
         

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 28-01-2016
+	Fecha modificacion	= 29-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -263,6 +263,13 @@ class Utilities
                                 }
                                 else{
                                     $value=$this->database->getDatavalueW($field[1],$field[0],$where);
+                                    $type =$this->database->getTypes($field[1],$field[0]);
+                                    
+                                    switch($type[0]) {
+                                        case 'date':
+                                            $value[0]='';
+                                    }
+                                    
                                     $fieldsData[$field[0]]=$value[0];
                                 }
                             }
@@ -508,7 +515,7 @@ class Utilities
 <?php        
     }
     function getDataGrid($id){
-    
+        
         $g = new jqgrid();
         $pageL = $this->database->getTableLink($id);
         
@@ -534,6 +541,18 @@ class Utilities
                 $grid[$row[0]] =$value;
             }
             else{
+                if ($id == 'nb_factura_de_pg'){
+                        if (isset($_GET["factura"])){
+                            $factura=$_GET["factura"];
+                            if (!is_numeric($factura))
+                                $factura=0;
+                        }
+                        else
+                            $factura=0;
+                        
+                        $g->select_command="Select * from nb_detallef_tbl where factura like '".$factura."-%'";
+                }
+                
                 $g->table = $value;
             }
         }
@@ -560,7 +579,7 @@ class Utilities
                      else
                          $value= false;
                  }
-                $col[$row[0]]= $value; 
+                $col[$row[0]]= $value;
             } 
             $cols[] = $col;
         }
@@ -569,7 +588,12 @@ class Utilities
         $g->set_columns($cols);
         $g->set_options($grid);
 
-        $g->set_actions(array("add"=>false,"edit"=>false,"delete"=>false,"rowactions"=>false,"search" => "advance","export"=>false,"autofilter" => true ));
+        if ($id == 'nb_factura_de_pg')
+            $configGrid=true;
+        else
+            $configGrid=false;
+        
+        $g->set_actions(array("add"=>$configGrid,"edit"=>$configGrid,"delete"=>$configGrid,"rowactions"=>true,"search" => "advance"));
 
         return $g->render("list1");
         

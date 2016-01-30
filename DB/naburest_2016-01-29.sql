@@ -1,13 +1,13 @@
 # ************************************************************
 # Sequel Pro SQL dump
-# Version 4499
+# Version 4500
 #
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 10.1.9-MariaDB)
 # Database: naburest
-# Generation Time: 2016-01-27 16:42:37 +0000
+# Generation Time: 2016-01-30 02:29:09 +0000
 # ************************************************************
 
 
@@ -191,7 +191,9 @@ VALUES
 	(59,'options','removeDefaultNone','boolean',NULL),
 	(60,'options','dependencies','array',NULL),
 	(61,'options','vertical','boolean',NULL),
-	(62,'options','onFieldChange','string',NULL);
+	(62,'options','onFieldChange','string',NULL),
+	(63,'gridoptions','multiselect','boolean',NULL),
+	(64,'gridcoloptions','viewable','boolean',NULL);
 
 /*!40000 ALTER TABLE `nb_config_frmwrk_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -274,7 +276,7 @@ VALUES
 	('nb_facturacion_v_pg',40,'true'),
 	('nb_facturacion_v_pg',41,'true'),
 	('nb_facturacion_v_pg',43,'350'),
-	('nb_facturacion_v_pg',44,'nb_facturacion_vw'),
+	('nb_facturacion_v_pg',44,'nb_factura_vw'),
 	('nb_inventario_v_pg',37,'Data'),
 	('nb_inventario_v_pg',38,'true'),
 	('nb_inventario_v_pg',39,'44'),
@@ -319,11 +321,18 @@ VALUES
 	('nb_vendedores_v_pg',44,'nb_vendedores_vw'),
 	('nb_proveedores_v_pg',37,'Informacion Proveedores'),
 	('nb_proveedores_v_pg',38,'true'),
-	('nb_proveedores_v_pg',39,'44'),
+	('nb_proveedores_v_pg',39,'20'),
 	('nb_proveedores_v_pg',40,'true'),
 	('nb_proveedores_v_pg',41,'true'),
 	('nb_proveedores_v_pg',43,'350'),
-	('nb_proveedores_v_pg',44,'nb_proveedores_vw');
+	('nb_proveedores_v_pg',44,'nb_proveedores_vw'),
+	('nb_factura_de_pg',37,'Detalle Factura'),
+	('nb_factura_de_pg',38,'true'),
+	('nb_factura_de_pg',39,'44'),
+	('nb_factura_de_pg',40,'true'),
+	('nb_factura_de_pg',41,'true'),
+	('nb_factura_de_pg',43,'350'),
+	('nb_factura_de_pg',44,'nb_detallef_tbl');
 
 /*!40000 ALTER TABLE `nb_datagrid_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -394,6 +403,17 @@ VALUES
 	('nb_productos_v_pg',1,47,'true'),
 	('nb_productos_v_pg',1,46,'Id'),
 	('nb_productos_v_pg',1,45,'Id'),
+	('nb_facturacion_v_pg',5,48,'true'),
+	('nb_facturacion_v_pg',5,47,'true'),
+	('nb_facturacion_v_pg',5,46,'Tipo_Documento'),
+	('nb_facturacion_v_pg',5,45,'Tipo Documento'),
+	('nb_facturacion_v_pg',4,54,'center'),
+	('nb_facturacion_v_pg',4,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',4,48,'true'),
+	('nb_facturacion_v_pg',4,47,'true'),
+	('nb_facturacion_v_pg',4,46,'Vencimiento'),
+	('nb_facturacion_v_pg',4,45,'Vencimiento'),
+	('nb_facturacion_v_pg',3,54,'center'),
 	('nb_inventario_v_pg',4,54,'center'),
 	('nb_inventario_v_pg',4,50,'nb_inve_1_fld={Id}'),
 	('nb_inventario_v_pg',4,48,'true'),
@@ -582,7 +602,62 @@ VALUES
 	('nb_productos_v_pg',7,47,'true'),
 	('nb_productos_v_pg',7,48,'true'),
 	('nb_productos_v_pg',7,50,'nb_prod_1_fld={Id}'),
-	('nb_productos_v_pg',7,54,'center');
+	('nb_productos_v_pg',7,54,'center'),
+	('nb_facturacion_v_pg',7,46,'Nombre'),
+	('nb_facturacion_v_pg',7,45,'Nombre'),
+	('nb_facturacion_v_pg',6,54,'center'),
+	('nb_facturacion_v_pg',5,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',5,54,'center'),
+	('nb_facturacion_v_pg',6,45,'Documento'),
+	('nb_facturacion_v_pg',6,46,'Documento'),
+	('nb_facturacion_v_pg',6,47,'true'),
+	('nb_facturacion_v_pg',6,48,'true'),
+	('nb_facturacion_v_pg',6,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',3,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',3,48,'true'),
+	('nb_facturacion_v_pg',3,47,'true'),
+	('nb_facturacion_v_pg',3,46,'Fecha_Factura'),
+	('nb_facturacion_v_pg',3,45,'Fecha Factura'),
+	('nb_facturacion_v_pg',2,54,'center'),
+	('nb_facturacion_v_pg',2,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',1,45,'Factura'),
+	('nb_facturacion_v_pg',1,46,'Factura'),
+	('nb_facturacion_v_pg',1,47,'true'),
+	('nb_facturacion_v_pg',1,48,'true'),
+	('nb_facturacion_v_pg',1,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',1,54,'center'),
+	('nb_facturacion_v_pg',2,45,'Tipo'),
+	('nb_facturacion_v_pg',2,46,'Tipo'),
+	('nb_facturacion_v_pg',2,47,'true'),
+	('nb_facturacion_v_pg',2,48,'true'),
+	('nb_facturacion_v_pg',7,47,'true'),
+	('nb_facturacion_v_pg',7,48,'true'),
+	('nb_facturacion_v_pg',7,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',7,54,'center'),
+	('nb_facturacion_v_pg',8,45,'Direccion'),
+	('nb_facturacion_v_pg',8,46,'Direccion'),
+	('nb_facturacion_v_pg',8,47,'true'),
+	('nb_facturacion_v_pg',8,48,'true'),
+	('nb_facturacion_v_pg',8,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',8,54,'center'),
+	('nb_facturacion_v_pg',9,45,'Telefono'),
+	('nb_facturacion_v_pg',9,46,'Telefono'),
+	('nb_facturacion_v_pg',9,47,'true'),
+	('nb_facturacion_v_pg',9,48,'true'),
+	('nb_facturacion_v_pg',9,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',9,54,'center'),
+	('nb_facturacion_v_pg',10,45,'Vendedor'),
+	('nb_facturacion_v_pg',10,46,'Vendedor'),
+	('nb_facturacion_v_pg',10,47,'true'),
+	('nb_facturacion_v_pg',10,48,'true'),
+	('nb_facturacion_v_pg',10,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',10,54,'center'),
+	('nb_facturacion_v_pg',11,50,'nb_fact_1_fld={Factura}'),
+	('nb_facturacion_v_pg',11,48,'true'),
+	('nb_facturacion_v_pg',11,47,'true'),
+	('nb_facturacion_v_pg',11,46,'Monto'),
+	('nb_facturacion_v_pg',11,45,'Monto'),
+	('nb_facturacion_v_pg',11,54,'center');
 
 /*!40000 ALTER TABLE `nb_datagridcol_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -594,29 +669,17 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `nb_detallef_tbl`;
 
 CREATE TABLE `nb_detallef_tbl` (
-  `nb_detaf_1_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
-  `nb_detaf_2_fld` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
-  `nb_detaf_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_detaf_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_detaf_5_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_detaf_6_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_detaf_7_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_detaf_8_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `nb_detaf_9_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`nb_detaf_1_fld`,`nb_detaf_2_fld`)
+  `Factura` varchar(255) COLLATE latin1_spanish_ci NOT NULL DEFAULT '',
+  `Producto` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `Descripcion` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `UOM` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `Precio` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `Cantidad` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `Iva` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `Total` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`Factura`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
-LOCK TABLES `nb_detallef_tbl` WRITE;
-/*!40000 ALTER TABLE `nb_detallef_tbl` DISABLE KEYS */;
-
-INSERT INTO `nb_detallef_tbl` (`nb_detaf_1_fld`, `nb_detaf_2_fld`, `nb_detaf_3_fld`, `nb_detaf_4_fld`, `nb_detaf_5_fld`, `nb_detaf_6_fld`, `nb_detaf_7_fld`, `nb_detaf_8_fld`, `nb_detaf_9_fld`)
-VALUES
-	('','','','','','','','',''),
-	('1','1','1','prod 1','12','kg','16','2500','4000'),
-	('1','2','2','prod 2','1','kg','14','23','123');
-
-/*!40000 ALTER TABLE `nb_detallef_tbl` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table nb_event_tbl
@@ -648,13 +711,34 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table nb_factura_vw
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `nb_factura_vw`;
+
+CREATE TABLE `nb_factura_vw` (
+   `Factura` INT(11) NOT NULL,
+   `Tipo` VARCHAR(255) NOT NULL DEFAULT '',
+   `Monto` VARCHAR(64) NOT NULL DEFAULT '',
+   `Fecha_Factura` VARCHAR(255) NULL DEFAULT NULL,
+   `Vencimiento` VARCHAR(255) NULL DEFAULT NULL,
+   `Tipo_Documento` VARCHAR(255) NOT NULL DEFAULT '',
+   `Documento` VARCHAR(255) NULL DEFAULT NULL,
+   `Nombre` VARCHAR(255) NULL DEFAULT NULL,
+   `Direccion` VARCHAR(255) NULL DEFAULT NULL,
+   `Telefono` VARCHAR(255) NULL DEFAULT NULL,
+   `Vendedor` VARCHAR(255) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+
+
 # Dump of table nb_facturacion_tbl
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `nb_facturacion_tbl`;
 
 CREATE TABLE `nb_facturacion_tbl` (
-  `nb_fact_1_fld` int(11) NOT NULL AUTO_INCREMENT,
+  `nb_fact_1_fld` int(11) NOT NULL,
   `nb_fact_2_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nb_fact_3_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
   `nb_fact_4_fld` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
@@ -746,6 +830,26 @@ VALUES
 	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_7_fld','nb_detaf_7_fld'),
 	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_8_fld','nb_detaf_8_fld'),
 	('nb_detallef_pg','nb_detallef_tbl','nb_detaf_9_fld','nb_detaf_9_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_10_fld','nb_fact_10_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_11_fld','nb_fact_11_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_12_fld','nb_fact_12_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_13_fld','nb_fact_13_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_14_fld','nb_fact_14_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_15_fld','nb_fact_15_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_16_fld','nb_fact_16_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_17_fld','nb_fact_17_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_18_fld','nb_fact_18_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_19_fld','nb_fact_19_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_1_fld','nb_fact_1_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_20_fld','nb_fact_20_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_2_fld','nb_fact_2_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_3_fld','nb_fact_3_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_4_fld','nb_fact_4_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_5_fld','nb_fact_5_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_6_fld','nb_fact_6_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_7_fld','nb_fact_7_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_8_fld','nb_fact_8_fld'),
+	('nb_facturacion_m_pg','nb_facturacion_tbl','nb_fact_9_fld','nb_fact_9_fld'),
 	('nb_facturacion_pg','nb_facturacion_tbl','nb_fact_10_fld','nb_fact_10_fld'),
 	('nb_facturacion_pg','nb_facturacion_tbl','nb_fact_11_fld','nb_fact_11_fld'),
 	('nb_facturacion_pg','nb_facturacion_tbl','nb_fact_12_fld','nb_fact_12_fld'),
@@ -973,7 +1077,7 @@ LOCK TABLES `nb_forms_tbl` WRITE;
 
 INSERT INTO `nb_forms_tbl` (`nb_id_page_fld`, `nb_id_pr_schema_fld`, `nb_config_frmwrk_id_fld`, `nb_schem_value_fld`)
 VALUES
-	('0','0',0,NULL),
+	('nb_facturacion_m_pg','nb_fact_10_fld',11,'true'),
 	('home','image',13,'string'),
 	('home','image',32,'image'),
 	('home','image',35,'bootstrap-display'),
@@ -1095,11 +1199,11 @@ VALUES
 	('nb_detallef_pg','nb_detaf_9_fld',11,'false'),
 	('nb_detallef_pg','nb_detaf_9_fld',13,'string'),
 	('nb_detallef_pg','nb_detaf_9_fld',24,'Valor Total'),
-	('nb_facturacion_pg','nb_fact_10_fld',11,'false'),
+	('nb_facturacion_pg','nb_fact_10_fld',11,'true'),
 	('nb_facturacion_pg','nb_fact_10_fld',13,'string'),
 	('nb_facturacion_pg','nb_fact_10_fld',24,'Codigo Vendedor'),
 	('nb_facturacion_pg','nb_fact_10_fld',36,'false'),
-	('nb_facturacion_pg','nb_fact_11_fld',11,'false'),
+	('nb_facturacion_pg','nb_fact_11_fld',11,'true'),
 	('nb_facturacion_pg','nb_fact_11_fld',13,'string'),
 	('nb_facturacion_pg','nb_fact_11_fld',24,'Tipo Factura'),
 	('nb_facturacion_pg','nb_fact_11_fld',32,'select'),
@@ -1162,11 +1266,11 @@ VALUES
 	('nb_facturacion_pg','nb_fact_4_fld',13,'string'),
 	('nb_facturacion_pg','nb_fact_4_fld',24,'Nombre o Razon Social'),
 	('nb_facturacion_pg','nb_fact_4_fld',36,'false'),
-	('nb_facturacion_pg','nb_fact_5_fld',11,'false'),
+	('nb_facturacion_pg','nb_fact_5_fld',11,'true'),
 	('nb_facturacion_pg','nb_fact_5_fld',13,'string'),
 	('nb_facturacion_pg','nb_fact_5_fld',24,'Direccion'),
 	('nb_facturacion_pg','nb_fact_5_fld',36,'false'),
-	('nb_facturacion_pg','nb_fact_6_fld',11,'false'),
+	('nb_facturacion_pg','nb_fact_6_fld',11,'true'),
 	('nb_facturacion_pg','nb_fact_6_fld',13,'string'),
 	('nb_facturacion_pg','nb_fact_6_fld',24,'Telefono'),
 	('nb_facturacion_pg','nb_fact_6_fld',36,'false'),
@@ -2064,6 +2168,7 @@ VALUES
 	('nb_vendedores_m_pg','nb_vend_1_fldX',13,'string'),
 	('nb_vendedores_m_pg','nb_vend_1_fldX',24,'Id Vendedor'),
 	('nb_vendedores_m_pg','nb_vend_1_fldX',32,'number'),
+	('nb_facturacion_m_pg','nb_fact_10_fld',24,'Codigo Vendedor'),
 	('nb_vendedores_m_pg','nb_vend_1_fldX',29,'true'),
 	('nb_proveedores_m_pg','nb_prov_1_fldX',11,'false'),
 	('nb_proveedores_m_pg','nb_prov_1_fldX',13,'string'),
@@ -2073,12 +2178,105 @@ VALUES
 	('nb_productos_m_pg','nb_prod_1_fldX',13,'string'),
 	('nb_productos_m_pg','nb_prod_1_fldX',24,'Id Producto'),
 	('nb_productos_m_pg','nb_prod_1_fldX',32,'number'),
+	('nb_facturacion_m_pg','nb_fact_10_fld',13,'string'),
 	('nb_productos_m_pg','nb_prod_1_fldX',29,'true'),
 	('nb_inventario_m_pg','nb_inve_1_fldX',11,'false'),
 	('nb_inventario_m_pg','nb_inve_1_fldX',13,'string'),
 	('nb_inventario_m_pg','nb_inve_1_fldX',24,'Cod Inventario'),
 	('nb_inventario_m_pg','nb_inve_1_fldX',32,'number'),
-	('nb_inventario_m_pg','nb_inve_1_fldX',29,'true');
+	('nb_inventario_m_pg','nb_inve_1_fldX',29,'true'),
+	('nb_facturacion_m_pg','nb_fact_10_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',11,'true'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',24,'Tipo Factura'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',32,'select'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',55,'../Events/ValoresCampo.php?campo=nb_tipofact_fld'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',58,'Seleccione Tipo'),
+	('nb_facturacion_m_pg','nb_fact_11_fld',59,'false'),
+	('nb_facturacion_m_pg','nb_fact_12_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_12_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_12_fld',24,'Observacion'),
+	('nb_facturacion_m_pg','nb_fact_12_fld',32,'textarea'),
+	('nb_facturacion_m_pg','nb_fact_12_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_13_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_13_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_13_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_13_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_14_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_14_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_14_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_14_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_15_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_15_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_15_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_15_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_16_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_16_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_16_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_16_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_17_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_17_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_17_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_17_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_18_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_18_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_18_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_18_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_19_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_19_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_19_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_19_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_1_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_1_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_1_fld',24,'# Factura'),
+	('nb_facturacion_m_pg','nb_fact_1_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_20_fld',11,'campo 18'),
+	('nb_facturacion_m_pg','nb_fact_20_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_20_fld',24,'campo'),
+	('nb_facturacion_m_pg','nb_fact_20_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_2_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_2_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_2_fld',24,'Campo'),
+	('nb_facturacion_m_pg','nb_fact_2_fld',36,'true'),
+	('nb_facturacion_m_pg','nb_fact_3_fld',11,'true'),
+	('nb_facturacion_m_pg','nb_fact_3_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_3_fld',24,'# Documento'),
+	('nb_facturacion_m_pg','nb_fact_3_fld',32,'number'),
+	('nb_facturacion_m_pg','nb_fact_3_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_3_fld',62,'function(e) {buscarCliente(this.getValue());}'),
+	('nb_facturacion_m_pg','nb_fact_4_fld',11,'true'),
+	('nb_facturacion_m_pg','nb_fact_4_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_4_fld',24,'Nombre o Razon Social'),
+	('nb_facturacion_m_pg','nb_fact_4_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_5_fld',11,'true'),
+	('nb_facturacion_m_pg','nb_fact_5_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_5_fld',24,'Direccion'),
+	('nb_facturacion_m_pg','nb_fact_5_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_6_fld',11,'true'),
+	('nb_facturacion_m_pg','nb_fact_6_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_6_fld',24,'Telefono'),
+	('nb_facturacion_m_pg','nb_fact_6_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_7_fld',6,'email'),
+	('nb_facturacion_m_pg','nb_fact_7_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_7_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_7_fld',24,'Email'),
+	('nb_facturacion_m_pg','nb_fact_7_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_8_fld',6,'date'),
+	('nb_facturacion_m_pg','nb_fact_8_fld',11,'true'),
+	('nb_facturacion_m_pg','nb_fact_8_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_8_fld',24,'Fecha Factura'),
+	('nb_facturacion_m_pg','nb_fact_8_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_8_fld',56,'DD/MM/YYYY'),
+	('nb_facturacion_m_pg','nb_fact_9_fld',6,'date'),
+	('nb_facturacion_m_pg','nb_fact_9_fld',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_9_fld',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_9_fld',24,'Fecha Vencimiento'),
+	('nb_facturacion_m_pg','nb_fact_9_fld',36,'false'),
+	('nb_facturacion_m_pg','nb_fact_1_fldX',11,'false'),
+	('nb_facturacion_m_pg','nb_fact_1_fldX',13,'string'),
+	('nb_facturacion_m_pg','nb_fact_1_fldX',24,'# Factura'),
+	('nb_facturacion_m_pg','nb_fact_1_fldX',29,'true');
 
 /*!40000 ALTER TABLE `nb_forms_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -2209,7 +2407,8 @@ VALUES
 	('nb_vendedores_v_pg','nb_vendedores_m_pg'),
 	('nb_proveedores_v_pg','nb_proveedores_m_pg'),
 	('nb_productos_v_pg','nb_productos_m_pg'),
-	('nb_inventario_v_pg','nb_inventario_m_pg');
+	('nb_inventario_v_pg','nb_inventario_m_pg'),
+	('nb_facturacion_v_pg','nb_facturacion_m_pg');
 
 /*!40000 ALTER TABLE `nb_link_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3011,7 +3210,65 @@ VALUES
 	('nb_inventario_m_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
 	('nb_inventario_m_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
 	('nb_inventario_m_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
-	('nb_inventario_m_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N');
+	('nb_inventario_m_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_factura_de_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_factura_de_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
+	('nb_factura_de_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
+	('nb_factura_de_pg',4,2,2,'Consulta Clientes','nb_clientes_v_pg','fa fa-search','N'),
+	('nb_factura_de_pg',5,0,3,'Vendedores','nb_vendedores_pg','fa fa-user','N'),
+	('nb_factura_de_pg',6,5,1,'Ingreso Vendedores','nb_vendedores_pg','fa fa-plus','N'),
+	('nb_factura_de_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
+	('nb_factura_de_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
+	('nb_factura_de_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
+	('nb_factura_de_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
+	('nb_factura_de_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
+	('nb_factura_de_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
+	('nb_factura_de_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
+	('nb_factura_de_pg',14,0,6,'Inventario','nb_inventario_pg','fa fa-archive','N'),
+	('nb_factura_de_pg',15,14,1,'Ingreso Inventario','nb_inventario_pg','fa fa-plus','N'),
+	('nb_factura_de_pg',16,14,2,'Consulta Inventario','nb_inventario_v_pg','fa fa-search','N'),
+	('nb_factura_de_pg',17,0,7,'Facturacion','nb_facturacion_pg','fa fa-dollar','N'),
+	('nb_factura_de_pg',18,17,1,'Ingreso factura','nb_facturacion_pg','fa fa-plus','N'),
+	('nb_factura_de_pg',19,17,2,'Consulta Factura','nb_facturacion_v_pg','fa fa-search','N'),
+	('nb_factura_de_pg',20,0,8,'Reportes','nb_reporte_1_pg','fa fa-line-chart','N'),
+	('nb_factura_de_pg',21,20,1,'Facturacion Diaria','nb_reporte_1_pg','fa fa-area-chart','N'),
+	('nb_factura_de_pg',22,20,2,'Facturacion Mensual','nb_reporte_2_pg','fa fa-bar-chart','N'),
+	('nb_factura_de_pg',23,0,9,'Usuarios Software','nb_users_pg','fa fa-users','N'),
+	('nb_factura_de_pg',24,23,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_factura_de_pg',25,23,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_factura_de_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
+	('nb_factura_de_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_factura_de_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_factura_de_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N'),
+	('nb_facturacion_m_pg',1,0,1,'Home','home','fa fa-home','N'),
+	('nb_facturacion_m_pg',2,0,2,'Clientes','nb_clientes_pg','fa fa-user','N'),
+	('nb_facturacion_m_pg',3,2,1,'Ingreso Clientes','nb_clientes_pg','fa fa-plus','N'),
+	('nb_facturacion_m_pg',4,2,2,'Consulta Clientes','nb_clientes_v_pg','fa fa-search','N'),
+	('nb_facturacion_m_pg',5,0,3,'Vendedores','nb_vendedores_pg','fa fa-user','N'),
+	('nb_facturacion_m_pg',6,5,1,'Ingreso Vendedores','nb_vendedores_pg','fa fa-plus','N'),
+	('nb_facturacion_m_pg',7,5,2,'Consulta Vendedores','nb_vendedores_v_pg','fa fa-search','N'),
+	('nb_facturacion_m_pg',8,0,4,'Proveedores','nb_proveedores_pg','fa fa-user','N'),
+	('nb_facturacion_m_pg',9,8,1,'Ingreso Proveedores','nb_proveedores_pg','fa fa-plus','N'),
+	('nb_facturacion_m_pg',10,8,2,'Consulta Proveedores','nb_proveedores_v_pg','fa fa-search','N'),
+	('nb_facturacion_m_pg',11,0,5,'Productos','nb_productos_pg','fa fa-dot-circle-o','N'),
+	('nb_facturacion_m_pg',12,11,1,'Ingreso Productos','nb_productos_pg','fa fa-plus','N'),
+	('nb_facturacion_m_pg',13,11,2,'Consulta de Productos','nb_productos_v_pg','fa fa-search','N'),
+	('nb_facturacion_m_pg',14,0,6,'Inventario','nb_inventario_pg','fa fa-archive','N'),
+	('nb_facturacion_m_pg',15,14,1,'Ingreso Inventario','nb_inventario_pg','fa fa-plus','N'),
+	('nb_facturacion_m_pg',16,14,2,'Consulta Inventario','nb_inventario_v_pg','fa fa-search','N'),
+	('nb_facturacion_m_pg',17,0,7,'Facturacion','nb_facturacion_pg','fa fa-dollar','N'),
+	('nb_facturacion_m_pg',18,17,1,'Ingreso factura','nb_facturacion_pg','fa fa-plus','N'),
+	('nb_facturacion_m_pg',19,17,2,'Consulta Factura','nb_facturacion_v_pg','fa fa-search','N'),
+	('nb_facturacion_m_pg',20,0,8,'Reportes','nb_reporte_1_pg','fa fa-line-chart','N'),
+	('nb_facturacion_m_pg',21,20,1,'Facturacion Diaria','nb_reporte_1_pg','fa fa-area-chart','N'),
+	('nb_facturacion_m_pg',22,20,2,'Facturacion Mensual','nb_reporte_2_pg','fa fa-bar-chart','N'),
+	('nb_facturacion_m_pg',23,0,9,'Usuarios Software','nb_users_pg','fa fa-users','N'),
+	('nb_facturacion_m_pg',24,23,1,'Ingreso Usuarios','nb_users_pg','fa fa-plus','N'),
+	('nb_facturacion_m_pg',25,23,2,'Consulta Usuarios','nb_loginv_pg','fa fa-search','N'),
+	('nb_facturacion_m_pg',26,0,10,'Configuracion','home','fa fa-cog','N'),
+	('nb_facturacion_m_pg',27,26,1,'Cambio de Contrase&#241;a','nb_password_pg','fa fa-key','N'),
+	('nb_facturacion_m_pg',28,26,2,'Ayuda','ayuda','fa fa-life-buoy','N'),
+	('nb_facturacion_m_pg',29,0,11,'Cerrar sesion','login','fa fa-sign-out','N');
 
 /*!40000 ALTER TABLE `nb_navigation_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3054,7 +3311,8 @@ VALUES
 	('nb_vendedores_m_pg','wizard','true','../Events/','nabuSave','1','post',''),
 	('nb_proveedores_m_pg','wizard','true','../Events/','nabuSave','1','post',''),
 	('nb_productos_m_pg','wizard','true','../Events/','nabuSave','1','post',''),
-	('nb_inventario_m_pg','wizard','true','../Events/','nabuSave','1','post','');
+	('nb_inventario_m_pg','wizard','true','../Events/','nabuSave','1','post',''),
+	('nb_facturacion_m_pg','wizard','true','../Events/','nabuFactura','0','post','');
 
 /*!40000 ALTER TABLE `nb_option_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3176,6 +3434,24 @@ VALUES
 	('nb_detallef_pg',15),
 	('nb_detallef_pg',16),
 	('nb_detallef_pg',22),
+	('nb_facturacion_m_pg',1),
+	('nb_facturacion_m_pg',2),
+	('nb_facturacion_m_pg',3),
+	('nb_facturacion_m_pg',4),
+	('nb_facturacion_m_pg',5),
+	('nb_facturacion_m_pg',6),
+	('nb_facturacion_m_pg',7),
+	('nb_facturacion_m_pg',8),
+	('nb_facturacion_m_pg',9),
+	('nb_facturacion_m_pg',10),
+	('nb_facturacion_m_pg',12),
+	('nb_facturacion_m_pg',13),
+	('nb_facturacion_m_pg',15),
+	('nb_facturacion_m_pg',16),
+	('nb_facturacion_m_pg',17),
+	('nb_facturacion_m_pg',19),
+	('nb_facturacion_m_pg',22),
+	('nb_facturacion_m_pg',23),
 	('nb_facturacion_pg',1),
 	('nb_facturacion_pg',2),
 	('nb_facturacion_pg',3),
@@ -3207,6 +3483,19 @@ VALUES
 	('nb_facturacion_v_pg',18),
 	('nb_facturacion_v_pg',19),
 	('nb_facturacion_v_pg',20),
+	('nb_factura_de_pg',1),
+	('nb_factura_de_pg',2),
+	('nb_factura_de_pg',3),
+	('nb_factura_de_pg',6),
+	('nb_factura_de_pg',9),
+	('nb_factura_de_pg',10),
+	('nb_factura_de_pg',12),
+	('nb_factura_de_pg',13),
+	('nb_factura_de_pg',16),
+	('nb_factura_de_pg',17),
+	('nb_factura_de_pg',18),
+	('nb_factura_de_pg',19),
+	('nb_factura_de_pg',20),
 	('nb_inventario_m_pg',1),
 	('nb_inventario_m_pg',2),
 	('nb_inventario_m_pg',3),
@@ -3535,7 +3824,9 @@ VALUES
 	('nb_vendedores_m_pg','Ingreso Vendedores','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
 	('nb_proveedores_m_pg','Ingreso Proveedores','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
 	('nb_productos_m_pg','Ingreso Productos','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
-	('nb_inventario_m_pg','Ingreso Inventario','forms','alpaca','bootstrap-edit-horizontal',NULL,'false');
+	('nb_inventario_m_pg','Ingreso Inventario','forms','alpaca','bootstrap-edit-horizontal',NULL,'false'),
+	('nb_factura_de_pg','Detalle Factura','dataGrids','datagrid',NULL,NULL,'false'),
+	('nb_facturacion_m_pg','Facturacion','forms','alpaca','bootstrap-edit-horizontal',NULL,'false');
 
 /*!40000 ALTER TABLE `nb_pages_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3698,8 +3989,10 @@ VALUES
 	(1,'nb_clientes_pg'),
 	(1,'nb_clientes_v_pg'),
 	(1,'nb_detallef_pg'),
+	(1,'nb_facturacion_m_pg'),
 	(1,'nb_facturacion_pg'),
 	(1,'nb_facturacion_v_pg'),
+	(1,'nb_factura_de_pg'),
 	(1,'nb_inventario_m_pg'),
 	(1,'nb_inventario_pg'),
 	(1,'nb_inventario_v_pg'),
@@ -3778,7 +4071,8 @@ VALUES
 	('nb_vendedores_m_pg','Vendedores',NULL,'object'),
 	('nb_proveedores_m_pg','Proveedores',NULL,'object'),
 	('nb_productos_m_pg','Productos',NULL,'object'),
-	('nb_inventario_m_pg','Inventario',NULL,'object');
+	('nb_inventario_m_pg','Inventario',NULL,'object'),
+	('nb_facturacion_m_pg','Facturacion',NULL,'object');
 
 /*!40000 ALTER TABLE `nb_schema_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -3850,16 +4144,16 @@ VALUES
 	('nb_facturacion_tbl','nb_fact_17_fld','string',255,'N','N',NULL),
 	('nb_facturacion_tbl','nb_fact_18_fld','string',255,'N','N',NULL),
 	('nb_facturacion_tbl','nb_fact_19_fld','string',255,'N','N',NULL),
-	('nb_facturacion_tbl','nb_fact_1_fld','string',255,'N','N',NULL),
+	('nb_facturacion_tbl','nb_fact_1_fld','string',255,'Y','N',NULL),
 	('nb_facturacion_tbl','nb_fact_20_fld','string',255,'N','N',NULL),
 	('nb_facturacion_tbl','nb_fact_2_fld','string',255,'N','N',NULL),
-	('nb_facturacion_tbl','nb_fact_3_fld','string',255,'N','N',NULL),
+	('nb_facturacion_tbl','nb_fact_3_fld','number',255,'N','N',NULL),
 	('nb_facturacion_tbl','nb_fact_4_fld','string',255,'N','N',NULL),
 	('nb_facturacion_tbl','nb_fact_5_fld','string',255,'N','N',NULL),
 	('nb_facturacion_tbl','nb_fact_6_fld','string',255,'N','N',NULL),
 	('nb_facturacion_tbl','nb_fact_7_fld','string',255,'N','N',NULL),
-	('nb_facturacion_tbl','nb_fact_8_fld','string',255,'N','N',NULL),
-	('nb_facturacion_tbl','nb_fact_9_fld','string',255,'N','N',NULL),
+	('nb_facturacion_tbl','nb_fact_8_fld','date',255,'N','N',NULL),
+	('nb_facturacion_tbl','nb_fact_9_fld','date',255,'N','N',NULL),
 	('nbd_role_user_tbl','nb_id_role_fld','number',11,'N','N',NULL),
 	('nb_inventario_tbl','nb_inve_10_fld','string',255,'N','N',NULL),
 	('nb_inventario_tbl','nb_inve_11_fld','string',255,'N','N',NULL),
@@ -4318,7 +4612,27 @@ VALUES
 	(17,'nb_inventario_m_pg','nb_inve_17_fld',4,2),
 	(18,'nb_inventario_m_pg','nb_inve_18_fld',4,3),
 	(19,'nb_inventario_m_pg','nb_inve_19_fld',4,4),
-	(20,'nb_inventario_m_pg','nb_inve_20_fld',4,5);
+	(20,'nb_inventario_m_pg','nb_inve_20_fld',4,5),
+	(1,'nb_facturacion_m_pg','nb_fact_1_fldX',1,1),
+	(2,'nb_facturacion_m_pg','nb_fact_2_fld',1,2),
+	(3,'nb_facturacion_m_pg','nb_fact_3_fld',1,3),
+	(4,'nb_facturacion_m_pg','nb_fact_4_fld',1,4),
+	(5,'nb_facturacion_m_pg','nb_fact_5_fld',2,1),
+	(6,'nb_facturacion_m_pg','nb_fact_6_fld',2,2),
+	(7,'nb_facturacion_m_pg','nb_fact_7_fld',2,3),
+	(8,'nb_facturacion_m_pg','nb_fact_8_fld',3,1),
+	(9,'nb_facturacion_m_pg','nb_fact_9_fld',3,2),
+	(10,'nb_facturacion_m_pg','nb_fact_10_fld',3,3),
+	(11,'nb_facturacion_m_pg','nb_fact_11_fld',3,4),
+	(12,'nb_facturacion_m_pg','nb_fact_12_fld',3,5),
+	(13,'nb_facturacion_m_pg','nb_fact_13_fld',3,6),
+	(14,'nb_facturacion_m_pg','nb_fact_14_fld',3,7),
+	(15,'nb_facturacion_m_pg','nb_fact_15_fld',3,8),
+	(16,'nb_facturacion_m_pg','nb_fact_16_fld',4,1),
+	(17,'nb_facturacion_m_pg','nb_fact_17_fld',4,2),
+	(18,'nb_facturacion_m_pg','nb_fact_18_fld',4,3),
+	(19,'nb_facturacion_m_pg','nb_fact_19_fld',4,4),
+	(20,'nb_facturacion_m_pg','nb_fact_20_fld',4,5);
 
 /*!40000 ALTER TABLE `nb_wizard_bind_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -4379,7 +4693,10 @@ VALUES
 	(3,'nb_productos_m_pg','next','Siguiente',NULL,NULL),
 	(1,'nb_inventario_m_pg','submit','Actualizar',NULL,NULL),
 	(2,'nb_inventario_m_pg','previous','Atras',NULL,NULL),
-	(3,'nb_inventario_m_pg','next','Siguiente',NULL,NULL);
+	(3,'nb_inventario_m_pg','next','Siguiente',NULL,NULL),
+	(1,'nb_facturacion_m_pg','submit','Detalle',NULL,NULL),
+	(2,'nb_facturacion_m_pg','previous','Atras',NULL,NULL),
+	(3,'nb_facturacion_m_pg','next','Siguiente',NULL,NULL);
 
 /*!40000 ALTER TABLE `nb_wizard_buttons_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -4432,7 +4749,10 @@ VALUES
 	(3,'nb_proveedores_m_pg','Otros Datos','Observaciones'),
 	(1,'nb_productos_m_pg','Producto','Detalle'),
 	(2,'nb_productos_m_pg','Producto','Precio Venta'),
-	(1,'nb_inventario_m_pg','Productos','Ingreso Inventario');
+	(1,'nb_inventario_m_pg','Productos','Ingreso Inventario'),
+	(1,'nb_facturacion_m_pg','Cliente','Datos Basicos'),
+	(2,'nb_facturacion_m_pg','Cliente','Datos Contacto'),
+	(3,'nb_facturacion_m_pg','Factura','Detalle');
 
 /*!40000 ALTER TABLE `nb_wizard_steps_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -4470,7 +4790,8 @@ VALUES
 	(11,'nb_vendedores_pg','','','true'),
 	(12,'nb_proveedores_pg','','','true'),
 	(13,'nb_productos_pg','Productos',NULL,'true'),
-	(14,'nb_inventario_pg','Inventario',NULL,'true');
+	(14,'nb_inventario_pg','Inventario',NULL,'true'),
+	(15,'nb_facturacion_pg','Facturacion',NULL,'true');
 
 /*!40000 ALTER TABLE `nb_wizard_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -4632,6 +4953,22 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 AS SELECT
    'Data' AS `Columna_1`,'Data' AS `Columna_2`,'Data' AS `Columna_3`,'Data' AS `Columna_4`,'Data' AS `Columna_5`,'Data' AS `Columna_6`,'Data' AS `Columna_7`,'Data' AS `Columna_8`
 FROM `nb_config_frmwrk_tbl`;
+
+
+# Replace placeholder table for nb_factura_vw with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `nb_factura_vw`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `nb_factura_vw`
+AS SELECT
+   `a`.`nb_fact_1_fld` AS `Factura`,ifnull(`d`.`nb_value_fld`,'Factura') AS `Tipo`,concat('$',format(ifnull(sum(`f`.`Total`),0),2)) AS `Monto`,
+   `a`.`nb_fact_8_fld` AS `Fecha_Factura`,
+   `a`.`nb_fact_9_fld` AS `Vencimiento`,ucase(ifnull(`c`.`nb_value_fld`,'Cedula Ciudadania')) AS `Tipo_Documento`,
+   `a`.`nb_fact_3_fld` AS `Documento`,ucase(`a`.`nb_fact_4_fld`) AS `Nombre`,ucase(`a`.`nb_fact_5_fld`) AS `Direccion`,
+   `a`.`nb_fact_6_fld` AS `Telefono`,ucase(ifnull(`e`.`nb_vend_4_fld`,
+   `a`.`nb_fact_10_fld`)) AS `Vendedor`
+FROM (((((`nb_facturacion_tbl` `a` left join `nb_clientes_tbl` `b` on((`a`.`nb_fact_3_fld` = `b`.`nb_clie_3_fld`))) left join `nb_value_tbl` `c` on(((`c`.`nb_id_value_fld` = `b`.`nb_clie_2_fld`) and (`c`.`nb_id_pr_schema_fld` = 'nb_tipodoc_fld')))) left join `nb_value_tbl` `d` on(((`d`.`nb_id_value_fld` = `a`.`nb_fact_11_fld`) and (`d`.`nb_id_pr_schema_fld` = 'nb_tipofact_fld')))) left join `nb_vendedores_tbl` `e` on((`a`.`nb_fact_10_fld` = `e`.`nb_vend_1_fld`))) left join `nb_detallef_tbl` `f` on((concat(`a`.`nb_fact_1_fld`,'-') like substr(`f`.`Factura`,1,locate('-',`f`.`Factura`))))) group by `a`.`nb_fact_1_fld`,ifnull(`d`.`nb_value_fld`,'Factura'),`a`.`nb_fact_8_fld`,`a`.`nb_fact_9_fld`,ucase(ifnull(`c`.`nb_value_fld`,'Cedula Ciudadania')),`a`.`nb_fact_3_fld`,ucase(`a`.`nb_fact_4_fld`),ucase(`a`.`nb_fact_5_fld`),`a`.`nb_fact_6_fld`,ucase(ifnull(`e`.`nb_vend_4_fld`,`a`.`nb_fact_10_fld`));
 
 
 # Replace placeholder table for nb_proveedores_vw with correct view syntax

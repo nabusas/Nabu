@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 26-01-2016
+	Fecha modificacion	= 29-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -76,6 +76,26 @@ THE SOFTWARE.
             $this->db=$this->cx->desconectar();
             return $row;
         }
+        
+        
+        function setInvoiceDeta($fact){
+            $i=1;
+            for ($i=1; $i<21; $i++){
+                
+                if ($linea < 9 )
+                    $linea='0'.$i;
+                else
+                    $linea=$i;
+                
+                $sql ="insert into nb_detallef_tbl (factura) values('".$fact."-".$linea."')";
+                $this->execute($sql);
+            }    
+        }
+        function getInvoiceNum(){
+            $sql ="SELECT IFNULL(MAX(nb_fact_1_fld),0)+1 from nb_facturacion_tbl";
+            return $this->executeQueryOneRow($sql);
+        }
+        
         
         function getEnterprise($enter){
             $sql ="select nb_host_fld,nb_db_fld,nb_user_fld,nb_pass_fld from nb_enterprise_tbl where nb_enterprise_id_fld='" .$enter. "'";

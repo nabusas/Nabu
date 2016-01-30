@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 27-01-2016
+	Fecha modificacion	= 29-01-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -129,9 +129,11 @@ class TemplatePage
                         <div style="margin:10px">
                             <?php 
                                 echo $this->render;
-                                $csv=$this->objUtilities->fileDatagrid($this->idPage); 
-                                 echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
-                                 echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
+                                $csv=$this->objUtilities->fileDatagrid($this->idPage);
+                                 if ($csv <> '' and $this->idPage <> 'nb_factura_de_pg'){
+                                    echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
+                                    echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
+                                 }
                             ?>
                         </div>
                     <?php
