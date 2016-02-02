@@ -35,15 +35,15 @@ THE SOFTWARE.
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
+   
     $facturaN=$database->getInvoiceNum();
     $factura=$facturaN[0];
-        
-    $_POST["nb_fact_1_fld"]=$factura.'-';
+    $_POST["nb_fact_1_fld"]=$factura;
     $accion=$_GET['accion'];
     
-    $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-	$result=$nabuEvent->getEventSql($accion);
-    $database->setInvoiceDeta($factura);
+     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
+	 $result=$nabuEvent->getEventSql($accion);
+     $database->setInvoiceDeta($factura);
 
 
     if ($factura != 0)

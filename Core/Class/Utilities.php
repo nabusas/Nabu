@@ -265,11 +265,6 @@ class Utilities
                                     $value=$this->database->getDatavalueW($field[1],$field[0],$where);
                                     $type =$this->database->getTypes($field[1],$field[0]);
                                     
-                                    switch($type[0]) {
-                                        case 'date':
-                                            $value[0]='';
-                                    }
-                                    
                                     $fieldsData[$field[0]]=$value[0];
                                 }
                             }
@@ -295,10 +290,6 @@ class Utilities
                                         $fieldsData[$fieldx[0]]=$value[0];
                                     }    
                                 }    
-                            }
-                        }
-                        else{
-                            if ($_GET['accion']=='bd'){
                             }
                         }
                     }
@@ -415,11 +406,12 @@ class Utilities
         $v5=chr(34).chr(123); $c5=chr(123);                                 // "{           se cambia por  {
         $v6=chr(92).chr(34);  $c6=chr(34);                                  // \"           se cambia por  "
         $v7=chr(125).chr(34);  $c7=chr(125);                                // }"           se cambia por  }
-        $v8=chr(125).chr(32).chr(34).chr(125);  $c8=chr(125).chr(125);      // }espacio"}    se cambia por  }}
+        $v8=chr(125).chr(32).chr(34).chr(125);  $c8=chr(125).chr(125);      // }espacio"}   se cambia por  }}
+        $v9=chr(92).chr(47); $c9=chr(47);                                   //\/            se cambia por /
         
         
-        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8);
-        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8);
+        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9);
+        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9);
         
         for ($i=0; $i<sizeof($chars); $i++)
             $json=str_replace($chars[$i],$correc[$i],$json);    
@@ -431,7 +423,7 @@ class Utilities
         
         $JsonSchema =json_encode($schema);
         $JsonOptions=$this->fixedJson(json_encode($options));
-        $JsonData=json_encode($data);
+        $JsonData=$this->fixedJson(json_encode($data));
         $JsonView=json_encode($view, JSON_PRETTY_PRINT);    
         
 		if  ($imprimirJsons == "true") {
