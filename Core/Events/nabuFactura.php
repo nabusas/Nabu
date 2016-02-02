@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 29-01-2016
+	Fecha modificacion	= 02-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -35,10 +35,14 @@ THE SOFTWARE.
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-   
-    $facturaN=$database->getInvoiceNum();
-    $factura=$facturaN[0];
-    $_POST["nb_fact_1_fld"]=$factura;
+    if (!isset($_POST["nb_fact_1_fld"]) or $_POST["nb_fact_1_fld"] ==''){
+        $facturaN=$database->getInvoiceNum();
+        $factura=$facturaN[0];
+        $_POST["nb_fact_1_fld"]=$factura;
+    }
+    else
+        $factura=$_POST["nb_fact_1_fld"];
+
     $accion=$_GET['accion'];
     
      $nabuEvent = new NabuEvent($_GET['p'], $_POST);
