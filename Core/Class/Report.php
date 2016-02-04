@@ -56,7 +56,7 @@ class Report
 		$auto_page_break = $this->pdf->getAutoPageBreak();
 		$this->pdf->SetAutoPageBreak(false, 0);
 
-        $this->pdf->Image(K_PATH_IMAGES.'logo.png',10,10, 30, 0, '', '', '', false, 0);
+        $this->pdf->Image(K_PATH_IMAGES.'logo.png',10,12, 30, 0, '', '', '', false, 0);
 
         $this->pdf->SetAutoPageBreak($auto_page_break, $bMargin);
 	}
@@ -67,65 +67,90 @@ class Report
         ob_end_flush();
 	}
     
-	function schemaReport($tamanoFuenteForm,$cabecera)
+	function schemaReport($tamanoFuenteForm,$cabecera,$detalle,$totales)
 	{
 
+        $borde=1;
+        $w=5;
+        
         $this->pdf->Ln(15);
 
-		$this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
-        $this->pdf->Cell(0, 5,$cabecera['Tipo_Factura'].' Numero '.$cabecera['Id'], 0, 1, 'C');
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
+        $this->pdf->Cell(278,$w,$cabecera['Tipo_Factura'].' Numero '.$cabecera['Id'], $borde, 1, 'C');
         $this->pdf->Ln(5);
         
         $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(35, 5,"Fecha Factura:",0,0, 'L');
+        $this->pdf->Cell(35,$w,"Fecha Factura:",$borde,0, 'L');
         $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(30, 6,$cabecera['Fecha_Factura'],0,0, 'L');
+        $this->pdf->Cell(100,$w,$cabecera['Fecha_Factura'],$borde,0, 'L');
         
         $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(45, 5,"Fecha Vencimiento:",0,0, 'L');
+        $this->pdf->Cell(40,$w,"Fecha Vencimiento:",$borde,0, 'L');
         $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(30, 6,$cabecera['Vencimiento'],0,0, 'L');
+        $this->pdf->Cell(103,$w,$cabecera['Vencimiento'],$borde,0, 'L');
+        
+        $this->pdf->Ln(5);
+        
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $this->pdf->Cell(35,$w,"Cliente:",$borde,0, 'L');
+        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $this->pdf->Cell(100,$w,$cabecera['Nombre'],$borde,0, 'L');
+    
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $this->pdf->Cell(40,$w,"Documento:",$borde,0, 'L');
+        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $this->pdf->Cell(103,$w,$cabecera['Tipo_Documento'].' # '.$cabecera['Documento'],$borde,0, 'L');
+        
+        $this->pdf->Ln(5);
+        
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $this->pdf->Cell(35,$w,"Direccion:",$borde,0, 'L');
+        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $this->pdf->Cell(100,$w,$cabecera['Direccion'],$borde,0, 'L');
+        
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $this->pdf->Cell(40,$w,"Telefono:",$borde,0, 'L');
+        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $this->pdf->Cell(30,$w,$cabecera['Telefono'],$borde,0, 'L');
+        
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $this->pdf->Cell(18,$w,"Email:",$borde,0, 'L');
+        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $this->pdf->Cell(55,$w,$cabecera['Email'],$borde,0, 'L');
+        
+        $this->pdf->Ln(5);
+        
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $this->pdf->Cell(35, $w,"Vendedor:",$borde,0, 'L');
+        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $this->pdf->Cell(243,$w,$cabecera['Vendedor'],$borde,0, 'L');
         
         $this->pdf->Ln(10);
         
         $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(30, 5,"Cliente:",0,0, 'L');
-        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(100, 6,$cabecera['Nombre'],0,0, 'L');
-        
-        $this->pdf->Ln(6);
-        
-        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(30, 5,"Documento:",0,0, 'L');
-        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(80, 6,$cabecera['Tipo_Documento'].' '.$cabecera['Documento'],0,0, 'L');
-        
-        $this->pdf->Ln(6);
-        
-        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(30, 5,"Direccion:",0,0, 'L');
-        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(100, 6,$cabecera['Direccion'],0,0, 'L');
-        
-        $this->pdf->Ln(6);
-        
-        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(30, 5,"Telefono:",0,0, 'L');
-        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(80, 6,$cabecera['Telefono'],0,0, 'L');
-        
-        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(18, 5,"Email:",0,0, 'L');
-        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(65, 6,$cabecera['Email'],0,0, 'L');
-        
-        $this->pdf->Ln(10);
-        
-        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $this->pdf->Cell(30, 5,"Vendedor:",0,0, 'L');
-        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $this->pdf->Cell(80, 6,$cabecera['Vendedor'],0,0, 'L');
+        $this->pdf->Cell(35,$w,'Cantidad', $borde,0,'C');
+        $this->pdf->Cell(100,$w,'Producto',$borde,0,'C');
+        $this->pdf->Cell(40,$w,'Precio',$borde,0,'C');
+        $this->pdf->Cell(30,$w,'Iva',$borde,0,'C');
+        $this->pdf->Cell(73,$w,'Total Linea',$borde,0,'C');
+        $this->pdf->Ln(5);
 
+        $this->pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
+        
+        for ($i=0; $i<sizeof($detalle); $i++){
+            $this->pdf->Cell(35,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
+            $this->pdf->Cell(100,$w,$detalle[$i]['Producto'],$borde,0,'C');
+            $this->pdf->Cell(40,$w,$detalle[$i]['Precio'],$borde,0,'C');
+            $this->pdf->Cell(30,$w,$detalle[$i]['Iva'],$borde,0,'C');
+            $this->pdf->Cell(73,$w,$detalle[$i]['Total'],$borde,0,'C');
+            $this->pdf->Ln(5);
+        }
+        
+        $this->pdf->Ln(5);
+        $this->pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $this->pdf->Cell(175,$w,'',0,0,'C');
+        $this->pdf->Cell(30,$w,'Total', $borde,0,'C');
+        $this->pdf->Cell(73,$w,$totales['Monto'], $borde,0,'C');
 		
 	}
 }

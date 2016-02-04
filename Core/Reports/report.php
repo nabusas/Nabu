@@ -50,12 +50,18 @@ if ( isset($_GET['tipo'])){
 
     $sql="Select * from nb_factura_C_Print_vw where Id=".$id;
     $cabecera=$database->executeQueryOneRow($sql);
-
-    $objReport = new Report('Facturacion','P','A4','Nabu','Nabu','Nabu','Nabu');
+    
+    $sql="Select * from nb_factura_d_print_vw where Id=".$id;
+    $detalle=$database->executeQuery($sql);
+    
+    $sql="select Monto from nb_factura_vw where Factura =".$id;
+    $totales=$database->executeQueryOneRow($sql);
+        
+    $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
     $objReport->setupForm();
 
-    $objReport->schemaReport(12,$cabecera);
+    $objReport->schemaReport(10,$cabecera,$detalle,$totales);
 
     $objReport->exportarPdf($id);
 }
