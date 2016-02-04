@@ -23,24 +23,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-	Fecha creacion		= 20-02-2015
+	Fecha creacion		= 04-02-2016
 	Desarrollador		= CAGC
-	Fecha modificacion	= 23-02-2015
+	Fecha modificacion	= 04-02-2016
 	Usuario Modifico	= CAGC
 
 */
 
+include "../Class/Utilities.php";
+include "../Class/Report.php";
 
-    class Button{
-        
-        var $title;
-        var $validate;
-        var $click;
-        var $name;
-        
-        function Button($title){
-            $this->title = $title;
-        }
-        
-    }
+$id=0;
+
+if ( isset($_GET['tipo'])){
+    $tipo=$_GET['tipo'];
+
+   if ($tipo == 'fact'){
+        if ( isset($_GET['id']))
+            $id=$_GET['id'];
+    
+    }   
+    session_start();
+
+    $objUtilities = $_SESSION['objUtilities'];
+    $database = $objUtilities->database;
+
+    $sql="Select * from nb_factura_C_Print_vw where Id=".$id;
+    $cabecera=$database->executeQueryOneRow($sql);
+
+    $objReport = new Report('Facturacion','P','A4','Nabu','Nabu','Nabu','Nabu');
+
+    $objReport->setupForm();
+
+    $objReport->schemaReport(12,$cabecera);
+
+    $objReport->exportarPdf($id);
+}
 ?>

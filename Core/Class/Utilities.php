@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 29-01-2016
+	Fecha modificacion	= 04-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -561,6 +561,9 @@ class Utilities
                 
                 if ($row[0]=='link')
                     $value="nabu.php?p=".$pageL[0]."&accion=b&".$value;
+                
+                if ($row[0]=='linkE')
+                    $row[0]='link';
                 
                  if ( $row[1] == 'number')
                     $value= (int)$value;
