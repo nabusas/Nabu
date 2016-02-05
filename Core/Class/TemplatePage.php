@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 29-01-2016
+	Fecha modificacion	= 05-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -133,6 +133,15 @@ class TemplatePage
                                  if ($csv <> '' and $this->idPage <> 'nb_factura_de_pg'){
                                     echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
                                     echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
+                                 }
+                                 else{
+                                    if (isset($_GET["factura"])){
+                                        $factura=$_GET["factura"];
+                                        if (!is_numeric($factura))
+                                            $factura=0;
+                                    }
+                                    echo "<br>";
+                                    echo "<a href='../Reports/report.php?tipo=fact&id=$factura' target='_blank'>Imprimir Factura</a>";   
                                  }
                             ?>
                         </div>
