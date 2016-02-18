@@ -42,13 +42,13 @@ class JsonData
         
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
-        echo '**1**='.$_SESSION['opridDescr'].'<br>';
+        echo '**1**='.$_SESSION['opriddescr'].'<br>';
         
         if ( $value=='nb_sysdate' )
             return date("Y-m-d H:i:sa");
         else
             if ( $value=='operatorId' )
-                return $_SESSION['opridDescr'];
+                return $_SESSION['opriddescr'];
         
         return $value;    
     }

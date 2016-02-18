@@ -55,14 +55,14 @@ THE SOFTWARE.
             $row = $objUtilities->database->validateRole($row[0]);
             $_SESSION['oprid'] = $row[0];
             $_SESSION['role'] = $row[0];
-            $_SESSION['opridDescr'] = $usuario;
+            $_SESSION['opriddescr'] = $usuario;
             header("location:../Pages/?p=home");
         }
         else
         {
             unset($_SESSION['oprid']);
             unset($_SESSION['role']);
-            unset($_SESSION['opridDescr']);
+            unset($_SESSION['opriddescr']);
             header("location:../Pages/?p=error");
         }
     }
