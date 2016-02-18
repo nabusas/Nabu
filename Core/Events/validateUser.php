@@ -62,6 +62,7 @@ THE SOFTWARE.
         {
             unset($_SESSION['oprid']);
             unset($_SESSION['role']);
+            unset($_SESSION['opridDescr']);
             header("location:../Pages/?p=error");
         }
     }

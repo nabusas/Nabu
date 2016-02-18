@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 05-01-2016
+	Fecha modificacion	= 18-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -38,6 +38,8 @@ class JsonData
     function replaceData($value){
         
         date_default_timezone_set("America/Bogota");
+        
+        echo '**1**'.$_SESSION['opridDescr'];
         
         if ( $value=='nb_sysdate' )
             return date("Y-m-d H:i:sa");
