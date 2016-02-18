@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 16-01-2016
+	Fecha modificacion	= 18-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -58,7 +58,10 @@ session_start();
                     if ($campo == 'city')
                         $sql="Select cc_codCiudad_fld,cc_descripc_fld from nb_city_tbl";
                     else
-                        $sql="Select nb_id_value_fld,nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."'";
+        		      if ($campo == 'Id_concepto')
+			             $sql='SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL ORDER BY ID_CONCEPTO,CC_TIPOCONCEPTO';
+                        else
+                            $sql="Select nb_id_value_fld,nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."'";
         
 		
         
