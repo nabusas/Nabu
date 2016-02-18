@@ -30,6 +30,8 @@ THE SOFTWARE.
 
 */
 
+session_start();
+
 class JsonData
 {
     public function JsonData(){
