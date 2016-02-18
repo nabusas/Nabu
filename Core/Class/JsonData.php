@@ -30,7 +30,6 @@ THE SOFTWARE.
 
 */
 
-session_start();
 
 class JsonData
 {
