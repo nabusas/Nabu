@@ -55,7 +55,7 @@ THE SOFTWARE.
             $row = $objUtilities->database->validateRole($row[0]);
             $_SESSION['oprid'] = $row[0];
             $_SESSION['role'] = $row[0];
-            $_SESSION['opridLogin'] = $usuario;
+            $_SESSION['opridLogin'] = '12345';
             header("location:../Pages/?p=home");
         }
         else
