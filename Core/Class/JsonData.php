@@ -39,7 +39,7 @@ class JsonData
         
         date_default_timezone_set("America/Bogota");
         
-        echo '**1**'.$_SESSION['opridDescr'];
+        session_start();
         
         if ( $value=='nb_sysdate' )
             return date("Y-m-d H:i:sa");
