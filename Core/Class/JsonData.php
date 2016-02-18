@@ -30,7 +30,9 @@ THE SOFTWARE.
 
 */
 
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+        
 class JsonData
 {
     public function JsonData(){
@@ -40,8 +42,7 @@ class JsonData
         
         date_default_timezone_set("America/Bogota");
         
-        error_reporting(E_ALL);
-        ini_set('display_errors', 1);
+        session_start();
         echo '**1**='.$_SESSION['opriddescr'].'<br>';
         
         if ( $value=='nb_sysdate' )

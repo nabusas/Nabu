@@ -54,7 +54,6 @@ class TemplatePage
         if ($this->tipo == 'datagrid')
         	$this->render=$this->objUtilities->getDataGrid($this->idPage);
         
-        session_start();
         $this->header();
         $this->body();
         $this->tail();
