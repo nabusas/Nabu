@@ -43,7 +43,7 @@ class JsonData
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
 
-        echo '**1**='.$_SESSION['opriddescr'].'<br>';
+        echo '**1**='.$_SESSION['opriDescr'].'<br>';
         echo '**2**='.$_SESSION['oprid'].'<br>';
         echo '**3**='.$_SESSION['role'].'<br>';
         
@@ -51,7 +51,7 @@ class JsonData
             return date("Y-m-d H:i:sa");
         else
             if ( $value=='operatorId' )
-                return $_SESSION['opriddescr'];
+                return $_SESSION['opriDescr'];
         
         return $value;    
     }
