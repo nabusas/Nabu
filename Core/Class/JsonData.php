@@ -43,7 +43,6 @@ class JsonData
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
 
-        session_start();
         echo '**1**='.$_SESSION['opriddescr'].'<br>';
         echo '**2**='.$_SESSION['oprid'].'<br>';
         echo '**3**='.$_SESSION['role'].'<br>';
