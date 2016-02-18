@@ -56,7 +56,7 @@ THE SOFTWARE.
             $_SESSION['oprid'] = $row[0];
             $_SESSION['role'] = $row[0];
             $_SESSION['opridLogin'] = '12345';
-            header("location:../Pages/?p=home");
+            //header("location:../Pages/?p=home");
         }
         else
         {
@@ -68,4 +68,10 @@ THE SOFTWARE.
     }
     else
         header("location:../Pages/?p=login");
+
+        echo '**1**='.$_SESSION['opridLogin'].'<br>';
+        echo '**2**='.$_SESSION['oprid'].'<br>';
+        echo '**3**='.$_SESSION['role'].'<br>';
+
+
 ?>
