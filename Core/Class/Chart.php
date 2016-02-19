@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 03-03-2015
+	Fecha modificacion	= 19-02-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -34,58 +34,61 @@ class Chart
 {
     var $labels;
     var $datasets;
+    var $oprid;
     
-    function Options(){
-      
+    function Chart(){
+      $this->oprid =$_SESSION['opridLogin'];    
     }
     
-    function labels($db,$id, $user){
+    function labels($db,$page){
         
-        $result= $db->Execute("Select nb_source_fld tabla from nb_chart_tbl where nb_id_page_fld = '$id'");
-        $row=$result->FetchRow();
-		$table =$row['tabla'];
+        $row=$db->getTablaChart($page);
+        $table =$row['tabla'];
         
-        $result= $db->Execute("Select nb_value_fld label from nb_chart_data_tbl where nb_id_page_fld = '$id' and nb_type_fld='label' ");
-        $row=$result->FetchRow();
-        $label =$row['label'];
+        $row=$db->getLabelChart($page);
+        $label =$row[0];
         
-        $result= $db->Execute("Select $label from $table where label like '$user%'");
+        $oprid =$_SESSION['opridLogin'];
+        
+        $rows=$db->getDataLabelChart($table,$label,$this->oprid);    
         
         if (!isset($this->labels))
             $this->labels = array();
       
-        while ($row = $result->FetchRow())
+        foreach($rows as $row)
             array_push($this->labels,$row[0]);
        
-        
     }
-    function bars($db,$id,$user){
+    
+    function bars($db,$page){
+        
         if (!isset($this->datasets))
             $this->datasets = array();
         
-        $result= $db->Execute("Select nb_source_fld tabla from nb_chart_tbl where nb_id_page_fld = '$id'");
-        $row=$result->FetchRow();
-		$table =$row['tabla'];
+        $row=$db->getTablaChart($page);
+        $table =$row['tabla'];
         
-        $result= $db->Execute("Select nb_value_fld, nb_color_fld from nb_chart_data_tbl where nb_id_page_fld = '$id' and nb_type_fld='column' order by nb_pos_fld ");
+        $rows=$db->getOptionsChart($page);
         
-        while ($row = $result->FetchRow()){
-            array_push($this->datasets,$this->bar($db,$table,$row[0],$user,$row[1]));
-        }
+        foreach($rows as $row)
+            array_push($this->datasets,$this->bar($db,$table,$row[0],$row[1]));
+        
+        
     }
     
-    function bar($db,$table,$field,$user,$color){
+    function bar($db,$table,$field,$color){
         
         if (!isset($bara))
         $bara= array();
         
         $fillColor=$color;
         
-        $result= $db->Execute("Select replace($field,',','') from $table where label like '$user%'");
+        $rows=$db->getDataChart($table,$field,$this->oprid);
+        
         $data = array();
         
-            while ($row = $result->FetchRow())
-                array_push($data,(float)$row[0]);
+        foreach($rows as $row)
+            array_push($data,(float)$row[0]);
         
         $bara ["title"]="Prueba";
         $bara ["fillColor"]=$fillColor;

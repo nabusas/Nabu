@@ -467,15 +467,14 @@ class Utilities
 
     }
     
-    function charts($id,$user){
+    function charts($id){
         
-        $this->database->conectar();
         $json = new Chart();
-        $json->labels($this->database,$id,$user);
-        $json->bars($this->database,$id,$user);
-        $this->database->desconectar();
+        $json->labels($this->database,$id);
+        $json->bars($this->database,$id);
         
 ?>
+    
        <script>
           function addCommas(nStr){
                 nStr += '';
@@ -503,6 +502,8 @@ class Utilities
             }
         
         </script>
+
+        
   
 <?php        
     }

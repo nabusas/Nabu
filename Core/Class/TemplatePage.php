@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 05-02-2016
+	Fecha modificacion	= 19-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -154,7 +154,7 @@ class TemplatePage
 			               <canvas id="canvas" height="300" width="600"></canvas> 
                         </div>
                     <?php
-                        $this->objUtilities->charts($this->idPage,'');  
+                        $this->objUtilities->charts($this->idPage);  
                     }
 
                     ?>

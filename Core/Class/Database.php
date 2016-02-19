@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 29-01-2016
+	Fecha modificacion	= 19-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -455,7 +455,30 @@ THE SOFTWARE.
             return $this->executeQuery($sql);   
         }
 
+        function getTablaChart($idPage){
+            $sql = "Select nb_source_fld tabla from nb_chart_tbl where nb_id_page_fld ='".$idPage."'";
+            return $this->executeQueryOneRow($sql);   
+        }
+        
+        function getLabelChart($idPage){
+            $sql = "Select nb_value_fld, nb_color_fld from nb_chart_data_tbl where nb_id_page_fld = '".$idPage."' and nb_type_fld='label' order by nb_pos_fld ";
+            return $this->executeQueryOneRow($sql);
+        }
+        
+        function getOptionsChart($idPage){
+            $sql = "Select nb_value_fld, nb_color_fld from nb_chart_data_tbl where nb_id_page_fld = '".$idPage."' and nb_type_fld='column' order by nb_pos_fld ";
+            return $this->executeQuery($sql);
+        }
          
-       
+        function getDataLabelChart($table,$label,$oprid){
+            $sql = "Select $label from $table where label like '$oprid%'";
+            return $this->executeQuery($sql);
+        }
+        
+        function getDataChart($table,$field,$oprid){
+            $sql = "Select replace($field,',','') from $table where label like '$oprid%'";
+            return $this->executeQuery($sql);
+        }
+            
     }
 ?>
