@@ -150,7 +150,7 @@ class TemplatePage
                     if ($this->tipo == 'chart'){
                         $this->objUtilities->legend($this->idPage);
                     ?>
-                        <div style="width: 100%">
+                        <div style="width: 90%">
 			               <canvas id="canvas" height="300" width="800"></canvas> 
                         </div>
                     <?php

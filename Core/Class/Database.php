@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-02-2016
+	Fecha modificacion	= 23-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -132,7 +132,7 @@ THE SOFTWARE.
         }
         
         function tableDataGrid($idPage){
-            $sql ="select nb_value_fld from nb_datagrid_tbl where  `nb_config_frmwrk_id_fld`=44 and nb_id_page_fld ='" . $idPage . "'";
+            $sql ="select nb_config_frmwrk_id_fld,nb_value_fld from nb_datagrid_tbl where  `nb_config_frmwrk_id_fld` in (44,65) and nb_id_page_fld ='" . $idPage . "'";
             return $this->executeQueryOneRow($sql);
         }
         

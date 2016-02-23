@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 29-01-2016
+	Fecha modificacion	= 23-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -36,16 +36,22 @@ class ExportExcel
     function ExportExcel(){
     }
     
-    function exportarFile($table)
+    function exportarFile($tipo,$sqlE)
 	{
 
+        if ($tipo=='44')
+            $sqlE="Select * from $sqlE";
+        else{
+            $sqlE=str_replace('operatorId',$_SESSION['opridLogin'],$sqlE);
+        }
+            
 		$dir="../uploads/";
         $filename = $dir.strtotime("now").'.csv';
     
         $mask = $dir."*.*";
         array_map( "unlink", glob( $mask ) );
 
-        $sql = mysql_query("SELECT * FROM $table") or die(mysql_error());
+        $sql = mysql_query($sqlE) or die(mysql_error());
 
         $num_rows = mysql_num_rows($sql);
     

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 04-02-2016
+	Fecha modificacion	= 23-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -85,10 +85,12 @@ class Utilities
 
     function fileDatagrid($page){
         $this->csv = new ExportExcel();
-        $table = $this->database->tableDataGrid($page);
+        $sql = $this->database->tableDataGrid($page);
+        
         $this->database->conectar();
-        $file=$this->csv->exportarFile($table[0]);
+        $file=$this->csv->exportarFile($sql[0],$sql[1]);
         $this->database->desconectar();
+        
         return $file;
     }
     
@@ -520,7 +522,7 @@ class Utilities
         while ($row = $result->FetchRow()){
             $value=$row[2];
             
-            if ( $row[0] <> 'table' ){
+            if ( $row[0] <> 'table' and  $row[0] <> 'where' ){
                 if ( $row[1] == 'number')
                     $value= (int)$value;
                 
@@ -530,23 +532,29 @@ class Utilities
                      else
                          $value= false;
                 }
-                    
+                
                 $grid[$row[0]] =$value;
             }
-            else{
-                if ($id == 'nb_factura_de_pg'){
-                        if (isset($_GET["factura"])){
-                            $factura=$_GET["factura"];
-                            if (!is_numeric($factura))
-                                $factura=0;
-                        }
-                        else
-                            $factura=0;
-                        
-                        $g->select_command="Select * from nb_detallef_tbl where factura like '".$factura."-%'";
-                }
-                
+            
+            if ($row[0] == 'sql'){
+                $value=str_replace('operatorId',$_SESSION['opridLogin'],$value);
+                $g->select_command=$value;
+                    
+            }
+            
+            if ($row[0] == 'table')
                 $g->table = $value;
+            
+            if ($id == 'nb_factura_de_pg'){
+                if (isset($_GET["factura"])){
+                    $factura=$_GET["factura"];
+                        if (!is_numeric($factura))
+                            $factura=0;
+                    }
+                    else
+                        $factura=0;
+
+                    $g->select_command="Select * from nb_detallef_tbl where factura like '".$factura."-%'";
             }
         }
 
