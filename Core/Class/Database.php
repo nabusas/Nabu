@@ -58,13 +58,20 @@ THE SOFTWARE.
         function executeQuery($sql){
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
-            $i = 0;
-            while($row = $result->FetchRow()){
-                $rows[$i] = $row;
-                $i++;
-            }
-
             $this->db=$this->cx->desconectar();
+            
+            if (!isset($rows))
+                $rows = array();
+            
+            if ($result){
+                $i=0;
+
+                while($row = $result->FetchRow()){
+                        $rows[$i] = $row;
+                        $i++;
+                }
+            }
+                
             return $rows;
         }
         
@@ -106,7 +113,7 @@ THE SOFTWARE.
             $sql ="SELECT a.nb_parent_fld,a.nb_id_menu_fld FROM nb_navigation_tbl a WHERE a.nb_id_page_fld='$id_page' and a.nb_sec_fld='$papa2'";
             return $this->executeQueryOneRow($sql);
         }
-        function menu2($id){
+        function menu2($id_page,$id){
             $sql ="SELECT a.nb_parent_fld FROM nb_navigation_tbl a WHERE a.nb_id_page_fld='$id_page' and a.nb_sec_fld='$id'";
             return $this->executeQueryOneRow($sql);
         }
@@ -318,6 +325,11 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }    
         
+        function ifCrypted($tabla,$campo){
+            $sql="select nb_crypted_fld from nb_table_fields_tbl where nb_id_table_fld ='".$tabla."' and nb_id_fld='".$campo."'";
+            return $this->executeQueryOneRow($sql);
+        }
+        
         function getDataChange($campo, $valor){
             $sql="select nb_id_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."' and nb_value_fld='".$valor."'";
             return $this->executeQueryOneRow($sql);
@@ -327,10 +339,10 @@ THE SOFTWARE.
             $sql="SELECT COUNT(1) FROM NB_TABLE_FIELDS_TBL WHERE nb_id_table_fld='".$tabla."' AND NB_ID_FLD='".$campo."' AND NB_KEY_FLD='Y'";
             return $this->executeQueryOneRow($sql);
         }
-        function getFieldsPage($idPage,$key){
+        function getFieldsPage($idPage){
             $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld,B.NB_KEY_FLD FROM NB_FORM_TABLES_TBL A , NB_TABLE_FIELDS_TBL B WHERE  A.nb_id_table_fld = B.nb_id_table_fld";
             $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND nb_id_page_fld = '" .$idPage . "' ORDER BY A.nb_id_table_fld, B.NB_KEY_FLD  desc";
-            return $this->execute($sql);  
+            return $this->executeQuery($sql);  
         }
         
         function getDataFields($table){

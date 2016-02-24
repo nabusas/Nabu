@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= GASAKAWA
-	Fecha modificacion	= 13-01-2016
+	Fecha modificacion	= 23-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -44,8 +44,6 @@ THE SOFTWARE.
         function Wizard($db,$idPage){
             $this->steps = array();
             $this->bindings = array();
-            $this->title = $title;
-            $this->description = $desc;
             $this->buildWizard($db,$idPage);
         }
         

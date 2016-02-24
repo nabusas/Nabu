@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 13-01-2016
+	Fecha modificacion	= 23-02-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -35,7 +35,6 @@ class Menu
 {
 	function Menu($id_page, $util){
 	
-	session_start();
 	$role = 999999;
 	if(isset($_SESSION['role']))
 		$role = $_SESSION['role'];
@@ -67,7 +66,7 @@ class Menu
                 }
             }
             
-            $row2 =$util->database->menu2($id);
+            $row2 =$util->database->menu2($id_page,$id);
             $papa2=$row2[0];
             
             $row3 =$util->database->menu3($id_page,$papa2);

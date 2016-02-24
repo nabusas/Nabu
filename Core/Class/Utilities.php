@@ -210,34 +210,41 @@ class Utilities
         $table  = $this->database->getDataRecord($id);
         $fields = $this->database->getFieldsPage($id);
         
-        if ($table[0] == '' ){
-            
-            $parametros=false;
+        $ifcampos=false;
         
-            foreach($fields as $field){
-                if (isset($_GET['accion']))
-                    if ($_GET['accion']=='b' or $_GET['accion']=='s'){
-                        if (isset($_GET[$field[0]])){
-                           $parametros=true;
-                            break;
+        if (is_array($fields))
+            $ifcampos=true;
+        
+        if ($table[0] == ''){
+
+            $parametros=false;
+
+            if($ifcampos){
+                foreach($fields as $field){
+                    if (isset($_GET['accion']))
+                        if ($_GET['accion']=='b' or $_GET['accion']=='s'){
+                            if (isset($_GET[$field[0]])){
+                               $parametros=true;
+                                break;
+                            }
+                        }    
+                        else{
+                           if (isset($_GET['_1_'.$field[0]])){
+                               $parametros=true;
+                                break;
+                            } 
                         }
-                    }    
-                    else{
-                       if (isset($_GET['_1_'.$field[0]])){
-                           $parametros=true;
-                            break;
-                        } 
-                    }
+                }
             }
-            
+
             if ($parametros){
                 $fieldsData = array();
-                
+
                 $where ="Where ";
                 $i=1;
                 $tabla='';
                 $j=1;
-                
+
                 if (isset($_GET['accion'])){
                     if ($_GET['accion']=='b'){
                         foreach($fields as $field){
@@ -252,6 +259,11 @@ class Utilities
                                             if ($value[0] == '')
                                                 $value[0]=$_GET[$field[0]];
 
+                                            $crypted=$this->database->ifCrypted($field[1],$field[0]);
+
+                                            if ($crypted[0] =='Y')
+                                                $value[0]=base64_decode($value[0])/444;
+
                                             if ($i == 1)
                                                 $where=$where.$field[0]."='".$value[0]."' ";
                                             else
@@ -259,6 +271,7 @@ class Utilities
 
                                             $fieldsData[$field[0]]=$value[0];
                                             $fieldsData[$field[0].'X']=$value[0];
+
                                         }
                                     }
                                     $i++;
@@ -266,7 +279,7 @@ class Utilities
                                 else{
                                     $value=$this->database->getDatavalueW($field[1],$field[0],$where);
                                     $type =$this->database->getTypes($field[1],$field[0]);
-                                    
+
                                     $fieldsData[$field[0]]=$value[0];
                                 }
                             }
@@ -278,14 +291,14 @@ class Utilities
                         if ($_GET['accion']=='s'){
                             if (isset($_GET[$field[0]])){
                                 if ($_GET[$field[0]] <> ''){
-                                    
+
                                     $type =$this->database->getTypes($field[1],$field[0]);
                                         if ($type[0] == 'number')
                                             if ( !is_numeric($_GET[$field[0]]) )
                                                 $_GET[$field[0]]=0;
-                                        
+
                                     $fieldsData[$field[0]]=$_GET[$field[0]];
-                                    
+
                                     $fieldxs=$this->database->getPromptSelect($id,$field[0],$_GET[$field[0]]);
                                     foreach($fieldxs as $fieldx){
                                         $value=$this->database->executeQueryOneRow($fieldx[1]);
@@ -300,16 +313,18 @@ class Utilities
                     $jsonA=$json->getData2($fieldsData);
             }
             else{
-                //$table  = $this->database->getDataRecord($id);
-                //$fields = $this->database->getDataFields($table[0]);
                 $fields =$this->database->getData($id);
                 $jsonA=$json->getData($fields);
             }
         }
         else
         {
-            $jsonA=$json->getDataSelect($this->database ,$table[0],$fields);
+            if($ifcampos)
+                $jsonA=$json->getDataSelect($this->database ,$table[0],$fields);
+            else
+                $jsonA='';
         }
+
         
        return $jsonA;
     }
@@ -561,6 +576,7 @@ class Utilities
         $campos = $this->database->getGrid2($id);
         
         $type='gridcoloptions';
+        $cols= array();
         
         while ($camposDescribe = $campos->FetchRow()){
             $result = $this->database->getGrid3($type,$id,$camposDescribe[0]);

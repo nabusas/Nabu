@@ -25,11 +25,11 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 13-01-2016
+	Fecha modificacion	= 23-02-2016
 	Usuario Modifico	= CAGC
 
 */
-	include("../Framework/adodb/adodb5/adodb.inc.php");
+	include("../Framework/adodb/adodb.inc.php");
 
 	class Conexion
 	{
@@ -49,7 +49,9 @@ THE SOFTWARE.
         
 		function conectar()
 		{
-			$this->db = ADONewConnection('mysql');
+			//error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED); ini_set("display_errors",1);
+            
+            $this->db = newAdoConnection('mysql');
 			$this->db->debug =false;
 			$this->db->execute("SET NAMES utf8");
             $this->db->NLS_DATE_FORMAT =  'RRRR-MM-DD HH24:MI:SS';
