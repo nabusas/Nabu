@@ -4,6 +4,48 @@
 *.sql
 *.csv
 
-Core/Framework/datatables/alpaca/.bower.json
+#Libreria Alpaca
 
+Core/Framework/alpaca/.bower.json
+Core/Framework/alpaca/.bowerrc
+Core/Framework/alpaca/.jshintrc
+Core/Framework/alpaca/.testem.json
+Core/Framework/alpaca/alpaca.jquery.json
+Core/Framework/alpaca/bower.json
+Core/Framework/alpaca/deploy-cleanup.sh
+Core/Framework/alpaca/deploy-npm.sh
+Core/Framework/alpaca/deploy.sh
+Core/Framework/alpaca/favicon.ico
+Core/Framework/alpaca/Gruntfile.js
+Core/Framework/alpaca/gulpfile.js
+Core/Framework/alpaca/jsdoc.conf.json
+Core/Framework/alpaca/license.txt
+Core/Framework/alpaca/package.json
+Core/Framework/alpaca/README.md
+Core/Framework/alpaca/tests.mustache
+
+Core/Framework/alpaca/config/
+Core/Framework/alpaca/deployment/
+Core/Framework/alpaca/features/
+Core/Framework/alpaca/gulp/
+Core/Framework/alpaca/lib/
+Core/Framework/alpaca/server/
+Core/Framework/alpaca/site/
+Core/Framework/alpaca/src/
+Core/Framework/alpaca/tests/
+Core/Framework/alpaca/thirdparty/
+
+Core/Framework/alpaca/dist/lib/
+
+Core/Framework/alpaca/dist/alpaca/bootstrap/images/
+Core/Framework/alpaca/dist/alpaca/jquerymobile
+Core/Framework/alpaca/dist/alpaca/jqueryui
+Core/Framework/alpaca/dist/alpaca/jsdoc
+Core/Framework/alpaca/dist/alpaca/web
+
+
+
+
+
+#Libreria DataTables
 Core/Framework/datatables/*
