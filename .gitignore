@@ -50,11 +50,11 @@ Core/Framework/mmenu/Guardfile
 Core/Framework/mmenu/index.html
 Core/Framework/mmenu/mmenu.jquery.json
 Core/Framework/mmenu/README.md
-Core/Framework/mmenu/scss/
-Core/Framework/mmenu/css/addons/
-Core/Framework/mmenu/css/extensions/
-Core/Framework/mmenu/js/addons/
-Core/Framework/mmenu/js/umd/
+Core/Framework/mmenu/src/scss/
+Core/Framework/mmenu/src/css/addons/
+Core/Framework/mmenu/src/css/extensions/
+Core/Framework/mmenu/src/js/addons/
+Core/Framework/mmenu/src/js/umd/
 
 #Libreria DataTables
 Core/Framework/datatables/*
