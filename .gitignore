@@ -9,8 +9,6 @@
 Core/Framework/alpaca/*
 !Core/Framework/alpaca/dist/alpaca/bootstrap/*.css
 !Core/Framework/alpaca/dist/alpaca/bootstrap/*.js
-!Core/Framework/alpaca/dist/alpaca/bootstrap/images/*.png
-
 
 #Core/Framework/alpaca/.bower.json
 #Core/Framework/alpaca/.bowerrc
@@ -48,6 +46,12 @@ Core/Framework/alpaca/*
 #Core/Framework/alpaca/dist/alpaca/jqueryui
 #Core/Framework/alpaca/dist/alpaca/jsdoc
 #Core/Framework/alpaca/dist/alpaca/web
+
+#Menu
+Core/Framework/mmenu/*
+#Core/Framework/mmenu/src/js/jquery.mmenu.min.js
+#Core/Framework/mmenu/src/css/jquery.mmenu.all.css
+#Core/Framework/mmenu/src/css/extensions/jquery.mmenu.iconbar.css
 
 #Libreria DataTables
 Core/Framework/datatables/*
