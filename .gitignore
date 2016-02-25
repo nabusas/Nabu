@@ -74,7 +74,6 @@ Core/Framework/Datagrid/index.php
 Core/Framework/Datagrid/robots.txt
 Core/Framework/Datagrid/lib/inc/
 Core/Framework/Datagrid/lib/js/jquery.min.js
-Core/Framework/Datagrid/lib/js/themes/
 
 Core/Framework/Datagrid/lib/js/themes/black-tie
 Core/Framework/Datagrid/lib/js/themes/dark-hive
@@ -100,6 +99,7 @@ Core/Framework/Datagrid/lib/js/themes/excite-bike
 Core/Framework/Datagrid/lib/js/themes/pepper-grinder
 Core/Framework/Datagrid/lib/js/themes/start	
 Core/Framework/Datagrid/lib/js/themes/ui-darkness
+
 Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-cs.js
 Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-fa.js
 Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-hu.js
