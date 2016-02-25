@@ -73,7 +73,7 @@ Core/Framework/Datagrid/demos/
 Core/Framework/Datagrid/index.php
 Core/Framework/Datagrid/robots.txt
 #Core/Framework/Datagrid/lib/inc/
-#Core/Framework/Datagrid/lib/js/jquery.min.js
+Core/Framework/Datagrid/lib/js/jquery.min.js
 
 Core/Framework/Datagrid/lib/js/themes/black-tie
 Core/Framework/Datagrid/lib/js/themes/dark-hive
