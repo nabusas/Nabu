@@ -58,3 +58,18 @@ Core/Framework/mmenu/src/js/umd/
 
 #Libreria DataTables
 Core/Framework/datatables/*
+
+
+#Libreria Datagrid
+
+Core/Framework/datatables/Datagrid/DOCS.txt	
+Core/Framework/datatables/Datagrid/FAQs.txt	
+Core/Framework/datatables/Datagrid/LICENSE.txt	
+Core/Framework/datatables/Datagrid/README.txt	
+Core/Framework/datatables/Datagrid/bootstrap/	
+Core/Framework/datatables/Datagrid/config.php	
+Core/Framework/datatables/Datagrid/demos/	
+Core/Framework/datatables/Datagrid/index.php	
+Core/Framework/datatables/Datagrid/robots.txt
+Core/Framework/datatables/Datagrid/lib/inc/	
+
