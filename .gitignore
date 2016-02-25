@@ -68,9 +68,9 @@ Core/Framework/Datagrid/FAQs.txt
 Core/Framework/Datagrid/LICENSE.txt
 Core/Framework/Datagrid/README.txt
 #Core/Framework/Datagrid/bootstrap/
-#Core/Framework/Datagrid/config.php
+Core/Framework/Datagrid/config.php
 Core/Framework/Datagrid/demos/
-#Core/Framework/Datagrid/index.php
+Core/Framework/Datagrid/index.php
 Core/Framework/Datagrid/robots.txt
 #Core/Framework/Datagrid/lib/inc/
 #Core/Framework/Datagrid/lib/js/jquery.min.js
@@ -144,4 +144,4 @@ Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-ro.js
 Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-tr.js
 Core/Framework/Datagrid/lib/js/jqgrid/js/install.txt
 Core/Framework/Datagrid/lib/js/jqgrid/js/Changes.txt
-#Core/Framework/Datagrid/lib/js/jqgrid/css/ellipsis-xbl.xml
+Core/Framework/Datagrid/lib/js/jqgrid/css/ellipsis-xbl.xml
