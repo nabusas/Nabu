@@ -62,14 +62,18 @@ Core/Framework/datatables/*
 
 #Libreria Datagrid
 
-Core/Framework/datatables/Datagrid/DOCS.txt	
-Core/Framework/datatables/Datagrid/FAQs.txt	
-Core/Framework/datatables/Datagrid/LICENSE.txt	
-Core/Framework/datatables/Datagrid/README.txt	
-Core/Framework/datatables/Datagrid/bootstrap/	
-Core/Framework/datatables/Datagrid/config.php	
-Core/Framework/datatables/Datagrid/demos/	
-Core/Framework/datatables/Datagrid/index.php	
-Core/Framework/datatables/Datagrid/robots.txt
-Core/Framework/datatables/Datagrid/lib/inc/
+
+#Core/Framework/Datagrid/DOCS.txt	
+#Core/Framework/Datagrid/FAQs.txt	
+#Core/Framework/Datagrid/LICENSE.txt	
+#Core/Framework/Datagrid/README.txt	
+#Core/Framework/Datagrid/bootstrap/	
+#Core/Framework/Datagrid/config.php	
+#Core/Framework/Datagrid/demos/	
+#Core/Framework/Datagrid/index.php	
+#Core/Framework/Datagrid/robots.txt
+#Core/Framework/Datagrid/lib/inc/
+
+#Core/Framework/Datagrid/lib/js/jqgrid/
+#Core/Framework/Datagrid/lib/js/themes/
 

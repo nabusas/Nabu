@@ -1,4 +1,0 @@
-Frequently Asked Questions
-==========================
-
-Please visit http://phpgrid.org/faqs for Frequently Asked Questions.
