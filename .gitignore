@@ -67,7 +67,7 @@ Core/Framework/Datagrid/DOCS.txt
 Core/Framework/Datagrid/FAQs.txt
 Core/Framework/Datagrid/LICENSE.txt
 Core/Framework/Datagrid/README.txt
-#Core/Framework/Datagrid/bootstrap/
+Core/Framework/Datagrid/bootstrap/
 Core/Framework/Datagrid/config.php
 Core/Framework/Datagrid/demos/
 Core/Framework/Datagrid/index.php
