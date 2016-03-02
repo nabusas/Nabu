@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 18-02-2016
+	Fecha modificacion	= 02-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -34,6 +34,8 @@ include "../Class/Utilities.php";
 
 session_start();
 
+    $operatorId=$_SESSION['opridLogin'];
+    
     if (isset($_GET["campo"]))
 	   $campo=$_GET["campo"];
 	else
@@ -59,9 +61,15 @@ session_start();
                         $sql="Select cc_codCiudad_fld,cc_descripc_fld from nb_city_tbl";
                     else
         		      if ($campo == 'Id_concepto')
-			             $sql='SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL ORDER BY ID_CONCEPTO,CC_TIPOCONCEPTO';
+			             $sql="SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' ORDER BY 1,2";
                         else
-                            $sql="Select nb_id_value_fld,nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."'";
+                            if ($campo == 'cc_tipocontable')
+			                     $sql='SELECT CC_TIPOCONTABLE,CC_DESCRIPCION FROM CC_TIPOCONTABLE_TBL ORDER BY 1,2';
+                            else    
+                                if ($campo == 'cc_tipoconcepto')
+			                         $sql="SELECT CC_TIPOCONCEPTO,CC_DESCRIPCION FROM CC_TIPOCONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' ORDER BY 1,2";
+                                else
+                                    $sql="Select nb_id_value_fld,nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."'";
         
 		
         
