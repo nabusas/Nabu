@@ -45,30 +45,14 @@ THE SOFTWARE.
         <script src="../Framework/jquery-ui/jquery-ui.min.js"></script>
         <script src="../Framework/bootstrap/dist/js/bootstrap.min.js"></script>
     
-        <style>
-            .ui-dialog-titlebar-close{
-                display: none;
-            }
-        </style>
         
-        <script>
-            $(function() {
-                $( "#dialog-confirm" ).dialog({
-                    resizable: false,
-                    height:200,
-                    width: 500,
-                    modal: false,
-                    buttons: {
-                        "Aceptar": function() {
-                           document.location = "../Pages/nabu.php?p=home";
-                        }
-                    }
-                });
-            });
-        </script>
+     
     </head>
    
 <body>
+    
+    <script src="../Framework/notie/notie.js"></script>
+    
     <header>
 			<table width="100%">
 				<tr>
@@ -87,20 +71,30 @@ THE SOFTWARE.
     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
 	$result=$nabuEvent->getEventSql($accion);
     
-    echo "<div id='dialog-confirm' title='Informacion Guardar'>";
         if ($result== 1){
+            
+            $tipomensaje=1;
+            
             if ($accion== 0 or $accion== 2)
-                echo 'Guardado Exitoso';
+                $mensaje='Guardado Exitoso';
             else
                 if ($accion== 1 or $accion== 3)
-                    echo 'Actualizacion Exitosa';
+                    $mensaje='Actualizacion Exitosa';
         }
-        else
-            echo 'Problemas al realizar la Operacion';
+        else{
+            $tipomensaje=3;
+            $mensaje='Problemas al realizar la Operacion';
+        }
+ ?>                
 
-    echo '</div>'; 
-
-?>
+    <script languaje="javascript">
+        var message = "<?php echo $mensaje;?>" ;
+        var link = "<?php echo $_GET['p'];?>" ;
+        var tipo = <?php echo $tipomensaje;?>;
+        
+        notie.alert(tipo,message, 5);
+        setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
+    </script> 
     
     <footer class="footer">
         <a href="#"><i class="fa fa-facebook"></i></a>
