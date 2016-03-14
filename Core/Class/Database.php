@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 23-02-2016
+	Fecha modificacion	= 14-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -490,6 +490,11 @@ THE SOFTWARE.
         function getDataChart($table,$field,$oprid){
             $sql = "Select replace($field,',','') from $table where label like '$oprid%'";
             return $this->executeQuery($sql);
+        }
+        
+        function getPageLink($idPage){
+            $sql ="select a.nb_id_page_fld from nb_link_tbl a where a.nb_id2_page_fld = '" .$idPage . "'";
+            return $this->executeQueryOneRow($sql); 
         }
             
     }

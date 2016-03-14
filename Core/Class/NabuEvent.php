@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 20-01-2016
+    Fecha modificacion	= 14-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -48,6 +48,13 @@ class NabuEvent
         
 	}
 	
+    function getpagelink($page){
+        
+        $pageLink =$this->database->getPageLink($page);
+    
+        return $pageLink[0];
+    }
+    
     function getEventSql($accion) {
         
         if ($accion == 2 or $accion==3){

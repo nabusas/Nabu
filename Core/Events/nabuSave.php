@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 12-05-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 20-12-2015
+    Fecha modificacion	= 14-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -51,8 +51,6 @@ THE SOFTWARE.
    
 <body>
     
-    <script src="../Framework/notie/notie.js"></script>
-    
     <header>
 			<table width="100%">
 				<tr>
@@ -62,34 +60,44 @@ THE SOFTWARE.
 					<td class="slogan">&nbsp&nbsp Semilla de innovacion que da vida a tus ideas</td>
 				</tr>
 			</table>
-		</header>
+   </header>
+   
+<script src="../Framework/notie/notie.js"></script>
             
  <?php
 
     $accion=$_GET['accion'];
     
+    
     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
 	$result=$nabuEvent->getEventSql($accion);
     
-        if ($result== 1){
+    $pos = strpos($_GET['p'], '_m_pg');
+    
+    if ($pos == true)
+        $pagelink=$nabuEvent->getpagelink($_GET['p']);
+    else
+        $pagelink=$_GET['p'];
+    
+    if ($result== 1){
+        
+        $tipomensaje=1;
             
-            $tipomensaje=1;
-            
-            if ($accion== 0 or $accion== 2)
-                $mensaje='Guardado Exitoso';
-            else
-                if ($accion== 1 or $accion== 3)
-                    $mensaje='Actualizacion Exitosa';
-        }
-        else{
-            $tipomensaje=3;
-            $mensaje='Problemas al realizar la Operacion';
-        }
+        if ($accion== 0 or $accion== 2)
+            $mensaje='Guardado Exitoso';
+        else
+            if ($accion== 1 or $accion== 3)
+                $mensaje='Actualizacion Exitosa';
+    }
+    else{
+        $tipomensaje=3;
+        $mensaje='Problemas al realizar la Operacion';
+    }
  ?>                
 
     <script languaje="javascript">
         var message = "<?php echo $mensaje;?>" ;
-        var link = "<?php echo $_GET['p'];?>" ;
+        var link = "<?php echo $pagelink ;?>" ;
         var tipo = <?php echo $tipomensaje;?>;
         
         notie.alert(tipo,message, 5);
