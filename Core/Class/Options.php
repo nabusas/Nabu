@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 24-01-2016
+	Fecha modificacion	= 15-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -109,6 +109,12 @@ class Options{
 				else
 					$row[2]= false;
 			}
+            
+            if ($row[0]=='picker'){
+                $locale = array("locale" => $row[2]);
+                $row[2]=$locale;
+            }
+            
             $fields[$row[0]]=$row[2];
         }
 

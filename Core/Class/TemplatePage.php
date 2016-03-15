@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-02-2016
+	Fecha modificacion	= 15-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -62,7 +62,6 @@ class TemplatePage
 	function header(){
 ?>
 		<!DOCTYPE html>
-		<html>
 		<html>
 			<head>
 
