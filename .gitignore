@@ -4,6 +4,10 @@
 *.sql
 *.csv
 
+#Database
+
+DB/
+
 #Libreria Alpaca
 
 Core/Framework/alpaca/.bower.json
