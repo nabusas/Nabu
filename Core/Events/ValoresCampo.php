@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 02-03-2016
+	Fecha modificacion	= 21-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -61,7 +61,7 @@ session_start();
                         $sql="Select cc_codCiudad_fld,cc_descripc_fld from nb_city_tbl";
                     else
         		      if ($campo == 'Id_concepto')
-			             $sql="SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' ORDER BY 1,2";
+			             $sql="SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' AND nb_estado_fld=0 ORDER BY 1,2";
                         else
                             if ($campo == 'cc_tipocontable')
 			                     $sql='SELECT CC_TIPOCONTABLE,CC_DESCRIPCION FROM CC_TIPOCONTABLE_TBL ORDER BY 1,2';
