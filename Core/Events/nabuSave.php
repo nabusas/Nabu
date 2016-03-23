@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 12-05-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 14-03-2016
+    Fecha modificacion	= 22-03-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -36,14 +36,12 @@ THE SOFTWARE.
         <meta charset="utf-8">
         <title>Evento Guardar</title>
         <link rel="stylesheet" href="../Styles/nabu.css">
-        <link rel="stylesheet" href="../Framework/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../Framework/Datagrid/lib/js/themes/cobo/jquery-ui.custom.css">
+        <link rel="stylesheet" href="../Framework/alpaca/dist/lib/bootstrap/dist/css/bootstrap.css">
         
-      
         <link rel="stylesheet" href="../Framework/font-awesome/css/font-awesome.min.css">
-        <script src="../Framework/jquery/dist/jquery.min.js"></script>
-        <script src="../Framework/jquery-ui/jquery-ui.min.js"></script>
-        <script src="../Framework/bootstrap/dist/js/bootstrap.min.js"></script>
+    
+        <script src="../Framework/alpaca/dist/lib/jquery/dist/jquery.min.js"></script>
+        <script src="../Framework/alpaca/dist/lib/bootstrap/dist/js/bootstrap.js"></script>
     
         
      
