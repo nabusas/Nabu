@@ -50,6 +50,24 @@ header  td.banderas{
 	font-weight : bold;
 }
 
+@media screen and (max-width:500px) {
+ 
+    .formsSimple{
+        background-color:transparent;
+        width:60%;
+        border-style:ridge;
+        border-width:thin;
+        position:center ; 
+        text-align:center;
+        color : Black;
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:11px;
+        font-style:normal;
+        font-weight : bold;
+    }
+    
+}
+
 .forms{
 	background-color:transparent;
 	width:80%;
