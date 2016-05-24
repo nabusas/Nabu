@@ -26,46 +26,24 @@ THE SOFTWARE.
 
 	Fecha creacion		= 29-12-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-01-2016
+	Fecha modificacion	= 24-05-2016
 	User modify		    = CAGC
 
 */
 ?>
     <head>
-        <meta charset="utf-8">
-        <title>Informacion del Vehiculo</title>
-        <link rel="stylesheet" href="../Styles/nabu.css">
-        <link rel="stylesheet" href="../Framework/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../Framework/Datagrid/lib/js/themes/cobo/jquery-ui.custom.css">
-        
-      
-        <link rel="stylesheet" href="../Framework/font-awesome/css/font-awesome.min.css">
-        <script src="../Framework/jquery/dist/jquery.min.js"></script>
-        <script src="../Framework/jquery-ui/jquery-ui.min.js"></script>
-        <script src="../Framework/bootstrap/dist/js/bootstrap.min.js"></script>
-    
-        <style>
-            .ui-dialog-titlebar-close{
-                display: none;
-            }
-        </style>
-        
-        <script>
-            $(function() {
-                $( "#dialog-confirm" ).dialog({
-                    resizable: false,
-                    height:350,
-                    width: 500,
-                    modal: false,
-                    buttons: {
-                        "Aceptar": function() {
-                            document.location = "../Pages/nabu.php?p=nb_recaudo_pg";
-                        }
-                    }
-                });
-            });
-        </script>
+            <meta charset="utf-8">
+            <title>Informacion del Vehiculo</title>
+            <link rel="stylesheet" href="../Styles/nabu.css">
+            <link rel="stylesheet" href="../Framework/alpaca/dist/lib/bootstrap/dist/css/bootstrap.css">
+
+            <link rel="stylesheet" href="../Framework/font-awesome/css/font-awesome.min.css">
+
+            <script src="../Framework/alpaca/dist/lib/jquery/dist/jquery.min.js"></script>
+            <script src="../Framework/alpaca/dist/lib/bootstrap/dist/js/bootstrap.js"></script>
+
     </head>
+    
 <body>
     <header>
 			<table width="100%">
@@ -77,6 +55,8 @@ THE SOFTWARE.
 				</tr>
 			</table>
 		</header>
+        
+        <script src="../Framework/notie/notie.js"></script>
 
 <?php    
     
@@ -100,6 +80,9 @@ THE SOFTWARE.
     $mensajeFecha='';
     $mensajeValor='';
     $error=0;
+    
+    $pagelink=$_GET['p'];
+    echo "<br><br><br><br><center><a href='../Pages/nabu.php?p=$pagelink'><img src='../Images/imagenHome.png'></a><center>";
 
     $tipoD=$database->tipoControlDB($placa);
     $tipo=$tipoD[0];
@@ -176,19 +159,20 @@ THE SOFTWARE.
     $Mensaje=$Mensaje.$mensajeTiempo.'<br>';
     $Mensaje=$Mensaje.$mensajeValor.'<br>';
     
-    echo "<div id='dialog-confirm' title='Informacion Vehiculo'>";
-        if ($error == 0  )
-            echo $Mensaje;
-        else
-            if ($error == 1  )
-                echo 'No existen vehiculos con estos datos pendientes de pago';
-            else
-                if ($error == 2  )
-                    echo 'Tarjeta ya asignada';
+    if ($error == 1  )
+        $Mensaje= 'No existen vehiculos con estos datos pendientes de pago';
+    else
+        if ($error == 2  )
+            $Mensaje= 'Tarjeta ya asignada';
     
-    echo '</div>';    
-
 ?>
+    
+    <script languaje="javascript">
+            var message = "<?php echo $Mensaje;?>";
+            var link = "<?php echo $pagelink ;?>";
+        
+        notie.confirm(message, 'OK', 'Cancelar', function() {document.location = "../Pages/nabu.php?p="+link;});
+    </script> 
     
     <footer class="footer">
         <a href="#"><i class="fa fa-facebook"></i></a>
@@ -196,7 +180,7 @@ THE SOFTWARE.
         <a href="#"><i class="fa fa-google-plus"></i></a>
         <a href="#"><i class="fa fa-youtube"></i></a>    
         <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
-        <p>Nabu &copy; 2015</p>
+        <p>Nabu &copy; 2016</p>
     </footer>
 </body>
 </html>
