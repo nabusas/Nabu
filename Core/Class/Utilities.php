@@ -475,7 +475,7 @@ class Utilities
     function legend($id){
 
         $rows = $this->database->getChartDataQuery($id, 'column');
-        echo "<table border=1><tr>";
+        echo "<table border=1 width='20%'><tr>";
         
         foreach($rows as $row)
             echo "<th bgcolor='$row[1]'>&nbsp$row[0]&nbsp</th>";
