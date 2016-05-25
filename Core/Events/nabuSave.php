@@ -70,8 +70,8 @@ THE SOFTWARE.
         $nabuEvent = new NabuEvent($_GET['p'], $_POST);
         $result=$nabuEvent->getEventSql($accion);
 
-        $pos = strpos($_GET['p'], '_m_pg');
-
+        $pos = strpos($_GET['p'], 'm_pg');
+        
         if ($pos == true)
             $pagelink=$nabuEvent->getpagelink($_GET['p']);
         else
