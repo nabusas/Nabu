@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-12-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 24-05-2016
+	Fecha modificacion	= 25-05-2016
 	User modify		    = CAGC
 
 */
@@ -72,7 +72,6 @@ THE SOFTWARE.
 
     $oprid=$_SESSION['oprid'];
     
-    $tipo=$_POST['nb_1_tipo_vehi_fld'];
     $placa=strtoupper($_POST['nb_2_placa_fld']);
     $tarjeta=$_POST['nb_3_tarjeta_fld'];
     $fecha=date("Y-m-d H:i:sa");
@@ -85,17 +84,18 @@ THE SOFTWARE.
     $mensajeSalida='';
     $error=0;
 
-    
     $tarifa=$database->tarifaControl($placa);
-    $val1Mensaul=$database->mas1Mensual($placa);
     
-    if ( $val1Mensaul[0] > 0 ){
+    if ($tarifa[2] <> '') 
+        $tipo=$tarifa[2];
+    else{
+        $tipo=$_POST['nb_1_tipo_vehi_fld'];
         $tarifa[0] = 2;
         $tarifa[1]= 'Normal';
     }
-
+    
     $existe=$database->verifiControl($placa);
-
+    
     if ($existe[0] == 0){
         $validaTarjeta=$database->tarjRepControl($tarjeta);
         if ($validaTarjeta[0] == 0){
@@ -144,7 +144,7 @@ THE SOFTWARE.
     $Mensaje=$Mensaje.$mensajeSalida.'<br>';
     
     if ($error == 1 )
-        $Mensaje='El numero de las tarjetas no coincide';
+        $Mensaje='Vehiculo con otro numero de tarjeta asignado';
     else
         if ($error == 2 )
             $Mensaje= 'Tarjeta ya asignada';

@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 29-12-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 24-05-2016
+	Fecha modificacion	= 25-05-2016
 	User modify		    = CAGC
 
 */
@@ -83,13 +83,13 @@ THE SOFTWARE.
     
     $pagelink=$_GET['p'];
     echo "<br><br><br><br><center><a href='../Pages/nabu.php?p=$pagelink'><img src='../Images/imagenHome.png'></a><center>";
-
+    
     $tipoD=$database->tipoControlDB($placa);
     $tipo=$tipoD[0];
     $tarjetaBD=$database->tarjControl($placa);
     $existe=$database->verifiControlR($placa);
     $tarifa=$database->tarifaControlDB($placa);
-
+    
     if ($existe[0] == 0){
         $error=1;
     }
@@ -149,21 +149,24 @@ THE SOFTWARE.
         $error=0; 
     }
     
-    $tipoC=$database->tipoControl($tipo);
     
-    $Mensaje='Tipo='.$tipoC[0].'<br>';
-    $Mensaje=$Mensaje.' Placa='.$placa.'<br>';
-    $Mensaje=$Mensaje.' Tarjeta='.$tarjetaBD[0].'<br>';
-    $Mensaje=$Mensaje.'Tarifa='.$tarifa[1].'<br>';    
-    $Mensaje=$Mensaje.$mensajeFecha.'<br>';
-    $Mensaje=$Mensaje.$mensajeTiempo.'<br>';
-    $Mensaje=$Mensaje.$mensajeValor.'<br>';
-    
-    if ($error == 1  )
-        $Mensaje= 'No existen vehiculos con estos datos pendientes de pago';
+    if ($error == 0){
+        $tipoC=$database->tipoControl($tipo);
+
+        $Mensaje='Tipo='.$tipoC[0].'<br>';
+        $Mensaje=$Mensaje.' Placa='.$placa.'<br>';
+        $Mensaje=$Mensaje.' Tarjeta='.$tarjetaBD[0].'<br>';
+        $Mensaje=$Mensaje.'Tarifa='.$tarifa[1].'<br>';    
+        $Mensaje=$Mensaje.$mensajeFecha.'<br>';
+        $Mensaje=$Mensaje.$mensajeTiempo.'<br>';
+        $Mensaje=$Mensaje.$mensajeValor.'<br>';
+    }
     else
-        if ($error == 2  )
-            $Mensaje= 'Tarjeta ya asignada';
+        if ($error == 1  )
+            $Mensaje= 'No existen vehiculos con estos datos pendientes de pago';
+        else
+            if ($error == 2  )
+                $Mensaje= 'Tarjeta ya asignada';
     
 ?>
     
