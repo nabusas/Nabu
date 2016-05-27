@@ -174,7 +174,7 @@ THE SOFTWARE.
             var message = "<?php echo $Mensaje;?>";
             var link = "<?php echo $pagelink ;?>";
         
-        notie.confirm(message, 'OK', 'Cancelar', function() {document.location = "../Pages/nabu.php?p="+link;});
+        notie.confirm(message, 'Aceptar', '', function() {document.location = "../Pages/nabu.php?p="+link;});
     </script> 
     
     <footer class="footer">

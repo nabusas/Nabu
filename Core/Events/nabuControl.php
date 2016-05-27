@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-12-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 25-05-2016
+	Fecha modificacion	= 26-05-2016
 	User modify		    = CAGC
 
 */
@@ -86,12 +86,25 @@ THE SOFTWARE.
 
     $tarifa=$database->tarifaControl($placa);
     
-    if ($tarifa[2] <> '') 
+    if ($tarifa[1] <> ''){
+        
         $tipo=$tarifa[2];
+        $doc=$tarifa[3];
+        $numdoc=$tarifa[4];
+        
+        $propietario=$database->verificaPropietario($doc,$numdoc);
+        
+        if (($tarifa[0] == 2) or ($tarifa[0] == 1 and $propietario[0] > 0 )) {
+            $tarifa[0] = 2;
+            $tarifa[1]= 'Normal';
+        }
+    }
     else{
         $tipo=$_POST['nb_1_tipo_vehi_fld'];
         $tarifa[0] = 2;
         $tarifa[1]= 'Normal';
+        $doc=0;
+        $numdoc=0;
     }
     
     $existe=$database->verifiControl($placa);
@@ -100,7 +113,7 @@ THE SOFTWARE.
         $validaTarjeta=$database->tarjRepControl($tarjeta);
         if ($validaTarjeta[0] == 0){
             $mensajeFecha = 'Fecha Ingreso = '.$fecha;
-            $database->insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa[0],$oprid,0);
+            $database->insertControl($tipo,$placa,$doc,$numdoc,$tarjeta,$fecha,$tarifa[0],$oprid,0);
         }
         else{
             $error=2;
@@ -119,7 +132,7 @@ THE SOFTWARE.
                 if ($validaG[0] >0){
                     $fecha=$database->fechaNueva($placa,$tiempoG[0]);
                     $database->updtSalida($placa,2);
-                    $database->insertControl($tipo,$placa,$tarjeta,$fecha[0],$tarifa[0],$oprid,0);
+                    $database->insertControl($tipo,$placa,$doc,$numdoc,$tarjeta,$fecha[0],$tarifa[0],$oprid,0);
                     $error=4;
                 }
                 else{
@@ -162,7 +175,7 @@ THE SOFTWARE.
             var message = "<?php echo $Mensaje;?>";
             var link = "<?php echo $pagelink ;?>";
         
-        notie.confirm(message, 'OK', 'Cancelar', function() {document.location = "../Pages/nabu.php?p="+link;});
+        notie.confirm(message, 'Aceptar', '', function() {document.location = "../Pages/nabu.php?p="+link;});
     </script> 
 
     <footer class="footer">

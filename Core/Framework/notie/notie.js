@@ -377,7 +377,10 @@ var notie = function(){
     confirm_yes.style.cssFloat = 'left';
     confirm_yes.style.height = '50px';
     confirm_yes.style.lineHeight = '50px';
-    confirm_yes.style.width = '50%';
+    //INICIO CAGC 001
+    //confirm_yes.style.width = '50%';
+    confirm_yes.style.width = '100%';
+    //FIN CAGC 001
     confirm_yes.style.cursor = 'pointer';
     confirm_yes.style.backgroundColor = confirm_and_input_color_yes_background;
     confirm_outer.appendChild(confirm_yes);
@@ -391,8 +394,10 @@ var notie = function(){
     confirm_no.style.cursor = 'pointer';
     confirm_no.style.backgroundColor = confirm_and_input_color_no_background;
     confirm_no.onclick = function() { confirm_hide(); }
-    confirm_outer.appendChild(confirm_no);
-
+    //INICIO CAGC 001
+    //confirm_outer.appendChild(confirm_no);
+    //FIN CAGC 001
+    
     // Initialize confirm text
     var confirm_text = document.createElement('span');
     confirm_text.id = confirm_text_id;

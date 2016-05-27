@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 25-05-2016
+	Fecha modificacion	= 26-05-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -150,7 +150,7 @@ THE SOFTWARE.
         }
         
         function tarifaControlDB($placa){
-            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal'),count(1)";
+            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal')";
             $sql =$sql." from nb_control_tbl"; 
             $sql =$sql." where nb_2_placa_fld='".$placa."'";
             $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
@@ -158,10 +158,16 @@ THE SOFTWARE.
         }
         
         function tarifaControl($placa){
-            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal'),ifnull(nb_1_tipo_vehi_fld,-1)";
+            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal'),ifnull(nb_1_tipo_vehi_fld,-1),NB_TIPODOC_FLD, NB_NUMERODOC_FLD";
             $sql =$sql." from nb_usuariosr_tbl"; 
             $sql =$sql." where (nb_2_placa_fld='".$placa."' or nb_3_placa_fld='".$placa."' or nb_4_placa_fld='".$placa."')";
             return $this->executeQueryOneRow($sql); 
+        }
+        
+        function verificaPropietario($tipo,$doc){
+            $sql ="SELECT COUNT(1) FROM nb_control_tbl WHERE NB_TIPODOC_FLD='".$tipo."' AND NB_NUMERODOC_FLD ='".$doc."'  AND NB_ESTADO_FLD IN (0,1)";
+            return $this->executeQueryOneRow($sql);     
+
         }
         
         function tarjRepControl($tarjeta){
@@ -262,11 +268,11 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
-       function insertControl($tipo,$placa,$tarjeta,$fecha,$tarifa,$oprid,$estado){
+       function insertControl($tipo,$placa,$doc,$numdoc,$tarjeta,$fecha,$tarifa,$oprid,$estado){
             
             $sql = "INSERT INTO NB_CONTROL_TBL (";
-            $campos = "nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld,nb_estado_fld)VALUES(";
-            $valores="nb_id_fld,".$tipo.",'".$placa."',".$tarjeta.",'".$fecha."',NULL,".$tarifa.",0,0,'".$oprid."',".$estado.")";
+            $campos = "nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_tipodoc_fld,nb_numerodoc_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld,nb_estado_fld)VALUES(";
+            $valores="nb_id_fld,".$tipo.",'".$placa."','".$doc."','".$numdoc."',".$tarjeta.",'".$fecha."',NULL,".$tarifa.",0,0,'".$oprid."',".$estado.")";
                 
             $sql=$sql.$campos.$valores;
             
