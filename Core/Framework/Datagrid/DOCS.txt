@@ -1,0 +1,4 @@
+PHP Grid Control Documentation
+==============================
+
+Please visit http://phpgrid.org/docs for documentation.
