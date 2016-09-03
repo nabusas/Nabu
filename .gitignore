@@ -8,14 +8,15 @@
 
 DB/
 
+#Archivos Mac
+.DS_Store
+
 #Libreria Alpaca
 
-Core/Framework/alpaca/.bower.json
 Core/Framework/alpaca/.bowerrc
 Core/Framework/alpaca/.jshintrc
 Core/Framework/alpaca/.testem.json
 Core/Framework/alpaca/alpaca.jquery.json
-Core/Framework/alpaca/bower.json
 Core/Framework/alpaca/deploy-cleanup.sh
 Core/Framework/alpaca/deploy-npm.sh
 Core/Framework/alpaca/deploy.sh
