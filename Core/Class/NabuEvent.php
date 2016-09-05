@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 14-03-2016
+    Fecha modificacion	= 05-09-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -120,6 +120,9 @@ class NabuEvent
                             case 'string':
                                 $value = "'" . $value . "'";
                                 break;
+                            case 'currency':
+                                $value = "'" . str_replace(',','.',str_replace('.','',str_replace('$','',$value))) . "'";
+                                break;
                             case 'date':
                                 if (!$setData)
                                     $value=$this->objUtilities->castingDate($value);
@@ -139,6 +142,9 @@ class NabuEvent
                             case 'number':
                                 $fieldsValues .= "0";
                                 break;
+                            case 'currency':
+                                $fieldsValues .= "0";
+                                break;    
                             case 'date':
                                 $fieldsValues .= "null";
                                 break;
@@ -203,6 +209,7 @@ class NabuEvent
             if ($accion == 0 or $accion == 2)
                 $sql .=$values;
             
+            echo "SQL = ".$sql;
             $result =$this->database->executeSqlEvent($sql);
             
             if ($result->EOF <> 1){
