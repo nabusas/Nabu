@@ -209,7 +209,6 @@ class NabuEvent
             if ($accion == 0 or $accion == 2)
                 $sql .=$values;
             
-            echo "SQL = ".$sql;
             $result =$this->database->executeSqlEvent($sql);
             
             if ($result->EOF <> 1){
