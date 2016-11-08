@@ -11,6 +11,10 @@ DB/
 #Archivos Mac
 .DS_Store
 
+#Libreria Google
+Core/Framework/google-api-php-client-2.0.2/
+Core/Config/
+
 #Libreria Alpaca
 
 Core/Framework/alpaca/.bowerrc

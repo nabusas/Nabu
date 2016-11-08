@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 15-03-2016
+	Fecha modificacion	= 15-09-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -129,18 +129,20 @@ class TemplatePage
                             <?php 
                                 echo $this->render;
                                 $csv=$this->objUtilities->fileDatagrid($this->idPage);
-                                 if ($csv <> '' and $this->idPage <> 'nb_factura_de_pg'){
+                                 if ($csv <> '' and $this->idPage <> 'nb_factura_de_pg' and $this->idPage <> 'nb_facturacion_v_pg'){
                                     echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
                                     echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
                                  }
                                  else{
-                                    if (isset($_GET["factura"])){
-                                        $factura=$_GET["factura"];
-                                        if (!is_numeric($factura))
-                                            $factura=0;
+                                    if ($this->idPage <> 'nb_facturacion_v_pg'){ 
+                                        if (isset($_GET["factura"])){
+                                            $factura=$_GET["factura"];
+                                            if (!is_numeric($factura))
+                                                $factura=0;
+                                        }
+                                        echo "<br>";
+                                        echo "<a href='../Reports/report.php?tipo=fact&id=$factura' target='_blank'>Imprimir Factura</a>";   
                                     }
-                                    echo "<br>";
-                                    echo "<a href='../Reports/report.php?tipo=fact&id=$factura' target='_blank'>Imprimir Factura</a>";   
                                  }
                             ?>
                         </div>
@@ -150,7 +152,7 @@ class TemplatePage
                         $this->objUtilities->legend($this->idPage);
                     ?>
                         <div style="width: 90%">
-			               <canvas id="canvas" height="30%" width="75%"></canvas> 
+			               <canvas id="canvas" height="30%" width="100%"></canvas> 
                         </div>
                     <?php
                         $this->objUtilities->charts($this->idPage);  
