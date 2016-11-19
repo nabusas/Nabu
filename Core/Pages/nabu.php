@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 17-11-2016
+	Fecha modificacion	= 19-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -48,7 +48,7 @@ THE SOFTWARE.
 	else {
         if(isset($_SESSION['role']) and $_SESSION['role'] <>'') {
             $objTemplate =new TemplatePage($_SESSION['objUtilities']);
-            if($objTemplate->objUtilities->validateRole($_GET['p'], $_SESSION['role'])){
+            if($objTemplate->objUtilities->validateRole($_SESSION['app'],$_GET['p'], $_SESSION['role'])){
                 $objTemplate->initTemplate($_SESSION['app'],$_GET['p']);
             }    
             else 

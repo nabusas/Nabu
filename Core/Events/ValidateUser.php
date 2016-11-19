@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 08-11-2016
+	Fecha modificacion	= 19-11-2016
 	User modify	   	    = CAGC
 
 */
@@ -33,6 +33,39 @@ THE SOFTWARE.
     include "../Class/Utilities.php";   
 
     session_start();
+
+?>
+    <head>
+            <meta charset="utf-8">
+            <title>Evento Guardar</title>
+            <link rel="stylesheet" href="../Styles/nabu.css">
+            <link rel="stylesheet" href="../Framework/alpaca/dist/lib/bootstrap/dist/css/bootstrap.css">
+
+            <link rel="stylesheet" href="../Framework/font-awesome/css/font-awesome.min.css">
+
+            <script src="../Framework/alpaca/dist/lib/jquery/dist/jquery.min.js"></script>
+            <script src="../Framework/alpaca/dist/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    </head>
+
+    <body>
+
+        <header>
+                <table width="100%">
+                    <tr>
+                        <td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
+                    </tr>
+                    <tr>
+                        <td class="slogan">&nbsp&nbsp Semilla de innovacion que da vida a tus ideas</td>
+                    </tr>
+                </table>
+       </header>
+
+    <script src="../Framework/notie/notie.js"></script>
+
+     <br><br><br><br><center><img src='../Images/error.png'><center>
+
+<?php
 
     $empresa=$_POST['Campo0'];
     $usuario=$_POST['Campo1'];
@@ -64,9 +97,33 @@ THE SOFTWARE.
             unset($_SESSION['oprid']);
             unset($_SESSION['role']);
             unset($_SESSION['opridLogin']);
-            header("location:../Pages/?p=error");
+        ?>
+        <script languaje="javascript">
+            notie.alert(3,'Error en autenticación de usuario',5);
+            setTimeout ('document.location = "../Pages/nabu.php?p=login";',2000); 
+        </script> 
+<?php        
+            
         }
     }
     else
-        header("location:../Pages/?p=login");
-?>
+        {
+?>  
+            <script languaje="javascript">
+                notie.alert(3,'Empresa no existe',5);
+                setTimeout ('document.location = "../Pages/nabu.php?p=login";',2000); 
+            </script> 
+<?php        
+        }
+ ?>                
+
+        <footer class="footer">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-google-plus"></i></a>
+            <a href="#"><i class="fa fa-youtube"></i></a>    
+            <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
+            <p>Nabu &copy; 2016</p>
+        </footer>
+    </body>
+</html>

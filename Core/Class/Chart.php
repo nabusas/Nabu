@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-02-2015
+	Fecha modificacion	= 19-11-2015
 	Usuario Modifico	= CAGC
 
 */
@@ -35,17 +35,19 @@ class Chart
     var $labels;
     var $datasets;
     var $oprid;
+    var $empresa;
     
     function Chart(){
-      $this->oprid =$_SESSION['opridLogin'];    
+      $this->oprid =$_SESSION['opridLogin'];
+      $this->empresa =$_SESSION['app'];  
     }
     
     function labels($db,$page){
         
-        $row=$db->getTablaChart($page);
+        $row=$db->getTablaChart($this->empresa,$page);
         $table =$row['tabla'];
         
-        $row=$db->getLabelChart($page);
+        $row=$db->getLabelChart($this->empresa,$page);
         $label =$row[0];
         
         $oprid =$_SESSION['opridLogin'];
@@ -65,10 +67,10 @@ class Chart
         if (!isset($this->datasets))
             $this->datasets = array();
         
-        $row=$db->getTablaChart($page);
+        $row=$db->getTablaChart($this->empresa,$page);
         $table =$row['tabla'];
         
-        $rows=$db->getOptionsChart($page);
+        $rows=$db->getOptionsChart($this->empresa,$page);
         
         foreach($rows as $row)
             array_push($this->datasets,$this->bar($db,$table,$row[0],$row[1]));

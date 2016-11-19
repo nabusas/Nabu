@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 18-11-2016
+	Fecha modificacion	= 19-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -57,10 +57,10 @@ class Utilities
         return $idPage;
     }
 	
-	function validateRole($page, $role) {
+	function validateRole($empresa,$page, $role) {
         
         if($role != 9999) {
-            $row = $this->database->getValidateRole($role, $page);
+            $row = $this->database->getValidateRole($empresa,$role, $page);
             if ($row != null)
                 return true;
             else
@@ -183,11 +183,11 @@ class Utilities
 			unset($json->items);
         
         
-        $rows = $this->database->getFormFields($id, $type);
+        $rows = $this->database->getFormFields($empresa,$id, $type);
         
         foreach($rows as $row){
             
-           $rowsI = $this->database->getFormFieldsTypes($id, $type, $row[0]); 
+           $rowsI = $this->database->getFormFieldsTypes($empresa,$id, $type, $row[0]); 
             
            if  ($typePage == 'array')
                $properties[$row[0]] = $json->addField($rowsI);
@@ -361,7 +361,7 @@ class Utilities
         
         if ($alpaca == 'form' or $alpaca == 'table'){
 			
-			$rows = $this->database->getFormButtonsQuery($id);
+			$rows = $this->database->getFormButtonsQuery($empresa,$id);
             $button = array();
             foreach($rows as $r){
                 $button[$r[0]] = array("value"=> $r[1],"title"=> $r[2], "click"=>$r[3]);
@@ -391,10 +391,10 @@ class Utilities
 		
 		}
 		
-        $rows = $this->database->getFormFields($id, $type);
+        $rows = $this->database->getFormFields($empresa,$id, $type);
         
         foreach($rows as $row){
-            $rowsI = $this->database->getFormFieldsTypes($id,$type,$row[0]);
+            $rowsI = $this->database->getFormFieldsTypes($empresa,$id,$type,$row[0]);
             $campo=$json->addField($rowsI);
 		    
             if  ($alpaca == 'table')
