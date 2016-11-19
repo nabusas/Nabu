@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 23-02-2016
+	Fecha modificacion	= 18-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -33,21 +33,21 @@ THE SOFTWARE.
 
 class Menu
 {
-	function Menu($id_page, $util){
+	function Menu($empresa, $util){
 	
 	$role = 999999;
 	if(isset($_SESSION['role']))
 		$role = $_SESSION['role'];
         
-       $result =$util->database->menu1($id_page,$role);
+       $result =$util->database->menu1($empresa,$role);
 	   echo "<nav id='menu'>";
 
 		echo '<ul>';
 		while ($row = $result->FetchRow()){
 		    $id=$row['id'];
             
-			$hijos=$util->menuHijos($id_page,$id);
-			$maxHijo=$util->maxHijo($id_page,$row['papa'],$row['menu']);
+			$hijos=$util->menuHijos($empresa,$id);
+			$maxHijo=$util->maxHijo($empresa,$row['papa'],$row['menu']);
             
             $target=' ';
             if ( $row['target'] == 'Y' )
@@ -57,25 +57,25 @@ class Menu
 
 			if ($hijos)
 				echo"<ul>";
-			else
+            else
 				echo"</li>";
 
-			if ($maxHijo){
-                if (!$hijos){
+
+            if ($maxHijo)
+                if (!$hijos)
 				    echo '</ul></li>';
-                }
-            }
             
-            $row2 =$util->database->menu2($id_page,$id);
+            
+            $row2 =$util->database->menu2($empresa,$id);
             $papa2=$row2[0];
             
-            $row3 =$util->database->menu3($id_page,$papa2);
+            $row3 =$util->database->menu3($empresa,$papa2);
             
             $papa3=$row3[0];
             $hijo3=$row3[1];
             
             
-            $maxHijo2=$util->maxHijo($id_page,$papa3,$hijo3);
+            $maxHijo2=$util->maxHijo($empresa,$papa3,$hijo3);
             
             if ($maxHijo and $maxHijo2)
                 echo '</ul>';

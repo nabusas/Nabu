@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 21-03-2016
+	Fecha modificacion	= 08-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -48,10 +48,7 @@ session_start();
         if ($valores[0] == 'value')
             $campo =  $valores[1];
         
-		if ($campo == 'role')
-			$sql='Select nb_id_role_fld,nb_desc_fld from nb_role_tbl';
-        else
-            if ($campo == 'country')
+		if ($campo == 'country')
                 $sql="Select nb_id_country_fld,nb_desc_fld from nb_country_tbl";
             else
                 if ($valores[0] == 'state')

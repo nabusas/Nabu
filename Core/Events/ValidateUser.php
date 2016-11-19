@@ -25,12 +25,12 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 18-01-2016
+	Fecha modificacion	= 08-11-2016
 	User modify	   	    = CAGC
 
 */
 
-    include "../Class/Utilities.php";    
+    include "../Class/Utilities.php";   
 
     session_start();
 
@@ -40,26 +40,27 @@ THE SOFTWARE.
     $idPage=$_GET['p'];
     
     $objUtilities=$_SESSION['objUtilities'];
+
     $enterprise=$objUtilities->database->getEnterprise($empresa);
 
     if (sizeof($enterprise) > 1){
+        
         $objUtilities = new Utilities($enterprise[0],$enterprise[2],$enterprise[3],$enterprise[1]);
         $_SESSION['objUtilities']=$objUtilities;
 
-        $objUtilities->database->getPageFields($idPage);
-
-        $row=$objUtilities->database->validateUser($usuario,$password); 
+        $row=$objUtilities->database->validateUser($empresa,$usuario,$password); 
 
         if ($row[0] != null) {
             session_start();
-            $row = $objUtilities->database->validateRole($row[0]);
+            $_SESSION['app'] = $empresa;
             $_SESSION['oprid'] = $row[0];
-            $_SESSION['role'] = $row[0];
+            $_SESSION['role'] = $row[1];
             $_SESSION['opridLogin'] = $usuario;
             header("location:../Pages/?p=home");
         }
         else
         {
+            unset($_SESSION['app']);
             unset($_SESSION['oprid']);
             unset($_SESSION['role']);
             unset($_SESSION['opridLogin']);

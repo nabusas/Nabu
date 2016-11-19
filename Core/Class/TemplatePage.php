@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 15-09-2016
+	Fecha modificacion	= 18-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -46,10 +46,10 @@ class TemplatePage
         $this->objUtilities=$objUtilities;
     }
 
-    function initTemplate($id_page){
+    function initTemplate($empresa,$id_page){
         $this->idPage=$this->objUtilities->idPage($id_page);
         $this->config=$this->objUtilities->setupConfig();
-        $this->pageProperties=$this->objUtilities->pageProperties($this->idPage);
+        $this->pageProperties=$this->objUtilities->pageProperties($empresa,$this->idPage);
         $this->tipo=$this->pageProperties['tipo'];
         if ($this->tipo == 'datagrid')
         	$this->render=$this->objUtilities->getDataGrid($this->idPage);
@@ -72,7 +72,7 @@ class TemplatePage
                 <title><?php echo $this->pageProperties['title']; ?></title>
 
                 <!-- Atributos Pagina -->
-                <?php $this->objUtilities->pageAttribute($this->idPage);?>
+                <?php $this->objUtilities->pageAttribute( $_SESSION['app'],$this->idPage);?>
 
             </head>
 <?php
@@ -101,7 +101,7 @@ class TemplatePage
 		<br><br>
 <?php
 		if ($this->idPage <> 'login')
-            $this->menu = new Menu($this->idPage,$this->objUtilities);
+            $this->menu = new Menu($_SESSION['app'],$this->objUtilities);
                       
 	}
     
@@ -113,14 +113,19 @@ class TemplatePage
 			 <div align='center'>
 				<?php
                     include "../Class/analyticstracking.php";
+
                     $style=$this->pageProperties['style'];
                     $trace=$this->pageProperties['trace'];
+                    $empresa=$_SESSION['app'];
+                        
+                    if ($empresa=='')
+                        $empresa='nabu';
                     
                     if ($this->tipo == 'alpaca' or $this->tipo == 'wizard'){
-                        $schema=$this->objUtilities->getSchema($this->idPage);
-                        $options=$this->objUtilities->getOption($this->idPage);
+                        $schema=$this->objUtilities->getSchema($empresa,$this->idPage);
+                        $options=$this->objUtilities->getOption($empresa,$this->idPage);
                         $data =$this->objUtilities->getData($this->idPage);
-                        $view =$this->objUtilities->getView($this->idPage);
+                        $view =$this->objUtilities->getView($empresa,$this->idPage);
                         $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view);
                     }
                     if ($this->tipo == 'datagrid'){
@@ -176,7 +181,7 @@ class TemplatePage
 				        <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
                             <p>Nabu &copy; 2016</pp>
                         </td>
-                        <td align='right'>&nbsp&nbsp<?php echo "Version App ".$this->config[2]."-DB ".$this->config[1] ?></td>
+                        <td align='right'>&nbsp&nbsp<?php echo "Version App "; //.$this->config[2]."-DB ".$this->config[1] ?></td>
                       </tr>
                   </table>          
 		        </footer>

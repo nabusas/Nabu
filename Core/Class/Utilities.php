@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 23-02-2016
+	Fecha modificacion	= 18-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -74,14 +74,6 @@ class Utilities
 		}
 	}
     
-    function maxHijo($id_page,$papa,$idHijo){
-        $row = $this->database->getMaxHijo($id_page, $papa);
-        if ($row[0] == $idHijo)
-		  return true;
-
-        return false;
-    	
-    }
 
     function fileDatagrid($page){
         $this->csv = new ExportExcel();
@@ -103,8 +95,8 @@ class Utilities
         return $date;
     }
     
-    function menuHijos($id_page,$id){
-        $row = $this->database->getMenuHijos($id_page, $id);
+    function menuHijos($empresa,$id){
+        $row = $this->database->getMenuHijos($empresa, $id);
         if ($row[0] > 0)
             return true;
 
@@ -112,6 +104,15 @@ class Utilities
 	
     }
     
+    function maxHijo($empresa,$papa,$idHijo){
+        $row = $this->database->getMaxHijo($empresa, $papa);
+        if ($row[0] == $idHijo)
+		  return true;
+
+        return false;
+    	
+    }
+
     function changeValue($field,$value) {
         
         if ($value == 'nb_secuencia')
@@ -140,16 +141,18 @@ class Utilities
           return $row;
     }
     
-    function pageProperties($id){
-        return $this->database->getPageProperties($id);
+    function pageProperties($empresa,$id){
+        return $this->database->getPageProperties($empresa,$id);
     }
     
     
-    function pageAttribute($id){
+    function pageAttribute($empresa,$id){
         
-        $rows =$this->database->getPageAttribute($id);
+        if ($empresa=='')
+            $empresa='nabu';
+        
+        $rows =$this->database->getPageAttribute($empresa,$id);
         $comillas='"';
-        
         foreach($rows as $row){
             echo chr(9).chr(9);  
             if ($row[0] == 'link' )
@@ -164,12 +167,11 @@ class Utilities
         
     }
     
-	function getSchema($id){
+	function getSchema($empresa,$id){
        
         $id = strtolower($id);
 	    $type = 'schema';
-		
-		$row = $this->database->getSchemaDescription($id);
+		$row = $this->database->getSchemaDescription($empresa,$id);
         $typePage = $row[2];
 		$json = new Schema($row[0],$row[1],$row[2]);
 		
@@ -207,7 +209,7 @@ class Utilities
         
         $json = new JsonData();
         
-        $table  = $this->database->getDataRecord($id);
+        $table  = $this->database->getDataRecord($_SESSION['app'],$id);
         $fields = $this->database->getFieldsPage($id);
         
         $ifcampos=false;
@@ -299,7 +301,7 @@ class Utilities
 
                                     $fieldsData[$field[0]]=$_GET[$field[0]];
 
-                                    $fieldxs=$this->database->getPromptSelect($id,$field[0],$_GET[$field[0]]);
+                                    $fieldxs=$this->database->getPromptSelect($_SESSION['app'],$id,$field[0],$_GET[$field[0]]);
                                     foreach($fieldxs as $fieldx){
                                         $value=$this->database->executeQueryOneRow($fieldx[1]);
                                         $fieldsData[$fieldx[0]]=$value[0];
@@ -329,23 +331,23 @@ class Utilities
        return $jsonA;
     }
     
-    function getView($id){
+    function getView($empresa,$id){
         
         $view = new View();
-        $row = $this->database->getOptionsEvents($id);
+        $row = $this->database->getOptionsEvents($empresa,$id);
         $alpaca = $row['ALPACA'];
-        $parent = $this->database->getViewParent($id);
+        $parent = $this->database->getViewParent($empresa,$id);
         $view->setView($this->database,$parent[0], $alpaca, $id); 
         
         return $view;
             
     }
     
-    function getOption($id){
+    function getOption($empresa,$id){
         
 		$id = strtolower($id);
 		$type = 'options';
-		$row = $this->database->getOptionsEvents($id);
+		$row = $this->database->getOptionsEvents($empresa,$id);
 		$alpaca = $row['ALPACA'];  		
 		
         $json = new Options();
@@ -621,5 +623,3 @@ class Utilities
     }
 }
 ?>
-
-
