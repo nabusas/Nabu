@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 05-09-2016
+    Fecha modificacion	= 25-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -50,7 +50,7 @@ class NabuEvent
 	
     function getpagelink($page){
         
-        $pageLink =$this->database->getPageLink($page);
+        $pageLink =$this->database->getPageLink($_SESSION['app'],$page);
     
         return $pageLink[0];
     }
@@ -71,11 +71,11 @@ class NabuEvent
         else
             $numeroFilas=1;
         
-        $tables = $this->database->getTables($this->page);
+        $tables = $this->database->getTables($_SESSION['app'],$this->page);
         $resultado=1;
         
         foreach($tables as $table) {
-            $fields = $this->database->getFields($this->page,$table[0]);
+            $fields = $this->database->getFields($_SESSION['app'],$this->page,$table[0]);
             
             $fieldsValues='';  
             $fieldsTable='';
@@ -88,7 +88,7 @@ class NabuEvent
             for ($i=0; $i<$numeroFilas; $i++){
                 foreach($fields as $field){
                 
-                    $type =$this->database->getTypes($table[0],$field[1]);
+                    $type =$this->database->getTypes($_SESSION['app'],$table[0],$field[1]);
 
                     if ($accion == 0 or $accion==1){
                         if (isset($_POST[$field[0]])){

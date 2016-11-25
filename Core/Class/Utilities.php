@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 19-11-2016
+	Fecha modificacion	= 25-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -77,7 +77,7 @@ class Utilities
 
     function fileDatagrid($page){
         $this->csv = new ExportExcel();
-        $sql = $this->database->tableDataGrid($page);
+        $sql = $this->database->tableDataGrid($_SESSION['app'],$page);
         
         $this->database->conectar();
         $file=$this->csv->exportarFile($sql[0],$sql[1]);
@@ -128,7 +128,7 @@ class Utilities
     }
     
     function maxSequence($field){
-        $row = $this->database->getSequence($field);
+        $row = $this->database->getSequence($_SESSION['app'],$field);
         return $row[0];
     } 
     
@@ -205,12 +205,12 @@ class Utilities
         return $json;
 	}
    
-	function getData($id){
+	function getData($empresa,$id){
         
         $json = new JsonData();
         
-        $table  = $this->database->getDataRecord($_SESSION['app'],$id);
-        $fields = $this->database->getFieldsPage($id);
+        $table  = $this->database->getDataRecord($empresa,$id);
+        $fields = $this->database->getFieldsPage($empresa,$id);
         
         $ifcampos=false;
         
@@ -256,12 +256,12 @@ class Utilities
                                 if ( $key=='Y' ){
                                     if (isset($_GET[$field[0]])){
                                         if ($_GET[$field[0]] <> ''){    
-                                            $value=$this->database->getDataChange($field[0],$_GET[$field[0]]);
+                                            $value=$this->database->getDataChange($empresa,$field[0],$_GET[$field[0]]);
 
                                             if ($value[0] == '')
                                                 $value[0]=$_GET[$field[0]];
 
-                                            $crypted=$this->database->ifCrypted($field[1],$field[0]);
+                                            $crypted=$this->database->ifCrypted($empresa,$field[1],$field[0]);
 
                                             if ($crypted[0] =='Y')
                                                 $value[0]=base64_decode($value[0])/444;
@@ -280,7 +280,7 @@ class Utilities
                                 }
                                 else{
                                     $value=$this->database->getDatavalueW($field[1],$field[0],$where);
-                                    $type =$this->database->getTypes($field[1],$field[0]);
+                                    $type =$this->database->getTypes($empresa,$field[1],$field[0]);
 
                                     $fieldsData[$field[0]]=$value[0];
                                 }
@@ -294,14 +294,14 @@ class Utilities
                             if (isset($_GET[$field[0]])){
                                 if ($_GET[$field[0]] <> ''){
 
-                                    $type =$this->database->getTypes($field[1],$field[0]);
+                                    $type =$this->database->getTypes($empresa,$field[1],$field[0]);
                                         if ($type[0] == 'number')
                                             if ( !is_numeric($_GET[$field[0]]) )
                                                 $_GET[$field[0]]=0;
 
                                     $fieldsData[$field[0]]=$_GET[$field[0]];
 
-                                    $fieldxs=$this->database->getPromptSelect($_SESSION['app'],$id,$field[0],$_GET[$field[0]]);
+                                    $fieldxs=$this->database->getPromptSelect($empresa,$id,$field[0],$_GET[$field[0]]);
                                     foreach($fieldxs as $fieldx){
                                         $value=$this->database->executeQueryOneRow($fieldx[1]);
                                         $fieldsData[$fieldx[0]]=$value[0];
@@ -315,7 +315,7 @@ class Utilities
                     $jsonA=$json->getData2($fieldsData);
             }
             else{
-                $fields =$this->database->getData($id);
+                $fields =$this->database->getData($empresa,$id);
                 $jsonA=$json->getData($fields);
             }
         }
@@ -476,7 +476,7 @@ class Utilities
     
     function legend($id){
 
-        $rows = $this->database->getChartDataQuery($id, 'column');
+        $rows = $this->database->getChartDataQuery($_SESSION['app'],$id, 'column');
         echo "<table border=1 width='20%'><tr>";
         
         foreach($rows as $row)
@@ -529,11 +529,11 @@ class Utilities
     function getDataGrid($id){
         
         $g = new jqgrid();
-        $pageL = $this->database->getTableLink($id);
+        $pageL = $this->database->getTableLink($_SESSION['app'],$id);
         
         $type='gridoptions';
         
-        $result = $this->database->getGrid1($type,$id);
+        $result = $this->database->getGrid1($_SESSION['app'],$type,$id);
         
         
         while ($row = $result->FetchRow()){
@@ -575,13 +575,13 @@ class Utilities
             }
         }
 
-        $campos = $this->database->getGrid2($id);
+        $campos = $this->database->getGrid2($_SESSION['app'],$id);
         
         $type='gridcoloptions';
         $cols= array();
         
         while ($camposDescribe = $campos->FetchRow()){
-            $result = $this->database->getGrid3($type,$id,$camposDescribe[0]);
+            $result = $this->database->getGrid3($_SESSION['app'],$type,$id,$camposDescribe[0]);
             $col = array();
             while ($row = $result->FetchRow()){
                 $value=$row[2];

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-11-2016
+	Fecha modificacion	= 25-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -38,6 +38,20 @@ THE SOFTWARE.
         
         function Database($host,$user,$password,$database){
             $this->cx=new Conexion($host,$user,$password,$database); 
+        }
+        
+        function getsetupConfig(){
+            $sql = "SELECT NB_SLOGAN_FLD,nb_versionbd_fld,nb_versionap_fld,nb_tarceSql_fld FROM nabu.NB_CONFIG_TBL";
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function traceSql($codigo,$sql){
+            
+            $config=$this->getsetupConfig();
+            $activarTrace =$config[3];
+            
+            if ($activarTrace == 'true')
+                echo "<br> codigo =".$codigo." Sql=".$sql;
         }
         
         function conectar(){
@@ -96,391 +110,299 @@ THE SOFTWARE.
                     $linea=$i;
                 
                 $sql ="insert into nb_detallef_tbl (factura) values('".$fact."-".$linea."')";
+                $this->traceSql('',$sql);
                 $this->execute($sql);
             }    
         }
         function getInvoiceNum(){
             $sql ="SELECT IFNULL(MAX(nb_fact_1_fld),0)+1 from nb_facturacion_tbl";
+            $this->traceSql('',$sql);
             return $this->executeQueryOneRow($sql);
         }
-        
-        function fechasControl($placa){
-            $sql ="select nb_3_fecha_ingreso_fld from nb_control_tbl where nb_2_placa_fld='".$placa."'";
-            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function tarifaControlDB($placa){
-            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal')";
-            $sql =$sql." from nb_control_tbl"; 
-            $sql =$sql." where nb_2_placa_fld='".$placa."'";
-            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function tarifaControl($placa){
-            $sql ="select ifnull(nb_1_tipotarifa_fld,2),ifnull((SELECT NB_VALUE_FLD FROM NB_VALUE_TBL WHERE nb_id_pr_schema_fld = 'nb_1_tipotarifa_fld' AND NB_ID_VALUE_FLD=nb_1_tipotarifa_fld),'Normal'),ifnull(nb_1_tipo_vehi_fld,-1),NB_TIPODOC_FLD, NB_NUMERODOC_FLD";
-            $sql =$sql." from nb_usuariosr_tbl"; 
-            $sql =$sql." where (nb_2_placa_fld='".$placa."' or nb_3_placa_fld='".$placa."' or nb_4_placa_fld='".$placa."')";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function verificaPropietario($tipo,$doc){
-            $sql ="SELECT COUNT(1) FROM nb_control_tbl WHERE NB_TIPODOC_FLD='".$tipo."' AND NB_NUMERODOC_FLD ='".$doc."'  AND NB_ESTADO_FLD IN (0,1)";
-            return $this->executeQueryOneRow($sql);     
-
-        }
-        
-        function tarjRepControl($tarjeta){
-            $sql ="select count(1) from nb_control_tbl where nb_estado_fld in (0,1) and nb_3_tarjeta_fld=".$tarjeta;
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function validaSalida($placa,$tarjeta){
-            $sql ="select count(1) from nb_control_tbl where nb_estado_fld=0 and (nb_3_tarjeta_fld='".$tarjeta."'";
-            $sql =$sql." or nb_2_placa_fld='".$placa."') and nb_1_tipotarifa_fld=2";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function tipoControlDB($placa){
-            $sql ="SELECT DISTINCT NB_1_TIPO_VEHI_FLD FROM NB_CONTROL_TBL where nb_2_placa_fld='".$placa."'";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function tipoControl($tipo){
-            
-            $sql ="select nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='nb_1_tipo_vehi_fld' and nb_id_value_fld=".$tipo;
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function dataTarifa ($tipo,$tarifa,$cobro){
-            $sql ="SELECT nb_4_valor_fld,nb_5_tiempoG_fld FROM nb_tarifas_tbl where nb_1_tipotarifa_fld=".$tarifa." and nb_1_tipo_vehi_fld=".$tipo." and nb_3_tipocobro_fld=".$cobro;
-            
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function updtCosto($placa,$valor){
-            $sql =" Update nb_control_tbl set nb_6_valor_fld=".$valor." where nb_2_placa_fld='".$placa."' and nb_6_valor_fld=-1";
-            return $this->execute($sql);
-        }
-        
-        function tiempoGracia($tarifa,$tipo){
-            $sql ="select ifnull(nb_6_tiempoS_fld,0) from nb_tarifas_tbl where nb_1_tipotarifa_fld=".$tarifa;
-            $sql =$sql." and nb_1_tipo_vehi_fld=".$tipo;
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function fechaNueva($placa,$tiempoG){
-            $sql ="select  DATE_ADD(nb_4_fecha_salida_fld, interval ".($tiempoG+1)." MINUTE) from nb_control_tbl where nb_2_placa_fld='".$placa."'";
-            $sql =$sql." AND nb_4_fecha_salida_fld=(SELECT MAX(nb_4_fecha_salida_fld) FROM nb_control_tbl";
-            $sql =$sql." WHERE nb_2_placa_fld='".$placa."')";
-            $sql =$sql." AND nb_estado_fld=1 AND nb_1_tipotarifa_fld=2";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function validaGracia($placa,$tiempoG){
-            $sql ="select  COUNT(1) from nb_control_tbl where nb_2_placa_fld='".$placa."'";
-            $sql =$sql." AND nb_4_fecha_salida_fld=(SELECT MAX(nb_4_fecha_salida_fld) FROM nb_control_tbl";
-            $sql =$sql." WHERE nb_2_placa_fld='".$placa."')";
-            $sql =$sql." AND nb_estado_fld=1 AND nb_1_tipotarifa_fld=2";
-            $sql =$sql." AND NOW() > DATE_ADD(nb_4_fecha_salida_fld, interval ".$tiempoG." MINUTE)";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function tarjControl($placa){
-            $sql ="select nb_3_tarjeta_fld from nb_control_tbl where nb_2_placa_fld='".$placa."'";
-            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
-            return $this->executeQueryOneRow($sql); 
-        }
-        function timeControl($placa){
-            $sql ="select nb_5_totalhoras_fld from nb_control_tbl where nb_2_placa_fld='".$placa."'";
-            $sql =$sql." AND  nb_3_fecha_ingreso_fld=(SELECT MAX(nb_3_fecha_ingreso_fld) FROM nb_control_tbl WHERE nb_2_placa_fld='".$placa."')";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function updtSalida($placa,$estado){
-            
-            $sql ="Update nb_control_tbl set nb_estado_fld=".$estado; 
-            $sql =$sql." where nb_2_placa_fld='".$placa."' and nb_estado_fld=1";
-            return $this->execute($sql);
-        }
-        function updtControl($placa,$fecha,$estado){
-            
-            $sql ="Update nb_control_tbl set nb_4_fecha_salida_fld='".$fecha."',"; 
-            $sql =$sql." nb_5_totalhoras_fld=ABS(TIMESTAMPDIFF(MINUTE, nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld)), nb_6_valor_fld=-1,nb_estado_fld=".$estado;
-            $sql =$sql." where nb_2_placa_fld='".$placa."' and nb_estado_fld=0";
-            return $this->execute($sql);
-        }
-        
-        function verifiControlR($placa){
-            
-            $sql ="select COUNT(1) from nb_control_tbl where nb_2_placa_fld='".$placa."' and nb_estado_fld= 0";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-        function verifiControl($placa){
-            
-            $sql ="select COUNT(1) from nb_control_tbl where nb_2_placa_fld='".$placa."' and nb_estado_fld in (0,1)";
-            return $this->executeQueryOneRow($sql); 
-        }
-        
-       function insertControl($tipo,$placa,$doc,$numdoc,$tarjeta,$fecha,$tarifa,$oprid,$estado){
-            
-            $sql = "INSERT INTO NB_CONTROL_TBL (";
-            $campos = "nb_id_fld,nb_1_tipo_vehi_fld,nb_2_placa_fld,nb_tipodoc_fld,nb_numerodoc_fld,nb_3_tarjeta_fld,nb_3_fecha_ingreso_fld,nb_4_fecha_salida_fld,nb_1_tipotarifa_fld, nb_5_totalhoras_fld ,nb_6_valor_fld,nbd_id_user_fld,nb_estado_fld)VALUES(";
-            $valores="nb_id_fld,".$tipo.",'".$placa."','".$doc."','".$numdoc."',".$tarjeta.",'".$fecha."',NULL,".$tarifa.",0,0,'".$oprid."',".$estado.")";
-                
-            $sql=$sql.$campos.$valores;
-            
-            return $this->execute($sql);
-        }
-        
         
         /************************************************************************************************************************************/
         
         function getEnterprise($enter){
-            $sql ="select nb_host_fld,nb_db_fld,nb_user_fld,nb_pass_fld from nb_enterprise_tbl where nb_enterprise_id_fld='" .$enter. "'";
+            $sql ="select nb_host_fld,nb_db_fld,nb_user_fld,nb_pass_fld from nabu.nb_enterprise_tbl where nb_enterprise_id_fld='" .$enter. "'";
+            $this->traceSql('1',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
         function menu3($empresa,$papa2){
             $sql ="SELECT a.nb_parent_fld,a.nb_id_menu_fld FROM nabu.nb_navigation_tbl a WHERE a.nb_enterprise_id_fld='$empresa' and a.nb_sec_fld='$papa2'";
+            $this->traceSql('2',$sql);
             return $this->executeQueryOneRow($sql);
         }
         function menu2($empresa,$id){
             $sql ="SELECT a.nb_parent_fld FROM nabu.nb_navigation_tbl a WHERE a.nb_enterprise_id_fld='$empresa' and a.nb_sec_fld='$id'";
+            $this->traceSql('3',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
         function menu1($empresa,$role){
             $sql = "SELECT a.nb_sec_fld id,a.nb_id_menu_fld menu,a.nb_parent_fld papa,a.nb_descr_men_fld descr,a.nb_image_fld image,a.nb_link_fld link,a.nb_target_fld target FROM   nabu.nb_navigation_tbl a, nabu.nb_role_pag_tbl b WHERE  a.nb_enterprise_id_fld = b.nb_enterprise_id_fld and a.nb_link_fld = b.nb_id_page_fld and b.nb_id_role_fld =" . $role . " and 	a.nb_enterprise_id_fld='" . $empresa . "' and 	a.nb_link_fld in (select nb_id_page_fld from nabu.nb_role_pag_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_role_fld = " . $role . ") order by a.nb_sec_fld";
+            $this->traceSql('4',$sql);
             return $this->execute($sql);
         }
         
         function getMaxHijo($empresa, $papa){
             $sql = "SELECT MAX(A.NB_ID_MENU_FLD) FROM nabu.NB_NAVIGATION_TBL A WHERE A.nb_enterprise_id_fld='$empresa' AND A.NB_PARENT_FLD ='$papa'";
+            $this->traceSql('5',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
         function getMenuHijos($empresa, $id){
             $sql = "SELECT COUNT(1) FROM  nabu.NB_NAVIGATION_TBL A WHERE a.nb_enterprise_id_fld='$empresa' AND A.NB_PARENT_FLD='$id'";
+            $this->traceSql('6',$sql);
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getGrid3($type,$idPage,$col){
-            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nb_datagridcol_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage' and a.nb_column_fld='$col'";
+        function getGrid3($empresa,$type,$idPage,$col){
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagridcol_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_enterprise_id_fld='$empresa' AND a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage' and a.nb_column_fld='$col'";
+            $this->traceSql('7',$sql);
             return $this->execute($sql);
         }
         
-        function getGrid2($idPage){
-            $sql ="Select distinct a.nb_column_fld from nb_datagridcol_tbl a where a.nb_id_page_fld = '$idPage'";
+        function getGrid2($empresa,$idPage){
+            $sql ="Select distinct a.nb_column_fld from nabu.nb_datagridcol_tbl a where a.nb_id_page_fld = '$idPage'";
+            $this->traceSql('8',$sql);
             return $this->execute($sql);
         }
         
-        function getGrid1($type,$idPage){
-            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage'";
+        function getGrid1($empresa,$type,$idPage){
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and a.nb_enterprise_id_fld='$empresa' AND b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage'";
+            $this->traceSql('9',$sql);
             return $this->execute($sql);
         }
         
-        function tableDataGrid($idPage){
-            $sql ="select nb_config_frmwrk_id_fld,nb_value_fld from nb_datagrid_tbl where  `nb_config_frmwrk_id_fld` in (44,65) and nb_id_page_fld ='" . $idPage . "'";
+        function tableDataGrid($empresa,$idPage){
+            $sql ="select nb_config_frmwrk_id_fld,nb_value_fld from nabu.nb_datagrid_tbl where nb_enterprise_id_fld='$empresa' AND nb_config_frmwrk_id_fld in (44,65) and nb_id_page_fld ='" . $idPage . "'";
+            $this->traceSql('10',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
         function getPromptSelect($empresa,$idpage,$field,$value){
             $sql ="SELECT nb_id_field_2_fld,Concat(Concat('Select ',nb_id_field_4_fld), ' from ',nb_id_table_fld, ' Where ',nb_id_field_3_fld,'=','".$value."')";
             $sql.=" FROM nabu.nb_event_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld='".$idpage."' and nb_id_field_1_fld='".$field."'";
+            $this->traceSql('11',$sql);
             return $this->executeQuery($sql); 
         }
         
         function executeSqlEvent($sql){
+            $this->traceSql('12',$sql);
             return $this->execute($sql);
         }
         
-        function getTables($idPage){
-            $sql ="SELECT distinct nb_id_table_fld FROM nb_form_tables_tbl where nb_id_page_fld ='" . $idPage . "'";
+        function getTables($empresa,$idPage){
+            $sql ="SELECT distinct nb_id_table_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idPage . "'";
+            $this->traceSql('13',$sql);
             return $this->executeQuery($sql);
         }
         
-        function getFields($idPage, $table){
-           $sql ="SELECT nb_id_page_field_fld, nb_id_table_field_fld FROM nb_form_tables_tbl where nb_id_page_fld ='" . $idPage . "' and nb_id_table_fld = '" .$table. "'";
+        function getFields($empresa,$idPage, $table){
+           $sql ="SELECT nb_id_page_field_fld, nb_id_table_field_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idPage . "' and nb_id_table_fld = '" .$table. "'";
+            $this->traceSql('14',$sql);
             return $this->executeQuery($sql);
         }
         
-        function getTypes($table, $field){
-            $sql ="SELECT nb_type_fld FROM nb_table_fields_tbl where nb_id_fld ='" .$field. "' and nb_id_table_fld = '" .$table . "'";
+        function getTypes($empresa,$table, $field){
+            $sql ="SELECT nb_type_fld FROM nabu.nb_table_fields_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_fld ='" .$field. "' and nb_id_table_fld = '" .$table . "'";
+            $this->traceSql('15',$sql);
             return $this->executeQueryOneRow($sql);   
         }
         
         function getViewParent($empresa,$idPage){
             $sql ="SELECT nb_page_view_pa_fld FROM nabu.nb_pages_tbl where nb_enterprise_id_fld='" . $empresa. "' and nb_id_page_fld ='" . $idPage . "'";
+            $this->traceSql('16',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
         function getDatavalueW($table, $field ,$where){
             $sql = "Select ".$field." from ".$table." ".$where;
+            $this->traceSql('17',$sql);
             return $this->executeQueryOneRow($sql);             
         }
         
         function getDataValue($table, $field){
             $sql = "Select ".$field." from ".$table;
+            $this->traceSql('18',$sql);
             return $this->executeQueryOneRow($sql); 
         }
         
-        function getTableLink($idPage){
-            $sql ="select a.nb_id2_page_fld from nb_link_tbl a where a.nb_id_page_fld = '" .$idPage . "'";
+        function getTableLink($empresa,$idPage){
+            $sql ="select a.nb_id2_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld='" . $empresa. "' and a.nb_id_page_fld = '" .$idPage . "'";
+            $this->traceSql('19',$sql);
             return $this->executeQueryOneRow($sql); 
         }
         
-        function getDataRecord($idempresa,$idPage){
-            $sql ="select a.nb_page_data_fld from nabu.nb_pages_tbl a where a.nb_id_page_fld = '" .$idPage . "' and nb_enterprise_id_fld='" . $idempresa. "'";
+        function getDataRecord($empresa,$idPage){
+            $sql ="select a.nb_page_data_fld from nabu.nb_pages_tbl a where a.nb_id_page_fld = '" .$idPage . "' and nb_enterprise_id_fld='" . $empresa. "'";
+            $this->traceSql('20',$sql);
             return $this->executeQueryOneRow($sql); 
         }    
         
-        function ifCrypted($tabla,$campo){
-            $sql="select nb_crypted_fld from nb_table_fields_tbl where nb_id_table_fld ='".$tabla."' and nb_id_fld='".$campo."'";
+        function ifCrypted($empresa,$tabla,$campo){
+            $sql="select nb_crypted_fld from nabu.nb_table_fields_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_table_fld ='".$tabla."' and nb_id_fld='".$campo."'";
+            $this->traceSql('21',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
-        function getDataChange($campo, $valor){
-            $sql="select nb_id_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."' and nb_value_fld='".$valor."'";
+        function getDataChange($empresa,$campo, $valor){
+            $sql="select nb_id_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld='".$campo."' and nb_value_fld='".$valor."'";
+            $this->traceSql('22',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
-        function getKeyField($tabla,$campo){
-            $sql="SELECT COUNT(1) FROM NB_TABLE_FIELDS_TBL WHERE nb_id_table_fld='".$tabla."' AND NB_ID_FLD='".$campo."' AND NB_KEY_FLD='Y'";
+        function getKeyField($empresa,$tabla,$campo){
+            $sql="SELECT COUNT(1) FROM nabu.NB_TABLE_FIELDS_TBL WHERE nb_enterprise_id_fld ='".$empresa."' and nb_id_table_fld='".$tabla."' AND NB_ID_FLD='".$campo."' AND NB_KEY_FLD='Y'";
+            $this->traceSql('23',$sql);
             return $this->executeQueryOneRow($sql);
         }
-        function getFieldsPage($idPage){
-            $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld,B.NB_KEY_FLD FROM NB_FORM_TABLES_TBL A , NB_TABLE_FIELDS_TBL B WHERE  A.nb_id_table_fld = B.nb_id_table_fld";
-            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND nb_id_page_fld = '" .$idPage . "' ORDER BY A.nb_id_table_fld, B.NB_KEY_FLD  desc";
+        function getFieldsPage($empresa,$idPage){
+            $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld,B.NB_KEY_FLD FROM nabu.NB_FORM_TABLES_TBL A , nabu.NB_TABLE_FIELDS_TBL B WHERE  a.nb_enterprise_id_fld  = b.nb_enterprise_id_fld  and A.nb_id_table_fld = B.nb_id_table_fld";
+            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND A.nb_enterprise_id_fld ='".$empresa."' and A.nb_id_page_fld = '" .$idPage . "' ORDER BY A.nb_id_table_fld, B.NB_KEY_FLD  desc";
+            $this->traceSql('24',$sql);
             return $this->executeQuery($sql);  
         }
         
-        /*function getDataFields($table){
-            $sql ="describe " .$table;
-            return $this->execute($sql);
-        }*/
-            
-        function getData($idPage){
-            $sql ="select nb_id_pr_schema_fld,a.nb_value_fld from nb_data_tbl a where a.nb_id_page_fld = '" .$idPage . "'";
+        function getData($empresa,$idPage){
+            $sql ="select nb_id_pr_schema_fld,a.nb_value_fld from nabu.nb_data_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '" .$idPage . "'";
+            $this->traceSql('25',$sql);
             return $this->executeQuery($sql);
         }
         
-        function nextSequence($field){
-            $sql ="Update nb_sequences_tbl set nb_value_fld=nb_value_fld+1 where nb_id_table_field_fld = '" .$field . "'";
+        function nextSequence($empresa,$field){
+            $sql ="Update nb_sequences_tbl set nb_value_fld=nb_value_fld+1 where nb_enterprise_id_fld ='".$empresa."' and nb_id_table_field_fld = '" .$field . "'";
+            $this->traceSql('26',$sql);
             return $this->execute($sql);
         }
         
-        function getSequence($field){
-            $sql ="select coalesce(max(nb_value_fld),0)+1 from nb_sequences_tbl where nb_id_table_field_fld = '" .$field . "'";
-            $this->nextSequence($field);
+        function getSequence($empresa,$field){
+            $sql ="select coalesce(max(nb_value_fld),0)+1 from nb_sequences_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_table_field_fld = '" .$field . "'";
+            $this->nextSequence($empresa,$field);
+            $this->traceSql('27',$sql);
             return $this->executeQueryOneRow($sql); 
         }
         
         function getWizardQuery($empresa,$idPage){
             $sql = "SELECT NB_WIZARD_TITLE,NB_WIZARD_DESC,NB_WIZARD_SHOW_PROGRESS FROM nabu.NB_WIZARD_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage'";
+            $this->traceSql('28',$sql);
             return $this->executeQuery($sql);
             
         }
         
         function getWizardStepsQuery($empresa,$idPage){
             $sql = "SELECT NB_WIZARD_STEP_TITLE, NB_WIZARD_STEP_DESC FROM nabu.NB_WIZARD_STEPS_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage' ORDER BY NB_ID_WIZARD_STEP ASC";
+            $this->traceSql('29',$sql);
             return $this->executeQuery($sql);
             
         }
         
         function getWizardBindingsQuery($empresa,$idPage){
             $sql = "SELECT NB_ID_PR_SCHEMA_FLD, NB_ID_WIZARD_STEP FROM nabu.NB_WIZARD_BIND_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage' ORDER BY NB_ID_WIZARD_STEP_ORDER, NB_ID_WIZARD_STEP";
+            $this->traceSql('30',$sql);
             return $this->executeQuery($sql);
         }
         
         function getWizardButtonQuery($empresa,$idPage){
             $sql = "SELECT NB_WIZARD_BUTTON_NAME, NB_WIZARD_BUTTON_TITLE, NB_WIZARD_BUTTON_VALIDATE, NB_WIZARD_BUTTON_CLICK FROM nabu.NB_WIZARD_BUTTONS_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage'";
+            $this->traceSql('31',$sql);
             return $this->executeQuery($sql);   
         }
         
         function getValidateRole($empresa,$idRole, $idPage){
             $sql = "SELECT NB_ID_ROLE_FLD,NB_ID_PAGE_FLD FROM nabu.NB_ROLE_PAG_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_ROLE_FLD = $idRole AND NB_ID_PAGE_FLD = '$idPage'";
+            $this->traceSql('32',$sql);
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getsetupConfig(){
-            $sql = "SELECT NB_SLOGAN_FLD,nb_versionbd_fld,nb_versionap_fld FROM nabu.NB_CONFIG_TBL";
-            return $this->executeQueryOneRow($sql); 
-        }
-        function getPageProperties($idempresa,$idPage){
-            $sql = "SELECT NB_PAGE_TITLE_FLD title,NB_PAGE_STYLE_FLD style,NB_PAGE_TRACE_FLD trace,NB_PAGE_TYPE_FLD tipo FROM nabu.NB_PAGES_TBL WHERE NB_ID_PAGE_FLD='".$idPage."' and nb_enterprise_id_fld='" . $idempresa. "'";;
+        function getPageProperties($empresa,$idPage){
+            $sql = "SELECT NB_PAGE_TITLE_FLD title,NB_PAGE_STYLE_FLD style,NB_PAGE_TRACE_FLD trace,NB_PAGE_TYPE_FLD tipo FROM nabu.NB_PAGES_TBL WHERE NB_ID_PAGE_FLD='".$idPage."' and nb_enterprise_id_fld='" .$empresa."'";;
+            $this->traceSql('33',$sql);
             return $this->executeQueryOneRow($sql);   
         }
         
         function getPageAttribute($empresa,$idPage){
-            $sql = "SELECT C.NB_ATTRIBUTE_FLD,C.NB_URL_FLD,C.NB_TYPE_FLD,C.NB_REL_FLD FROM   nabu.nb_pages_tbl A,nabu.NB_PAGEATTRIBUTE_TBL B, nabu.NB_HTMLATTRIBUTE_TBL C WHERE   A.nb_type_page_fld = b.nb_type_page_fld AND B.NB_ID_ATTRIBUTE_FLD = C.NB_ID_ATTRIBUTE_FLD and	a.nb_enterprise_id_fld ='$empresa' AND 	a.NB_ID_PAGE_FLD ='$idPage' ORDER BY B.NB_ID_ATTRIBUTE_FLD ASC";
+            $sql = "SELECT C.NB_ATTRIBUTE_FLD,C.NB_URL_FLD,C.NB_TYPE_FLD,C.NB_REL_FLD FROM nabu.nb_pages_tbl A,nabu.NB_PAGEATTRIBUTE_TBL B, nabu.NB_HTMLATTRIBUTE_TBL C WHERE   A.nb_type_page_fld = b.nb_type_page_fld AND B.NB_ID_ATTRIBUTE_FLD = C.NB_ID_ATTRIBUTE_FLD and	a.nb_enterprise_id_fld ='$empresa' AND 	a.NB_ID_PAGE_FLD ='$idPage' ORDER BY B.NB_ID_ATTRIBUTE_FLD ASC";
+            $this->traceSql('34',$sql);
             return $this->executeQuery($sql);
         }
         
         function validateUser($empresa,$usuario,$password){
             $sql="SELECT nb_id_user_fld,nb_id_role_fld FROM nabu.nb_user_tbl WHERE nb_enterprise_id_fld ='".$empresa."'  AND nb_user_fld='".$usuario."' AND nb_password_fld='".md5($password)."' and nb_estado_fld='0' ";
+            $this->traceSql('35',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
         function getSchemaDescription($empresa,$idPage){
             $sql = "SELECT A.NB_TITLE_FLD, A.NB_DESCRIPTION_FLD, A.NB_TYPE_FLD FROM nabu.NB_SCHEMA_TBL A WHERE  A.nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
+            $this->traceSql('36',$sql);
             return $this->executeQueryOneRow($sql);   
         }
         
         function getFormFields($empresa,$idPage, $type){
             $sql = "SELECT DISTINCT A.NB_ID_PR_SCHEMA_FLD FROM  nabu.NB_FORMS_TBL A , nabu.NB_CONFIG_FRMWRK_TBL B WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_CONFIG_FRMWRK_ID_FLD = B.NB_CONFIG_FRMWRK_ID_FLD AND  B.NB_CONFIG_TYPE_FLD='$type' AND A.NB_ID_PAGE_FLD = '$idPage'";
+            $this->traceSql('37',$sql);
             return $this->executeQuery($sql);   
         }
         
         function getFormFieldsTypes($empresa,$idPage, $type, $field){
             $sql = "SELECT B.NB_PROPERTY_FLD,B.NB_TYPE_FLD,A.NB_SCHEM_VALUE_FLD FROM nabu.NB_FORMS_TBL A , nabu.NB_CONFIG_FRMWRK_TBL B WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_CONFIG_FRMWRK_ID_FLD = B.NB_CONFIG_FRMWRK_ID_FLD AND B.NB_CONFIG_TYPE_FLD='$type' AND A.NB_ID_PAGE_FLD = '$idPage' AND A.NB_ID_PR_SCHEMA_FLD ='$field'";
+            $this->traceSql('38',$sql);
             return $this->executeQuery($sql);   
         }
         
         function getOptionsEvents($empresa,$idPage){
             $sql = "SELECT A.NB_TYPEALPACA_FLD ALPACA,CONCAT(CONCAT(A.NB_ACTION_PATH,A.NB_ACTION_FLD,'.php?p=$idPage&accion='),A.nb_typeaccion_fld) EVENT FROM nabu.NB_OPTION_TBL A WHERE nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
+            $this->traceSql('39',$sql);
             return $this->executeQueryOneRow($sql);   
         }
         
         function getFormButtonsQuery($empresa,$idPage){
             $sql = "SELECT A.NB_ID_OPT_FORM_FLD,A.NB_VALUE_FLD,A.NB_TITLE_FLD,A.NB_CLICK_FLD FROM nabu.NB_OPTIONS_BUTTONS_TBL A WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
+            $this->traceSql('40',$sql);
             return $this->executeQuery($sql);   
         }
         
-        function getChartDataQuery($idPage, $type){
-            $sql = "SELECT NB_VALUE_FLD, NB_COLOR_FLD FROM NB_CHART_DATA_TBL WHERE NB_ID_PAGE_FLD = '$idPage' AND NB_TYPE_FLD='$type' ORDER BY NB_POS_FLD";
+        function getChartDataQuery($empresa,$idPage, $type){
+            $sql = "SELECT NB_VALUE_FLD, NB_COLOR_FLD FROM nabu.NB_CHART_DATA_TBL WHERE nb_enterprise_id_fld ='".$empresa."' and NB_ID_PAGE_FLD = '$idPage' AND NB_TYPE_FLD='$type' ORDER BY NB_POS_FLD";
+            $this->traceSql('41',$sql);
             return $this->executeQuery($sql);   
         }
 
         function getTablaChart($empresa,$idPage){
             $sql = "Select nb_source_fld tabla from nabu.nb_chart_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='".$idPage."'";
+            $this->traceSql('42',$sql);
             return $this->executeQueryOneRow($sql);   
         }
         
         function getLabelChart($empresa,$idPage){
             $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idPage."' and nb_type_fld='label' order by nb_pos_fld ";
+            $this->traceSql('43',$sql);
             return $this->executeQueryOneRow($sql);
         }
         
         function getOptionsChart($empresa,$idPage){
             $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idPage."' and nb_type_fld='column' order by nb_pos_fld ";
+            $this->traceSql('44',$sql);
             return $this->executeQuery($sql);
         }
          
         function getDataLabelChart($table,$label,$oprid){
             $sql = "Select $label from $table where label like '$oprid%'";
+            $this->traceSql('45',$sql);
             return $this->executeQuery($sql);
         }
         
         function getDataChart($table,$field,$oprid){
             $sql = "Select replace($field,',','') from $table where label like '$oprid%'";
+            $this->traceSql('46',$sql);
             return $this->executeQuery($sql);
         }
         
-        function getPageLink($idPage){
-            $sql ="select a.nb_id_page_fld from nb_link_tbl a where a.nb_id2_page_fld = '" .$idPage . "'";
+        function getPageLink($empresa,$idPage){
+            $sql ="select a.nb_id_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id2_page_fld = '" .$idPage . "'";
+            $this->traceSql('47',$sql);
             return $this->executeQueryOneRow($sql); 
         }
             

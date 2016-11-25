@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 18-11-2016
+	Fecha modificacion	= 25-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -50,6 +50,7 @@ class TemplatePage
         $this->idPage=$this->objUtilities->idPage($id_page);
         $this->config=$this->objUtilities->setupConfig();
         $this->pageProperties=$this->objUtilities->pageProperties($empresa,$this->idPage);
+        
         $this->tipo=$this->pageProperties['tipo'];
         if ($this->tipo == 'datagrid')
         	$this->render=$this->objUtilities->getDataGrid($this->idPage);
@@ -124,7 +125,7 @@ class TemplatePage
                     if ($this->tipo == 'alpaca' or $this->tipo == 'wizard'){
                         $schema=$this->objUtilities->getSchema($empresa,$this->idPage);
                         $options=$this->objUtilities->getOption($empresa,$this->idPage);
-                        $data =$this->objUtilities->getData($this->idPage);
+                        $data =$this->objUtilities->getData($empresa,$this->idPage);
                         $view =$this->objUtilities->getView($empresa,$this->idPage);
                         $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view);
                     }

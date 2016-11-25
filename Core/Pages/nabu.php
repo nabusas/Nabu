@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-11-2016
+	Fecha modificacion	= 25-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -34,16 +34,15 @@ THE SOFTWARE.
     
     session_start();
     
-    
     if($_GET['p'] == 'login'){
         $objUtilities = new Utilities('localhost','root','','nabu');
         $_SESSION['objUtilities']=$objUtilities;
         $objTemplate =new TemplatePage($objUtilities);
         $objTemplate->initTemplate('nabu',$_GET['p']);
-		    unset($_SESSION['app']);
-            unset($_SESSION['oprid']);
-            unset($_SESSION['role']);
-            unset($_SESSION['opridLogin']);
+        unset($_SESSION['app']);
+        unset($_SESSION['oprid']);
+        unset($_SESSION['role']);
+        unset($_SESSION['opridLogin']);
     }
 	else {
         if(isset($_SESSION['role']) and $_SESSION['role'] <>'') {

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 08-11-2016
+	Fecha modificacion	= 25-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -48,25 +48,28 @@ session_start();
         if ($valores[0] == 'value')
             $campo =  $valores[1];
         
-		if ($campo == 'country')
+		/*
+        
+        if ($campo == 'country')
                 $sql="Select nb_id_country_fld,nb_desc_fld from nb_country_tbl";
-            else
-                if ($valores[0] == 'state')
-                    $sql="Select cc_codigoDept_fld,cc_descripc_fld from nb_state_tbl"; 
-                else
-                    if ($campo == 'city')
-                        $sql="Select cc_codCiudad_fld,cc_descripc_fld from nb_city_tbl";
-                    else
-        		      if ($campo == 'Id_concepto')
-			             $sql="SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' AND nb_estado_fld=0 ORDER BY 1,2";
+        else
+        if ($valores[0] == 'state')
+            $sql="Select cc_codigoDept_fld,cc_descripc_fld from nb_state_tbl"; 
+        else
+        if ($campo == 'city')
+        $sql="Select cc_codCiudad_fld,cc_descripc_fld from nb_city_tbl";
+        */            
+        
+        if ($campo == 'Id_concepto')
+            $sql="SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' AND nb_estado_fld=0 ORDER BY 1,2";
+        else
+            if ($campo == 'cc_tipocontable')
+                $sql='SELECT CC_TIPOCONTABLE,CC_DESCRIPCION FROM CC_TIPOCONTABLE_TBL ORDER BY 1,2';
+            else    
+                if ($campo == 'cc_tipoconcepto')
+                    $sql="SELECT CC_TIPOCONCEPTO,CC_DESCRIPCION FROM CC_TIPOCONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' ORDER BY 1,2";
                         else
-                            if ($campo == 'cc_tipocontable')
-			                     $sql='SELECT CC_TIPOCONTABLE,CC_DESCRIPCION FROM CC_TIPOCONTABLE_TBL ORDER BY 1,2';
-                            else    
-                                if ($campo == 'cc_tipoconcepto')
-			                         $sql="SELECT CC_TIPOCONCEPTO,CC_DESCRIPCION FROM CC_TIPOCONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' ORDER BY 1,2";
-                                else
-                                    $sql="Select nb_id_value_fld,nb_value_fld from nb_value_tbl where nb_id_pr_schema_fld='".$campo."'";
+                            $sql="Select nb_id_value_fld,nb_value_fld from nabu.nb_value_tbl where where nb_enterprise_id_fld ='".$_SESSION['app']."' and nb_id_pr_schema_fld='".$campo."'";
         
 		
         
