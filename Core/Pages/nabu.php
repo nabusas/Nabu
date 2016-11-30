@@ -25,37 +25,27 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 25-11-2016
+	Fecha modificacion	= 30-11-2016
 	Usuario Modifico	= CAGC
 
 */
     include "../Class/Utilities.php";
     include "../Class/TemplatePage.php";
-    
-    session_start();
-    
+
     if($_GET['p'] == 'login'){
-        $objUtilities = new Utilities('localhost','root','','nabu');
+        session_destroy();
+        $objUtilities = new Utilities('localhost','root','n4b62015','nabu');
         $_SESSION['objUtilities']=$objUtilities;
         $objTemplate =new TemplatePage($objUtilities);
         $objTemplate->initTemplate('nabu',$_GET['p']);
-        unset($_SESSION['app']);
-        unset($_SESSION['oprid']);
-        unset($_SESSION['role']);
-        unset($_SESSION['opridLogin']);
     }
 	else {
+        session_start();
         if(isset($_SESSION['role']) and $_SESSION['role'] <>'') {
             $objTemplate =new TemplatePage($_SESSION['objUtilities']);
             if($objTemplate->objUtilities->validateRole($_SESSION['app'],$_GET['p'], $_SESSION['role'])){
                 $objTemplate->initTemplate($_SESSION['app'],$_GET['p']);
             }    
-            else 
-				header("location:../Pages/nabu.php?p=error");
-			
-		}
-		else 
-		  header("location:../Pages/nabu.php?p=login");
-        
-	}
+        }
+    }
 ?>

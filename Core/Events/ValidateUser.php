@@ -77,14 +77,12 @@ THE SOFTWARE.
     $enterprise=$objUtilities->database->getEnterprise($empresa);
 
     if (sizeof($enterprise) > 1){
-        
         $objUtilities = new Utilities($enterprise[0],$enterprise[2],$enterprise[3],$enterprise[1]);
         $_SESSION['objUtilities']=$objUtilities;
 
         $row=$objUtilities->database->validateUser($empresa,$usuario,$password); 
 
         if ($row[0] != null) {
-            session_start();
             $_SESSION['app'] = $empresa;
             $_SESSION['oprid'] = $row[0];
             $_SESSION['role'] = $row[1];
