@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 25-11-2016
+	Fecha modificacion	= 30-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -403,6 +403,20 @@ THE SOFTWARE.
         function getPageLink($empresa,$idPage){
             $sql ="select a.nb_id_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id2_page_fld = '" .$idPage . "'";
             $this->traceSql('47',$sql);
+            return $this->executeQueryOneRow($sql); 
+        }
+        
+        function existRefValue($empresa,$campo){
+            
+            $sql ="select count(1) from nabu.nb_value_ref_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld ='".$campo."'";
+            $this->traceSql('48',$sql);
+            return $this->executeQueryOneRow($sql); 
+            
+        }
+        
+        function valueRef($empresa,$campo){
+            $sql ="select nb_id_table_fld,nb_empresa_fld,nb_usuario_fld,nb_estado_fld from nabu.nb_value_ref_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld ='".$campo."'";
+            $this->traceSql('49',$sql);
             return $this->executeQueryOneRow($sql); 
         }
             

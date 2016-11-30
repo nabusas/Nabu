@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 25-11-2016
+	Fecha modificacion	= 30-11-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -35,6 +35,10 @@ include "../Class/Utilities.php";
 session_start();
 
     $operatorId=$_SESSION['opridLogin'];
+    $empresa=$_SESSION['app'];
+    $objUtilities = $_SESSION['objUtilities'];
+    $database = $objUtilities->database;
+
     
     if (isset($_GET["campo"]))
 	   $campo=$_GET["campo"];
@@ -43,46 +47,31 @@ session_start();
 	
     if ($campo <> 'X'){
 		
-        $valores = explode ("_", $campo);
-        
-        if ($valores[0] == 'value')
-            $campo =  $valores[1];
-        
-		/*
-        
-        if ($campo == 'country')
-                $sql="Select nb_id_country_fld,nb_desc_fld from nb_country_tbl";
-        else
-        if ($valores[0] == 'state')
-            $sql="Select cc_codigoDept_fld,cc_descripc_fld from nb_state_tbl"; 
-        else
-        if ($campo == 'city')
-        $sql="Select cc_codCiudad_fld,cc_descripc_fld from nb_city_tbl";
-        */            
-        
-        if ($campo == 'Id_concepto')
-            $sql="SELECT ID_CONCEPTO,CC_DESCRIPCION FROM CC_CONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' AND nb_estado_fld=0 ORDER BY 1,2";
-        else
-            if ($campo == 'cc_tipocontable')
-                $sql='SELECT CC_TIPOCONTABLE,CC_DESCRIPCION FROM CC_TIPOCONTABLE_TBL ORDER BY 1,2';
-            else    
-                if ($campo == 'cc_tipoconcepto')
-                    $sql="SELECT CC_TIPOCONCEPTO,CC_DESCRIPCION FROM CC_TIPOCONCEPTO_TBL WHERE ID_USUARIO ='".$operatorId."' ORDER BY 1,2";
-                        else
-                            $sql="Select nb_id_value_fld,nb_value_fld from nabu.nb_value_tbl where where nb_enterprise_id_fld ='".$_SESSION['app']."' and nb_id_pr_schema_fld='".$campo."'";
-        
-		
-        
-        $objUtilities = $_SESSION['objUtilities'];
-        $database = $objUtilities->database;
-        
-        $rows=$database->executeQuery($sql);
+        $tablaRef =$database->existRefValue($empresa,$campo);
+    
+        if ($tablaRef[0] == 1){
             
+            $param =$database->valueRef($empresa,$campo);
+            
+            $sql="SELECT ID,DESCR FROM ".$param[0]." WHERE 1=1 ";
+            
+            if( $param[1]=='true')
+                $co1=" AND empresa = '".$empresa."' ";
+            if( $param[2]=='true')
+                $co2=" AND usuario = '".$operatorId."' ";
+            if( $param[3]=='true')
+                $co3=" AND estado = 'A'";
+            
+            $sql=$sql.$co1.$co2.$co3;
+            
+        }
+        else
+            $sql="Select nb_id_value_fld,nb_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld='".$campo."'";
+
+        $rows=$database->executeQuery($sql);
         $rows_returned =  count($rows);
 		
-        
-
-		$i=1;
+        $i=1;
         $vector='{';
         
 		foreach($rows as $row){
@@ -99,7 +88,7 @@ session_start();
         echo $vector;
 	}
     else 
-       echo '{"-1": "No hay valores"}';
+        echo '{"-1": "No hay valores"}';
 
 ?>
 
