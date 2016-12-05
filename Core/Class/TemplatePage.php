@@ -44,7 +44,7 @@ class TemplatePage
 
 	function TemplatePage($objUtilities){
         if (!isset ($objUtilities)){
-            $this->objUtilities = new Utilities('localhost','root','','nabu');
+            $this->objUtilities = new Utilities('localhost','root','n4b62015','nabu');
             $_SESSION['objUtilities']=$this->objUtilities;
         }
         else
