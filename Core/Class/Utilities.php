@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 25-11-2016
+	Fecha modificacion	= 31-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -42,12 +42,8 @@ include_once "ExportToExcel.php";
 
 class Utilities
 {
-	var $db;
-	var $result;
-    var $fields;
-    var $database;
-    var $csv;
-
+	var $database;
+    
     function Utilities($host,$user,$password,$database){
         $this->database = new Database($host,$user,$password,$database);
     }
@@ -76,11 +72,11 @@ class Utilities
     
 
     function fileDatagrid($page){
-        $this->csv = new ExportExcel();
+        $csv = new ExportExcel();
         $sql = $this->database->tableDataGrid($_SESSION['app'],$page);
         
         $this->database->conectar();
-        $file=$this->csv->exportarFile($sql[0],$sql[1]);
+        $file=$csv->exportarFile($sql[0],$sql[1]);
         $this->database->desconectar();
         
         return $file;

@@ -25,25 +25,30 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 25-11-2016
+	Fecha modificacion	= 05-12-2016
 	Usuario Modifico	= CAGC
 
 */
 
+include "../Class/Utilities.php";
 include "../Class/Menu.php";
 
 class TemplatePage
 {
 	var $menu;
 	var $idPage;
-	var $title;
 	var $objUtilities;
 	var $pageProperties;
     var $render;
     var $config;
 
 	function TemplatePage($objUtilities){
-        $this->objUtilities=$objUtilities;
+        if (!isset ($objUtilities)){
+            $this->objUtilities = new Utilities('localhost','root','','nabu');
+            $_SESSION['objUtilities']=$this->objUtilities;
+        }
+        else
+            $this->objUtilities=$objUtilities;
     }
 
     function initTemplate($empresa,$id_page){

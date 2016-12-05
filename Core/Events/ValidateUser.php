@@ -29,9 +29,7 @@ THE SOFTWARE.
 	User modify	   	    = CAGC
 
 */
-
-    include "../Class/Utilities.php";   
-
+    include "../Class/Utilities.php";
     session_start();
 
 ?>
@@ -71,7 +69,7 @@ THE SOFTWARE.
     $usuario=$_POST['Campo1'];
     $password=$_POST['Campo2'];
     $idPage=$_GET['p'];
-    
+        
     $objUtilities=$_SESSION['objUtilities'];
 
     $enterprise=$objUtilities->database->getEnterprise($empresa);
