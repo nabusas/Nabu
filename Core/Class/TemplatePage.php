@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 05-12-2016
+	Fecha modificacion	= 06-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -44,7 +44,7 @@ class TemplatePage
 
 	function TemplatePage($objUtilities){
         if (!isset ($objUtilities)){
-            $this->objUtilities = new Utilities('localhost','root','n4b62015','nabu');
+            $this->objUtilities = new Utilities('localhost','root','','nabu');
             $_SESSION['objUtilities']=$this->objUtilities;
         }
         else
@@ -79,7 +79,6 @@ class TemplatePage
 
                 <!-- Atributos Pagina -->
                 <?php $this->objUtilities->pageAttribute( $_SESSION['app'],$this->idPage);?>
-
             </head>
 <?php
     }
@@ -103,7 +102,8 @@ class TemplatePage
 			</table>
 		</header>
 
-
+        <script src="../Framework/notie/notie.js"></script>
+        
 		<br><br>
 <?php
 		if ($this->idPage <> 'login')
@@ -168,7 +168,10 @@ class TemplatePage
                     <?php
                         $this->objUtilities->charts($this->idPage);  
                     }
-
+                    
+                    if ($this->tipo == 'event')
+                        $this->objUtilities->validateLogin();
+                    
                     ?>
 			</div>
 <?php

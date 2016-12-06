@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 31-12-2016
+	Fecha modificacion	= 06-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -615,7 +615,53 @@ class Utilities
 
         return $g->render("list1");
         
-        
+    }
+    
+    function validateLogin(){
+        echo "<br><br><br><br><center><img src='../Images/error.png'><center>";
+                        
+        $empresa=$_POST['Campo0'];
+        $usuario=$_POST['Campo1'];
+        $password=$_POST['Campo2'];
+        $idPage=$_GET['p'];
+
+        $enterprise=$this->database->getEnterprise($empresa);
+
+        if (sizeof($enterprise) > 1){
+            $objUtilities = new Utilities($enterprise[0],$enterprise[2],$enterprise[3],$enterprise[1]);
+            $_SESSION['objUtilities']=$objUtilities;
+
+            $row=$objUtilities->database->validateUser($empresa,$usuario,$password); 
+
+            if ($row[0] != null) {
+                $_SESSION['app'] = $empresa;
+                $_SESSION['oprid'] = $row[0];
+                $_SESSION['role'] = $row[1];
+                $_SESSION['opridLogin'] = $usuario;
+                header("location:../Pages/?p=home");
+            }
+            else{
+                unset($_SESSION['app']);
+                unset($_SESSION['oprid']);
+                unset($_SESSION['role']);
+                unset($_SESSION['opridLogin']);
+        ?>
+                <script languaje="javascript">
+                    notie.alert(3,'Error en autenticación de usuario',5);
+                    setTimeout ('document.location = "../Pages/nabu.php?p=login";',2000); 
+                </script> 
+        <?php        
+
+            }
+        }
+        else{
+        ?>  
+            <script languaje="javascript">
+                notie.alert(3,'Empresa no existe',5);
+                setTimeout ('document.location = "../Pages/nabu.php?p=login";',2000); 
+            </script> 
+        <?php        
+        }
     }
 }
 ?>
