@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 12-05-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 24-05-2016
+    Fecha modificacion	= 14-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -60,7 +60,7 @@ THE SOFTWARE.
 
     <script src="../Framework/notie/notie.js"></script>
 
-     <br><br><br><br><center><img src='../Images/imagenHome2.png'><center>
+     <br><br><br><br><center><img src='../Images/homeDemo.png'><center>
 
      <?php
 

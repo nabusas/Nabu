@@ -44,8 +44,8 @@ class Utilities
 {
 	var $database;
     
-    function Utilities($host,$user,$password,$database){
-        $this->database = new Database($host,$user,$password,$database);
+    function Utilities($host,$user,$password,$database,$traceSql){
+        $this->database = new Database($host,$user,$password,$database,$traceSql);
     }
 
     function idPage($path){
@@ -133,7 +133,7 @@ class Utilities
     }
     
     function setupConfig(){
-          $row = $this->database->getsetupConfig();
+          $row = $this->database->getSqlStatement("nabu","0001","1");
           return $row;
     }
     
@@ -628,7 +628,7 @@ class Utilities
         $enterprise=$this->database->getEnterprise($empresa);
 
         if (sizeof($enterprise) > 1){
-            $objUtilities = new Utilities($enterprise[0],$enterprise[2],$enterprise[3],$enterprise[1]);
+            $objUtilities = new Utilities($enterprise[0],$enterprise[2],$enterprise[3],$enterprise[1],$traceSql);
             $_SESSION['objUtilities']=$objUtilities;
 
             $row=$objUtilities->database->validateUser($empresa,$usuario,$password); 

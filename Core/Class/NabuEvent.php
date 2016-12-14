@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 25-11-2016
+    Fecha modificacion	= 14-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -152,7 +152,7 @@ class NabuEvent
                     }
 
                     if ($accion == 1 or $accion == 3){
-                        $key =$this->database->getKeyField($table[0],$field[1]);
+                        $key =$this->database->getKeyField($_SESSION['app'],$table[0],$field[1]);
 
                         if ($value <> 'nabuNull' ){
                             if ($key[0] == 0){
