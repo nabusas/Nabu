@@ -190,7 +190,7 @@ class TemplatePage
 				        <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
                             <p>Nabu &copy; 2016</pp>
                         </td>
-                        <td align='right'>&nbsp&nbsp<?php echo "Version App "; //.$this->config[2]."-DB ".$this->config[1] ?></td>
+                        <td align='right'>&nbsp&nbsp<?php ?></td>
                       </tr>
                   </table>          
 		        </footer>

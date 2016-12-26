@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 06-12-2016
+	Fecha modificacion	= 26-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -44,8 +44,8 @@ class Utilities
 {
 	var $database;
     
-    function Utilities($host,$user,$password,$database,$traceSql){
-        $this->database = new Database($host,$user,$password,$database,$traceSql);
+    function Utilities($host,$user,$password,$database){
+        $this->database = new Database($host,$user,$password,$database);
     }
 
     function idPage($path){
@@ -133,7 +133,7 @@ class Utilities
     }
     
     function setupConfig(){
-          $row = $this->database->getSqlStatement("nabu","0001","1");
+          $row = $this->database->getSqlStatement("nabu","0001",null,"1");
           return $row;
     }
     
@@ -625,10 +625,12 @@ class Utilities
         $password=$_POST['Campo2'];
         $idPage=$_GET['p'];
 
-        $enterprise=$this->database->getEnterprise($empresa);
+        $bind[0]=$empresa;
+        $enterprise=$this->database->getSqlStatement('nabu','0002',$bind,'1');
 
         if (sizeof($enterprise) > 1){
-            $objUtilities = new Utilities($enterprise[0],$enterprise[2],$enterprise[3],$enterprise[1],$traceSql);
+            
+            $objUtilities = new Utilities($enterprise[0],$enterprise[2],$enterprise[3],$enterprise[1]);
             $_SESSION['objUtilities']=$objUtilities;
 
             $row=$objUtilities->database->validateUser($empresa,$usuario,$password); 
