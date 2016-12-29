@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 26-12-2016
+	Fecha modificacion	= 29-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -331,7 +331,7 @@ class Utilities
         
         $view = new View();
         $row = $this->database->getOptionsEvents($empresa,$id);
-        $alpaca = $row['ALPACA'];
+        $alpaca = $row['alpaca'];
         $parent = $this->database->getViewParent($empresa,$id);
         $view->setView($this->database,$parent[0], $alpaca, $id); 
         
@@ -344,12 +344,12 @@ class Utilities
 		$id = strtolower($id);
 		$type = 'options';
 		$row = $this->database->getOptionsEvents($empresa,$id);
-		$alpaca = $row['ALPACA'];  		
+		$alpaca = $row['alpaca'];  		
 		
         $json = new Options();
         
         if ($alpaca == 'wizard' or $alpaca =='form' or $alpaca == 'table'){
-            $event = $row['EVENT'];
+            $event = $row['event'];
 			$attributes=$json->addElement($event,'post','');
 			$json->addForm("attributes",$attributes);
             unset($json->datatables);
