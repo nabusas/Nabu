@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 26-12-2016
+	Fecha modificacion	= 29-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -49,6 +49,7 @@ THE SOFTWARE.
         }
         
         function execute($sql){
+            $sql=strtolower($sql);
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
             $this->db=$this->cx->desconectar();
@@ -56,6 +57,7 @@ THE SOFTWARE.
         }
             
         function executeQuery($sql){
+            $sql=strtolower($sql);
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
             $this->db=$this->cx->desconectar();
@@ -77,6 +79,7 @@ THE SOFTWARE.
         }
         
         function executeQueryOneRow($sql){
+            $sql=strtolower($sql);
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
             $rowResu = $result->FetchRow();
