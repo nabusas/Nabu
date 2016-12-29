@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= GASAKAWA
-	Fecha modificacion	= 19-11-2016
+	Fecha modificacion	= 29-12-2016
 	Usuario Modifico	= CAGC
 
 */
@@ -53,9 +53,9 @@ THE SOFTWARE.
             $rows = $db->getWizardQuery($this->empresa,$idPage);
             
             foreach($rows as $row){
-                $this->title = $row['NB_WIZARD_TITLE'];
-                $this->description = $row['NB_WIZARD_DESC'];
-                if($row['NB_WIZARD_SHOW_PROGRESS'] == "true")
+                $this->title = $row['nb_wizard_title'];
+                $this->description = $row['nb_wizard_desc'];
+                if($row['nb_wizard_show_progress'] == "true")
                     $this->showProgressBar =   true;
                 else
                     $this->showProgressBar =   false;     
@@ -65,24 +65,24 @@ THE SOFTWARE.
         function buildSteps($db,$idPage){
             $rows = $db->getWizardStepsQuery($this->empresa,$idPage); 
             foreach($rows as $row)
-                array_push($this->steps, new Step($row["NB_WIZARD_STEP_TITLE"], $row["NB_WIZARD_STEP_DESC"]));        
+                array_push($this->steps, new Step($row["nb_wizard_step_title"], $row["nb_wizard_step_desc"]));        
         }
         
         function buildBindings($db,$idPage){
             $rows = $db->getWizardBindingsQuery($this->empresa,$idPage);
             
             foreach($rows as $row)
-                $this->bindings[$row["NB_ID_PR_SCHEMA_FLD"]] = intval($row["NB_ID_WIZARD_STEP"]);   
+                $this->bindings[$row["nb_id_pr_schema_fld"]] = intval($row["nb_id_wizard_step"]);   
             
         }
         
         function buildButtons($db,$idPage){
             $rows = $db->getWizardButtonQuery($this->empresa,$idPage);
             foreach($rows as $row){
-                $button = new Button($row["NB_WIZARD_BUTTON_TITLE"]);
-                $button->click = $row["NB_WIZARD_BUTTON_CLICK"];
-                $button->validate = $row["NB_WIZARD_BUTTON_VALIDATE"];
-                $this->buttons[$row["NB_WIZARD_BUTTON_NAME"]] = $button;   
+                $button = new Button($row["nb_wizard_button_title"]);
+                $button->click = $row["nb_wizard_button_click"];
+                $button->validate = $row["nb_wizard_button_validate"];
+                $this->buttons[$row["nb_wizard_button_name"]] = $button;   
             }
         }
     }
