@@ -54,7 +54,7 @@ class ExportExcel
         $sql = mysql_query($sqlE) or die(mysql_error());
 
         $num_rows = mysql_num_rows($sql);
-    
+        
         if($num_rows >= 1)
 		{
 			

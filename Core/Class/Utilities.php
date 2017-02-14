@@ -623,6 +623,7 @@ class Utilities
         $empresa=$_POST['Campo0'];
         $usuario=$_POST['Campo1'];
         $password=$_POST['Campo2'];
+        
         $idPage=$_GET['p'];
 
         $bind[0]=$empresa;
@@ -634,7 +635,7 @@ class Utilities
             $_SESSION['objUtilities']=$objUtilities;
 
             $row=$objUtilities->database->validateUser($empresa,$usuario,$password); 
-
+            
             if ($row[0] != null) {
                 $_SESSION['app'] = $empresa;
                 $_SESSION['oprid'] = $row[0];
