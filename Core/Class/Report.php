@@ -56,7 +56,7 @@ class Report
 		$auto_page_break = $this->pdf->getAutoPageBreak();
 		$this->pdf->SetAutoPageBreak(false, 0);
 
-        $this->pdf->Image(K_PATH_IMAGES.'logo.png',10,12, 30, 0, '', '', '', false, 0);
+        $this->pdf->Image(K_PATH_IMAGES.'logo.jpg',10,12, 30, 0, '', '', '', false, 0);
 
         $this->pdf->SetAutoPageBreak($auto_page_break, $bMargin);
         
