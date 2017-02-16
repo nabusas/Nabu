@@ -152,7 +152,7 @@ class TemplatePage
                                                 $factura=0;
                                         }
                                         echo "<br>";
-                                        echo "<a href='../Reports/report.php?tipo=fact&id=$factura' target='_blank'>Imprimir Factura</a>";   
+                                        echo "<a href='../Reports/factura.php?id=$factura' target='_blank'>Imprimir Factura</a>";   
                                     }
                                  }
                             ?>

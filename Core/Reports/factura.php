@@ -34,7 +34,7 @@ include "../Class/Utilities.php";
 include "../Class/Report.php";
 
 function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
-	{
+{
 
         $borde=1;
         $w=5;
@@ -42,54 +42,54 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
         $pdf->Ln(15);
 
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
-        $pdf->Cell(278,$w,$cabecera['Tipo_Factura'].' Numero '.$cabecera['Id'], $borde, 1, 'C');
+        $pdf->Cell(278,$w,$cabecera['tipo_factura'].' Numero '.$cabecera['id'], $borde, 1, 'C');
         $pdf->Ln(5);
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(35,$w,"Fecha Factura:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(100,$w,$cabecera['Fecha_Factura'],$borde,0, 'L');
+        $pdf->Cell(100,$w,$cabecera['fecha_factura'],$borde,0, 'L');
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(40,$w,"Fecha Vencimiento:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(103,$w,$cabecera['Vencimiento'],$borde,0, 'L');
+        $pdf->Cell(103,$w,$cabecera['vencimiento'],$borde,0, 'L');
         
         $pdf->Ln(5);
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(35,$w,"Cliente:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(100,$w,$cabecera['Nombre'],$borde,0, 'L');
+        $pdf->Cell(100,$w,$cabecera['nombre'],$borde,0, 'L');
     
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(40,$w,"Documento:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(103,$w,$cabecera['Tipo_Documento'].' # '.$cabecera['Documento'],$borde,0, 'L');
+        $pdf->Cell(103,$w,$cabecera['tipo_documento'].' # '.$cabecera['documento'],$borde,0, 'L');
         
         $pdf->Ln(5);
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(35,$w,"Direccion:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(100,$w,$cabecera['Direccion'],$borde,0, 'L');
+        $pdf->Cell(100,$w,$cabecera['direccion'],$borde,0, 'L');
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(40,$w,"Telefono:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(30,$w,$cabecera['Telefono'],$borde,0, 'L');
+        $pdf->Cell(30,$w,$cabecera['telefono'],$borde,0, 'L');
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(18,$w,"Email:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(55,$w,$cabecera['Email'],$borde,0, 'L');
+        $pdf->Cell(55,$w,$cabecera['email'],$borde,0, 'L');
         
         $pdf->Ln(5);
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(35, $w,"Vendedor:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(243,$w,$cabecera['Vendedor'],$borde,0, 'L');
+        $pdf->Cell(243,$w,$cabecera['vendedor'],$borde,0, 'L');
         
         $pdf->Ln(10);
         
@@ -104,11 +104,11 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
         
         for ($i=0; $i<sizeof($detalle); $i++){
-            $pdf->Cell(35,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
-            $pdf->Cell(100,$w,$detalle[$i]['Producto'],$borde,0,'C');
-            $pdf->Cell(40,$w,$detalle[$i]['Precio'],$borde,0,'C');
-            $pdf->Cell(30,$w,$detalle[$i]['Iva'],$borde,0,'C');
-            $pdf->Cell(73,$w,$detalle[$i]['Total'],$borde,0,'C');
+            $pdf->Cell(35,$w,$detalle[$i]['cantidad'], $borde,0,'C');
+            $pdf->Cell(100,$w,$detalle[$i]['producto'],$borde,0,'C');
+            $pdf->Cell(40,$w,$detalle[$i]['precio'],$borde,0,'C');
+            $pdf->Cell(30,$w,$detalle[$i]['iva'],$borde,0,'C');
+            $pdf->Cell(73,$w,$detalle[$i]['total'],$borde,0,'C');
             $pdf->Ln(5);
         }
         
@@ -116,32 +116,26 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(175,$w,'',0,0,'C');
         $pdf->Cell(30,$w,'Total', $borde,0,'C');
-        $pdf->Cell(73,$w,$totales['Monto'], $borde,0,'C');
+        $pdf->Cell(73,$w,$totales['monto'], $borde,0,'C');
 		
-	}
+}
 
-$id=0;
-
-if ( isset($_GET['tipo'])){
-    $tipo=$_GET['tipo'];
-
-   if ($tipo == 'fact'){
-        if ( isset($_GET['id']))
-            $id=$_GET['id'];
+if (isset($_GET['id']))
+{
+    $id=$_GET['id'];
     
-    }   
     session_start();
-
+    
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    $sql="Select * from nb_factura_C_Print_vw where Id=".$id;
+    $sql="select * from nb_factura_c_print_vw where id=".$id;
     $cabecera=$database->executeQueryOneRow($sql);
     
-    $sql="Select * from nb_factura_d_print_vw where Id=".$id;
+    $sql="Select * from nb_factura_d_print_vw where id=".$id;
     $detalle=$database->executeQuery($sql);
     
-    $sql="select Monto from nb_factura_vw where Factura =".$id;
+    $sql="select Monto from nb_factura_vw where factura =".$id;
     $totales=$database->executeQueryOneRow($sql);
         
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
