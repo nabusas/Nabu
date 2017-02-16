@@ -5,7 +5,6 @@
 *.csv
 
 #Database
-
 DB/
 
 #Archivos Mac
@@ -178,3 +177,5 @@ Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-tr.js
 Core/Framework/Datagrid/lib/js/jqgrid/js/install.txt
 Core/Framework/Datagrid/lib/js/jqgrid/js/Changes.txt
 Core/Framework/Datagrid/lib/js/jqgrid/css/ellipsis-xbl.xml
+
+
