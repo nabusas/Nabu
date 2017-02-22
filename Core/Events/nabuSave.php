@@ -25,90 +25,14 @@ THE SOFTWARE.
 
 	Fecha creacion		= 12-05-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 14-12-2016
+    Fecha modificacion	= 21-02-2017
 	Usuario Modifico	= CAGC
 
 */
 
-	include "../Class/NabuEvent.php";
-?>
-    <head>
-            <meta charset="utf-8">
-            <title>Evento Guardar</title>
-            <link rel="stylesheet" href="../Styles/nabu.css">
-            <link rel="stylesheet" href="../Framework/alpaca/dist/lib/bootstrap/dist/css/bootstrap.css">
+include "../Class/TemplatePage.php";
+session_start();
 
-            <link rel="stylesheet" href="../Framework/font-awesome/css/font-awesome.min.css">
-
-            <script src="../Framework/alpaca/dist/lib/jquery/dist/jquery.min.js"></script>
-            <script src="../Framework/alpaca/dist/lib/bootstrap/dist/js/bootstrap.js"></script>
-
-    </head>
-
-    <body>
-
-        <header>
-                <table width="100%">
-                    <tr>
-                        <td colspan="1">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img src="../Images/logo.png" ></td>
-                    </tr>
-                    <tr>
-                        <td class="slogan">&nbsp&nbsp Semilla de innovacion que da vida a tus ideas</td>
-                    </tr>
-                </table>
-       </header>
-
-    <script src="../Framework/notie/notie.js"></script>
-
-     <br><br><br><br><center><img src='../Images/homeDemo.png'><center>
-
-     <?php
-
-        $accion=$_GET['accion'];
-
-
-        $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-        $result=$nabuEvent->getEventSql($accion);
-
-        $pos = strpos($_GET['p'], 'm_pg');
-        
-        if ($pos == true)
-            $pagelink=$nabuEvent->getpagelink($_GET['p']);
-        else
-            $pagelink=$_GET['p'];
-
-        if ($result== 1){
-
-            $tipomensaje=1;
-
-            if ($accion== 0 or $accion== 2)
-                $mensaje='Guardado Exitoso';
-            else
-                if ($accion== 1 or $accion== 3)
-                    $mensaje='Actualizacion Exitosa';
-        }
-        else{
-            $tipomensaje=3;
-            $mensaje='Problemas al realizar la Operacion';
-        }
-     ?>                
-
-        <script languaje="javascript">
-            var message = "<?php echo $mensaje;?>" ;
-            var link = "<?php echo $pagelink ;?>" ;
-            var tipo = <?php echo $tipomensaje;?>;
-
-            notie.alert(tipo,message,5);
-            setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
-        </script> 
-
-        <footer class="footer">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-google-plus"></i></a>
-            <a href="#"><i class="fa fa-youtube"></i></a>    
-            <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
-            <p>Nabu &copy; 2016</p>
-        </footer>
-    </body>
-</html>
+$objUtilities=$_SESSION['objUtilities'];
+$objTemplate =new TemplatePage($objUtilities);
+$objTemplate->initTemplate($_SESSION['app'],'event');    

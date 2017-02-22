@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 06-12-2016
+	Fecha modificacion	= 21-02-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -84,7 +84,8 @@ class TemplatePage
     }
 
 	function banner(){
-    if ($this->idPage <> 'login'){                 
+        
+    if ($this->idPage <> 'login' and $this->idPage <> 'event'){                 
 ?>
         <div class="Menuheader"><a href="#menu"></a></div>
 <?php
@@ -106,7 +107,7 @@ class TemplatePage
         
 		<br><br>
 <?php
-		if ($this->idPage <> 'login')
+		if ($this->idPage <> 'login' and  $this->idPage <> 'event')
             $this->menu = new Menu($_SESSION['app'],$this->objUtilities);
                       
 	}
@@ -171,6 +172,8 @@ class TemplatePage
                     
                     if ($this->tipo == 'event')
                         $this->objUtilities->validateLogin();
+                    if ($this->tipo == 'save')
+                        $this->objUtilities->eventSave();
                     
                     ?>
 			</div>

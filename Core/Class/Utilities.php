@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 29-12-2016
+	Fecha modificacion	= 21-02-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -35,10 +35,10 @@ include_once "Options.php";
 include_once "JsonData.php";
 include_once "Chart.php";
 include_once "View.php";
-include "../Framework/Datagrid/lib/inc/jqgrid_dist.php";
+include_once "../Framework/Datagrid/lib/inc/jqgrid_dist.php";
 include_once "Database.php";
 include_once "ExportToExcel.php";
-
+include_once "../Class/NabuEvent.php";
 
 class Utilities
 {
@@ -423,10 +423,12 @@ class Utilities
         $v7=chr(125).chr(34);  $c7=chr(125);                                // }"           se cambia por  }
         $v8=chr(125).chr(32).chr(34).chr(125);  $c8=chr(125).chr(125);      // }espacio"}   se cambia por  }}
         $v9=chr(92).chr(47); $c9=chr(47);                                   //\/            se cambia por /
+        $v10=chr(34).chr(91); $c10=chr(91);                                 //"[            se cambia por [
+        $v11=chr(93).chr(34); $c11=chr(93);                                 //]"            se cambia por ]
         
         
-        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9);
-        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9);
+        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10,$v11);
+        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9,$c10,$c11);
         
         for ($i=0; $i<sizeof($chars); $i++)
             $json=str_replace($chars[$i],$correc[$i],$json);    
@@ -436,7 +438,7 @@ class Utilities
     
 	function forms($style,$imprimirJsons,$schema,$options,$data, $view){
         
-        $JsonSchema =json_encode($schema);
+        $JsonSchema =$this->fixedJson(json_encode($schema));
         $JsonOptions=$this->fixedJson(json_encode($options));
         $JsonData=$this->fixedJson(json_encode($data));
         $JsonView=json_encode($view, JSON_PRETTY_PRINT);    
@@ -666,6 +668,48 @@ class Utilities
             </script> 
         <?php        
         }
+    }
+    
+    function eventSave(){
+        
+       $accion=$_GET['accion'];
+
+        echo "<br><br><center><img src='../Images/save.gif'><center>";
+        
+        $nabuEvent = new NabuEvent($_GET['p'], $_POST);
+        $result=$nabuEvent->getEventSql($accion);
+        
+        $pos = strpos($_GET['p'], 'm_pg');
+
+        if ($pos == true)
+            $pagelink=$nabuEvent->getpagelink($_GET['p']);
+        else
+            $pagelink=$_GET['p'];
+
+        if ($result== 1){
+            $tipomensaje=1;
+
+            if ($accion== 0 or $accion== 2)
+                $mensaje='Guardado Exitoso';
+            else
+                if ($accion== 1 or $accion== 3)
+                    $mensaje='Actualizacion Exitosa';
+        }
+        else{
+            $tipomensaje=3;
+            $mensaje='Problemas al realizar la Operacion';
+        }
+?>
+
+    <script languaje="javascript">
+        var message = "<?php echo $mensaje;?>" ;
+        var link = "<?php echo $pagelink ;?>" ;
+        var tipo = <?php echo $tipomensaje;?>;
+
+        notie.alert(tipo,message,5);
+        setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
+    </script>
+<?php
     }
 }
 ?>

@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 */
 
-include "../Class/Utilities.php";
+include_once "../Class/Utilities.php";
 
 session_start();
 
@@ -38,13 +38,14 @@ session_start();
     $empresa=$_SESSION['app'];
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
-
     
     if (isset($_GET["campo"]))
-	   $campo=$_GET["campo"];
-	else
+        $campo=$_GET["campo"];
+    else
 	   $campo='X';	
-	
+
+    
+
     if ($campo <> 'X'){
 		
         $tablaRef =$database->existRefValue($empresa,$campo);
@@ -85,9 +86,9 @@ session_start();
             $i=$i+1;
 		}
         
-        echo $vector;
+       echo $vector;
 	}
-    else 
+    else
         echo '{"-1": "No hay valores"}';
 
 ?>

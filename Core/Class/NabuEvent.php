@@ -25,14 +25,14 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 14-12-2016
+    Fecha modificacion	= 21-02-2017
 	Usuario Modifico	= CAGC
 
 */
 
 include_once "Utilities.php";
 
-session_start();
+//session_start();
 
 class NabuEvent
 {
@@ -87,25 +87,25 @@ class NabuEvent
             
             for ($i=0; $i<$numeroFilas; $i++){
                 foreach($fields as $field){
-                
+                    
                     $type =$this->database->getTypes($_SESSION['app'],$table[0],$field[1]);
-
+                    
                     if ($accion == 0 or $accion==1){
                         if (isset($_POST[$field[0]])){
                             $value =trim($_POST[$field[0]]);
-
+                            
                             $password=strpos($field[1],'password'); 
                             if ($password)
                                 $value =md5(trim($_POST[$field[0]]));    
                         }
-                        else    
+                        else
                             $value ='nabuNull';
                     }
                     else{
                         if (isset($_POST['_'.$i.'_'.$field[1]])){
-                            $value =trim($_POST['_'.$i.'_'.$field[1]]);   
+                            $value =trim($_POST['_'.$i.'_'.$field[1]]); 
                         }
-                        else    
+                        else
                             $value ='nabuNull';
                     }
                     
@@ -211,13 +211,11 @@ class NabuEvent
             
             $result =$this->database->executeSqlEvent($sql);
             
-            if ($result->EOF <> 1){
+            if ($result->EOF <> 1)
                 $resultado=0;
-            }
         }
         
         return $resultado;
     }
-    
 } 
 ?>

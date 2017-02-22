@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 19-01-2016
+	Fecha modificacion	= 21-02-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -67,28 +67,29 @@ class Schema{
   
     function addField($rows){
 
-        if (!isset($fields)){
+        if (!isset($fields))
             $fields = array();
-        }
         
         foreach($rows as $row){
-            if ( $row[1] == "boolean" ) {
+            if ( $row[1] == "boolean" ){
                 if ($row[2] == 'true' )
                     $row[2]= true;
                 else
                     $row[2]= false;
 
                 $fields[$row[0]]=$row[2];
-            }else if($row[1] == "array"){
-                $values = split(";", $row[2]); 
-                $fields[$row[0]] = $values;
-            }else{
-                $fields[$row[0]]=$row[2];
             }
+            else 
+                if($row[1] == "array"){
+                    $values = split(";", $row[2]); 
+                    $fields[$row[0]] = $values;
+                }
+                else 
+                    $fields[$row[0]]=$row[2];
         }
-
-       return $fields;
-
+        
+        
+        return $fields;
     }
 }
 
