@@ -68,6 +68,7 @@ Core/Framework/alpaca/dist/lib/zeroclipboard/
 Core/Framework/alpaca/dist/lib/bootstrap-tokenfield/
 Core/Framework/alpaca/dist/lib/jquery-file-upload/
 Core/Framework/alpaca/dist/lib/js-beautify/
+Core/Framework/alpaca/dist/lib/tinycolor/
 
  
 Core/Framework/alpaca/dist/alpaca/bootstrap/images/
@@ -177,5 +178,3 @@ Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-tr.js
 Core/Framework/Datagrid/lib/js/jqgrid/js/install.txt
 Core/Framework/Datagrid/lib/js/jqgrid/js/Changes.txt
 Core/Framework/Datagrid/lib/js/jqgrid/css/ellipsis-xbl.xml
-
-
