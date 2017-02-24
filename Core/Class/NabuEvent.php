@@ -32,8 +32,6 @@ THE SOFTWARE.
 
 include_once "Utilities.php";
 
-//session_start();
-
 class NabuEvent
 {
 	var $page;
@@ -45,8 +43,7 @@ class NabuEvent
 		$this->page = $id_page;
         $objUtilities = $_SESSION['objUtilities'];
         $this->database = $objUtilities->database;
-        
-	}
+    }
 	
     function getpagelink($page){
         

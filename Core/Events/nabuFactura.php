@@ -25,12 +25,14 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 02-02-2016
+	Fecha modificacion	= 24-02-2017
 	Usuario Modifico	= CAGC
 
 */
-    include "../Class/Utilities.php";
-    include "../Class/NabuEvent.php";
+    include_once "../Class/Utilities.php";
+    include_once "../Class/NabuEvent.php";
+
+    session_start();
 
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
@@ -48,7 +50,6 @@ THE SOFTWARE.
      $nabuEvent = new NabuEvent($_GET['p'], $_POST);
 	 $result=$nabuEvent->getEventSql($accion);
      $database->setInvoiceDeta($factura);
-
 
     if ($factura != 0)
         header("location:../Pages/nabu.php?p=nb_factura_de_pg&factura=".$factura);
