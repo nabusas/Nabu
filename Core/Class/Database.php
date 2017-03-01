@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 29-12-2016
+	Fecha modificacion	= 01-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -126,16 +126,11 @@ THE SOFTWARE.
         }
         
         function getInvoiceNum(){
-            $sql ="SELECT IFNULL(MAX(nb_fact_1_fld),0)+1 from nb_facturacion_tbl";
+            $sql ="SELECT IFNULL(MAX(CAST(nb_fact_1_fld AS UNSIGNED INTEGER)),0)+1 from nb_facturacion_tbl";
             return $this->executeQueryOneRow($sql);
         }
         
         /************************************************************************************************************************************/
-        
-        //function getEnterprise($empresa){
-        //    $sql ="select nb_host_fld,nb_db_fld,nb_user_fld,nb_pass_fld from nabu.nb_enterprise_tbl where nb_enterprise_id_fld='".$empresa."'";
-        //    return $this->executeQueryOneRow($sql);
-        //}
         
         function menu3($empresa,$papa2){
             $sql ="SELECT a.nb_parent_fld,a.nb_id_menu_fld FROM nabu.nb_navigation_tbl a WHERE a.nb_enterprise_id_fld='$empresa' and a.nb_sec_fld='$papa2'";
