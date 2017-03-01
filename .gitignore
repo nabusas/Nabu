@@ -82,9 +82,6 @@ Core/Framework/alpaca/dist/lib/datatables.net/
 Core/Framework/alpaca/dist/lib/moment/locale/
 Core/Framework/alpaca/dist/lib/moment/scripts/
 Core/Framework/alpaca/dist/lib/moment/meteor/
-Core/Framework/alpaca/dist/lib/jquery-price-format2/
-!Core/Framework/alpaca/dist/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js
-!Core/Framework/alpaca/dist/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css
 
 Core/Framework/alpaca/dist/alpaca/bootstrap/images/
 Core/Framework/alpaca/dist/alpaca/jquerymobile
