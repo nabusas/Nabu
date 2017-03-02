@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 01-03-2017
+	Fecha modificacion	= 02-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -323,7 +323,7 @@ THE SOFTWARE.
         }
         
         function getFormButtonsQuery($empresa,$idPage){
-            $sql = "SELECT A.NB_ID_OPT_FORM_FLD,A.NB_VALUE_FLD,A.NB_TITLE_FLD,A.NB_CLICK_FLD FROM nabu.NB_OPTIONS_BUTTONS_TBL A WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
+            $sql = "SELECT A.NB_ID_OPT_FORM_FLD,A.NB_VALUE_FLD,A.NB_TITLE_FLD,A.NB_CLICK_FLD,NB_STYLES_FLD FROM nabu.NB_OPTIONS_BUTTONS_TBL A WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
             return $this->executeQuery($sql);   
         }
         
