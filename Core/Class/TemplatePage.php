@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 21-02-2017
+	Fecha modificacion	= 02-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -186,12 +186,10 @@ class TemplatePage
 		      <footer class="footer">
                   <table width="100%">
                       <tr>
-			            <td><a href="#"><i class="fa fa-facebook"></i></a>
-				        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                        <a href="#"><i class="fa fa-youtube"></i></a>    
-				        <a href="http://cagc4.github.io/Nabu/" TARGET="_blank"><i class="fa fa-github"></i></a>
-                            <p>Nabu &copy; 2016</pp>
+                        <td> 
+                             &nbsp;&nbsp;&nbsp;&nbsp;
+			                 <a href="https://www.facebook.com/nabugi/" TARGET="_blank"><i class="fa fa-facebook fa-1x btn btn-primary"></i></a>
+				            <p>Nabu &copy; 2017</p>
                         </td>
                         <td align='right'>&nbsp&nbsp<?php ?></td>
                       </tr>
