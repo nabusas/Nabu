@@ -1,0 +1,28 @@
+<div class="terminos">
+
+<i>Última actualización: 3 de marzo 2017</i>
+
+<b>LEA ESTAS CONDICIONES DETENIDAMENTE ANTES DE USAR LOS SERVICIOS DE NABU</b>
+
+Los servicios brindados por <b>NABU</b> se pueden utilizar solamente para los propósitos legales, entendiéndose que cualquier tipo de conducta o actividad que pueda calificarse como ilegal conforme a las reglas internacionales y colombianas estará de plano prohibida,y será de exclusivo cargo del <b>CLIENTE</b> la asunción de cualquier tipo de responsabilidad a él imputable así como de la aplicación de sanciones legales y contractuales a que haya lugar.
+
+El <b>CLIENTE</b> declara entender y conocer que los servicios prestados por <b>NABU</b> tendrán un término definido y que se debe renovar la prestación de los mismos utilizando los medios dispuestos para ello. Por tanto, El <b>CLIENTE</b> acepta que en caso de no pago o pago insuficiente, pago tardío para registros, procesos de administración o renovaciones según las condiciones de los medios dispuestos por Nabu, La utilización del servicio podrá ser cancelada o suspendidos sin que exista la obligación de Nabu de restituir el servicio al Titular.
+
+Los precios acordados entre <b>NABU</b> y el <b>CLIENTE</b> al desarrollo software son exclusivos al alcance de cada proyecto, cualquier adición o modificación será cotizada nuevamente.
+
+<b>NABU</b> no proporciona ninguna garantía al <b>CLIENTE</b> de que el servicio será interrumpido, libre de error o que cualquier información, software o material accesible en el servicio esté libre de virus o de otros componentes dañinos, pues el cliente acepta conocer las implicaciones tecnológicas generadas al respecto y por vulnerabilidades de algunos sistemas frente a nuevos desarrollos, actualizaciones o aplicaciones tecnológicas. Bajo ninguna circunstancia la empresa estará obligada de manera directa, indirecta, especial, punitiva, o consecuente daño que da a lugar cualquier manera su uso o inhabilidad para utilizar servicio, o para un tercero, o para tener acceso Internet o cualquier parte de eso, o su (o de un tercero) imposibilidad de acceder a un servicio o uso información, servicio, o mercancía proporcionada a través del servicio, o que resultar error, omisión, interrupción, cancelación de archivo, error, defecto, retraso en operación o transmisión, o cualquier falta funcionamiento.
+
+EL <b>CLIENTE</b> acepta y entiende que la no renovación previa al vencimiento del servicio de respaldo en línea impide el acceso a la información guardada en el servicio desde el día del vencimiento. Adicionalmente 15 días después del vencimiento y no renovación del 
+servicio de respaldo en la nube, toda la información serán eliminadas sin posibilidad de recuperación.
+
+<b>NABU</b> se reserva el derecho de modificar los precios de sus servicios así como también agregar funcionalidades a los planes.
+
+El presente acuerdo reemplaza comunicación escrita, electrónica, u oral que usted pudo haber tenido con <b>NABU</b> o cualquier agente o representante de la empresa. El <b>CLIENTE</b> acepta además que éste acuerdo puede ser modificado en cualquier momento por <b>NABU</b>.
+
+<b>NABU</b> es un sistema de información prestado como servicio, lo que indica que por ningún motivo será propiedad del cliente, al momento que el cliente desee retirarse del servicio se entregará en archivos planos .CSV respaldo de su información exclusiva de la empresa, <b>NABU</b> no será responsable de migración a otro sistema de aplicación.
+
+El <b>CLIENTE</b> acepta por completo y manifiesta que son de su entero conocimiento todas y cada una de las estipulaciones contenidas en el documento de términos y condiciones de nuestros servicios.
+
+Al momento que el <b>CLIENTE</b> ingrese a <b>NABU</b>, declara no sólo haber leído los Términos y Condiciones de Uso, sino que también haber comprendido y aceptado el contenido de éstos. Si el <b>CLIENTE</b> no está de acuerdo con los términos y condiciones que aparecen a continuación, deberá abstenerse de ingresar a <b>NABU</b>.
+
+</div>

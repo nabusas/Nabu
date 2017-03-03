@@ -118,4 +118,24 @@ header  td.banderas{
     bottom: 0;
 }
 
+.campos{
+    font: normal 16px sans-serif;
+}
 
+.terminos{
+    font: normal 13px sans-serif;
+    text-align: justify;
+}
+
+
+.modal-body {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+@media screen and (max-width:500px)
+    .modal-body {
+    height: 200px;
+    overflow-y: scroll;
+}
+}

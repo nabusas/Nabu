@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 02-03-2017
+	Fecha modificacion	= 03-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -182,19 +182,44 @@ class TemplatePage
     }
 
 	function tail() {
+        
+        $terminos=file_get_contents("../Files/terminos.txt");
+        $terminos = ucfirst($terminos);
+        //$terminos = htmlentities($terminos);
+        $terminos = str_replace(array("\r\n", "\r", "\n"), "<br />",$terminos);
+        $terminos = nl2br($terminos);
 ?>
 		      <footer class="footer">
                   <table width="100%">
                       <tr>
                         <td> 
-                             &nbsp;&nbsp;&nbsp;&nbsp;
-			                 <a href="https://www.facebook.com/nabugi/" TARGET="_blank"><i class="fa fa-facebook fa-1x btn btn-primary"></i></a>
+                             <a href="https://www.facebook.com/nabugi/" TARGET="_blank"><i class="fa fa-facebook fa-1x btn btn-primary"></i></a>
+                             <a href="mailto:nabu.sas.info@gmail.com?Subject=Información acerca Nabu" TARGET="_blank"><i class="fa fa-envelope fa-1x btn btn-primary"></i></a>
 				            <p>Nabu &copy; 2017</p>
                         </td>
-                        <td align='right'>&nbsp&nbsp<?php ?></td>
+                        <td align='right'>
+                                <a class="terminosCon">
+                                    <i class="fa fa-commenting-o fa-1x btn btn-primary"></i>
+                                </a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <p>Terminos y Condiciones<?php ?></p>
+                        </td>
                       </tr>
                   </table>          
 		        </footer>
+            
+            <script>
+            $(document).on("click", ".terminosCon", function(e) {
+                var dialog = bootbox.dialog({
+                    title: 'Nabu @ Términos y Condiciones',
+                    size: 'large',
+                    message: '<p><i class="fa fa-spin fa-spinner fa-2x"></i> Cargando...</p>'
+                });
+                
+                dialog.init(function(){
+                    setTimeout(function(){dialog.find('.bootbox-body').html('<?php echo $terminos ?>');},1000);});
+                });
+            </script>
             
                 </div>    
 			</body>
