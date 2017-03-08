@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 02-03-2017
+	Fecha modificacion	= 07-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -242,7 +242,7 @@ THE SOFTWARE.
         }
         function getFieldsPage($empresa,$idPage){
             $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld,B.NB_KEY_FLD FROM nabu.NB_FORM_TABLES_TBL A , nabu.NB_TABLE_FIELDS_TBL B WHERE  a.nb_enterprise_id_fld  = b.nb_enterprise_id_fld  and A.nb_id_table_fld = B.nb_id_table_fld";
-            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND A.nb_enterprise_id_fld ='".$empresa."' and A.nb_id_page_fld = '" .$idPage . "' ORDER BY A.nb_id_table_fld, B.NB_KEY_FLD  desc";
+            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND A.nb_enterprise_id_fld ='".$empresa."' and A.nb_id_page_fld = '" .$idPage . "' AND A.nb_id_page_field_fld not in ('nb_oprid_u_fld','nb_date_u_fld') ORDER BY A.nb_id_table_fld, B.NB_KEY_FLD  desc";
             return $this->executeQuery($sql);  
         }
         

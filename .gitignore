@@ -89,6 +89,14 @@ Core/Framework/alpaca/dist/alpaca/jqueryui
 Core/Framework/alpaca/dist/alpaca/jsdoc
 Core/Framework/alpaca/dist/alpaca/web
 
+Core/Framework/alpaca/dist/lib/moment/LICENSE
+Core/Framework/alpaca/dist/lib/moment/min/locales.js
+Core/Framework/alpaca/dist/lib/moment/CHANGELOG.md
+Core/Framework/alpaca/dist/lib/moment/bower.json
+Core/Framework/alpaca/dist/lib/moment/benchmarks/clone.js
+Core/Framework/alpaca/dist/lib/moment/min/locales.min.js
+Core/Framework/alpaca/dist/lib/moment/min/moment-with-locales.js
+
 #Menu
 Core/Framework/mmenu/demo/
 Core/Framework/mmenu/bower.json
@@ -190,17 +198,3 @@ Core/Framework/Datagrid/lib/js/jqgrid/js/i18n/grid.locale-tr.js
 Core/Framework/Datagrid/lib/js/jqgrid/js/install.txt
 Core/Framework/Datagrid/lib/js/jqgrid/js/Changes.txt
 Core/Framework/Datagrid/lib/js/jqgrid/css/ellipsis-xbl.xml
-
-Core/Framework/alpaca/dist/lib/moment/LICENSE
-
-Core/Framework/alpaca/dist/lib/moment/min/locales.js
-
-Core/Framework/alpaca/dist/lib/moment/CHANGELOG.md
-
-Core/Framework/alpaca/dist/lib/moment/bower.json
-
-Core/Framework/alpaca/dist/lib/moment/benchmarks/clone.js
-
-Core/Framework/alpaca/dist/lib/moment/min/locales.min.js
-
-Core/Framework/alpaca/dist/lib/moment/min/moment-with-locales.js
