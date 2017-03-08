@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 03-03-2017
+	Fecha modificacion	= 08-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -261,7 +261,7 @@ class Utilities
 
                                             if ($crypted[0] =='Y')
                                                 $value[0]=base64_decode($value[0])/444;
-
+                                            
                                             if ($i == 1)
                                                 $where=$where.$field[0]."='".$value[0]."' ";
                                             else
@@ -278,7 +278,15 @@ class Utilities
                                     $value=$this->database->getDatavalueW($field[1],$field[0],$where);
                                     $type =$this->database->getTypes($empresa,$field[1],$field[0]);
 
+                                    if ($field[0]=='nb_oprid_u_fld' )
+                                        $value[0]=$json->replaceData('operatorId');
+                                            
+                                    if ($field[0] =='nb_date_u_fld' )
+                                        $value[0]=$json->replaceData('nb_sysdate');
+
+                                    
                                     $fieldsData[$field[0]]=$value[0];
+                                    
                                 }
                             }
                             else
