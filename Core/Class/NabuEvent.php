@@ -212,7 +212,11 @@ class NabuEvent
                     if ($audit == 'true')
                         $setValue = $setValue.",nb_oprid_u_fld='".$_SESSION['opridLogin']."',nb_date_u_fld=sysdate()";
                     
+                    if ( strpos($table[0], 'nabu.')  == 0)
+                        $whereValue = $whereValue." and nb_enterprise_id_fld='".$_SESSION['app']."'";
+                        
                     $sql='Update '.$table[0].' '.$setValue.' '.$whereValue;
+                    
                     $setValue='';
                     $whereValue='';
                 }
