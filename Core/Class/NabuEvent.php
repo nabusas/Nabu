@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 08-03-2017
+    Fecha modificacion	= 09-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -179,8 +179,14 @@ class NabuEvent
                 if ($accion == 0 or $accion == 2){
                     
                     if ($audit == 'true'){
-                        $fieldsTable =$fieldsTable."nb_enterprise_id_fld,nb_oprid_i_fld,nb_date_i_fld";
-                        $fieldsValues = $fieldsValues."'".$_SESSION['app']."','".$_SESSION['opridLogin']."',sysdate()";
+                        if ( strpos($table[0], 'nabu.')  == 0){
+                            $fieldsTable =$fieldsTable."nb_enterprise_id_fld,nb_oprid_i_fld,nb_date_i_fld";
+                            $fieldsValues = $fieldsValues."'".$_SESSION['app']."','".$_SESSION['opridLogin']."',sysdate()";
+                        }
+                        else{
+                            $fieldsTable =$fieldsTable."nb_oprid_i_fld,nb_date_i_fld";
+                            $fieldsValues = $fieldsValues."'".$_SESSION['opridLogin']."',sysdate()";
+                        }
                     }
                     
                     if ($i ==0 and $numeroFilas==1)
