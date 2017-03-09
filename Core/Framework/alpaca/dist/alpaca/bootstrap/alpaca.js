@@ -3824,7 +3824,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         /**
          * Default time format.
          */
-        defaultTimeFormat: "HH:SS",
+        defaultTimeFormat: "HH:mm:ss",
 
         /**
          * Regular expressions for fields.
@@ -5329,122 +5329,207 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         return $(el).attr(name);
     };
 
-    Alpaca.loadRefSchemaOptions = function(topField, referenceId, callback)
+    Alpaca.loadRefSchemaOptions = function(topField, schemaReferenceId, optionsReferenceId, callback)
     {
-        if (!referenceId)
-        {
-            callback();
-        }
-        else if (referenceId === "#")
-        {
-            // this is the uri of the current schema document
-            callback(topField.schema, topField.options);
-        }
-        else if (referenceId.indexOf("#/") === 0)
-        {
-            // this is a property path relative to the root of the current schema
-            var defId = referenceId.substring(2);
+        var fns = [];
 
-            // split into tokens
-            var tokens = defId.split("/");
+        // holds resolution information
+        var resolution = {};
 
-            var defSchema = topField.schema;
-            for (var i = 0; i < tokens.length; i++)
+        // schema loading function
+        var fn1 = function(schema, schemaReferenceId, resolution)
+        {
+            return function(done)
             {
-                var token = tokens[i];
-
-                // schema
-                if (defSchema[token])
+                if (!schemaReferenceId)
                 {
-                    defSchema = defSchema[token];
+                    done();
                 }
-                else if (defSchema.properties && defSchema.properties[token])
+                else if (schemaReferenceId === "#")
                 {
-                    defSchema = defSchema.properties[token];
+                    resolution.schema = schema;
+
+                    done();
                 }
-                else if (defSchema.definitions && defSchema.definitions[token])
+                else if (schemaReferenceId.indexOf("#/") === 0)
                 {
-                    defSchema = defSchema.definitions[token];
-                }
-                else
-                {
-                    defSchema = null;
-                    break;
-                }
-            }
+                    // this is a property path relative to the root of the current schema
+                    schemaReferenceId = schemaReferenceId.substring(2);
 
-            var defOptions = topField.options;
-            for (var i = 0; i < tokens.length; i++)
-            {
-                var token = tokens[i];
+                    // split into tokens
+                    var tokens = schemaReferenceId.split("/");
 
-                // options
-                if (defOptions[token])
-                {
-                    defOptions = defOptions[token];
-                }
-                else if (defOptions.fields && defOptions.fields[token])
-                {
-                    defOptions = defOptions.fields[token];
-                }
-                else if (defOptions.definitions && defOptions.definitions[token])
-                {
-                    defOptions = defOptions.definitions[token];
-                }
-                else
-                {
-                    defOptions = null;
-                    break;
-                }
-            }
-
-            callback(defSchema, defOptions);
-        }
-        else if (referenceId.indexOf("#") === 0)
-        {
-            // this is the ID of a node in the current schema document
-
-            // walk the current document schema until we find the referenced node (using id property)
-            var resolution = Alpaca.resolveReference(topField.schema, topField.options, referenceId);
-            if (resolution)
-            {
-                callback(resolution.schema, resolution.options);
-            }
-            else
-            {
-                // nothing
-                callback();
-            }
-        }
-        else
-        {
-            // the reference is considered to be a URI with or without a "#" in it to point to a specific location in
-            // the target schema
-
-            var referenceParts = Alpaca.pathParts(referenceId);
-
-            topField.connector.loadReferenceSchema(referenceParts.path, function(schema) {
-                topField.connector.loadReferenceOptions(referenceParts.path, function(options) {
-
-                    if (referenceParts.id)
+                    var defSchema = schema;
+                    for (var i = 0; i < tokens.length; i++)
                     {
-                        var resolution = Alpaca.resolveReference(schema, options, referenceParts.id);
-                        if (resolution)
+                        var token = tokens[i];
+
+                        // schema
+                        if (defSchema[token])
                         {
-                            schema = resolution.schema;
-                            options = resolution.options;
+                            defSchema = defSchema[token];
+                        }
+                        else if (defSchema.properties && defSchema.properties[token])
+                        {
+                            defSchema = defSchema.properties[token];
+                        }
+                        else if (defSchema.definitions && defSchema.definitions[token])
+                        {
+                            defSchema = defSchema.definitions[token];
+                        }
+                        else
+                        {
+                            defSchema = null;
+                            break;
                         }
                     }
 
-                    callback(schema, options);
+                    resolution.schema = defSchema;
 
-                }, function() {
-                    callback(schema);
-                });
-            }, function() {
-                callback();
-            });
-        }
+                    done();
+                }
+                else if (schemaReferenceId.indexOf("#") === 0)
+                {
+                    // this is the ID of a node in the current schema document
+
+                    // walk the current document schema until we find the referenced node (using id property)
+                    var resolvedSchema = Alpaca.resolveSchemaReference(schema, schemaReferenceId);
+                    if (resolvedSchema)
+                    {
+                        resolution.schema = resolvedSchema;
+                    }
+
+                    done();
+                }
+                else
+                {
+                    // the reference is considered to be a URI with or without a "#" in it to point to a specific location in
+                    // the target schema
+
+                    var referenceParts = Alpaca.pathParts(schemaReferenceId);
+
+                    topField.connector.loadReferenceSchema(referenceParts.path, function (schema) {
+
+                        if (referenceParts.id)
+                        {
+                            var resolvedSchema = Alpaca.resolveSchemaReference(schema, referenceParts.id);
+                            if (resolvedSchema)
+                            {
+                                resolution.schema = resolvedSchema;
+                            }
+                        }
+                        else
+                        {
+                            resolution.schema = schema;
+                        }
+
+                        done();
+                    }, function(err) {
+                        done();
+                    });
+                }
+            };
+        };
+        fns.push(fn1(topField.schema, schemaReferenceId, resolution));
+
+        var fn2 = function(options, optionsReferenceId, resolution)
+        {
+            return function(done)
+            {
+                if (!optionsReferenceId) {
+                    done();
+                }
+                else if (optionsReferenceId === "#")
+                {
+                    resolution.options = options;
+
+                    done();
+                }
+                else if (optionsReferenceId.indexOf("#/") === 0)
+                {
+                    // this is a property path relative to the root of the current schema
+                    optionsReferenceId = optionsReferenceId.substring(2);
+
+                    // split into tokens
+                    var tokens = optionsReferenceId.split("/");
+
+                    var defOptions = options;
+                    for (var i = 0; i < tokens.length; i++)
+                    {
+                        var token = tokens[i];
+
+                        // options
+                        if (defOptions[token])
+                        {
+                            defOptions = defOptions[token];
+                        }
+                        else if (defOptions.fields && defOptions.fields[token])
+                        {
+                            defOptions = defOptions.fields[token];
+                        }
+                        else if (defOptions.definitions && defOptions.definitions[token])
+                        {
+                            defOptions = defOptions.definitions[token];
+                        }
+                        else
+                        {
+                            defOptions = null;
+                            break;
+                        }
+                    }
+
+                    resolution.options = defOptions;
+
+                    done();
+                }
+                else if (optionsReferenceId.indexOf("#") === 0)
+                {
+                    // this is the ID of a node in the current schema document
+
+                    // walk the current document schema until we find the referenced node (using id property)
+                    var resolvedOptions = Alpaca.resolveOptionsReference(options, optionsReferenceId);
+                    if (resolvedOptions)
+                    {
+                        resolution.options = resolvedOptions;
+                    }
+
+                    done();
+                }
+                else
+                {
+                    // the reference is considered to be a URI with or without a "#" in it to point to a specific location in
+                    // the target schema
+
+                    var optionReferenceParts = Alpaca.pathParts(optionsReferenceId);
+
+                    topField.connector.loadReferenceOptions(optionReferenceParts.path, function (options) {
+
+                        if (optionReferenceParts.id)
+                        {
+                            var resolvedOptions = Alpaca.resolveOptionsReference(options, optionReferenceParts.id);
+                            if (resolvedOptions)
+                            {
+                                resolution.options = resolvedOptions;
+                            }
+                        }
+                        else
+                        {
+                            resolution.options = options;
+                        }
+
+                        done();
+                    }, function(err) {
+                        done();
+                    });
+                }
+            };
+        };
+        fns.push(fn2(topField.options, optionsReferenceId, resolution));
+
+        // run loads in parallel
+        Alpaca.series(fns, function() {
+            callback(resolution.schema, resolution.options);
+        });
     };
 
     Alpaca.DEFAULT_ERROR_CALLBACK = function(error)
@@ -5515,63 +5600,75 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         }
     };
 
-
     /**
-     * Given a base field, walks the schema, options and data forward until it
-     * discovers the given reference.
+     * Resolves a schema path reference to the given sub-schema.
      *
      * @param schema
-     * @param options
      * @param referenceId
+     * @returns {*}
      */
-    Alpaca.resolveReference = function(schema, options, referenceId)
+    Alpaca.resolveSchemaReference = function(schema, referenceId)
     {
         if ((schema.id === referenceId) || (("#" + schema.id) === referenceId)) // jshint ignore:line
         {
-            var result = {};
-            if (schema) {
-                result.schema = schema;
-            }
-            if (options) {
-                result.options = options;
-            }
-
-            return result;
+            return schema;
         }
-        else
+
+        if (schema.properties)
         {
-            if (schema.properties)
+            for (var propertyId in schema.properties)
             {
-                for (var propertyId in schema.properties)
-                {
-                    var subSchema = schema.properties[propertyId];
-                    var subOptions = null;
-                    if (options && options.fields && options.fields[propertyId])
-                    {
-                        subOptions = options.fields[propertyId];
-                    }
+                var subSchema = schema.properties[propertyId];
 
-                    var x = Alpaca.resolveReference(subSchema, subOptions, referenceId);
-                    if (x)
-                    {
-                        return x;
-                    }
-                }
-            }
-            else if (schema.items)
-            {
-                var subSchema = schema.items;
-                var subOptions = null;
-                if (options && options.items)
-                {
-                    subOptions = options.items;
-                }
-
-                var x = Alpaca.resolveReference(subSchema, subOptions, referenceId);
+                var x = Alpaca.resolveSchemaReference(subSchema, referenceId);
                 if (x)
                 {
                     return x;
                 }
+            }
+        }
+        else if (schema.items)
+        {
+            var subSchema = schema.items;
+
+            var x = Alpaca.resolveSchemaReference(subSchema, referenceId);
+            if (x)
+            {
+                return x;
+            }
+        }
+
+        return null;
+    };
+
+    Alpaca.resolveOptionsReference = function(options, referenceId)
+    {
+        if ((options.id === referenceId) || (("#" + options.id) === referenceId)) // jshint ignore:line
+        {
+            return options;
+        }
+
+        if (options.fields)
+        {
+            for (var fieldId in options.fields)
+            {
+                var subOptions = options.fields[fieldId];
+
+                var x = Alpaca.resolveOptionsReference(subOptions, referenceId);
+                if (x)
+                {
+                    return x;
+                }
+            }
+        }
+        else if (options.items)
+        {
+            var subOptions = options.items;
+
+            var x = Alpaca.resolveOptionsReference(subOptions, referenceId);
+            if (x)
+            {
+                return x;
             }
         }
 
@@ -5802,7 +5899,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         return result;
     };
 
-    Alpaca.series = function(funcs, callback)
+    Alpaca.series = Alpaca.serial = function(funcs, callback)
     {
         async.series(funcs, function() {
             callback();
@@ -9554,6 +9651,11 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             }
         },
 
+        setupField: function(callback)
+        {
+            callback();
+        },
+
         /**
          * Registers an event listener.
          *
@@ -9752,12 +9854,16 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
 
             this.setup();
 
-            this._render(function() {
+            this.setupField(function() {
 
-                // trigger the render event
-                self.trigger("render");
+                self._render(function() {
 
-                callback();
+                    // trigger the render event
+                    self.trigger("render");
+
+                    callback();
+                });
+
             });
         },
 
@@ -10265,72 +10371,75 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             // re-setup the field
             self.setup();
 
-            // render
-            self._render(function() {
+            self.setupField(function() {
 
-                // move ahead of marker
-                $(markerEl).before(self.field);
+                // render
+                self._render(function() {
 
-                // reset the domEl
-                self.domEl = oldDomEl;
+                    // move ahead of marker
+                    $(markerEl).before(self.field);
 
-                // copy classes from oldField onto field
-                var oldClasses = $(oldField).attr("class");
-                if (oldClasses) {
-                    $.each(oldClasses.split(" "), function(i, v) {
-                        if (v && !v.indexOf("alpaca-") === 0) {
-                            $(self.field).addClass(v);
-                        }
-                    });
-                }
+                    // reset the domEl
+                    self.domEl = oldDomEl;
 
-                // hide the old field
-                $(oldField).hide();
-
-                // remove marker
-                $(markerEl).remove();
-
-                // mark that we're refreshed
-                self.refreshed = true;
-
-                // this is apparently needed for objects and arrays
-                if (typeof(_data) !== "undefined")
-                {
-                    if (Alpaca.isObject(_data) || Alpaca.isArray(_data))
-                    {
-                        self.setValue(_data);
+                    // copy classes from oldField onto field
+                    var oldClasses = $(oldField).attr("class");
+                    if (oldClasses) {
+                        $.each(oldClasses.split(" "), function(i, v) {
+                            if (v && !v.indexOf("alpaca-") === 0) {
+                                $(self.field).addClass(v);
+                            }
+                        });
                     }
-                }
 
-                // fire the "ready" event
-                Alpaca.fireReady(self);
+                    // hide the old field
+                    $(oldField).hide();
 
-                if (callback)
-                {
-                    callback.call(self);
-                }
+                    // remove marker
+                    $(markerEl).remove();
 
-                // afterwards...
+                    // mark that we're refreshed
+                    self.refreshed = true;
 
-                // now clean up old field elements
-                // the trick here is that we want to make sure we don't trigger the bound "destroyed" event handler
-                // for the old dom el.
-                //
-                // the reason is that we have oldForm -> Field (with oldDomEl)
-                //                        and form -> Field (with domEl)
-                //
-                // cleaning up "oldDomEl" causes "Field" to cleanup which causes "oldForm" to cleanup
-                // which causes "Field" to cleanup which causes "domEl" to clean up (and also "form")
-                //
-                // here we just want to remove the dom elements for "oldDomEl" and "oldForm" without triggering
-                // the special destroyer event
-                //
-                // appears that we can do this with a second argument...?
-                //
-                $(oldField).remove(undefined, {
-                    "nodestroy": true
+                    // this is apparently needed for objects and arrays
+                    if (typeof(_data) !== "undefined")
+                    {
+                        if (Alpaca.isObject(_data) || Alpaca.isArray(_data))
+                        {
+                            self.setValue(_data);
+                        }
+                    }
+
+                    // fire the "ready" event
+                    Alpaca.fireReady(self);
+
+                    if (callback)
+                    {
+                        callback.call(self);
+                    }
+
+                    // afterwards...
+
+                    // now clean up old field elements
+                    // the trick here is that we want to make sure we don't trigger the bound "destroyed" event handler
+                    // for the old dom el.
+                    //
+                    // the reason is that we have oldForm -> Field (with oldDomEl)
+                    //                        and form -> Field (with domEl)
+                    //
+                    // cleaning up "oldDomEl" causes "Field" to cleanup which causes "oldForm" to cleanup
+                    // which causes "Field" to cleanup which causes "domEl" to clean up (and also "form")
+                    //
+                    // here we just want to remove the dom elements for "oldDomEl" and "oldForm" without triggering
+                    // the special destroyer event
+                    //
+                    // appears that we can do this with a second argument...?
+                    //
+                    $(oldField).remove(undefined, {
+                        "nodestroy": true
+                    });
+
                 });
-
             });
         },
 
@@ -15593,8 +15702,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
 
                 if (err)
                 {
-                    errorCallback(err);
-                    return;
+                    return errorCallback(err);
                 }
 
                 // TODO: cleanup schema
@@ -15626,8 +15734,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
 
                 if (err)
                 {
-                    errorCallback(err);
-                    return;
+                    return errorCallback(err);
                 }
 
                 if (!options) {
@@ -15681,7 +15788,11 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         },
 
         /**
-         * Loads a referenced JSON schema by it's qname from Cloud CMS.
+         * Loads a referenced JSON schema.
+         *
+         * Supports qname://{namespace}/{localName}
+         *
+         * Otherwise, falls back to default implementation.
          *
          * @param {Object|String} schemaIdentifier schema to load
          * @param {Function} onSuccess onSuccess callback.
@@ -15691,11 +15802,36 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         {
             var self = this;
 
-            return self.loadSchema(schemaIdentifier, successCallback, errorCallback);
+            // if the reference comes in form "qname://{namespace}/{localName}" (which is the Cloud CMS official format)
+            // then convert to basic QName which we support here within Alpaca Cloud CMS connector
+            if (schemaIdentifier.indexOf("qname://") === 0)
+            {
+                var parts = schemaIdentifier.substring(8).split("/");
+
+                schemaIdentifier = parts[0] + ":" + parts[1];
+            }
+
+            // is it HTTP or HTTPS?
+            if ((schemaIdentifier.toLowerCase().indexOf("http://") === 0) || (schemaIdentifier.toLowerCase().indexOf("https://") === 0))
+            {
+                // load JSON from endpoint
+                return this._handleLoadJsonResource(schemaIdentifier, successCallback, errorCallback);
+            }
+
+            var resources = null;
+
+            // otherwise assume it is a QName
+            return self.loadSchema(schemaIdentifier, resources, successCallback, errorCallback);
         },
 
         /**
-         * Loads referenced JSON options by it's form key from Cloud CMS.
+         * Loads referenced JSON options.
+         *
+         * // Supports qname://{namespace}/{localName}/{formKey}
+         *
+         * At present, this ignores QName.
+         *
+         * Otherwise, falls back to default implementation.
          *
          * @param {Object|String} optionsIdentifier form to load.
          * @param {Function} onSuccess onSuccess callback.
@@ -15705,7 +15841,34 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         {
             var self = this;
 
-            return self.loadOptions(optionsIdentifier, successCallback, errorCallback);
+            // is it HTTP or HTTPS?
+            if ((optionsIdentifier.toLowerCase().indexOf("http://") === 0) || (optionsIdentifier.toLowerCase().indexOf("https://") === 0))
+            {
+                // load JSON from endpoint
+                return this._handleLoadJsonResource(optionsIdentifier, successCallback, errorCallback);
+            }
+
+            var resources = null;
+
+            // if the reference comes in form "qname://{namespace}/{localName}/{formKey}" (which is the Cloud CMS official format)
+            // then convert to basic QName which we support here within Alpaca Cloud CMS connector
+            if (optionsIdentifier.indexOf("qname://") === 0)
+            {
+                var parts = optionsIdentifier.substring(8).split("/");
+                if (parts.length > 2)
+                {
+                    // qname
+                    resources = {};
+                    resources.schemaSource = parts[0] + ":" + parts[1];
+
+                    // form id
+                    optionsIdentifier = parts[2];
+
+                    return self.loadOptions(optionsIdentifier, resources, successCallback, errorCallback);
+                }
+            }
+
+            successCallback(null);
         },
 
         /**
@@ -15934,99 +16097,103 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
                 }
 
                 // support for each datasets (local, remote, prefetch)
-                if (tDatasets.type === "local" || tDatasets.type === "remote" || tDatasets.type === "prefetch")
+                if (!tDatasets.init)
                 {
-                    var bloodHoundConfig = {
-                        datumTokenizer: function(d) {
-                            var tokens = "";
-                            for (var k in d) {
-                                if (d.hasOwnProperty(k) || d[k]) {
-                                    tokens += " " + d[k];
-                                }
-                            }
-                            return Bloodhound.tokenizers.whitespace(tokens);
-                        },
-                        queryTokenizer: Bloodhound.tokenizers.whitespace
-                    };
-
-                    if (tDatasets.type === "local" )
+                    if (tDatasets.type === "local" || tDatasets.type === "remote" || tDatasets.type === "prefetch")
                     {
-                        var local = [];
-
-                        if (typeof(tDatasets.source) === "function")
+                        var bloodHoundConfig = {
+                            datumTokenizer: function(d) {
+                                var tokens = "";
+                                for (var k in d) {
+                                    if (d.hasOwnProperty(k) || d[k]) {
+                                        tokens += " " + d[k];
+                                    }
+                                }
+                                return Bloodhound.tokenizers.whitespace(tokens);
+                            },
+                            queryTokenizer: Bloodhound.tokenizers.whitespace
+                        };
+    
+                        if (tDatasets.type === "local" )
                         {
-                            bloodHoundConfig.local = tDatasets.source;
-                        }
-                        else
-                        {
-                            // array
-                            for (var i = 0; i < tDatasets.source.length; i++)
+                            var local = [];
+    
+                            if (typeof(tDatasets.source) === "function")
                             {
-                                var localElement = tDatasets.source[i];
-                                if (typeof(localElement) === "string")
-                                {
-                                    localElement = {
-                                        "value": localElement
-                                    };
-                                }
-
-                                local.push(localElement);
+                                bloodHoundConfig.local = tDatasets.source;
                             }
-
-                            bloodHoundConfig.local = local;
+                            else
+                            {
+                                // array
+                                for (var i = 0; i < tDatasets.source.length; i++)
+                                {
+                                    var localElement = tDatasets.source[i];
+                                    if (typeof(localElement) === "string")
+                                    {
+                                        localElement = {
+                                            "value": localElement
+                                        };
+                                    }
+    
+                                    local.push(localElement);
+                                }
+    
+                                bloodHoundConfig.local = local;
+                            }
+    
+                            if (tDatasets.local)
+                            {
+                                bloodHoundConfig.local = tDatasets.local;
+                            }
                         }
-
-                        if (tDatasets.local)
+    
+                        if (tDatasets.type === "prefetch")
                         {
-                            bloodHoundConfig.local = tDatasets.local;
+                            bloodHoundConfig.prefetch = {
+                                url: tDatasets.source
+                            };
+    
+                            if (tDatasets.filter)
+                            {
+                                bloodHoundConfig.prefetch.filter = tDatasets.filter;
+                            }
                         }
+    
+                        if (tDatasets.type === "remote")
+                        {
+                            bloodHoundConfig.remote = {
+                                url: tDatasets.source
+                            };
+    
+                            if (tDatasets.filter)
+                            {
+                                bloodHoundConfig.remote.filter = tDatasets.filter;
+                            }
+    
+                            if (tDatasets.replace)
+                            {
+                                bloodHoundConfig.remote.replace = tDatasets.replace;
+                            }
+                        }
+    
+                        // include any additional dataset config params in the Bloodhound config
+                        $.each(tDatasets, function( index, value ) {
+                            if (index !== 'type' 
+                                && index !== 'source' 
+                                && index !== 'filter' 
+                                && index !== 'replace' 
+                                && index !== 'local' 
+                                && index !== 'templates')
+                            {
+                                bloodHoundConfig[index] = value;
+                            }
+                        });
+    
+                        var engine = new Bloodhound(bloodHoundConfig);
+                        engine.initialize();
+                        tDatasets.source = engine.ttAdapter();
+                        tDatasets.init = true;
                     }
-
-                    if (tDatasets.type === "prefetch")
-                    {
-                        bloodHoundConfig.prefetch = {
-                            url: tDatasets.source
-                        };
-
-                        if (tDatasets.filter)
-                        {
-                            bloodHoundConfig.prefetch.filter = tDatasets.filter;
-                        }
-                    }
-
-                    if (tDatasets.type === "remote")
-                    {
-                        bloodHoundConfig.remote = {
-                            url: tDatasets.source
-                        };
-
-                        if (tDatasets.filter)
-                        {
-                            bloodHoundConfig.remote.filter = tDatasets.filter;
-                        }
-
-                        if (tDatasets.replace)
-                        {
-                            bloodHoundConfig.remote.replace = tDatasets.replace;
-                        }
-                    }
-
-                    // include any additional dataset config params in the Bloodhound config
-                    $.each(tDatasets, function( index, value ) {
-                        if (index !== 'type' 
-                            && index !== 'source' 
-                            && index !== 'filter' 
-                            && index !== 'replace' 
-                            && index !== 'local' 
-                            && index !== 'templates')
-                        {
-                            bloodHoundConfig[index] = value;
-                        }
-                    });
-
-                    var engine = new Bloodhound(bloodHoundConfig);
-                    engine.initialize();
-                    tDatasets.source = engine.ttAdapter();
                 }
 
                 // compile templates
@@ -19380,7 +19547,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
          */
         getContainerValue: function()
         {
-            // if we're empty and we're also not required, then we hand back undefined
+            // if we're empty and we're also not required, then we hand back empty set
             if (this.children.length === 0 && !this.isRequired())
             {
                 return [];
@@ -19611,7 +19778,11 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             // handle $ref
             if (itemSchema && itemSchema["$ref"])
             {
-                var referenceId = itemSchema["$ref"];
+                var schemaReferenceId = itemSchema["$ref"];
+                var optionsReferenceId = itemSchema["$ref"];
+                if (itemOptions["$ref"]) {
+                    optionsReferenceId = itemOptions["$ref"];
+                }
 
                 var topField = this;
                 var fieldChain = [topField];
@@ -19624,7 +19795,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
                 var originalItemSchema = itemSchema;
                 var originalItemOptions = itemOptions;
 
-                Alpaca.loadRefSchemaOptions(topField, referenceId, function(itemSchema, itemOptions) {
+                Alpaca.loadRefSchemaOptions(topField, schemaReferenceId, optionsReferenceId, function(itemSchema, itemOptions) {
 
                     // walk the field chain to see if we have any circularity
                     var refCount = 0;
@@ -19632,11 +19803,11 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
                     {
                         if (fieldChain[i].schema)
                         {
-                            if ( (fieldChain[i].schema.id === referenceId) || (fieldChain[i].schema.id === "#" + referenceId))
+                            if ( (fieldChain[i].schema.id === schemaReferenceId) || (fieldChain[i].schema.id === "#" + schemaReferenceId))
                             {
                                 refCount++;
                             }
-                            else if ( (fieldChain[i].schema["$ref"] === referenceId))
+                            else if ( (fieldChain[i].schema["$ref"] === schemaReferenceId))
                             {
                                 refCount++;
                             }
@@ -21393,7 +21564,11 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             // handle $ref
             if (propertySchema && propertySchema["$ref"])
             {
-                var referenceId = propertySchema["$ref"];
+                var propertyReferenceId = propertySchema["$ref"];
+                var fieldReferenceId = propertySchema["$ref"];
+                if (propertyOptions["$ref"]) {
+                    fieldReferenceId = propertyOptions["$ref"];
+                }
 
                 var topField = this;
                 var fieldChain = [topField];
@@ -21406,7 +21581,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
                 var originalPropertySchema = propertySchema;
                 var originalPropertyOptions = propertyOptions;
 
-                Alpaca.loadRefSchemaOptions(topField, referenceId, function(propertySchema, propertyOptions) {
+                Alpaca.loadRefSchemaOptions(topField, propertyReferenceId, fieldReferenceId, function(propertySchema, propertyOptions) {
 
                     // walk the field chain to see if we have any circularity
                     var refCount = 0;
@@ -21414,11 +21589,11 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
                     {
                         if (fieldChain[i].schema)
                         {
-                            if ( (fieldChain[i].schema.id === referenceId) || (fieldChain[i].schema.id === "#" + referenceId))
+                            if ( (fieldChain[i].schema.id === propertyReferenceId) || (fieldChain[i].schema.id === "#" + propertyReferenceId))
                             {
                                 refCount++;
                             }
-                            else if ( (fieldChain[i].schema["$ref"] === referenceId))
+                            else if ( (fieldChain[i].schema["$ref"] === propertyReferenceId))
                             {
                                 refCount++;
                             }
@@ -23783,27 +23958,28 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             }
 
             this.base();
-
-            // set up default spectrum settings
-            if (typeof(this.options.spectrum) === "undefined")
-            {
-                this.options.spectrum = {};
-            }
-            if (typeof(this.options.spectrum.showInput) === "undefined")
-            {
-                this.options.spectrum.showInput = true;
-            }
-            if (typeof(this.options.spectrum.showPalette) === "undefined")
-            {
-                this.options.spectrum.showPalette = true;
-            }
-            if (typeof(this.options.spectrum.preferredFormat) === "undefined")
-            {
-                this.options.spectrum.preferredFormat = "hex3";
-            }
-            if (typeof(this.options.spectrum.clickoutFiresChange) === "undefined")
-            {
-                this.options.spectrum.clickoutFiresChange = true;
+            if (self.spectrumAvailable){
+                // set up default spectrum settings
+                if (typeof(this.options.spectrum) === "undefined")
+                {
+                    this.options.spectrum = {};
+                }
+                if (typeof(this.options.spectrum.showInput) === "undefined")
+                {
+                    this.options.spectrum.showInput = true;
+                }
+                if (typeof(this.options.spectrum.showPalette) === "undefined")
+                {
+                    this.options.spectrum.showPalette = true;
+                }
+                if (typeof(this.options.spectrum.preferredFormat) === "undefined")
+                {
+                    this.options.spectrum.preferredFormat = "hex3";
+                }
+                if (typeof(this.options.spectrum.clickoutFiresChange) === "undefined")
+                {
+                    this.options.spectrum.clickoutFiresChange = true;
+                }
             }
         },
 
@@ -24390,7 +24566,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         },
 
         getDefaultFormat: function() {
-            return "MM/DD/YYYY";
+            return Alpaca.defaultDateFormat;
         },
 
         getDefaultExtraFormats: function() {
@@ -24431,7 +24607,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             }
 
             if (!self.options.picker.locale) {
-                self.options.picker.locale = "en_US";
+                self.options.picker.locale = Alpaca.defaultLocale;
             }
 
             if (!self.options.picker.dayViewHeaderFormat) {
@@ -24796,14 +24972,14 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             },
 
             getDefaultFormat: function() {
-                return "MM/DD/YYYY HH:mm:ss";
+                return Alpaca.defaultDateFormat + " " + Alpaca.defaultTimeFormat;
             },
 
             getDefaultExtraFormats: function() {
                 return [
-                    "MM/DD/YYYY hh:mm:ss a",
-                    "MM/DD/YYYY HH:mm",
-                    "MM/DD/YYYY"
+                    Alpaca.defaultDateFormat + " hh:mm:ss a",
+                    Alpaca.defaultDateFormat + " HH:mm",
+                    Alpaca.defaultDateFormat
                 ];
             },
 
@@ -27884,7 +28060,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
 
                 // if summernote's dom element gets destroyed, make sure we clean up the editor instance
                 $(self.control).bind('destroyed', function() {
-                    $(self.control).summernote('destroy');
+                    try { $(self.control).summernote('destroy'); } catch (e) { }
                 });
 
                 callback();
@@ -28833,7 +29009,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
         },
 
         getDefaultFormat: function() {
-            return "h:mm:ss a";
+            return Alpaca.defaultTimeFormat;
         },
 
         /**
@@ -30344,7 +30520,7 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
 
             if (self.options.errorHandler)
             {
-                self.options.errorHandler.call(self, data);
+                self.options.errorHandler.call(self, [data.errorThrown]);
             }
 
             for (var i = 0; i < data.files.length; i++)
@@ -31329,10 +31505,10 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
                 "invalidEmail": "Keine gültige E-Mail Adresse",
                 "stringNotAnInteger": "Keine Ganze Zahl",
                 "invalidIPv4": "Ungültige IPv4 Adresse",
-                "stringValueTooSmall": "Die Mindestanzahl von Zeichen ist {0}",
-                "stringValueTooLarge": "Die Maximalanzahl von Zeichen ist {0}",
-                "stringValueTooSmallExclusive": "Die Anzahl der Zeichen muss größer sein als {0}",
-                "stringValueTooLargeExclusive": "Die Anzahl der Zeichen muss kleiner sein als {0}",
+                "stringValueTooSmall": "Die kleinstmögliche Zahl ist {0}",
+                "stringValueTooLarge": "Die grösstmögliche Zahl ist {0}",
+                "stringValueTooSmallExclusive": "Die kleinstmögliche Zahl muss größer sein als {0}",
+                "stringValueTooLargeExclusive": "Die grösstmögliche Zahl muss kleiner sein als {0}",
                 "stringDivisibleBy": "Der Wert muss durch {0} dividierbar sein",
                 "stringNotANumber": "Die Eingabe ist keine Zahl",
                 "invalidPassword": "Ungültiges Passwort",
@@ -31340,6 +31516,55 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
                 "invalidPattern": "Diese Feld stimmt nicht mit folgender Vorgabe überein {0}",
                 "stringTooShort": "Dieses Feld sollte mindestens {0} Zeichen enthalten",
                 "stringTooLong": "Dieses Feld sollte höchstens {0} Zeichen enthalten"
+            }
+		}
+	});
+
+})(jQuery);
+
+(function($) {
+
+	// greek - greece
+
+	var Alpaca = $.alpaca;
+
+	Alpaca.registerView ({
+		"id": "base",
+		"messages": {
+            "el_GR": {
+                required: "Υποχρεωτικό",
+                invalid: "Λάθος",
+                months: ["Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος", "Δεκέμβριος"],
+                timeUnits: {
+                    SECOND: "Δευτερόλεπτα",
+                    MINUTE: "Λεπτά",
+                    HOUR: "Ώρες",
+                    DAY: "Μέρες",
+                    MONTH: "Μήνες",
+                    YEAR: "Χρόνια"
+                },
+                "notOptional": "Αυτό το πεδίο δεν είναι προαιρετικό",
+                "disallowValue": "Μη επιτρεπτή τιμή: {0}",
+                "invalidValueOfEnum": "Το πεδίο πρέπει να περιέχει μία από τις ακόλουθες τιμές: {0}. [{1}]",
+                "notEnoughItems": "Ο ελάχιστος αριθμός εγγραφών είναι {0}",
+                "tooManyItems": "Ο μέγιστος αριθμός εγγραφών είναι {0}",
+                "valueNotUnique": "Οι τιμές δεν είναι μοναδικές",
+                "notAnArray": "Δεν υπάρχουν εγγραφές",
+                "invalidDate": "Λάθος μορφή ημερομηνίας: {0}",
+                "invalidEmail": "Μη έγκυρο email",
+                "stringNotAnInteger": "Δεν είναι ακέραιος",
+                "invalidIPv4": "Μη έγκυρη IPv4 διεύθυνση",
+                "stringValueTooSmall": "Το ελάχιστο πλήθος χαρακτήρων είναι {0}",
+                "stringValueTooLarge": "Το μέγιστο πλήθος χαρακτήρων είναι {0}",
+                "stringValueTooSmallExclusive": "Απαιτούνται περισσότεροι χαρακτήες από {0}",
+                "stringValueTooLargeExclusive": "Απαιτούνται λιγότεροι χαρακτήρες από {0}",
+                "stringDivisibleBy": "Η τιμή πρέπει να είναι πολλαπλάσιο του {0}",
+                "stringNotANumber": "Η τιμή δεν είναι αριθμός",
+                "invalidPassword": "Μη έγκυρο password",
+                "invalidPhone": "Μη έγκυρος αριθμός τηλεφώνου",
+                "invalidPattern": "Αυτό το πεδίο δεν έχει την απαιτούμενη μορφή {0}",
+                "stringTooShort": "Το πεδίο πρέπει να έχει τουλάχιστον {0} χαρακτήρες",
+                "stringTooLong": "Το πεδίο μπορεί να έχει το πολύ {0} χαρακτήρες"
             }
 		}
 	});
@@ -31661,6 +31886,55 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             }
         }
     });
+
+})(jQuery);
+
+(function($) {
+
+	// norwegian - norway
+
+	var Alpaca = $.alpaca;
+
+	Alpaca.registerView ({
+		"id": "base",
+		"messages": {
+            "nb_NO": {
+                required: "Feltet er obligatorisk",
+                invalid: "Verdien er ugyldig",
+                months: ["Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"],
+                timeUnits: {
+                    SECOND: "Sekunder",
+                    MINUTE: "Minutter",
+                    HOUR: "Timer",
+                    DAY: "Dager",
+                    MONTH: "Måneder",
+                    YEAR: "År"
+                },
+                "notOptional": "Dette feltet er obligatorisk",
+                "disallowValue": "Denne verdien er ikke tillatt: {0}",
+                "invalidValueOfEnum": "Feltet må inneholde en av følgende verdier: {0}. Nåværende verdi er: {1}",
+                "notEnoughItems": "Det minste tillatte antallet elementer er {0}",
+                "tooManyItems": "Det største tillatte antallet elementer er {0}",
+                "valueNotUnique": "Verdiene er ikke unike",
+                "notAnArray": "Ikke en liste av verdier",
+                "invalidDate": "Ugyldig datoformat: {0}",
+                "invalidEmail": "Ugyldig e-postadresse",
+                "stringNotAnInteger": "Verdien er ikke et heltall",
+                "invalidIPv4": "Ugyldig IPv4-adresse",
+                "stringValueTooSmall": "Den minste tillatte verdien er {0}",
+                "stringValueTooLarge": "Den største tillatte verdien er {0}",
+                "stringValueTooSmallExclusive": "Verdien må være større enn {0}",
+                "stringValueTooLargeExclusive": "Verdien må være mindre enn {0}",
+                "stringDivisibleBy": "Tallet må være delbart med {0}",
+                "stringNotANumber": "Verdien er ikke et tall",
+                "invalidPassword": "Ugyldig passord",
+                "invalidPhone": "Ugyldig telefonnummer",
+                "invalidPattern": "Feltet må være i følgende format: {0}",
+                "stringTooShort": "Dette feltet må minst inneholde {0} tegn",
+                "stringTooLong": "Dette feltet kan maks inneholde {0} tegn"
+            }
+		}
+	});
 
 })(jQuery);
 
@@ -32339,7 +32613,11 @@ this["HandlebarsPrecompiled"]["bootstrap-edit"]["message"] = Handlebars.template
             }
 
             // set up container to be collapsible
-            $(containerEl).addClass("collapse in");
+            $(containerEl).addClass("collapse");
+            if (!this.options.collapsed)
+            {
+                $(containerEl).addClass("in");
+            }
 
             // set up legend anchor
             if (!$(anchorEl).attr("data-target")) {
