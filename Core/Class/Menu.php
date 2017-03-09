@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 18-11-2016
+	Fecha modificacion	= 09-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -52,10 +52,13 @@ class Menu
             $target=' ';
             if ( $row['target'] == 'Y' )
                $target="TARGET='_blank'";
-			
-            echo"<li><a href=../Pages/?p=".$row['link']." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>";
-
-			if ($hijos)
+            
+            if(strpos($row['link'], 'nb_') === false and ($row['link'] !='login' and $row['link'] != 'home' and $row['link'] !='event'))
+                echo"<li><a href=".$row['link']." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>"; 
+            else
+                echo"<li><a href=../Pages/?p=".$row['link']." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>";
+            
+            if ($hijos)
 				echo"<ul>";
             else
 				echo"</li>";

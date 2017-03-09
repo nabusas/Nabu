@@ -179,7 +179,7 @@ class NabuEvent
                 if ($accion == 0 or $accion == 2){
                     
                     if ($audit == 'true'){
-                        if ( strpos($table[0], 'nabu.')  == 0){
+                        if ( strpos($table[0], 'nabu.')  !== false){
                             $fieldsTable =$fieldsTable."nb_enterprise_id_fld,nb_oprid_i_fld,nb_date_i_fld";
                             $fieldsValues = $fieldsValues."'".$_SESSION['app']."','".$_SESSION['opridLogin']."',sysdate()";
                         }
@@ -212,7 +212,7 @@ class NabuEvent
                     if ($audit == 'true')
                         $setValue = $setValue.",nb_oprid_u_fld='".$_SESSION['opridLogin']."',nb_date_u_fld=sysdate()";
                     
-                    if ( strpos($table[0], 'nabu.')  == 0)
+                    if ( strpos($table[0], 'nabu.')  !== false)
                         $whereValue = $whereValue." and nb_enterprise_id_fld='".$_SESSION['app']."'";
                         
                     $sql='Update '.$table[0].' '.$setValue.' '.$whereValue;
