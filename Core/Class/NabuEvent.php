@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 24-09-2015
 	Desarrollador		= CAGC
-    Fecha modificacion	= 21-02-2017
+    Fecha modificacion	= 08-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -52,7 +52,7 @@ class NabuEvent
         return $pageLink[0];
     }
     
-    function getEventSql($accion) {
+    function getEventSql($accion, $audit) {
         
         if ($accion == 2 or $accion==3){
             
@@ -175,7 +175,13 @@ class NabuEvent
                     }
                 }
             
+                    
                 if ($accion == 0 or $accion == 2){
+                    
+                    if ($audit == 'true'){
+                        $fieldsTable =$fieldsTable."nb_enterprise_id_fld,nb_oprid_i_fld,nb_date_i_fld";
+                        $fieldsValues = $fieldsValues."'".$_SESSION['app']."','".$_SESSION['opridLogin']."',sysdate()";
+                    }
                     
                     if ($i ==0 and $numeroFilas==1)
                         $sql= " INSERT INTO " .$table[0]. "(" . $fieldsTable . ") VALUES(" . $fieldsValues . ") ";
@@ -197,6 +203,9 @@ class NabuEvent
                     $fieldsValues='';
                 }
                 else{
+                    if ($audit == 'true')
+                        $setValue = $setValue.",nb_oprid_u_fld='".$_SESSION['opridLogin']."',nb_date_u_fld=sysdate()";
+                    
                     $sql='Update '.$table[0].' '.$setValue.' '.$whereValue;
                     $setValue='';
                     $whereValue='';

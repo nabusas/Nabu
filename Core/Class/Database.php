@@ -292,6 +292,11 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);   
         }
         
+        function getPageAudit($empresa,$idPage){
+            $sql = "SELECT nb_audit_fld audit FROM nabu.NB_PAGES_TBL WHERE NB_ID_PAGE_FLD='".$idPage."' and nb_enterprise_id_fld='" .$empresa."'";;
+            return $this->executeQueryOneRow($sql);   
+        }
+        
         function getPageAttribute($empresa,$idPage){
             $sql = "SELECT C.NB_ATTRIBUTE_FLD,C.NB_URL_FLD,C.NB_TYPE_FLD,C.NB_REL_FLD FROM nabu.nb_pages_tbl A,nabu.NB_PAGEATTRIBUTE_TBL B, nabu.NB_HTMLATTRIBUTE_TBL C WHERE   A.nb_type_page_fld = b.nb_type_page_fld AND B.NB_ID_ATTRIBUTE_FLD = C.NB_ID_ATTRIBUTE_FLD and	a.nb_enterprise_id_fld ='$empresa' AND 	a.NB_ID_PAGE_FLD ='$idPage' ORDER BY B.NB_ID_ATTRIBUTE_FLD ASC";
             return $this->executeQuery($sql);

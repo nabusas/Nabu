@@ -277,14 +277,6 @@ class Utilities
                                 else{
                                     $value=$this->database->getDatavalueW($field[1],$field[0],$where);
                                     $type =$this->database->getTypes($empresa,$field[1],$field[0]);
-
-                                    if ($field[0]=='nb_oprid_u_fld' )
-                                        $value[0]=$json->replaceData('operatorId');
-                                            
-                                    if ($field[0] =='nb_date_u_fld' )
-                                        $value[0]=$json->replaceData('nb_sysdate');
-
-                                    
                                     $fieldsData[$field[0]]=$value[0];
                                     
                                 }
@@ -686,7 +678,10 @@ class Utilities
         echo "<br><br><center><img src='../Images/save.gif'><center>";
         
         $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-        $result=$nabuEvent->getEventSql($accion);
+        
+        $audit=$this->database->getPageAudit($_SESSION['app'],$_GET['p']);
+        
+        $result=$nabuEvent->getEventSql($accion,$audit['audit']);
         
         $pos = strpos($_GET['p'], 'm_pg');
 

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= GASAKAWA
-	Fecha modificacion	= 29-12-2016
+	Fecha modificacion	= 08-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -40,17 +40,15 @@ THE SOFTWARE.
         var $steps;
         var $buttons;
         var $showProgressBar;
-        var $empresa;
         
         function Wizard($db,$idPage){
             $this->steps = array();
             $this->bindings = array();
             $this->buildWizard($db,$idPage);
-            $this->empresa=$_SESSION['app'];
         }
         
         function buildWizard($db,$idPage){
-            $rows = $db->getWizardQuery($this->empresa,$idPage);
+            $rows = $db->getWizardQuery($_SESSION['app'],$idPage);
             
             foreach($rows as $row){
                 $this->title = $row['nb_wizard_title'];
@@ -63,13 +61,13 @@ THE SOFTWARE.
         }
         
         function buildSteps($db,$idPage){
-            $rows = $db->getWizardStepsQuery($this->empresa,$idPage); 
+            $rows = $db->getWizardStepsQuery($_SESSION['app'],$idPage); 
             foreach($rows as $row)
                 array_push($this->steps, new Step($row["nb_wizard_step_title"], $row["nb_wizard_step_desc"]));        
         }
         
         function buildBindings($db,$idPage){
-            $rows = $db->getWizardBindingsQuery($this->empresa,$idPage);
+            $rows = $db->getWizardBindingsQuery($_SESSION['app'],$idPage);
             
             foreach($rows as $row)
                 $this->bindings[$row["nb_id_pr_schema_fld"]] = intval($row["nb_id_wizard_step"]);   
@@ -77,7 +75,7 @@ THE SOFTWARE.
         }
         
         function buildButtons($db,$idPage){
-            $rows = $db->getWizardButtonQuery($this->empresa,$idPage);
+            $rows = $db->getWizardButtonQuery($_SESSION['app'],$idPage);
             foreach($rows as $row){
                 $button = new Button($row["nb_wizard_button_title"]);
                 $button->click = $row["nb_wizard_button_click"];
