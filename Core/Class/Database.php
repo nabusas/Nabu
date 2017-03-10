@@ -149,7 +149,7 @@ THE SOFTWARE.
         }
         
         function getMenuHijos($empresa, $id){
-            $sql = "SELECT COUNT(1) FROM  nabu.NB_NAVIGATION_TBL A WHERE a.nb_enterprise_id_fld='$empresa' AND A.NB_PARENT_FLD='$id'";
+            $sql = "select count(1) from  nabu.nb_navigation_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_parent_fld='$id'";
             return $this->executeQueryOneRow($sql);   
         }
         
@@ -194,12 +194,12 @@ THE SOFTWARE.
         }
         
         function getTypes($empresa,$table, $field){
-            $sql ="SELECT nb_type_fld FROM nabu.nb_table_fields_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_fld ='" .$field. "' and nb_id_table_fld = '" .$table . "'";
+            $sql ="SELECT nb_type_fld from nabu.nb_table_fields_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_fld ='" .$field. "' and nb_id_table_fld = '" .$table . "'";
             return $this->executeQueryOneRow($sql);   
         }
         
         function getViewParent($empresa,$idpage){
-            $sql ="SELECT nb_page_view_pa_fld FROM nabu.nb_pages_tbl where nb_enterprise_id_fld='" . $empresa. "' and nb_id_page_fld ='" . $idpage . "'";
+            $sql ="SELECT nb_page_view_pa_fld from nabu.nb_pages_tbl where nb_enterprise_id_fld='" . $empresa. "' and nb_id_page_fld ='" . $idpage . "'";
             return $this->executeQueryOneRow($sql);
         }
         
@@ -265,7 +265,7 @@ THE SOFTWARE.
         }
         
         function getWizardStepsQuery($empresa,$idpage){
-            $sql = "SELECT NB_WIZARD_STEP_TITLE, NB_WIZARD_STEP_DESC FROM nabu.NB_WIZARD_STEPS_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idpage' ORDER BY NB_ID_WIZARD_STEP ASC";
+            $sql = "select nb_wizard_step_title, nb_wizard_step_desc from nabu.nb_wizard_steps_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_page_fld = '$idpage' order by nb_id_wizard_step asc";
             return $this->executeQuery($sql);
         }
         
@@ -300,7 +300,7 @@ THE SOFTWARE.
         }
         
         function validateUser($empresa,$usuario,$password){
-            $sql="SELECT nb_id_user_fld,nb_id_role_fld FROM nabu.nb_user_tbl WHERE nb_enterprise_id_fld ='".$empresa."'  AND nb_user_fld='".$usuario."' AND nb_password_fld='".md5($password)."' and nb_estado_fld='0' ";
+            $sql="SELECT nb_id_user_fld,nb_id_role_fld from nabu.nb_user_tbl WHERE nb_enterprise_id_fld ='".$empresa."'  AND nb_user_fld='".$usuario."' AND nb_password_fld='".md5($password)."' and nb_estado_fld='0' ";
             return $this->executeQueryOneRow($sql);
         }
         
