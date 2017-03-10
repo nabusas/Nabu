@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 08-03-2017
+	Fecha modificacion	= 09-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -359,10 +359,9 @@ class Utilities
 			
 			$rows = $this->database->getFormButtonsQuery($empresa,$id);
             $button = array();
-            foreach($rows as $r){
-                //btn btn-primary fa fa-home fa-lg
+            foreach($rows as $r)
                 $button[$r[0]] = array("value"=> $r[1],"title"=> $r[2], "click"=>$r[3], "styles"=>$r[4]);
-            }
+            
 			$json->addForm("buttons",$button);
             
             unset($json->type);

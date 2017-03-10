@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 08-03-2017
+	Fecha modificacion	= 09-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -49,7 +49,6 @@ THE SOFTWARE.
         }
         
         function execute($sql){
-            $sql=strtolower($sql);
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
             $this->db=$this->cx->desconectar();
@@ -57,7 +56,6 @@ THE SOFTWARE.
         }
             
         function executeQuery($sql){
-            $sql=strtolower($sql);
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
             $this->db=$this->cx->desconectar();
@@ -79,7 +77,6 @@ THE SOFTWARE.
         }
         
         function executeQueryOneRow($sql){
-            $sql=strtolower($sql);
             $this->db=$this->cx->conectar();
             $result = $this->db->Execute($sql);
             $rowResu = $result->FetchRow();
@@ -142,12 +139,12 @@ THE SOFTWARE.
         }
         
         function menu1($empresa,$role){
-            $sql = "SELECT a.nb_sec_fld id,a.nb_id_menu_fld menu,a.nb_parent_fld papa,a.nb_descr_men_fld descr,a.nb_image_fld image,a.nb_link_fld link,a.nb_target_fld target FROM   nabu.nb_navigation_tbl a, nabu.nb_role_pag_tbl b WHERE  a.nb_enterprise_id_fld = b.nb_enterprise_id_fld and a.nb_link_fld = b.nb_id_page_fld and b.nb_id_role_fld =" . $role . " and 	a.nb_enterprise_id_fld='" . $empresa . "' and 	a.nb_link_fld in (select nb_id_page_fld from nabu.nb_role_pag_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_role_fld = " . $role . ") order by a.nb_sec_fld";
+            $sql = "select a.nb_sec_fld id,a.nb_id_menu_fld menu,a.nb_parent_fld papa,a.nb_descr_men_fld descr,a.nb_image_fld image,a.nb_link_fld link,a.nb_target_fld target from   nabu.nb_navigation_tbl a, nabu.nb_role_pag_tbl b where  a.nb_enterprise_id_fld = b.nb_enterprise_id_fld and a.nb_link_fld = b.nb_id_page_fld and b.nb_id_role_fld =" . $role . " and 	a.nb_enterprise_id_fld='" . $empresa . "' and 	a.nb_link_fld in (select nb_id_page_fld from nabu.nb_role_pag_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_role_fld = " . $role . ") order by a.nb_sec_fld";
             return $this->execute($sql);
         }
         
         function getMaxHijo($empresa, $papa){
-            $sql = "SELECT MAX(A.NB_ID_MENU_FLD) FROM nabu.NB_NAVIGATION_TBL A WHERE A.nb_enterprise_id_fld='$empresa' AND A.NB_PARENT_FLD ='$papa'";
+            $sql = "select max(a.nb_id_menu_fld) from nabu.nb_navigation_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_parent_fld ='$papa'";
             return $this->executeQueryOneRow($sql);
         }
         
@@ -156,23 +153,23 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getGrid3($empresa,$type,$idPage,$col){
-            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagridcol_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_enterprise_id_fld='$empresa' AND a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage' and a.nb_column_fld='$col'";
+        function getGrid3($empresa,$type,$idpage,$col){
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagridcol_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_enterprise_id_fld='$empresa' AND a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage' and a.nb_column_fld='$col'";
             return $this->execute($sql);
         }
         
-        function getGrid2($empresa,$idPage){
-            $sql ="Select distinct a.nb_column_fld from nabu.nb_datagridcol_tbl a where a.nb_id_page_fld = '$idPage'";
+        function getGrid2($empresa,$idpage){
+            $sql ="Select distinct a.nb_column_fld from nabu.nb_datagridcol_tbl a where a.nb_id_page_fld = '$idpage'";
             return $this->execute($sql);
         }
         
-        function getGrid1($empresa,$type,$idPage){
-            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and a.nb_enterprise_id_fld='$empresa' AND b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idPage'";
+        function getGrid1($empresa,$type,$idpage){
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and a.nb_enterprise_id_fld='$empresa' AND b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage'";
             return $this->execute($sql);
         }
         
-        function tableDataGrid($empresa,$idPage){
-            $sql ="select nb_config_frmwrk_id_fld,nb_value_fld from nabu.nb_datagrid_tbl where nb_enterprise_id_fld='$empresa' AND nb_config_frmwrk_id_fld in (44,65) and nb_id_page_fld ='" . $idPage . "'";
+        function tableDataGrid($empresa,$idpage){
+            $sql ="select nb_config_frmwrk_id_fld,nb_value_fld from nabu.nb_datagrid_tbl where nb_enterprise_id_fld='$empresa' AND nb_config_frmwrk_id_fld in (44,65) and nb_id_page_fld ='" . $idpage . "'";
             return $this->executeQueryOneRow($sql);
         }
         
@@ -186,13 +183,13 @@ THE SOFTWARE.
             return $this->execute($sql);
         }
         
-        function getTables($empresa,$idPage){
-            $sql ="SELECT distinct nb_id_table_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idPage . "'";
+        function getTables($empresa,$idpage){
+            $sql ="SELECT distinct nb_id_table_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idpage . "'";
             return $this->executeQuery($sql);
         }
         
-        function getFields($empresa,$idPage, $table){
-           $sql ="SELECT nb_id_page_field_fld, nb_id_table_field_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idPage . "' and nb_id_table_fld = '" .$table. "'";
+        function getFields($empresa,$idpage, $table){
+           $sql ="SELECT nb_id_page_field_fld, nb_id_table_field_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idpage . "' and nb_id_table_fld = '" .$table. "'";
             return $this->executeQuery($sql);
         }
         
@@ -201,8 +198,8 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getViewParent($empresa,$idPage){
-            $sql ="SELECT nb_page_view_pa_fld FROM nabu.nb_pages_tbl where nb_enterprise_id_fld='" . $empresa. "' and nb_id_page_fld ='" . $idPage . "'";
+        function getViewParent($empresa,$idpage){
+            $sql ="SELECT nb_page_view_pa_fld FROM nabu.nb_pages_tbl where nb_enterprise_id_fld='" . $empresa. "' and nb_id_page_fld ='" . $idpage . "'";
             return $this->executeQueryOneRow($sql);
         }
         
@@ -216,13 +213,13 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
-        function getTableLink($empresa,$idPage){
-            $sql ="select a.nb_id2_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld='" . $empresa. "' and a.nb_id_page_fld = '" .$idPage . "'";
+        function getTableLink($empresa,$idpage){
+            $sql ="select a.nb_id2_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld='" . $empresa. "' and a.nb_id_page_fld = '" .$idpage . "'";
             return $this->executeQueryOneRow($sql); 
         }
         
-        function getDataRecord($empresa,$idPage){
-            $sql ="select a.nb_page_data_fld from nabu.nb_pages_tbl a where a.nb_id_page_fld = '" .$idPage . "' and nb_enterprise_id_fld='" . $empresa. "'";
+        function getDataRecord($empresa,$idpage){
+            $sql ="select a.nb_page_data_fld from nabu.nb_pages_tbl a where a.nb_id_page_fld = '" .$idpage . "' and nb_enterprise_id_fld='" . $empresa. "'";
             return $this->executeQueryOneRow($sql); 
         }    
         
@@ -237,17 +234,17 @@ THE SOFTWARE.
         }
         
         function getKeyField($empresa,$tabla,$campo){
-            $sql="SELECT COUNT(1) FROM nabu.NB_TABLE_FIELDS_TBL WHERE nb_enterprise_id_fld ='".$empresa."' and nb_id_table_fld='".$tabla."' AND NB_ID_FLD='".$campo."' AND NB_KEY_FLD='Y'";
+            $sql="select count(1) from nabu.nb_table_fields_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_table_fld='".$tabla."' and nb_id_fld='".$campo."' and nb_key_fld='y'";
             return $this->executeQueryOneRow($sql);
         }
-        function getFieldsPage($empresa,$idPage){
-            $sql ="SELECT B.NB_ID_FLD,A.nb_id_table_fld,B.NB_KEY_FLD FROM nabu.NB_FORM_TABLES_TBL A , nabu.NB_TABLE_FIELDS_TBL B WHERE  a.nb_enterprise_id_fld  = b.nb_enterprise_id_fld  and A.nb_id_table_fld = B.nb_id_table_fld";
-            $sql =$sql." AND A.NB_ID_PAGE_FIELD_FLD = B.NB_ID_FLD AND A.nb_enterprise_id_fld ='".$empresa."' and A.nb_id_page_fld = '" .$idPage . "' ORDER BY A.nb_id_table_fld, B.NB_KEY_FLD  desc";
+        function getFieldsPage($empresa,$idpage){
+            $sql ="select b.nb_id_fld,a.nb_id_table_fld,b.nb_key_fld from nabu.nb_form_tables_tbl a , nabu.nb_table_fields_tbl b where  a.nb_enterprise_id_fld  = b.nb_enterprise_id_fld  and a.nb_id_table_fld = b.nb_id_table_fld";
+            $sql =$sql." and a.nb_id_page_field_fld = b.nb_id_fld and a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '" .$idpage . "' order by a.nb_id_table_fld, b.nb_key_fld  desc";
             return $this->executeQuery($sql);  
         }
         
-        function getData($empresa,$idPage){
-            $sql ="select nb_id_pr_schema_fld,a.nb_value_fld from nabu.nb_data_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '" .$idPage . "'";
+        function getData($empresa,$idpage){
+            $sql ="select nb_id_pr_schema_fld,a.nb_value_fld from nabu.nb_data_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '" .$idpage . "'";
             return $this->executeQuery($sql);
         }
         
@@ -262,43 +259,43 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
-        function getWizardQuery($empresa,$idPage){
-            $sql = "SELECT NB_WIZARD_TITLE,NB_WIZARD_DESC,NB_WIZARD_SHOW_PROGRESS FROM nabu.NB_WIZARD_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage'";
+        function getWizardQuery($empresa,$idpage){
+            $sql = "select nb_wizard_title,nb_wizard_desc,nb_wizard_show_progress from nabu.nb_wizard_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_page_fld = '$idpage'";
             return $this->executeQuery($sql);
         }
         
-        function getWizardStepsQuery($empresa,$idPage){
-            $sql = "SELECT NB_WIZARD_STEP_TITLE, NB_WIZARD_STEP_DESC FROM nabu.NB_WIZARD_STEPS_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage' ORDER BY NB_ID_WIZARD_STEP ASC";
+        function getWizardStepsQuery($empresa,$idpage){
+            $sql = "SELECT NB_WIZARD_STEP_TITLE, NB_WIZARD_STEP_DESC FROM nabu.NB_WIZARD_STEPS_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idpage' ORDER BY NB_ID_WIZARD_STEP ASC";
             return $this->executeQuery($sql);
         }
         
-        function getWizardBindingsQuery($empresa,$idPage){
-            $sql = "SELECT NB_ID_PR_SCHEMA_FLD, NB_ID_WIZARD_STEP FROM nabu.NB_WIZARD_BIND_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage' ORDER BY NB_ID_WIZARD_STEP_ORDER, NB_ID_WIZARD_STEP";
+        function getWizardBindingsQuery($empresa,$idpage){
+            $sql = "select nb_id_pr_schema_fld, nb_id_wizard_step from nabu.nb_wizard_bind_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_page_fld = '$idpage' order by nb_id_wizard_step_order, nb_id_wizard_step";
             return $this->executeQuery($sql);
         }
         
-        function getWizardButtonQuery($empresa,$idPage){
-            $sql = "SELECT NB_WIZARD_BUTTON_NAME, NB_WIZARD_BUTTON_TITLE, NB_WIZARD_BUTTON_VALIDATE, NB_WIZARD_BUTTON_CLICK FROM nabu.NB_WIZARD_BUTTONS_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_PAGE_FLD = '$idPage'";
+        function getWizardButtonQuery($empresa,$idpage){
+            $sql = "select nb_wizard_button_name, nb_wizard_button_title, nb_wizard_button_validate, nb_wizard_button_click from nabu.nb_wizard_buttons_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_page_fld = '$idpage'";
             return $this->executeQuery($sql);   
         }
         
-        function getValidateRole($empresa,$idRole, $idPage){
-            $sql = "SELECT NB_ID_ROLE_FLD,NB_ID_PAGE_FLD FROM nabu.NB_ROLE_PAG_TBL WHERE nb_enterprise_id_fld='" . $empresa . "' and NB_ID_ROLE_FLD = $idRole AND NB_ID_PAGE_FLD = '$idPage'";
+        function getValidateRole($empresa,$idRole, $idpage){
+            $sql = "select nb_id_role_fld,nb_id_page_fld from nabu.nb_role_pag_tbl where nb_enterprise_id_fld='" . $empresa . "' and nb_id_role_fld = $idRole and nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getPageProperties($empresa,$idPage){
-            $sql = "SELECT NB_PAGE_TITLE_FLD title,NB_PAGE_STYLE_FLD style,NB_PAGE_TRACE_FLD trace,NB_PAGE_TYPE_FLD tipo FROM nabu.NB_PAGES_TBL WHERE NB_ID_PAGE_FLD='".$idPage."' and nb_enterprise_id_fld='" .$empresa."'";;
+        function getPageProperties($empresa,$idpage){
+            $sql = "select nb_page_title_fld title,nb_page_style_fld style,nb_page_trace_fld trace,nb_page_type_fld tipo from nabu.nb_pages_tbl where nb_id_page_fld='".$idpage."' and nb_enterprise_id_fld='" .$empresa."'";;
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getPageAudit($empresa,$idPage){
-            $sql = "SELECT nb_audit_fld audit FROM nabu.NB_PAGES_TBL WHERE NB_ID_PAGE_FLD='".$idPage."' and nb_enterprise_id_fld='" .$empresa."'";;
+        function getPageAudit($empresa,$idpage){
+            $sql = "select nb_audit_fld audit from nabu.nb_pages_tbl where nb_id_page_fld='".$idpage."' and nb_enterprise_id_fld='" .$empresa."'";;
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getPageAttribute($empresa,$idPage){
-            $sql = "SELECT C.NB_ATTRIBUTE_FLD,C.NB_URL_FLD,C.NB_TYPE_FLD,C.NB_REL_FLD FROM nabu.nb_pages_tbl A,nabu.NB_PAGEATTRIBUTE_TBL B, nabu.NB_HTMLATTRIBUTE_TBL C WHERE   A.nb_type_page_fld = b.nb_type_page_fld AND B.NB_ID_ATTRIBUTE_FLD = C.NB_ID_ATTRIBUTE_FLD and	a.nb_enterprise_id_fld ='$empresa' AND 	a.NB_ID_PAGE_FLD ='$idPage' ORDER BY B.NB_ID_ATTRIBUTE_FLD ASC";
+        function getPageAttribute($empresa,$idpage){
+            $sql = "select c.nb_attribute_fld,c.nb_url_fld,c.nb_type_fld,c.nb_rel_fld from nabu.nb_pages_tbl a,nabu.nb_pageattribute_tbl b, nabu.nb_htmlattribute_tbl c where   a.nb_type_page_fld = b.nb_type_page_fld and b.nb_id_attribute_fld = c.nb_id_attribute_fld and	a.nb_enterprise_id_fld ='$empresa' and 	a.nb_id_page_fld ='$idpage' order by b.nb_id_attribute_fld asc";
             return $this->executeQuery($sql);
         }
         
@@ -307,48 +304,48 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);
         }
         
-        function getSchemaDescription($empresa,$idPage){
-            $sql = "SELECT A.NB_TITLE_FLD, A.NB_DESCRIPTION_FLD, A.NB_TYPE_FLD FROM nabu.NB_SCHEMA_TBL A WHERE  A.nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
+        function getSchemaDescription($empresa,$idpage){
+            $sql = "select a.nb_title_fld, a.nb_description_fld, a.nb_type_fld from nabu.nb_schema_tbl a where  a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getFormFields($empresa,$idPage, $type){
-            $sql = "SELECT DISTINCT A.NB_ID_PR_SCHEMA_FLD FROM  nabu.NB_FORMS_TBL A , nabu.NB_CONFIG_FRMWRK_TBL B WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_CONFIG_FRMWRK_ID_FLD = B.NB_CONFIG_FRMWRK_ID_FLD AND  B.NB_CONFIG_TYPE_FLD='$type' AND A.NB_ID_PAGE_FLD = '$idPage'";
+        function getFormFields($empresa,$idpage, $type){
+            $sql = "select distinct a.nb_id_pr_schema_fld from  nabu.nb_forms_tbl a , nabu.nb_config_frmwrk_tbl b where a.nb_enterprise_id_fld ='".$empresa."' and a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and  b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQuery($sql);   
         }
         
-        function getFormFieldsTypes($empresa,$idPage, $type, $field){
-            $sql = "SELECT B.NB_PROPERTY_FLD,B.NB_TYPE_FLD,A.NB_SCHEM_VALUE_FLD FROM nabu.NB_FORMS_TBL A , nabu.NB_CONFIG_FRMWRK_TBL B WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_CONFIG_FRMWRK_ID_FLD = B.NB_CONFIG_FRMWRK_ID_FLD AND B.NB_CONFIG_TYPE_FLD='$type' AND A.NB_ID_PAGE_FLD = '$idPage' AND A.NB_ID_PR_SCHEMA_FLD ='$field'";
+        function getFormFieldsTypes($empresa,$idpage, $type, $field){
+            $sql = "select b.nb_property_fld,b.nb_type_fld,a.nb_schem_value_fld from nabu.nb_forms_tbl a , nabu.nb_config_frmwrk_tbl b where a.nb_enterprise_id_fld ='".$empresa."' and a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage' and a.nb_id_pr_schema_fld ='$field'";
             return $this->executeQuery($sql);   
         }
         
-        function getOptionsEvents($empresa,$idPage){
-            $sql = "SELECT A.NB_TYPEALPACA_FLD ALPACA,CONCAT(CONCAT(A.NB_ACTION_PATH,A.NB_ACTION_FLD,'.php?p=$idPage&accion='),A.nb_typeaccion_fld) EVENT FROM nabu.NB_OPTION_TBL A WHERE nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
+        function getOptionsEvents($empresa,$idpage){
+            $sql = "select a.nb_typealpaca_fld alpaca,concat(concat(a.nb_action_path,a.nb_action_fld,'.php?p=$idpage&accion='),a.nb_typeaccion_fld) event from nabu.nb_option_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getFormButtonsQuery($empresa,$idPage){
-            $sql = "SELECT A.NB_ID_OPT_FORM_FLD,A.NB_VALUE_FLD,A.NB_TITLE_FLD,A.NB_CLICK_FLD,NB_STYLES_FLD FROM nabu.NB_OPTIONS_BUTTONS_TBL A WHERE A.nb_enterprise_id_fld ='".$empresa."' and A.NB_ID_PAGE_FLD = '$idPage'";
+        function getFormButtonsQuery($empresa,$idpage){
+            $sql = "select a.nb_id_opt_form_fld,a.nb_value_fld,a.nb_title_fld,a.nb_click_fld,nb_styles_fld from nabu.nb_options_buttons_tbl a where a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQuery($sql);   
         }
         
-        function getChartDataQuery($empresa,$idPage, $type){
-            $sql = "SELECT NB_VALUE_FLD, NB_COLOR_FLD FROM nabu.NB_CHART_DATA_TBL WHERE nb_enterprise_id_fld ='".$empresa."' and NB_ID_PAGE_FLD = '$idPage' AND NB_TYPE_FLD='$type' ORDER BY NB_POS_FLD";
+        function getChartDataQuery($empresa,$idpage, $type){
+            $sql = "select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '$idpage' and nb_type_fld='$type' order by nb_pos_fld";
             return $this->executeQuery($sql);   
         }
 
-        function getTablaChart($empresa,$idPage){
-            $sql = "Select nb_source_fld tabla from nabu.nb_chart_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='".$idPage."'";
+        function getTablaChart($empresa,$idpage){
+            $sql = "select nb_source_fld tabla from nabu.nb_chart_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='".$idpage."'";
             return $this->executeQueryOneRow($sql);   
         }
         
-        function getLabelChart($empresa,$idPage){
-            $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idPage."' and nb_type_fld='label' order by nb_pos_fld ";
+        function getLabelChart($empresa,$idpage){
+            $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idpage."' and nb_type_fld='label' order by nb_pos_fld ";
             return $this->executeQueryOneRow($sql);
         }
         
-        function getOptionsChart($empresa,$idPage){
-            $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idPage."' and nb_type_fld='column' order by nb_pos_fld ";
+        function getOptionsChart($empresa,$idpage){
+            $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idpage."' and nb_type_fld='column' order by nb_pos_fld ";
             return $this->executeQuery($sql);
         }
          
@@ -362,8 +359,8 @@ THE SOFTWARE.
             return $this->executeQuery($sql);
         }
         
-        function getPageLink($empresa,$idPage){
-            $sql ="select a.nb_id_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id2_page_fld = '" .$idPage . "'";
+        function getPageLink($empresa,$idpage){
+            $sql ="select a.nb_id_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id2_page_fld = '" .$idpage . "'";
             return $this->executeQueryOneRow($sql); 
         }
         

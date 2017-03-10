@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 30-11-2016
+	Fecha modificacion	= 09-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -54,7 +54,7 @@ session_start();
             
             $param =$database->valueRef($empresa,$campo);
             
-            $sql="SELECT ID,DESCR FROM ".$param[0]." WHERE 1=1 ";
+            $sql="select id,descr from ".$param[0]." where 1=1 ";
             
             if( $param[1]=='true')
                 $co1=" AND empresa = '".$empresa."' ";
