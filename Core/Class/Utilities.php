@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 09-03-2017
+	Fecha modificacion	= 11-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -520,19 +520,17 @@ class Utilities
         
         </script>
 
-        
-  
 <?php        
     }
     function getDataGrid($id){
         
         $g = new jqgrid();
         $pageL = $this->database->getTableLink($_SESSION['app'],$id);
+        $saveGrid = $this->database->gridSave($_SESSION['app'],$id);
         
         $type='gridoptions';
         
         $result = $this->database->getGrid1($_SESSION['app'],$type,$id);
-        
         
         while ($row = $result->FetchRow()){
             $value=$row[2];
@@ -551,26 +549,25 @@ class Utilities
                 $grid[$row[0]] =$value;
             }
             
+
             if ($row[0] == 'sql'){
-                $value=str_replace('operatorId',$_SESSION['opridLogin'],$value);
-                $g->select_command=$value;
-                    
+
+                if (isset($_GET["idCabecera"])){
+                    $idCabecera=$_GET["idCabecera"];
+                    if (!is_numeric($idCabecera))
+                        $idCabecera=0;
+                }
+                else
+                    $idCabecera=0;
+
+                    $value=str_replace('idDataGrid',$idCabecera,$value);
+                    $value=str_replace('operatorId',$_SESSION['opridLogin'],$value);
+                    $g->select_command=$value;
             }
-            
+
             if ($row[0] == 'table')
                 $g->table = $value;
             
-            if ($id == 'nb_factura_de_pg'){
-                if (isset($_GET["factura"])){
-                    $factura=$_GET["factura"];
-                        if (!is_numeric($factura))
-                            $factura=0;
-                    }
-                    else
-                        $factura=0;
-
-                    $g->select_command="Select * from nb_detallef_tbl where factura like '".$factura."-%'";
-            }
         }
 
         $campos = $this->database->getGrid2($_SESSION['app'],$id);
@@ -590,7 +587,20 @@ class Utilities
                 if ($row[0]=='linkE')
                     $row[0]='link';
                 
-                 if ( $row[1] == 'number')
+                
+                if ($row[0]=='editrules'){
+                    $editRules=explode(";",$value);
+                    
+                    if ($editRules[2] == 'true')
+                        $editRules[2]=true;
+                    else
+                        $editRules[2]=false;
+                    
+                    $value=array("minValue"=>$editRules[0], "maxValue"=>$editRules[1],"required"=>$editRules[2]);
+                }
+                    
+                 
+                if ( $row[1] == 'number')
                     $value= (int)$value;
                 
                  if ( $row[1] == 'boolean'){
@@ -608,17 +618,17 @@ class Utilities
         $g->set_columns($cols);
         $g->set_options($grid);
 
-        if ($id == 'nb_factura_de_pg')
+        if ($saveGrid[0] == 'save')
             $configGrid=true;
         else
             $configGrid=false;
         
-        $g->set_actions(array("add"=>$configGrid,"edit"=>$configGrid,"delete"=>$configGrid,"rowactions"=>true,"search" => "advance"));
+        $g->set_actions(array("add"=>false,"edit"=>$configGrid,"delete"=>$configGrid,"rowactions"=>true,"search" => "advance"));
 
         return $g->render("list1");
         
     }
-    
+
     function validateLogin(){
         
        echo "<br><br><center><img src='../Images/error.png'><center>";

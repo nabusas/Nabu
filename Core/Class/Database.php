@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 09-03-2017
+	Fecha modificacion	= 11-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -108,26 +108,27 @@ THE SOFTWARE.
         
         /************************************************************************************************************************************/
         
-        function setInvoiceDeta($fact){
-            $i=1;
-            for ($i=1; $i<21; $i++){
-                
-                if ($linea < 9 )
-                    $linea='0'.$i;
-                else
-                    $linea=$i;
-                
-                $sql ="insert into nb_detallef_tbl (factura) values('".$fact."-".$linea."')";
-                $this->execute($sql);
-            }    
-        }
-        
-        function getInvoiceNum(){
-            $sql ="SELECT IFNULL(MAX(CAST(nb_fact_1_fld AS UNSIGNED INTEGER)),0)+1 from nb_facturacion_tbl";
+        function getInvoiceNum($tabla,$campo){
+            $sql ="SELECT IFNULL(MAX(CAST(".$campo." AS UNSIGNED INTEGER)),0)+1 from ".$tabla;
             return $this->executeQueryOneRow($sql);
         }
         
+        function setInvoiceDeta($tabla,$campo,$fact,$lineas){
+            
+            for ($i=1; $i<=$lineas; $i++){
+                $sql ="insert into ".$tabla." (".$campo.") values('".$fact."-".$i."')";
+                $this->execute($sql); 
+            }   
+        }
+        
+        
+        
         /************************************************************************************************************************************/
+        
+        function gridSave($empresa,$idpage){
+            $sql ="SELECT a.nb_page_data_fld FROM nabu.nb_pages_tbl a WHERE a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld='$idpage'";
+            return $this->executeQueryOneRow($sql);
+        }
         
         function menu3($empresa,$papa2){
             $sql ="SELECT a.nb_parent_fld,a.nb_id_menu_fld FROM nabu.nb_navigation_tbl a WHERE a.nb_enterprise_id_fld='$empresa' and a.nb_sec_fld='$papa2'";
@@ -153,8 +154,13 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);   
         }
         
+        function getGridSaveOptions($empresa,$idpage){
+            $sql ="SELECT nb_id_page_de_fld,nb_tab_cab_fld,nb_fie_cab_fld,nb_tab_det_fld,nb_fie_det_fld,nb_lineas_fld from nabu.nb_datagridopt_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld = '$idpage'";
+            return $this->executeQueryOneRow($sql);
+        }
+        
         function getGrid3($empresa,$type,$idpage,$col){
-            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagridcol_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_enterprise_id_fld='$empresa' AND a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage' and a.nb_column_fld='$col'";
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagridcol_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_enterprise_id_fld='$empresa' AND a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage' and a.nb_column_fld='$col'";            
             return $this->execute($sql);
         }
         
@@ -164,7 +170,7 @@ THE SOFTWARE.
         }
         
         function getGrid1($empresa,$type,$idpage){
-            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld FROM nabu.nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b WHERE  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and a.nb_enterprise_id_fld='$empresa' AND b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage'";
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld from nabu.nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b where  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and a.nb_enterprise_id_fld='$empresa' AND b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage'";
             return $this->execute($sql);
         }
         

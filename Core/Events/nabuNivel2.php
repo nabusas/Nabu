@@ -36,26 +36,33 @@ THE SOFTWARE.
 
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
+    
+    $audit=$database->getPageAudit($_SESSION['app'],$_GET['p']);
+    $options=$database->getGridSaveOptions($_SESSION['app'],$_GET['p']);
 
-    if (!isset($_POST["nb_fact_1_fld"]) or $_POST["nb_fact_1_fld"] ==''){
-        $facturaN=$database->getInvoiceNum();
-        $factura=$facturaN[0];
-        $_POST["nb_fact_1_fld"]=$factura;
+    $pagDetalle = $options[0];
+    $tablaCabecera = $options[1];
+    $idCabecera = $options[2];
+    $tablaDetalle = $options[3];
+    $idDetalle = $options[4];
+    $lineasDetalle = $options[5];
+
+    if (!isset($_POST[$idCabecera]) or $_POST[$idCabecera] ==''){
+        $idN=$database->getInvoiceNum($tablaCabecera,$idCabecera);
+        $id=$idN[0];
+        $_POST[$idCabecera]=$id;
     }
     else
-        $factura=$_POST["nb_fact_1_fld"];
+        $id=$_POST[$idCabecera];
 
-    $accion=$_GET['accion'];
-    
-     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-	 $result=$nabuEvent->getEventSql($accion);
-     $database->setInvoiceDeta($factura);
+    $nabuEvent = new NabuEvent($_GET['p'], $_POST);
+    $result=$nabuEvent->getEventSql($accion,$audit);
 
-    if ($factura != 0)
-        header("location:../Pages/nabu.php?p=nb_factura_de_pg&factura=".$factura);
+    $database->setInvoiceDeta($tablaDetalle,$idDetalle,$id,$lineasDetalle);
+
+    if ($id != 0)
+        header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id);
     else
-        header("location:../Pages/nabu.php?p=nb_facturacion_pg");
-        
-
+        header("location:../Pages/nabu.php?p=".$_GET['p']);
 
 ?>
