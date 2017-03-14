@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 11-03-2017
+	Fecha modificacion	= 14-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -190,7 +190,7 @@ THE SOFTWARE.
         }
         
         function getTables($empresa,$idpage){
-            $sql ="SELECT distinct nb_id_table_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idpage . "'";
+            $sql ="SELECT distinct nb_id_table_fld FROM nabu.nb_form_tables_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='" . $idpage . "' and  nb_id_table_fld not like '%_vw'";
             return $this->executeQuery($sql);
         }
         
@@ -243,9 +243,11 @@ THE SOFTWARE.
             $sql="select count(1) from nabu.nb_table_fields_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_table_fld='".$tabla."' and nb_id_fld='".$campo."' and nb_key_fld='y'";
             return $this->executeQueryOneRow($sql);
         }
-        function getFieldsPage($empresa,$idpage){
+        
+        function getFieldsPage($empresa,$idpage,$tipoTabla){
             $sql ="select b.nb_id_fld,a.nb_id_table_fld,b.nb_key_fld from nabu.nb_form_tables_tbl a , nabu.nb_table_fields_tbl b where  a.nb_enterprise_id_fld  = b.nb_enterprise_id_fld  and a.nb_id_table_fld = b.nb_id_table_fld";
-            $sql =$sql." and a.nb_id_page_field_fld = b.nb_id_fld and a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '" .$idpage . "' order by a.nb_id_table_fld, b.nb_key_fld  desc";
+            $sql =$sql." and a.nb_id_page_field_fld = b.nb_id_fld and a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '" .$idpage . "' ";
+            $sql =$sql." and  a.nb_id_table_fld not like '%_".$tipoTabla."' order by a.nb_id_table_fld, b.nb_key_fld  desc";
             return $this->executeQuery($sql);  
         }
         

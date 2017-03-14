@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 11-03-2017
+	Fecha modificacion	= 14-03-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -206,7 +206,13 @@ class Utilities
         $json = new JsonData();
         
         $table  = $this->database->getDataRecord($empresa,$id);
-        $fields = $this->database->getFieldsPage($empresa,$id);
+        
+        $fieldsVW = $this->database->getFieldsPage($empresa,$id,'tbl');
+        
+        if (count($fieldsVW) < 1 )
+            $fields = $this->database->getFieldsPage($empresa,$id,'vw');
+        else
+            $fields = $fieldsVW;
         
         $ifcampos=false;
         
