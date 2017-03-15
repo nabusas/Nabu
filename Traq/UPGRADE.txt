@@ -1,0 +1,15 @@
+Upgrading Traq
+==============
+
+To upgrade Traq you will need to run the `upgrade.php` file in the `install` directory.
+
+This can be done by heading to your Traq installation and appending `/install/upgrade.php`
+to the URL.
+
+For example: `http://mysite.com/traq/install/upgrade.php`
+
+Upgrading from 2.4 and earlier
+------------------------------
+
+To upgrade from 2.4 and earlier you must first
+upgrade to Traq 3.0.

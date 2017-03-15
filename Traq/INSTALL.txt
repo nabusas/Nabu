@@ -1,0 +1,18 @@
+Installing Traq
+===============
+
+Installing Traq is quite easy, upload the contents of the `upload` directory
+to where you want Traq to be run from on your server.
+
+Rename the `htaccess.txt` file to `.htaccess`
+
+Setup the database you want Traq to use and head to the installation directory
+in your browser.
+
+For example, if you uploaded Traq to `mysite.com/traq`, open `mysite.com/traq/install`
+in your browser and follow the steps.
+
+Depending on how your server is setup, you may be asked to create the config file
+manually, simply copy the presented code on the last page of the installer and
+paste it into the `vendor/traq/config/database.php` file, you will need to create
+this file yourself.

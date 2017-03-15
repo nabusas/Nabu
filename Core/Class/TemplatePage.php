@@ -195,7 +195,8 @@ class TemplatePage
                         <td> 
                              <a href="https://www.facebook.com/nabugi/" TARGET="_blank"><i class="fa fa-facebook fa-1x btn btn-primary"></i></a>
                              <a href="mailto:nabu.sas.info@gmail.com?Subject=Información acerca Nabu" TARGET="_blank"><i class="fa fa-envelope fa-1x btn btn-primary"></i></a>
-				            <p>Nabu &copy; 2017</p>
+				             <a href="../../Traq" TARGET="_blank"><i class="fa fa-bug fa-1x btn btn-primary"></i></a>    
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nabu &copy; 2017</p>
                         </td>
                         <td align='right'>
                                 <a class="terminosCon">
