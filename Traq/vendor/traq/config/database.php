@@ -9,4 +9,5 @@ $db = array(
     'prefix' => "nb_",
 );
 
+
 ?>
