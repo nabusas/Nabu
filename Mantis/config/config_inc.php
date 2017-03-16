@@ -22,4 +22,26 @@ $g_send_reset_password = OFF;
 
 $g_default_timezone       = 'America/Bogota';
 
+$g_bug_report_page_fields = array(
+                'category_id',
+                'view_state',
+                'handler',
+                'priority',
+                'severity',
+                //'reproducibility',
+                //'platform',
+                //'os',
+                //'os_version',
+                //'product_version',
+                //'product_build',
+                //'target_version',
+                'summary',
+                'description',
+                //'additional_info',
+                //'steps_to_reproduce',
+                //'attachments',
+                'due_date',
+        );
+
+
 ?>
