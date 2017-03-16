@@ -22,6 +22,8 @@ $g_send_reset_password = OFF;
 
 $g_default_timezone       = 'America/Bogota';
 
+$g_allow_file_upload=OFF;
+
 $g_bug_report_page_fields = array(
                 'category_id',
                 'view_state',
