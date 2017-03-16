@@ -24,6 +24,16 @@ $g_default_timezone       = 'America/Bogota';
 
 $g_allow_file_upload=OFF;
 
+$g_default_bug_view_status = VS_PRIVATE;
+
+$g_window_title='Nabu- Reporte de Errores';
+$g_page_title='Nabu- Reporte de Errores';
+
+$g_favicon_image ='../Core/Images/logo.ico';
+
+//$g_logo_image='../Core/Images/logo.png';
+$g_logo_url='../Core/Images/logo.png';
+
 $g_bug_report_page_fields = array(
                 'category_id',
                 'view_state',
