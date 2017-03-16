@@ -31,7 +31,7 @@ $g_page_title='Nabu- Reporte de Errores';
 
 $g_favicon_image ='../Core/Images/logo.ico';
 
-//$g_logo_image='../Core/Images/logo.png';
+$g_logo_image='../Core/Images/logoBig.png';
 $g_logo_url='../Core/Images/logo.png';
 
 $g_bug_report_page_fields = array(
