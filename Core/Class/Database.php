@@ -92,7 +92,7 @@ THE SOFTWARE.
             $sqlBinds=$sql[0];
             
             for ($i=0; $i<sizeof($bind); $i++)
-                $sqlBinds=str_replace ("bind[".$i."]",$bind[$i],$sql[0]);
+                $sqlBinds=str_replace ("bind[".$i."]",$bind[$i],$sqlBinds);
             
             if ($sql[1] == 'true')
                 echo "<br> codigo =".$id." Sql=".$sqlBinds;
@@ -113,15 +113,18 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);
         }
         
-        function setInvoiceDeta($tabla,$campo,$fact,$lineas){
+        function setInvoiceDeta($tabla,$campo,$fact,$lineas,$oprid){
             
             for ($i=1; $i<=$lineas; $i++){
-                $sql ="insert into ".$tabla." (".$campo.") values('".$fact."-".$i."')";
+                $sql ="insert into ".$tabla." (".$campo.",nb_oprid_i_fld) values('".$fact."-".$i."','".$oprid."')";
                 $this->execute($sql); 
             }   
         }
         
-        
+        function setInvoiceDetaUpdt($tabla,$oprid){
+                $sql ="update ".$tabla." set nb_oprid_u_fld='".$oprid."'";
+                $this->execute($sql); 
+        }
         
         /************************************************************************************************************************************/
         

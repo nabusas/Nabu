@@ -294,20 +294,24 @@ class Utilities
                     else{
                         if ($_GET['accion']=='s'){
                             if (isset($_GET[$field[0]])){
-                                if ($_GET[$field[0]] <> ''){
+                                if ($_GET[$field[0]] <> ''){	
+				    foreach(array_keys($_GET) as $campo){
+					    if (strcmp($campo,'p')==0 or strcmp($campo,'accion')==0){
+						continue;
+					    }
+		                            $type =$this->database->getTypes($empresa,$field[1],$campo);
+		                                if ($type[0] == 'number')
+		                                    if ( !is_numeric($_GET[$campo]) )
+		                                        $_GET[$campo]=0;
 
-                                    $type =$this->database->getTypes($empresa,$field[1],$field[0]);
-                                        if ($type[0] == 'number')
-                                            if ( !is_numeric($_GET[$field[0]]) )
-                                                $_GET[$field[0]]=0;
+		                            $fieldsData[$campo]=$_GET[$campo];
 
-                                    $fieldsData[$field[0]]=$_GET[$field[0]];
-
-                                    $fieldxs=$this->database->getPromptSelect($empresa,$id,$field[0],$_GET[$field[0]]);
-                                    foreach($fieldxs as $fieldx){
-                                        $value=$this->database->executeQueryOneRow($fieldx[1]);
-                                        $fieldsData[$fieldx[0]]=$value[0];
-                                    }    
+		                            $fieldxs=$this->database->getPromptSelect($empresa,$id,$campo,$_GET[$campo]);
+		                            foreach($fieldxs as $fieldx){
+		                                $value=$this->database->executeQueryOneRow($fieldx[1]);
+		                                $fieldsData[$fieldx[0]]=$value[0];
+		                            }
+				   }   
                                 }    
                             }
                         }
@@ -430,14 +434,17 @@ class Utilities
         $v8=chr(125).chr(32).chr(34).chr(125);  $c8=chr(125).chr(125);      // }espacio"}   se cambia por  }}
         $v9=chr(92).chr(47); $c9=chr(47);                                   //\/            se cambia por /
         $v10=chr(34).chr(91); $c10=chr(91);                                 //"[            se cambia por [
-        $v11=chr(93).chr(34); $c11=chr(93);                                 //]"            se cambia por ]
+        $v11=chr(93).chr(34); $c11=chr(93);                                 //]"            se cambia por ] 
+        $v12=chr(92).chr(110); $c12="";                                     //\n            se cambia por vacio
+        $v13=chr(92).chr(116); $c13="";                                     //\t            se cambia por vacio
         
-        
-        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10,$v11);
-        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9,$c10,$c11);
+        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10,$v11,$v12,$v13);
+        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9,$c10,$c11,$c12,$c13);
         
         for ($i=0; $i<sizeof($chars); $i++)
-            $json=str_replace($chars[$i],$correc[$i],$json);    
+            $json=str_replace($chars[$i],$correc[$i],$json);
+        
+        
         
         return $json;
     }
@@ -469,7 +476,33 @@ class Utilities
 							"optionsSource":<?php print_r($JsonOptions);?>,
 							"schema":<?php print_r($JsonSchema);?>,
 							"dataSource":<?php print_r($JsonData); ?>,
-							"view": <?php print_r($JsonView) ?>
+							"view": <?php print_r($JsonView) ?>,
+							"postRender": function(control){
+                                control.obtenerNombres = function(){
+                                    var nombreCampos = [];
+                                    for (var field in control.schema.properties){
+                                        var fieldValue = control.childrenByPropertyId[field].getValue();
+                                        if (fieldValue != '' && fieldValue != 'null' && fieldValue != null) 
+                                            nombreCampos.push(field);
+                                    }
+
+                                    control.fieldsNames = nombreCampos;
+									return nombreCampos;
+								}
+                                
+                                control.obtenerValores = function(){
+									var valores = [];
+									var nombres = control.obtenerNombres();
+									var fieldsLengthFields = nombres.length;
+									for(var i = 0; i < fieldsLengthFields; i++){
+										var fieldName = nombres[i];
+										var fieldValue = control.childrenByPropertyId[fieldName].getValue();
+										if (fieldValue != '' && fieldValue != 'null' && fieldValue != null) 
+                                            valores.push(fieldValue);
+									}
+									return valores;
+								}
+				            }
 						});
 					});
 				</script>

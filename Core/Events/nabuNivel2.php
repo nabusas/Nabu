@@ -35,9 +35,12 @@ THE SOFTWARE.
     session_start();
 
     $objUtilities = $_SESSION['objUtilities'];
+    $oprid= $_SESSION['oprid'];
+
     $database = $objUtilities->database;
     
     $audit=$database->getPageAudit($_SESSION['app'],$_GET['p']);
+    $accion=$_GET['accion'];
     $options=$database->getGridSaveOptions($_SESSION['app'],$_GET['p']);
 
     $pagDetalle = $options[0];
@@ -51,18 +54,27 @@ THE SOFTWARE.
         $idN=$database->getInvoiceNum($tablaCabecera,$idCabecera);
         $id=$idN[0];
         $_POST[$idCabecera]=$id;
+        $insert = true;
     }
-    else
+    else{
+        $insert = false;
         $id=$_POST[$idCabecera];
+    }
+        
 
     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
-    $result=$nabuEvent->getEventSql($accion,$audit);
 
-    $database->setInvoiceDeta($tablaDetalle,$idDetalle,$id,$lineasDetalle);
+    $result=$nabuEvent->getEventSql($accion,$audit[0]);
 
-    if ($id != 0)
-        header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id);
+    if ($insert === true)
+        $database->setInvoiceDeta($tablaDetalle,$idDetalle,$id,$lineasDetalle,$oprid);
     else
-        header("location:../Pages/nabu.php?p=".$_GET['p']);
+        $database->setInvoiceDetaUpdt($tablaDetalle,$oprid);
 
+    if ($id != 0){
+        header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id);
+    }
+    else{
+        header("location:../Pages/nabu.php?p=".$_GET['p']);
+    }
 ?>
