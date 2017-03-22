@@ -25,44 +25,60 @@ THE SOFTWARE.
 
 	Fecha creacion		= 17-03-2017
 	Desarrollador		= CAGC
-	Fecha modificacion	= 17-03-2017
+	Fecha modificacion	= 21-03-2017
 	Usuario Modifico	= CAGC
 
 */
     include_once "../Class/Utilities.php";
 
     //Parametros de entrada
-    if ( isset($_GET['token']) ){
-            $token =$_GET['token'];
+    if ( isset($_POST['token']) ){
+            $token =$_POST['token'];
             if ($token == 'e53db2b5b93254fddb55de43a3323970'){
                 
                 header('Content-type: application/json');
                 
-                $empresa =$_GET['empre'];
-                $bd =$_GET['bd'];
-                $sqlcode =$_GET['sqlco'];
-                $mensaje =$_GET['messa'];
-                $binds=explode(";",$_GET['binds']);
-                
-                $objUtilities = new Utilities('localhost','nabu','6492496',$bd);
+                $codigoemp =$_POST['codigoemp'];
+                $mensaje =$_POST['messa'];
+		$codigovalidacion =$_POST['codigovalidacion'];
+                $binds=explode(";",$_POST['binds']);
+
+                $objUtilities = new Utilities('localhost','root','','nabu');
                 $database = $objUtilities->database;
 
-                $sql=$database->getSqlStatement($empresa,$sqlcode,$binds,"1");
+		$sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
 
+		$empresa =$sqlEmpresa[0];
+                $bd =$sqlEmpresa[1];
+		$usuario =$sqlEmpresa[2];
+		$password =$sqlEmpresa[3];
+		$host =$sqlEmpresa[4];
+
+		$objUtilities = new Utilities($host, $usuario, $password, $bd);
+                $database = $objUtilities->database;
+
+                $sql=$database->getSqlStatement($empresa,$codigovalidacion,$binds,"1");
                 $count=$sql[0];
 
-                if ( $count > 0 ){
+                if ($count == 0 ){
                     $value = false;
-                    $mensaje = "Ya existe ".$mensaje;
-                }
-                else{
+                    $mensaje = "No existe ".$mensaje;
+		    $result["message"] =$mensaje;
+		} elseif ($count > 1){
+		    $value = false;
+                    $mensaje = "Dato incorrecto, campo duplicado en BD: ".$mensaje;
+		    $result["message"] =$mensaje;
+                } elseif ($sql==NULL){
+		    $value = false;
+                    $mensaje = "Error al conectarse a la base de datos.";
+		    $result["message"] =$mensaje;
+                } else{
                     $value = true;
-                }
+		}
 
                 $result["status"] =$value;
-                $result["message"] =$mensaje;
 
-                echo json_encode(array('result'=>$result));
+                echo json_encode($result);
             }
     }
     
