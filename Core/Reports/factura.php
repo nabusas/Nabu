@@ -120,24 +120,59 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
 		
 }
 
-if (isset($_GET['id']))
+if (isset($_GET['idCabecera']))
 {
-    $id=$_GET['id'];
+    $id=$_GET['idCabecera'];
+    $idF=$_GET['idF'];
     
     session_start();
     
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    $sql="select * from nb_factura_c_print_vw where id=".$id;
-    $cabecera=$database->executeQueryOneRow($sql);
     
-    $sql="Select * from nb_factura_d_print_vw where id=".$id;
-    $detalle=$database->executeQuery($sql);
-    
-    $sql="select Monto from nb_factura_vw where factura =".$id;
-    $totales=$database->executeQueryOneRow($sql);
+    //Demo
+    if( $idF == 1 ){
         
+        $sql="select * from nb_factura_c_print_vw where id=".$id;
+        $cabecera=$database->executeQueryOneRow($sql);
+    
+        $sql="Select * from nb_factura_d_print_vw where id=".$id;
+        $detalle=$database->executeQuery($sql);
+    
+        $sql="select Monto from nb_factura_vw where factura =".$id;
+        $totales=$database->executeQueryOneRow($sql);
+    }
+        
+    //Compras
+    
+        if( $idF == 2 ){
+        
+        $sql="select * from nb_factura_c_print_vw where id=".$id;
+        $cabecera=$database->executeQueryOneRow($sql);
+    
+        $sql="Select * from nb_factura_d_print_vw where id=".$id;
+        $detalle=$database->executeQuery($sql);
+    
+        $sql="select Monto from nb_factura_vw where factura =".$id;
+        $totales=$database->executeQueryOneRow($sql);
+    }
+    
+    //Ventas
+    
+        if( $idF == 3 ){
+        
+        $sql="select * from nb_factura_c_print_vw where id=".$id;
+        $cabecera=$database->executeQueryOneRow($sql);
+    
+        $sql="Select * from nb_factura_d_print_vw where id=".$id;
+        $detalle=$database->executeQuery($sql);
+    
+        $sql="select Monto from nb_factura_vw where factura =".$id;
+        $totales=$database->executeQueryOneRow($sql);
+    }
+    
+    
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
     $pdf=$objReport->setupForm();

@@ -147,13 +147,13 @@ class TemplatePage
                                  }
                                  else{
                                     if ($this->idPage <> 'nb_facturacion_v_pg'){ 
-                                        if (isset($_GET["factura"])){
-                                            $factura=$_GET["factura"];
-                                            if (!is_numeric($factura))
-                                                $factura=0;
+                                        if (isset($_GET["idCabecera"])){
+                                            $idCabecera=$_GET["idCabecera"];
+                                            if (!is_numeric($idCabecera))
+                                                $idCabecera=0;
                                         }
                                         echo "<br>";
-                                        echo "<a href='../Reports/factura.php?id=$factura' target='_blank'>Imprimir Factura</a>";   
+                                        echo "<a href='../Reports/factura.php?idF=1&idCabecera=$idCabecera' target='_blank'>Imprimir Factura</a>";   
                                     }
                                  }
                             ?>

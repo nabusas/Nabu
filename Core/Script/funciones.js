@@ -62,3 +62,12 @@ var buscarVariosDatos = function (fields,values,page, restricted) {
 
     document.location = ruta;
 };
+
+
+var my_validation= function (value,label)
+{
+    if (value < 100)
+        return [true,""];
+    else
+        return [false,label+": Error prueba"];
+};
