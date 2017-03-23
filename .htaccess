@@ -1,0 +1,4 @@
+Options +FollowSymlinks
+RewriteEngine on
+RewriteBase /Nabu/Core/Pages/
+RewriteRule ^nabu/([^/\.]+)/?$ /nabu.php?p=$1[L]
