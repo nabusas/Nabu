@@ -1,4 +1,5 @@
 Options -Indexes
 RewriteEngine on
+RewriteCond %{SERVER_PORT} =443
 RewriteBase /Nabu/Core/Pages/
 RewriteRule ^nabu/([^/\.]+)/?$ /nabu.php?p=$1[L]
