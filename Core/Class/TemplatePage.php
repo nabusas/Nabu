@@ -69,8 +69,7 @@ class TemplatePage
 ?>
 		<!DOCTYPE html>
 		<html>
-            <?php header("Access-Control-Allow-Origin: *");?>
-			<head>
+            <head>
 
 				<meta charset="UTF-8"/>
 				<meta name="author" content="nabu" />
