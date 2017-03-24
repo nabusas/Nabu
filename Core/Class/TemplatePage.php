@@ -69,6 +69,7 @@ class TemplatePage
 ?>
 		<!DOCTYPE html>
 		<html>
+            <?php header("Access-Control-Allow-Origin: *");?>
 			<head>
 
 				<meta charset="UTF-8"/>
@@ -136,7 +137,6 @@ class TemplatePage
                         $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view);
                     }
                     if ($this->tipo == 'datagrid'){
-                        header("Access-Control-Allow-Origin: *");
                     ?>    
                         <div style="margin:10px">
                             <?php 
