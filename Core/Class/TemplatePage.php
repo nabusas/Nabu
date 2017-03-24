@@ -136,6 +136,7 @@ class TemplatePage
                         $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view);
                     }
                     if ($this->tipo == 'datagrid'){
+                        header("Access-Control-Allow-Origin: *");
                     ?>    
                         <div style="margin:10px">
                             <?php 
