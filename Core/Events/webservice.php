@@ -41,6 +41,7 @@ THE SOFTWARE.
                 $codigoemp =$_POST['codigoemp'];
                 $mensaje =$_POST['messa'];
 		$codigovalidacion =$_POST['codigovalidacion'];
+		$validacion =$_POST['validacion'];
                 $binds=explode(";",$_POST['binds']);
 
                 $objUtilities = new Utilities('localhost','root','','nabu');
@@ -54,32 +55,63 @@ THE SOFTWARE.
 		$password =$sqlEmpresa[3];
 		$host =$sqlEmpresa[4];
 
+		$database->desconectar();
+
 		$objUtilities = new Utilities($host, $usuario, $password, $bd);
                 $database = $objUtilities->database;
 
                 $sql=$database->getSqlStatement($empresa,$codigovalidacion,$binds,"1");
-                $count=$sql[0];
-
-                if ($count == 0 ){
-                    $value = false;
-                    $mensaje = "No existe ".$mensaje;
-		    $result["message"] =$mensaje;
-		} elseif ($count > 1){
-		    $value = false;
-                    $mensaje = "Dato incorrecto, campo duplicado en BD: ".$mensaje;
-		    $result["message"] =$mensaje;
-                } elseif ($sql==NULL){
-		    $value = false;
-                    $mensaje = "Error al conectarse a la base de datos.";
-		    $result["message"] =$mensaje;
-                } else{
-                    $value = true;
+                
+		switch ($validacion) {
+		  case 'validarExistenciaTercerosPorTipo':
+		    $result = validarExistenciaTercerosPorTipo($sql, $mensaje); break;
+		  case 'validarExistenciaTerceros':
+		    $result = validarExistenciaTerceros($sql, $mensaje); break;
 		}
 
-                $result["status"] =$value;
-
                 echo json_encode($result);
+		$database->desconectar();
             }
     }
+
+ function validarExistenciaTerceros($sql, $mensaje){
+	$count=$sql[0];
+
+	if ($count >= 1){
+	    $value = false;
+            $mensaje = "Error: existe un tercero con los datos ingresados: ".$mensaje;
+	    $result["message"] =$mensaje;
+        } elseif ($sql==NULL){
+	    $value = false;
+            $mensaje = "Error al conectarse a la base de datos.";
+	    $result["message"] =$mensaje;
+        } else{
+            $value = true;
+	}
+	$result["status"] =$value;
+	return $result;
+ }
+
+ function validarExistenciaTercerosPorTipo($sql, $mensaje){
+	$count=$sql[0];
+
+        if ($count == 0 ){
+            $value = false;
+            $mensaje = "No existe ".$mensaje;
+	    $result["message"] =$mensaje;
+	} elseif ($count > 1){
+	    $value = false;
+            $mensaje = "Dato incorrecto, campo duplicado en BD: ".$mensaje;
+	    $result["message"] =$mensaje;
+        } elseif ($sql==NULL){
+	    $value = false;
+            $mensaje = "Error al conectarse a la base de datos.";
+	    $result["message"] =$mensaje;
+        } else{
+            $value = true;
+	}
+	$result["status"] =$value;
+	return $result;
+ }
     
 ?>
