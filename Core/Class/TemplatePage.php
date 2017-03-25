@@ -136,17 +136,21 @@ class TemplatePage
                         $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view);
                     }
                     if ($this->tipo == 'datagrid'){
+                        
+                        $paginas2Nivel ="nb_factura_de_pg,nb_compras_de_pg,nb_venta_detalle_tbl";
+                        $permiso= strpos($paginas2Nivel,$this->idPage);
+                        
                     ?>    
                         <div style="margin:10px">
                             <?php 
                                 echo $this->render;
                                 $csv=$this->objUtilities->fileDatagrid($this->idPage);
-                                 if ($csv <> '' and $this->idPage <> 'nb_factura_de_pg' and $this->idPage <> 'nb_facturacion_v_pg'){
+                                 if ($csv <> '' and $permiso === false ){
                                     echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
                                     echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
                                  }
                                  else{
-                                    if ($this->idPage <> 'nb_facturacion_v_pg'){ 
+                                    if ($permiso !== false){ 
                                         if (isset($_GET["idCabecera"])){
                                             $idCabecera=$_GET["idCabecera"];
                                             if (!is_numeric($idCabecera))

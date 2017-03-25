@@ -63,10 +63,10 @@ THE SOFTWARE.
                 $sql=$database->getSqlStatement($empresa,$codigovalidacion,$binds,"1");
                 
 		switch ($validacion) {
-		  case 'validarExistenciaTercerosPorTipo':
-		    $result = validarExistenciaTercerosPorTipo($sql, $mensaje); break;
-		  case 'validarExistenciaTerceros':
-		    $result = validarExistenciaTerceros($sql, $mensaje); break;
+		  case 'validarDuplicadooNoExistencia':
+		    $result = validarDuplicadooNoExistencia($sql, $mensaje); break;
+		  case 'validarExistencia':
+		    $result = validarExistencia($sql, $mensaje); break;
 		}
 
                 echo json_encode($result);
@@ -74,16 +74,16 @@ THE SOFTWARE.
             }
     }
 
- function validarExistenciaTerceros($sql, $mensaje){
+ function validarExistencia($sql, $mensaje){
 	$count=$sql[0];
 
 	if ($count >= 1){
 	    $value = false;
-            $mensaje = "Error: existe un tercero con los datos ingresados: ".$mensaje;
+            $mensaje = "Error: Existe un registro con el dato ingresado: ".$mensaje;
 	    $result["message"] =$mensaje;
         } elseif ($sql==NULL){
 	    $value = false;
-            $mensaje = "Error al conectarse a la base de datos.";
+            $mensaje = "Error: No se pudo realizar la consulta a la bd.";
 	    $result["message"] =$mensaje;
         } else{
             $value = true;
@@ -92,16 +92,16 @@ THE SOFTWARE.
 	return $result;
  }
 
- function validarExistenciaTercerosPorTipo($sql, $mensaje){
+ function validarDuplicadooNoExistencia($sql, $mensaje){
 	$count=$sql[0];
 
         if ($count == 0 ){
             $value = false;
-            $mensaje = "No existe ".$mensaje;
+            $mensaje = "Error: No existe: ".$mensaje;
 	    $result["message"] =$mensaje;
 	} elseif ($count > 1){
 	    $value = false;
-            $mensaje = "Dato incorrecto, campo duplicado en BD: ".$mensaje;
+            $mensaje = "Error: registro duplicado en BD: ".$mensaje;
 	    $result["message"] =$mensaje;
         } elseif ($sql==NULL){
 	    $value = false;
