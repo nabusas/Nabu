@@ -72,21 +72,26 @@ session_start();
         $rows=$database->executeQuery($sql);
         $rows_returned =  count($rows);
 		
-        $i=1;
-        $vector='{';
         
-		foreach($rows as $row){
-			if ($i==$rows_returned ){
-					$vector=$vector.'"'.$row[0].'":"'.$row[1].'"}';
-				}
-				else{
-					$vector=$vector.'"'.$row[0].'":"'.$row[1].'",';
+        if ($rows_returned > 0 ){
+            $i=1;
+            $vector='{';
 
-				}
-            $i=$i+1;
-		}
-        
-       echo $vector;
+            foreach($rows as $row){
+                if ($i==$rows_returned ){
+                        $vector=$vector.'"'.$row[0].'":"'.$row[1].'"}';
+                    }
+                    else{
+                        $vector=$vector.'"'.$row[0].'":"'.$row[1].'",';
+
+                    }
+                $i=$i+1;
+            }
+
+           echo $vector;
+        }
+        else
+            echo '{"-1": "No hay valores"}';
 	}
     else
         echo '{"-1": "No hay valores"}';
