@@ -635,7 +635,7 @@ class Utilities
                     else
                         $editRules[2]=false;
                     
-                    $value= array("custom"=>true,"custom_func"=>"function(val,label){return my_validation(val,label);}"); 
+                    //$value= array("custom"=>true,"custom_func"=>"function(val,label){return my_validation(val,label);}"); 
                     //$value=array("minValue"=>$editRules[0], "maxValue"=>$editRules[1],"required"=>$editRules[2]);
                     
                 }

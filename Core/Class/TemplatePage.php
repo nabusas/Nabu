@@ -137,7 +137,7 @@ class TemplatePage
                     }
                     if ($this->tipo == 'datagrid'){
                         
-                        $paginas2Nivel ="nb_factura_de_pg,nb_compras_de_pg,nb_venta_detalle_tbl";
+                        $paginas2Nivel ="nb_factura_de_pg,nb_compras_de_pg,nb_ventas_de_pg";
                         $permiso= strpos($paginas2Nivel,$this->idPage);
                         
                     ?>    
