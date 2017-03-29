@@ -83,7 +83,7 @@ THE SOFTWARE.
 	    $result["message"] =$mensaje;
         } elseif ($sql==NULL){
 	    $value = false;
-            $mensaje = "Error: No se pudo realizar la consulta a la bd.";
+            $mensaje = "Error: No se pudo realizar la consulta a la bd.=".$sql." count=".$count;
 	    $result["message"] =$mensaje;
         } else{
             $value = true;
