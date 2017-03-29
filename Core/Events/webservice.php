@@ -40,14 +40,14 @@ THE SOFTWARE.
                 
                 $codigoemp =$_POST['codigoemp'];
                 $mensaje =$_POST['messa'];
-		$codigovalidacion =$_POST['codigovalidacion'];
-		$validacion =$_POST['validacion'];
+		        $codigovalidacion =$_POST['codigovalidacion'];
+                $validacion =$_POST['validacion'];
                 $binds=explode(";",$_POST['binds']);
 
-                $objUtilities = new Utilities('localhost','root','','nabu');
+                $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
                 $database = $objUtilities->database;
 
-		$sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
+		        $sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
 
 		$empresa =$sqlEmpresa[0];
                 $bd =$sqlEmpresa[1];
@@ -83,7 +83,7 @@ THE SOFTWARE.
 	    $result["message"] =$mensaje;
         } elseif ($sql==NULL){
 	    $value = false;
-            $mensaje = "Error: No se pudo realizar la consulta a la bd.=".$sql." count=".$count;
+            $mensaje = "Error: No se pudo realizar la consulta a la bd.=";
 	    $result["message"] =$mensaje;
         } else{
             $value = true;
