@@ -69,10 +69,10 @@ THE SOFTWARE.
     if ($insert === true)
         $database->setInvoiceDeta($tablaDetalle,$idDetalle,$id,$lineasDetalle,$oprid);
     else
-        $database->setInvoiceDetaUpdt($tablaDetalle,$oprid);
+        $database->setInvoiceDetaUpdt($tablaDetalle,$idDetalle,$id,$lineasDetalle,$oprid);
 
     if ($id != 0){
-        header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id);
+       header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id);
     }
     else{
         header("location:../Pages/nabu.php?p=".$_GET['p']);

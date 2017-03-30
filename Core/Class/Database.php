@@ -121,10 +121,25 @@ THE SOFTWARE.
             }   
         }
         
-        function setInvoiceDetaUpdt($tabla,$oprid){
-                $sql ="update ".$tabla." set nb_oprid_u_fld='".$oprid."'";
-                $this->execute($sql); 
-        }
+        function setInvoiceDetaUpdt($tablaDetalle,$idDetalle,$idCabecera,$lineasDetalle,$oprid){
+                $sql ="update ".$tablaDetalle." set nb_oprid_u_fld='".$oprid."' where ".$idDetalle." like '".$idCabecera."-%'";
+                $this->execute($sql);
+            
+                $sql ="select count(1) from ".$tablaDetalle." where ".$idDetalle." like '".$idCabecera."-%'";
+                $rowsActuales=$this->executeQueryOneRow($sql);
+            
+                $rowsAc=$rowsActuales[0];
+            
+                if ($rowsAc < $lineasDetalle ){
+                    
+                    for ($i=$rowsAc+1; $i<=$lineasDetalle; $i++){
+                        $sql ="insert into ".$tablaDetalle." (".$idDetalle.",nb_oprid_i_fld) values('".$idCabecera."-".$i."','".$oprid."')";
+                        $this->execute($sql); 
+                    }
+                }
+            
+            
+         }
         
         /************************************************************************************************************************************/
         
