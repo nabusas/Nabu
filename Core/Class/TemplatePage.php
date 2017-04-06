@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 03-03-2017
+	Fecha modificacion	= 06-04-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -114,7 +114,7 @@ class TemplatePage
     
 	function body(){
 ?>
-		<body>
+		<body onload="ChangeUrl('nabu','nabu')">
             
 			<?php $this->banner();?>
 			 <div align='center'>

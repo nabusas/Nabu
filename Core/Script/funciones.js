@@ -2,10 +2,17 @@
     Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
 	Fecha modificacion	= 11-03-2017
-	Fecha modificacion	= 14-03-2017
+	Fecha modificacion	= 06-04-2017
 	Usuario Modifico	= CAGC
 */
 
+
+function ChangeUrl(title, url) {
+    if (typeof (history.pushState) != "undefined") {
+        var obj = { Title: title, Url: url };
+        history.pushState(obj, obj.Title, obj.Url);
+    } 
+}
 
 var buscarCliente = function (doc,page,field) {
     
