@@ -122,7 +122,7 @@ class Options{
 
    }
 
-  function addElement($action,$method,$enctype){
+  function addElement($action,$method,$enctype,$target){
 
 	$this->renderForm = true;
 	
@@ -133,6 +133,7 @@ class Options{
  	$form["action"]=$action;
 	$form["method"]=$method;
 	$form["enctype"]=$enctype;
+    $form["target"]=$target;
 
 	return $form;
  }

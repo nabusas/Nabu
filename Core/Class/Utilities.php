@@ -371,7 +371,8 @@ class Utilities
         
         if ($alpaca == 'wizard' or $alpaca =='form' or $alpaca == 'table'){
             $event = $row['event'];
-			$attributes=$json->addElement($event,'post','');
+            $target = $row['target'];
+			$attributes=$json->addElement($event,'post','',$target);
 			$json->addForm("attributes",$attributes);
             unset($json->datatables);
         }

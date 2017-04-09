@@ -351,7 +351,7 @@ THE SOFTWARE.
         }
         
         function getOptionsEvents($empresa,$idpage){
-            $sql = "select a.nb_typealpaca_fld alpaca,concat(concat(a.nb_action_path,a.nb_action_fld,'.php?p=$idpage&accion='),a.nb_typeaccion_fld) event from nabu.nb_option_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
+            $sql = "select a.nb_typealpaca_fld alpaca,concat(concat(a.nb_action_path,a.nb_action_fld,'.php?p=$idpage&accion='),a.nb_typeaccion_fld) event , a.nb_target_fld target from nabu.nb_option_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);   
         }
         
