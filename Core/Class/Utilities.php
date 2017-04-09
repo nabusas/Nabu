@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 14-03-2017
+	Fecha modificacion	= 09-04-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -71,6 +71,12 @@ class Utilities
 	}
     
 
+    function reportPdf($empresa,$page) {
+        $filePdf = $this->database->reportPdf($empresa, $page);
+        return $filePdf[0];
+    }
+    
+    
     function fileDatagrid($page){
         $csv = new ExportExcel();
         $sql = $this->database->tableDataGrid($_SESSION['app'],$page);

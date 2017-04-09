@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 14-03-2017
+	Fecha modificacion	= 09-04-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -371,17 +371,17 @@ THE SOFTWARE.
         }
         
         function getLabelChart($empresa,$idpage){
-            $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idpage."' and nb_type_fld='label' order by nb_pos_fld ";
+            $sql = "select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idpage."' and nb_type_fld='label' order by nb_pos_fld ";
             return $this->executeQueryOneRow($sql);
         }
         
         function getOptionsChart($empresa,$idpage){
-            $sql = "Select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idpage."' and nb_type_fld='column' order by nb_pos_fld ";
+            $sql = "select nb_value_fld, nb_color_fld from nabu.nb_chart_data_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idpage."' and nb_type_fld='column' order by nb_pos_fld ";
             return $this->executeQuery($sql);
         }
          
         function getDataLabelChart($table,$label,$oprid){
-            $sql = "Select $label from $table where label like '$oprid%'";
+            $sql = "select $label from $table where label like '$oprid%'";
             return $this->executeQuery($sql);
         }
         
@@ -403,6 +403,11 @@ THE SOFTWARE.
         function valueRef($empresa,$campo){
             $sql ="select nb_id_table_fld,nb_empresa_fld,nb_usuario_fld,nb_estado_fld from nabu.nb_value_ref_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld ='".$campo."'";
             return $this->executeQueryOneRow($sql); 
+        }
+        
+        function reportPdf($empresa,$idpage){
+            $sql = "select nb_report_id_fld from nabu.nb_reports_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld = '".$idpage."'";
+            return $this->executeQueryOneRow($sql);
         }
     }
 ?>

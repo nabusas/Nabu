@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 06-04-2017
+	Fecha modificacion	= 09-04-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -119,7 +119,7 @@ class TemplatePage
 			<?php $this->banner();?>
 			 <div align='center'>
 				<?php
-                    include "../Class/analyticstracking.php";
+                    //include "../Class/analyticstracking.php";
 
                     $style=$this->pageProperties['style'];
                     $trace=$this->pageProperties['trace'];
@@ -133,13 +133,17 @@ class TemplatePage
                         $options=$this->objUtilities->getOption($empresa,$this->idPage);
                         $data =$this->objUtilities->getData($empresa,$this->idPage);
                         $view =$this->objUtilities->getView($empresa,$this->idPage);
-			$postrender=$this->objUtilities->getPostrender($empresa,$this->idPage);
+			            $postrender=$this->objUtilities->getPostrender($empresa,$this->idPage);
                         $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view,$postrender);
                     }
                     if ($this->tipo == 'datagrid'){
                         
-                        $paginas2Nivel ="nb_factura_de_pg,nb_compras_de_pg,nb_ventas_de_pg";
-                        $permiso= strpos($paginas2Nivel,$this->idPage);
+                        $rPDF=$this->objUtilities->reportPdf($empresa,$this->idPage);
+                        
+                        if ($rPDF <> NULL and $rPDF <>'' )
+                            $permiso = true;
+                        else
+                            $permiso = false;
                         
                     ?>    
                         <div style="margin:10px">
@@ -157,21 +161,7 @@ class TemplatePage
                                             if (!is_numeric($idCabecera))
                                                 $idCabecera=0;
                                         }
-                                        echo "<br>";
-                                        
-                                        
-                                        if  ($this->idPage == 'nb_factura_de_pg')
-                                            $reportePDF = 'factura';
-                                                                                
-                                        if  ($this->idPage == 'nb_compras_de_pg')
-                                            $reportePDF = 'facCompra';
-                                        
-                                        if  ($this->idPage == 'nb_ventas_de_pg')
-                                            $reportePDF = 'facVenta';
-                                        
-                                        
-                                        
-                                        echo "<a href='../Reports/".$reportePDF.".php?idF=1&idCabecera=$idCabecera' target='_blank'>Imprimir Factura</a>";   
+                                        echo "<br><a href='../Reports/".$rPDF.".php?idF=1&idCabecera=$idCabecera' target='_blank'>Imprimir Factura</a>";   
                                     }
                                  }
                             ?>
@@ -203,7 +193,6 @@ class TemplatePage
         
         $terminos=file_get_contents("../Files/terminos.txt");
         $terminos = ucfirst($terminos);
-        //$terminos = htmlentities($terminos);
         $terminos = str_replace(array("\r\n", "\r", "\n"), "<br />",$terminos);
         $terminos = nl2br($terminos);
 ?>
