@@ -337,6 +337,11 @@ class Utilities
        return $jsonA;
     }
     
+    function getPostrender($empresa,$id){
+	$code = $this->database->getPostrender($empresa,$id);
+	return $code[0];
+    }
+
     function getView($empresa,$id){
         
         $view = new View();
@@ -449,7 +454,7 @@ class Utilities
         return $json;
     }
     
-	function forms($style,$imprimirJsons,$schema,$options,$data, $view){
+	function forms($style,$imprimirJsons,$schema,$options,$data, $view, $postrender){
         
         $JsonSchema =$this->fixedJson(json_encode($schema));
         $JsonOptions=$this->fixedJson(json_encode($options));
@@ -465,6 +470,8 @@ class Utilities
 			print_r($JsonData);
             echo '<br/>*******************************************************View*******************************************************<br/>';
 			print_r($JsonView);
+echo '<br/>*******************************************************Postrender*******************************************************<br/>';
+			print_r($postrender);
         }
     ?>
      <div class=<?php echo $style ?> >
@@ -478,6 +485,9 @@ class Utilities
 							"dataSource":<?php print_r($JsonData); ?>,
 							"view": <?php print_r($JsonView) ?>,
 							"postRender": function(control){
+
+				<?php print_r($postrender); ?>
+				
                                 control.obtenerNombres = function(){
                                     var nombreCampos = [];
                                     for (var field in control.schema.properties){

@@ -334,6 +334,11 @@ THE SOFTWARE.
             $sql = "select a.nb_title_fld, a.nb_description_fld, a.nb_type_fld from nabu.nb_schema_tbl a where  a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);   
         }
+
+	function getPostrender($empresa,$idpage){
+            $sql = "select a.nb_postrender_fld from nabu.nb_pages_tbl a where  a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
+            return $this->executeQueryOneRow($sql);   
+        }
         
         function getFormFields($empresa,$idpage, $type){
             $sql = "select distinct a.nb_id_pr_schema_fld from  nabu.nb_forms_tbl a , nabu.nb_config_frmwrk_tbl b where a.nb_enterprise_id_fld ='".$empresa."' and a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and  b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage'";

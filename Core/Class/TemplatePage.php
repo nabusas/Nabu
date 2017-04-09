@@ -133,7 +133,8 @@ class TemplatePage
                         $options=$this->objUtilities->getOption($empresa,$this->idPage);
                         $data =$this->objUtilities->getData($empresa,$this->idPage);
                         $view =$this->objUtilities->getView($empresa,$this->idPage);
-                        $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view);
+			$postrender=$this->objUtilities->getPostrender($empresa,$this->idPage);
+                        $this->objUtilities->forms($style,$trace,$schema,$options,$data, $view,$postrender);
                     }
                     if ($this->tipo == 'datagrid'){
                         

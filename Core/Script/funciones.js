@@ -29,9 +29,11 @@ var buscarCliente = function (doc,page,field) {
 * @param {Array} values 
 * @param {Array} fields
 * @param {String} page
+* @param {Array} restricted campos a no enviar
+* @param {Array} cadenas campos que se necesita ponerle comillas
 * @return {} Nada
 */
-var buscarVariosDatos = function (fields,values,page, restricted) {
+var buscarVariosDatos = function (fields,values,page, restricted, cadenas) {
     
     "use strict";
 
@@ -62,7 +64,11 @@ var buscarVariosDatos = function (fields,values,page, restricted) {
     var campos='';
     
     for (var i = 0; i < fieldsLength; i++) {
-       	campos += '&'+fields[i]+'='+values[i]
+	var comillas='';
+	if ($.inArray(fields[i], cadenas)!=-1){
+		comillas="\\\'"
+	}
+       	campos += "&"+fields[i]+"="+comillas+values[i]+comillas
     }
 
     var ruta = "nabu.php?p="+page+"&accion=s"+campos;
