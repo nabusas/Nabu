@@ -158,7 +158,20 @@ class TemplatePage
                                                 $idCabecera=0;
                                         }
                                         echo "<br>";
-                                        echo "<a href='../Reports/factura.php?idF=1&idCabecera=$idCabecera' target='_blank'>Imprimir Factura</a>";   
+                                        
+                                        
+                                        if  ($this->idPage == 'nb_factura_de_pg')
+                                            $reportePDF = 'factura';
+                                                                                
+                                        if  ($this->idPage == 'nb_compras_de_pg')
+                                            $reportePDF = 'facCompra';
+                                        
+                                        if  ($this->idPage == 'nb_ventas_de_pg')
+                                            $reportePDF = 'facVenta';
+                                        
+                                        
+                                        
+                                        echo "<a href='../Reports/".$reportePDF.".php?idF=1&idCabecera=$idCabecera' target='_blank'>Imprimir Factura</a>";   
                                     }
                                  }
                             ?>
