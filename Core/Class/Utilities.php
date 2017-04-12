@@ -477,7 +477,7 @@ class Utilities
 			print_r($JsonData);
             echo '<br/>*******************************************************View*******************************************************<br/>';
 			print_r($JsonView);
-echo '<br/>*******************************************************Postrender*******************************************************<br/>';
+            echo '<br/>*******************************************************Postrender*******************************************************<br/>';
 			print_r($postrender);
         }
     ?>
@@ -493,7 +493,7 @@ echo '<br/>*******************************************************Postrender****
 							"view": <?php print_r($JsonView) ?>,
 							"postRender": function(control){
 
-				<?php print_r($postrender); ?>
+				                <?php print_r($postrender); ?>
 				
                                 control.obtenerNombres = function(){
                                     var nombreCampos = [];

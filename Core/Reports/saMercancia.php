@@ -33,7 +33,7 @@ THE SOFTWARE.
 include "../Class/Utilities.php";
 include "../Class/Report.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
+function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_despacho_desde, $fecha_despacho_hasta)
 {
 
         $borde=1;
@@ -47,9 +47,14 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
         $pdf->Ln(5);
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(40,$w,"Fecha despacho:",$borde,0, 'L');
+        $pdf->Cell(40,$w,"Fecha desde:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(238,$w,$cabecera['fecha'],$borde,0, 'L');
+        $pdf->Cell(99,$w,$fecha_despacho_desde,$borde,0, 'L');
+
+	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->Cell(40,$w,"Fecha hasta:",$borde,0, 'L');
+        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $pdf->Cell(99,$w,$fecha_despacho_hasta,$borde,0, 'L');
 
         $pdf->Ln(5);
 	
@@ -102,17 +107,18 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
 }
 
 
-    $fecha_despacho=$_POST['nb_fecha_despacho_fld'];
+    $fecha_despacho_desde=$_POST['nb_fecha_despacho_desde_fld'];
+    $fecha_despacho_hasta=$_POST['nb_fecha_despacho_hasta_fld'];
     $codigo_tercero=$_POST['nb_codigo_tercero_fld'];
     session_start();
     
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    $sql="select * from nb_despacho_cabeza_reporte where fecha='".$fecha_despacho."' and "."codigotercero=".$codigo_tercero." LIMIT 1";
+    $sql="select * from nb_despacho_cabeza_reporte where (fecha BETWEEN STR_TO_DATE('".$fecha_despacho_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_despacho_hasta."','%d/%m/%Y')) and "."codigotercero=".$codigo_tercero." LIMIT 1";
     $cabecera=$database->executeQueryOneRow($sql);
     
-    $sql="Select * from nb_despacho_detalle_reporte where fecha='".$fecha_despacho."' and "."codigotercero=".$codigo_tercero;
+    $sql="Select * from nb_despacho_detalle_reporte where (fecha BETWEEN STR_TO_DATE('".$fecha_despacho_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_despacho_hasta."','%d/%m/%Y')) and "."codigotercero=".$codigo_tercero;
     $detalle=$database->executeQuery($sql);
     
         
@@ -120,7 +126,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,10,$cabecera,$detalle,NULL);
+    schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_despacho_desde, $fecha_despacho_hasta);
 
     $objReport->exportarPdf($pdf,$id);
 
