@@ -55,22 +55,15 @@ class Utilities
 	
 	function validateRole($empresa,$page, $role) {
         
-        if($role != 9999) {
+        if( isset($role) ) {
             $row = $this->database->getValidateRole($empresa,$role, $page);
             if ($row != null)
                 return true;
             else
                 return false;
 		}
-		else {
-			if($page == 'login' || $page == 'error')
-				return true;
-			else
-				return false;
-		}
 	}
     
-
     function reportPdf($empresa,$page) {
         $filePdf = $this->database->reportPdf($empresa, $page);
         return $filePdf[0];
@@ -536,7 +529,7 @@ class Utilities
         foreach($rows as $row)
             echo "<th bgcolor='$row[1]'>&nbsp$row[0]&nbsp</th>";
         
-        echo "</tr></table>";
+        echo "</tr></table><br><br><br>";
 
     }
     
@@ -681,7 +674,7 @@ class Utilities
         else
             $configGrid=false;
         
-        $g->set_actions(array("add"=>false,"edit"=>$configGrid,"delete"=>$configGrid,"rowactions"=>true,"search" => "advance"));
+        $g->set_actions(array("add"=>false,"edit"=>$configGrid,"delete"=>false,"rowactions"=>$configGrid,"search" => "advance"));
 
         return $g->render("list1");
         
