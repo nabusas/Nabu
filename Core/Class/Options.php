@@ -111,8 +111,7 @@ class Options{
 			}
             
             if ($row[0]=='picker'){
-                $locale = array("locale" => $row[2]);
-                $row[2]=$locale;
+                $row[2]=$row[2];
             }
             
             $fields[$row[0]]=$row[2];
