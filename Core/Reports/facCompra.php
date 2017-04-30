@@ -125,7 +125,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(100,$w,'Producto', $borde,0,'C');
         $pdf->Cell(35,$w,'Cantidad',$borde,0,'C');
-        $pdf->Cell(40,$w,'Precio',$borde,0,'C');
+        $pdf->Cell(40,$w,'Precio de Compra',$borde,0,'C');
         $pdf->Cell(30,$w,'Iva',$borde,0,'C');
         $pdf->Cell(73,$w,'Total Linea',$borde,0,'C');
         $pdf->Ln(5);
