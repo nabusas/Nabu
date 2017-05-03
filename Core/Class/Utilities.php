@@ -221,22 +221,24 @@ class Utilities
         if ($table[0] == ''){
 
             $parametros=false;
-
             if($ifcampos){
                 foreach($fields as $field){
-                    if (isset($_GET['accion']))
+                    
+                    if (isset($_GET['accion'])){
                         if ($_GET['accion']=='b' or $_GET['accion']=='s'){
                             if (isset($_GET[$field[0]])){
+                                
                                $parametros=true;
                                 break;
                             }
                         }    
                         else{
-                           if (isset($_GET['_1_'.$field[0]])){
+                         if (isset($_GET['_1_'.$field[0]])){
                                $parametros=true;
                                 break;
                             } 
                         }
+                    }
                 }
             }
 

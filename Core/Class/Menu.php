@@ -38,6 +38,7 @@ class Menu
 	$role = 999999;
 	if(isset($_SESSION['role']))
 		$role = $_SESSION['role'];
+        $operatorId=$_SESSION['oprid'];
         
        $result =$util->database->menu1($empresa,$role);
 	   echo "<nav id='menu'>";
@@ -53,10 +54,12 @@ class Menu
             if ( $row['target'] == 'Y' )
                $target="TARGET='_blank'";
             
-            if(strpos($row['link'], 'nb_') === false and ($row['link'] !='login' and $row['link'] != 'home' and $row['link'] !='event'))
-                echo"<li><a href=".$row['link']." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>"; 
+            $enlace=str_replace('operatorId',$operatorId,$row['link']);
+            
+            if(strpos($enlace, 'nb_') === false and ($enlace !='login' and $enlace != 'home' and $enlace !='event'))
+                echo"<li><a href=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>"; 
             else
-                echo"<li><a href=../Pages/?p=".$row['link']." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>";
+                echo"<li><a href=../Pages/nabu.php?p=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>";
             
             if ($hijos)
 				echo"<ul>";
