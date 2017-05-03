@@ -42,7 +42,7 @@ THE SOFTWARE.
 		$codigovalidacion =$_POST['codigovalidacion'];
                 $binds=explode(";",$_POST['binds']);
 
-                $objUtilities = new Utilities('localhost','root','','nabu');
+                $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
                 $database = $objUtilities->database;
 
 		$sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
