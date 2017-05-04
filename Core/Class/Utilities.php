@@ -640,15 +640,17 @@ class Utilities
                 
                 
                 if ($row[0]=='editrules'){
-                    $editRules=explode(";",$value);
-                    
-                    if ($editRules[2] == 'true')
-                        $editRules[2]=true;
-                    else
-                        $editRules[2]=false;
-                    
-                    //$value= array("custom"=>true,"custom_func"=>"function(val,label){return my_validation(val,label);}"); 
-                    //$value=array("minValue"=>$editRules[0], "maxValue"=>$editRules[1],"required"=>$editRules[2]);
+                    $rules=explode("?",$value);
+                    $value=array();
+                    foreach ($rules as $rule){
+                        $valores=explode("=>",$rule);
+                        $valoraux = $valores[1];
+                        if ($valoraux == 'true')
+                            $valoraux=true;
+                        elseif (valoraux == 'false')
+                            $valoraux=false;
+                            $value[$valores[0]] = $valoraux;
+                    }
                     
                 }
                     
