@@ -650,8 +650,7 @@ class Utilities
                         elseif (valoraux == 'false')
                             $valoraux=false;
                         
-                        
-                        if ( $valoraux == 'idCabecera')
+                        if ($valoraux === 'idCabecera')
                             $valoraux=$_GET['idCabecera'];
                         
                         $value[$valores[0]] = $valoraux;
