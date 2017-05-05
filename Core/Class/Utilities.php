@@ -639,7 +639,7 @@ class Utilities
                     $row[0]='link';
                 
                 
-                if ($row[0]=='editrules'){
+                if ($row[0]=='editrules' or $row[0]=='editoptions'){
                     $rules=explode("?",$value);
                     $value=array();
                     foreach ($rules as $rule){
@@ -649,9 +649,14 @@ class Utilities
                             $valoraux=true;
                         elseif (valoraux == 'false')
                             $valoraux=false;
-                            $value[$valores[0]] = $valoraux;
+                        
+                        
+                        if ( $valoraux == 'idCabecera')
+                            $valoraux=$_GET['idCabecera'];
+                        
+                        $value[$valores[0]] = $valoraux;
+                        
                     }
-                    
                 }
                     
                  
@@ -678,7 +683,7 @@ class Utilities
         else
             $configGrid=false;
         
-        $g->set_actions(array("add"=>false,"edit"=>$configGrid,"delete"=>false,"rowactions"=>$configGrid,"search" => "advance"));
+        $g->set_actions(array("add"=>$configGrid,"edit"=>false,"delete"=>false,"rowactions"=>false,"search" => "advance"));
 
         return $g->render("list1");
         

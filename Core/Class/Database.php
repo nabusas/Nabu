@@ -106,42 +106,10 @@ THE SOFTWARE.
             }
         }
         
-        /************************************************************************************************************************************/
-        
         function getInvoiceNum($tabla,$campo){
             $sql ="SELECT IFNULL(MAX(CAST(".$campo." AS UNSIGNED INTEGER)),0)+1 from ".$tabla;
             return $this->executeQueryOneRow($sql);
         }
-        
-        function setInvoiceDeta($tabla,$campo,$fact,$lineas,$oprid){
-            
-            for ($i=1; $i<=$lineas; $i++){
-                $sql ="insert into ".$tabla." (".$campo.",nb_oprid_i_fld) values('".$fact."-".$i."','".$oprid."')";
-                $this->execute($sql); 
-            }   
-        }
-        
-        function setInvoiceDetaUpdt($tablaDetalle,$idDetalle,$idCabecera,$lineasDetalle,$oprid){
-                $sql ="update ".$tablaDetalle." set nb_oprid_u_fld='".$oprid."' where ".$idDetalle." like '".$idCabecera."-%'";
-                $this->execute($sql);
-            
-                $sql ="select count(1) from ".$tablaDetalle." where ".$idDetalle." like '".$idCabecera."-%'";
-                $rowsActuales=$this->executeQueryOneRow($sql);
-            
-                $rowsAc=$rowsActuales[0];
-            
-                if ($rowsAc < $lineasDetalle ){
-                    
-                    for ($i=$rowsAc+1; $i<=$lineasDetalle; $i++){
-                        $sql ="insert into ".$tablaDetalle." (".$idDetalle.",nb_oprid_i_fld) values('".$idCabecera."-".$i."','".$oprid."')";
-                        $this->execute($sql); 
-                    }
-                }
-            
-            
-         }
-        
-        /************************************************************************************************************************************/
         
         function gridSave($empresa,$idpage){
             $sql ="SELECT a.nb_page_data_fld FROM nabu.nb_pages_tbl a WHERE a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld='$idpage'";
@@ -173,7 +141,7 @@ THE SOFTWARE.
         }
         
         function getGridSaveOptions($empresa,$idpage){
-            $sql ="SELECT nb_id_page_de_fld,nb_tab_cab_fld,nb_fie_cab_fld,nb_tab_det_fld,nb_fie_det_fld,nb_lineas_fld from nabu.nb_datagridopt_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld = '$idpage'";
+            $sql ="SELECT nb_id_page_de_fld,nb_tab_cab_fld,nb_fie_cab_fld from nabu.nb_datagridopt_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);
         }
         

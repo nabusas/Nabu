@@ -46,9 +46,6 @@ THE SOFTWARE.
     $pagDetalle = $options[0];
     $tablaCabecera = $options[1];
     $idCabecera = $options[2];
-    $tablaDetalle = $options[3];
-    $idDetalle = $options[4];
-    $lineasDetalle = $options[5];
 
     if (!isset($_POST[$idCabecera]) or $_POST[$idCabecera] ==''){
         $idN=$database->getInvoiceNum($tablaCabecera,$idCabecera);
@@ -65,11 +62,6 @@ THE SOFTWARE.
     $nabuEvent = new NabuEvent($_GET['p'], $_POST);
 
     $result=$nabuEvent->getEventSql($accion,$audit[0]);
-
-    if ($insert === true)
-        $database->setInvoiceDeta($tablaDetalle,$idDetalle,$id,$lineasDetalle,$oprid);
-    else
-        $database->setInvoiceDetaUpdt($tablaDetalle,$idDetalle,$id,$lineasDetalle,$oprid);
 
     if ($id != 0){
        header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id);
