@@ -677,12 +677,22 @@ class Utilities
         $g->set_columns($cols);
         $g->set_options($grid);
 
-        if ($saveGrid[0] == 'save')
-            $configGrid=true;
-        else
-            $configGrid=false;
+        if ($saveGrid[0] == 'save'){
+            $configGridAdd=true;
+            $configGridDel=false;
+        }
+        else{
+            if ($saveGrid[0] == 'saveDelete'){
+                $configGridAdd=true;
+                $configGridDel=true;
+            }
+            else{
+            $configGridAdd=false;
+            $configGridDel=false;
+            }
+        }    
         
-        $g->set_actions(array("add"=>$configGrid,"edit"=>false,"delete"=>false,"rowactions"=>false,"search" => "advance"));
+        $g->set_actions(array("add"=>$configGridAdd,"edit"=>false,"delete"=>$configGridDel,"rowactions"=>false,"search" => "advance"));
 
         return $g->render("list1");
         
