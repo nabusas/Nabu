@@ -676,23 +676,31 @@ class Utilities
         $this->database->conectar();
         $g->set_columns($cols);
         $g->set_options($grid);
+        
+        $configGridAdd=false;
+        $configGridDel=false;
+        $configGridEdi=false;
 
         if ($saveGrid[0] == 'save'){
             $configGridAdd=true;
             $configGridDel=false;
+            $configGridEdi=false;
         }
-        else{
-            if ($saveGrid[0] == 'saveDelete'){
+        
+        if ($saveGrid[0] == 'saveDelete'){
                 $configGridAdd=true;
                 $configGridDel=true;
-            }
-            else{
-            $configGridAdd=false;
-            $configGridDel=false;
-            }
-        }    
+                $configGridEdi=false;
+        }
         
-        $g->set_actions(array("add"=>$configGridAdd,"edit"=>false,"delete"=>$configGridDel,"rowactions"=>false,"search" => "advance"));
+        if ($saveGrid[0] == 'saveEdit'){
+                $configGridAdd=true;
+                $configGridDel=false;
+                $configGridEdi=true;
+        }
+  
+        
+        $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>false,"search" => "advance"));
 
         return $g->render("list1");
         
