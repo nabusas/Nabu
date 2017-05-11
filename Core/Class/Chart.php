@@ -52,7 +52,10 @@ class Chart
         
         $oprid =$_SESSION['opridLogin'];
         
-        $rows=$db->getDataLabelChart($table,$label,$this->oprid);    
+        if ($this->empresa=='cont')
+            $rows=$db->getDataLabelChart($table,$label,$this->oprid);  
+        else
+            $rows=$db->getDataLabelChart($table,$label,'N');  
         
         if (!isset($this->labels))
             $this->labels = array();
@@ -85,7 +88,10 @@ class Chart
         
         $fillColor=$color;
         
-        $rows=$db->getDataChart($table,$field,$this->oprid);
+        if ($this->empresa=='cont')
+            $rows=$db->getDataChart($table,$field,$this->oprid);
+        else
+            $rows=$db->getDataChart($table,$field,'N');
         
         $data = array();
         

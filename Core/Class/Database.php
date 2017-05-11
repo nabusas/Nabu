@@ -349,11 +349,18 @@ THE SOFTWARE.
         }
          
         function getDataLabelChart($table,$label,$oprid){
-            $sql = "select $label from $table where label like '$oprid%'";
+            if ($oprid == 'N')
+                $sql = "select $label from $table";
+            else
+                $sql = "select $label from $table where label like '$oprid%'";
+            
             return $this->executeQuery($sql);
         }
         
         function getDataChart($table,$field,$oprid){
+            if ($oprid == 'N')
+                $sql = "Select replace($field,',','') from $table";
+            else
             $sql = "Select replace($field,',','') from $table where label like '$oprid%'";
             return $this->executeQuery($sql);
         }

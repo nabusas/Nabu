@@ -529,7 +529,7 @@ class Utilities
         echo "<table border=1 width='20%'><tr>";
         
         foreach($rows as $row)
-            echo "<th bgcolor='$row[1]'>&nbsp$row[0]&nbsp</th>";
+            echo "<th bgcolor='$row[1]'><center>&nbsp$row[0]&nbsp</center></th>";
         
         echo "</tr></table><br><br><br>";
 
