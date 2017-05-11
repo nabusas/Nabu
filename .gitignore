@@ -1,14 +1,17 @@
 #Si un archivo ya está siendo versionado por Git, agregar dicho archivo a .gitignore no hará que Git deje de observarlo.
 #En este caso necesitarás ejecutar git rm --cached Core/Framework/datatables/ -r
 
+find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
+
 *.sql
 *.csv
+/.DS_Store
 
 #Database
 DB/
 
 #Archivos Mac
-.DS_Store
+
 
 #Libreria Alpaca
 
