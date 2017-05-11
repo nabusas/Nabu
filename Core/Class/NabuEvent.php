@@ -230,7 +230,6 @@ class NabuEvent
             if ($result->EOF <> 1)
                 $resultado=0;
         }
-        
         return $resultado;
     }
 } 

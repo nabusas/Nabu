@@ -44,7 +44,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
 	$pdf->Ln(31);
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
         $pdf->Cell(278,$w,'RELACION DE COBROS PENDIENTES POR ZONA', $borde, 1, 'C');
-	$pdf->Cell(278,$w,'ZONA: '.$zona, $borde, 1, 'C');
+	$pdf->Cell(278,$w,'ZONA: '.$zona[0], $borde, 1, 'C');
 	$pdf->Ln(5);
 	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(40,$w,"Fecha desde:",$borde,0, 'L');
@@ -111,6 +111,9 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
+    $sql="select nb_nombre_fld from nb_zonas_tbl where nb_id_fld=".$zona;
+    $zonanombre = $database->executeQueryOneRow($sql);
+
      $sql="select count(nb_id_fld) as totalfacturas,CONCAT('$', FORMAT(ROUND(sum(REPLACE(REPLACE(saldopendiente,',',''),'$','')), 2), 2)) as totalsaldo from (Select nb_id_fld,saldopendiente, 1 as grupo from nb_cobros_pendientes_reporte where (fechadecobro BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y')) and "."zona=".$zona.") t group by grupo";
     $cabecera=$database->executeQueryOneRow($sql);
     
@@ -122,7 +125,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,5,$cabecera,$detalle,NULL, $fecha_desde, $fecha_hasta,$zona);
+    schemaReport($pdf,5,$cabecera,$detalle,NULL, $fecha_desde, $fecha_hasta,$zonanombre);
 
     $objReport->exportarPdf($pdf,$id);
 
