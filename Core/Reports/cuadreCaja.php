@@ -126,11 +126,11 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 	$pdf->Cell(185.2,$w,"Saldo en caja",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,$saldo_caja["saldo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 
-	$pdf->Ln(30);
+	$pdf->Ln(33);
 	$pdf->Cell(30,0,"",0,0, 'L');
-	$pdf->Cell(60,0,"Responsable",'B', 0, 'L');
+	$pdf->Cell(60,0,"Responsable",'T', 0, 'L');
 	$pdf->Cell(100,0,"",0,0, 'L');
-	$pdf->Cell(60,0,"Autorizado por",'B', 0, 'L');
+	$pdf->Cell(60,0,"Autorizado por",'T', 0, 'L');
 }
 
 

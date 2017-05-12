@@ -125,29 +125,29 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
         $pdf->Ln(10);
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(100,$w,'Producto', $borde,0,'C');
-        $pdf->Cell(35,$w,'Cantidad',$borde,0,'C');
-        $pdf->Cell(40,$w,'Precio',$borde,0,'C');
-        $pdf->Cell(30,$w,'Iva',$borde,0,'C');
-        $pdf->Cell(73,$w,'Total Linea',$borde,0,'C');
+        $pdf->Cell(107,$w,'Producto', $borde,0,'C');
+        $pdf->Cell(44,$w,'Cantidad',$borde,0,'C');
+        $pdf->Cell(47,$w,'Precio',$borde,0,'C');
+        #$pdf->Cell(30,$w,'Iva',$borde,0,'C');
+        $pdf->Cell(80,$w,'Total Linea',$borde,0,'C');
         $pdf->Ln(5);
 
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
         
         for ($i=0; $i<sizeof($detalle); $i++){
-            $pdf->Cell(100,$w,$detalle[$i]['producto'], $borde,0,'C');
-            $pdf->Cell(35,$w,$detalle[$i]['cantidad'],$borde,0,'C');
-            $pdf->Cell(40,$w,$detalle[$i]['precio_unitario'],$borde,0,'C');
-            $pdf->Cell(30,$w,$detalle[$i]['iva'],$borde,0,'C');
-            $pdf->Cell(73,$w,$detalle[$i]['total'],$borde,0,'C');
+            $pdf->Cell(107,$w,$detalle[$i]['producto'], $borde,0,'C');
+            $pdf->Cell(44,$w,$detalle[$i]['cantidad'],$borde,0,'C');
+            $pdf->Cell(47,$w,$detalle[$i]['precio_unitario'],$borde,0,'C');
+            #$pdf->Cell(30,$w,$detalle[$i]['iva'],$borde,0,'C');
+            $pdf->Cell(80,$w,$detalle[$i]['total'],$borde,0,'C');
             $pdf->Ln(5);
         }
         
         $pdf->Ln(5);
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(175,$w,'',0,0,'C');
-        $pdf->Cell(30,$w,'Total', $borde,0,'C');
-        $pdf->Cell(73,$w,$totales['total'], $borde,0,'C');
+        $pdf->Cell(151,$w,'',0,0,'C');
+        $pdf->Cell(47,$w,'Total', $borde,0,'C');
+        $pdf->Cell(80,$w,$totales['total'], $borde,0,'C');
 		
 }
 
