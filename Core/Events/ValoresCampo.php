@@ -37,6 +37,7 @@ session_start();
     $operatorId=$_SESSION['opridLogin'];
     $empresa=$_SESSION['app'];
     $objUtilities = $_SESSION['objUtilities'];
+    $role = $_SESSION['role'];
     $database = $objUtilities->database;
     
     if (isset($_GET["campo"]))
@@ -62,6 +63,8 @@ session_start();
                 $co2=" AND usuario = '".$operatorId."' ";
             if( $param[3]=='true')
                 $co3=" AND estado = 'A'";
+            if( $param[4]=='true')
+                $co3=" AND role = '".$role."'";
             
             $sql=$sql.$co1.$co2.$co3;
             

@@ -376,7 +376,7 @@ THE SOFTWARE.
         }
         
         function valueRef($empresa,$campo){
-            $sql ="select nb_id_table_fld,nb_empresa_fld,nb_usuario_fld,nb_estado_fld from nabu.nb_value_ref_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld ='".$campo."'";
+            $sql ="select nb_id_table_fld,nb_empresa_fld,nb_usuario_fld,nb_estado_fld,nb_role_fld from nabu.nb_value_ref_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld ='".$campo."'";
             return $this->executeQueryOneRow($sql); 
         }
         
