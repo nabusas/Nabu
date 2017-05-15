@@ -67,6 +67,8 @@ THE SOFTWARE.
 		    $result = validarDuplicadooNoExistencia($sql, $mensaje); break;
 		  case 'validarExistencia':
 		    $result = validarExistencia($sql, $mensaje); break;
+		  case 'validarRelacionEntreRegistros':
+		    $result = validarRelacionEntreRegistros($sql, $mensaje); break;
 		}
 
                 echo json_encode($result);
@@ -106,6 +108,24 @@ THE SOFTWARE.
         } elseif ($sql==NULL){
 	    $value = false;
             $mensaje = "Error al conectarse a la base de datos.";
+	    $result["message"] =$mensaje;
+        } else{
+            $value = true;
+	}
+	$result["status"] =$value;
+	return $result;
+ }
+
+ function validarRelacionEntreRegistros($sql, $mensaje){
+ 	$count=$sql[0];
+
+	if ($count >= 1){
+	    $value = false;
+            $mensaje = "Error: ".$mensaje;
+	    $result["message"] =$mensaje;
+        } elseif ($sql==NULL){
+	    $value = false;
+            $mensaje = "Error: No se pudo realizar la consulta a la bd.=";
 	    $result["message"] =$mensaje;
         } else{
             $value = true;
