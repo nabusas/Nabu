@@ -181,8 +181,9 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 and zona.nb_id_fld = "
     CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_descuento_fld, 0), ',', ''),'$','')),0),2)) as totaldescuento,
     CONCAT('$',FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_descuento_fld, 0), ',', ''),'$','')),0)/count(cartera.nb_id_fld),0),2)) as promedio
 from nb_cartera_tbl cartera
+join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concepto_fld
 inner join nb_ventas_tbl venta on cartera.nb_factura_fld = venta.nb_id_fld
-where cartera.nb_estado_fld='0' and cartera.nb_aplica_desc_fld='0' and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
+where venta.nb_estado_fld=0 and cartera.nb_estado_fld='0' and cartera.nb_aplica_desc_fld='0' and lower(concepto.nb_nombre_fld) like '%abono%'  and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
      $descuentos = $database->executeQueryOneRow($sql);
 
      
@@ -208,9 +209,10 @@ CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', 
     $carteraConteo = $database->executeQueryOneRow($sql);
 
     $sql="select 
-	CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(nb_valor_fld, 0), ',', ''),'$','')),0),2)) as cobros
-	from nb_cartera_tbl
-	where nb_factura_fld in (
+	CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0),2)) as cobros
+	from nb_cartera_tbl cartera
+        join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concepto_fld
+	where lower(concepto.nb_nombre_fld) like '%abono%' and cartera.nb_factura_fld in (
 	select
 		distinct(nb_factura_fld)
 	from nb_relacionfactura_tbl

@@ -142,14 +142,15 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
     $database = $objUtilities->database;
 
     $sqlingresos="select 
-		count(nb_id_fld) as cantidadFacturas,
+		count(cartera.nb_id_fld) as cantidadFacturas,
 		CONCAT('$',
-		        FORMAT(IFNULL(SUM(REPLACE(REPLACE(IFNULL(nb_valor_fld, 0), ',', ''),
+		        FORMAT(IFNULL(SUM(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),
 		                '$',
 		                '')),0),
 		            2)) as valorIngreso
-	from nb_cartera_tbl
-	where SUBSTR(nb_referencia_fld,1,1)='v' and nb_estado_fld=0 and nb_fecha_ingreso_concepto_fld = '".$fecha_arqueo."'
+	from nb_cartera_tbl cartera
+	join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concepto_fld
+	where lower(concepto.nb_nombre_fld) like '%abono%' and SUBSTR(cartera.nb_referencia_fld,1,1)='v' and cartera.nb_estado_fld=0 and cartera.nb_fecha_ingreso_concepto_fld = '".$fecha_arqueo."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
