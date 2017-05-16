@@ -124,7 +124,7 @@ class TemplatePage
                     <script type="text/javascript">
                     $(document).idle({
                     onIdle: function(){
-                        notie.alert(3,"Se cierra la sesion por inactividad de 30 minutos",200000);
+                        notie.alert(3,"Se cierra la sesion por inactividad de 30 minutos",20);
                         //setTimeout ('document.location = "../Pages/nabu.php?p=login";',3000); 
                     },
                     idle: 1800000
