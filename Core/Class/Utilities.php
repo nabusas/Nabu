@@ -639,7 +639,7 @@ class Utilities
                     $row[0]='link';
                 
                 
-                if ($row[0]=='editrules' or $row[0]=='editoptions'){
+                if ($row[0]=='editrules' or $row[0]=='editoptions' or $row[0]=='formatoptions'){
                     $rules=explode("?",$value);
                     $value=array();
                     foreach ($rules as $rule){

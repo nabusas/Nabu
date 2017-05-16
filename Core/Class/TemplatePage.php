@@ -116,10 +116,26 @@ class TemplatePage
 ?>
 		<body onload="ChangeUrl('nabu','nabu')">
             
-			<?php $this->banner();?>
+            
+			<?php 
+                $this->banner();
+                if ($this->idPage <> 'login' and  $this->idPage <> 'event'){
+            ?>
+                    <script type="text/javascript">
+                    $(document).idle({
+                    onIdle: function(){
+                        notie.alert(3,"Se cierra la sesion por inactividad de 30 minutos",200000);
+                        //setTimeout ('document.location = "../Pages/nabu.php?p=login";',3000); 
+                    },
+                    idle: 1800000
+                    });
+                    </script>
+            <?php
+                }
+            ?>
 			 <div align='center'>
 				<?php
-                    //include "../Class/analyticstracking.php";
+                    include "../Class/analyticstracking.php";
 
                     $style=$this->pageProperties['style'];
                     $trace=$this->pageProperties['trace'];
