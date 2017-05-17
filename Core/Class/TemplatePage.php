@@ -165,21 +165,23 @@ class TemplatePage
                         <div style="margin:10px">
                             <?php 
                                 echo $this->render;
-                                $csv=$this->objUtilities->fileDatagrid($this->idPage);
-                                 if ($csv <> '' and $permiso === false ){
-                                    echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
-                                    echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
-                                 }
-                                 else{
-                                    if ($permiso !== false){ 
-                                        if (isset($_GET["idCabecera"])){
-                                            $idCabecera=$_GET["idCabecera"];
-                                            if (!is_numeric($idCabecera))
-                                                $idCabecera=0;
-                                        }
-                                        echo "<br><a href='../Reports/".$rPDF.".php?idF=1&idCabecera=$idCabecera' target='_blank'>Imprimir Factura</a>";   
+                                
+                                if ($_SESSION['role'] == 1){
+                                    $csv=$this->objUtilities->fileDatagrid($this->idPage);
+                                     if ($csv <> '' and $permiso === false ){
+                                        echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
+                                        echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
+                                     }
+                                }
+                        
+                                if ($permiso !== false){ 
+                                    if (isset($_GET["idCabecera"])){
+                                        $idCabecera=$_GET["idCabecera"];
+                                        if (!is_numeric($idCabecera))
+                                            $idCabecera=0;
                                     }
-                                 }
+                                    echo "<br><a href='../Reports/".$rPDF.".php?idF=1&idCabecera=$idCabecera' target='_blank'>Imprimir Factura</a>";   
+                                }
                             ?>
                         </div>
                     <?php
