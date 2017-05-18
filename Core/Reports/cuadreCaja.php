@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 04-02-2016
 	Desarrollador		= CAGC
-	Fecha modificacion	= 04-02-2016
+	Fecha modificacion	= 18-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -39,12 +39,18 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
         $borde=1;
         $w=5;
 
-	$pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-
-	$pdf->Ln(31);
-        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
+	    $pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+        $pdf->Ln(27);
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm-2);
+        $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
+        $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
+        $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
+        $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
+        $pdf->Ln(3);
+    
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(278,$w,'ARQUEO DE CAJA MENOR', $borde, 1, 'C');
-        $pdf->Ln(5);
+        $pdf->Ln(4);
 	
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(83,$w,"Responsable:",$borde,0, 'L');
@@ -126,7 +132,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 	$pdf->Cell(185.2,$w,"Saldo en caja",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,$saldo_caja["saldo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 
-	$pdf->Ln(33);
+	$pdf->Ln(20);
 	$pdf->Cell(30,0,"",0,0, 'L');
 	$pdf->Cell(60,0,"Responsable",'T', 0, 'L');
 	$pdf->Cell(100,0,"",0,0, 'L');

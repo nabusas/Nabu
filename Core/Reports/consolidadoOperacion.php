@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 04-02-2016
 	Desarrollador		= CAGC
-	Fecha modificacion	= 04-02-2016
+	Fecha modificacion	= 18-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -39,9 +39,15 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
         $borde=1;
         $w=5;
 
-	$pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-
-	$pdf->Ln(31);
+	   $pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+        $pdf->Ln(27);
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+2);
+        $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
+        $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
+        $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
+        $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
+        $pdf->Ln(5);
+    
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
         $pdf->Cell(278,$w,'CONSOLIDADO DE OPERACIÓN EN LA ZONA', $borde, 1, 'C');
 	$pdf->Cell(278,$w,'ZONA: '.$zona[0], $borde, 1, 'C');
