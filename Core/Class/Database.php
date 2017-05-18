@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 09-04-2017
+	Fecha modificacion	= 18-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -156,8 +156,13 @@ THE SOFTWARE.
         }
         
         function getGrid1($empresa,$type,$idpage){
-            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld from nabu.nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b where  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and a.nb_enterprise_id_fld='$empresa' AND b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage'";
+            $sql ="SELECT b.nb_property_fld,b.nb_type_fld,a.nb_value_fld from nabu.nb_datagrid_tbl a , nabu.nb_config_frmwrk_tbl b where  a.nb_config_frmwrk_id_fld = b.nb_config_frmwrk_id_fld and a.nb_enterprise_id_fld='$empresa' AND b.nb_config_type_fld='$type' and a.nb_id_page_fld = '$idpage' AND a.nb_config_frmwrk_id_fld <>82";
             return $this->execute($sql);
+        }
+        
+        function getGridHeader($empresa,$idpage){
+            $sql ="SELECT a.nb_value_fld from nabu.nb_datagrid_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld = '$idpage' AND a.nb_config_frmwrk_id_fld =82";
+            return $this->executeQueryOneRow($sql);
         }
         
         function tableDataGrid($empresa,$idpage){
@@ -303,7 +308,7 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);   
         }
 
-	function getPostrender($empresa,$idpage){
+	   function getPostrender($empresa,$idpage){
             $sql = "select a.nb_postrender_fld from nabu.nb_pages_tbl a where  a.nb_enterprise_id_fld ='".$empresa."' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);   
         }

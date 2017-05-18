@@ -127,6 +127,11 @@ header  td.banderas{
     text-align: justify;
 }
 
+.headerGrid .modal-dialog{
+    width: 25%;
+    max-height: 40%;
+}
+
 
 .modal-body {
     height: 500px;

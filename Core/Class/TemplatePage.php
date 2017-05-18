@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 09-04-2017
+	Fecha modificacion	= 18-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -164,6 +164,32 @@ class TemplatePage
                     ?>    
                         <div style="margin:10px">
                             <?php 
+                                
+                                $header=$this->objUtilities->gridHeader($empresa,$this->idPage);
+                        
+                                if ( $header <> NULL and $header <>''){
+                                ?>    
+                                    <a class="headerGrid">
+                                        <button type="button" class="fa fa-th-large btn btn-default btn-sm">&nbsp;&nbsp;Encabezado</button>
+                                    </a>    
+                                    <br><br>
+                            
+                                    <script>
+                                        $(document).on("click", ".headerGrid", function(e) {
+                                           var dialog = bootbox.dialog({
+                                                title: 'Factura',
+                                                message: '<p><i class="fa fa-spin fa-spinner fa-2x"></i>Cargando Datos</p>',
+                                                backdrop: true,
+                                                className:"headerGrid"
+                                            });
+
+                                            dialog.init(function(){
+                                                setTimeout(function(){dialog.find('.bootbox-body').html('<?php echo $header ?>');},1000);});
+                                        });
+                                    </script> 
+                                <?php
+                                }
+                                
                                 echo $this->render;
                                 
                                 if ($_SESSION['role'] == 1){
@@ -246,12 +272,13 @@ class TemplatePage
                     setTimeout(function(){dialog.find('.bootbox-body').html('<?php echo $terminos ?>');},1000);});
                 });
             </script>
+           
             
-                </div>    
+                 </div>    
 			</body>
 		</html>
 
 <?php
-	}
+    }
 }
 ?>

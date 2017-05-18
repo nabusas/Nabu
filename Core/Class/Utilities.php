@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 09-04-2017
+	Fecha modificacion	= 18-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -63,6 +63,20 @@ class Utilities
                 return false;
 		}
 	}
+    
+    function gridHeader($empresa,$page) {
+        
+        $headerSql = $this->database->getGridHeader($empresa, $page);
+        
+        
+        if (isset($_GET["idCabecera"])){
+            $idCabecera=$_GET["idCabecera"];
+            $bind[0]=$idCabecera;
+            $header=$this->database->getSqlStatement($empresa,$headerSql[0],$bind,'1');
+        }
+        
+        return $header[0];
+    }
     
     function reportPdf($empresa,$page) {
         $filePdf = $this->database->reportPdf($empresa, $page);
