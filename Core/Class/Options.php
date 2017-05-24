@@ -25,13 +25,14 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 15-03-2016
+	Fecha modificacion	= 23-05-2017
 	Usuario Modifico	= CAGC
 
 */
 
 class Options{
 	var $renderForm;
+    var $hideInitValidationError;
 	var $form;
 	var $type;
 	var $items;
@@ -124,6 +125,7 @@ class Options{
   function addElement($action,$method,$enctype,$target){
 
 	$this->renderForm = true;
+    $this->hideInitValidationError= true; 
 	
 	if (!isset($form)){
         	$form = array();
