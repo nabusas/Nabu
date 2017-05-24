@@ -785,8 +785,11 @@ class Utilities
         
         $pagelink=$nabuEvent->getpagelink($_GET['p']);
         
-        if ($pagelink == '' or pagelink == 'NULL' )
+        if ($pagelink == '' or pagelink == 'NULL' ){
             $pagelink=str_replace("_pg","_v_pg",$_GET['p']);
+            $pagelink=str_replace("_pg","_m_pg",$_GET['p']);
+        }
+            
         
         if ($result== 1){
             $tipomensaje=1;
