@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 18-05-2017
+	Fecha modificacion	= 24-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -210,7 +210,7 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql); 
         }
         
-        function getTableLink($empresa,$idpage){
+        function getPageLink($empresa,$idpage){
             $sql ="select a.nb_id2_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld='" . $empresa. "' and a.nb_id_page_fld = '" .$idpage . "'";
             return $this->executeQueryOneRow($sql); 
         }
@@ -368,11 +368,6 @@ THE SOFTWARE.
             else
             $sql = "Select replace($field,',','') from $table where label like '$oprid%'";
             return $this->executeQuery($sql);
-        }
-        
-        function getPageLink($empresa,$idpage){
-            $sql ="select a.nb_id_page_fld from nabu.nb_link_tbl a where nb_enterprise_id_fld ='".$empresa."' and a.nb_id2_page_fld = '" .$idpage . "'";
-            return $this->executeQueryOneRow($sql); 
         }
         
         function existRefValue($empresa,$campo){

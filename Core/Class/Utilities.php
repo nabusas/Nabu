@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 18-05-2017
+	Fecha modificacion	= 24-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -590,7 +590,7 @@ class Utilities
     function getDataGrid($id){
         
         $g = new jqgrid();
-        $pageL = $this->database->getTableLink($_SESSION['app'],$id);
+        $pageL = $this->database->getPageLink($_SESSION['app'],$id);
         $saveGrid = $this->database->gridSave($_SESSION['app'],$id);
         
         $type='gridoptions';
@@ -783,11 +783,9 @@ class Utilities
         
         $result=$nabuEvent->getEventSql($accion,$audit['audit']);
         
-        $pos = strpos($_GET['p'], 'm_pg');
-
-        if ($pos == true)
-            $pagelink=$nabuEvent->getpagelink($_GET['p']);
-        else
+        $pagelink=$nabuEvent->getpagelink($_GET['p']);
+        
+        if ($pagelink == '' or pagelink == 'NULL' )
             $pagelink=str_replace("_pg","_v_pg",$_GET['p']);
         
         if ($result== 1){
