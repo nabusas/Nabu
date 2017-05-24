@@ -36,7 +36,7 @@ var buscarCliente = function (doc,page,field) {
 var buscarVariosDatos = function (fields,values,page, restricted, cadenas) {
     
     "use strict";
-
+    
     if (fields == null || values == null) {
       throw "Algun valor es nulo";
     }
@@ -64,23 +64,23 @@ var buscarVariosDatos = function (fields,values,page, restricted, cadenas) {
     var campos='';
     
     for (var i = 0; i < fieldsLength; i++) {
-	var comillas='';
-	if ($.inArray(fields[i], cadenas)!=-1){
-		comillas="\\\'"
-	}
-       	campos += "&"+fields[i]+"="+comillas+values[i]+comillas
+        
+        var comillas='';
+        
+        if ($.inArray(fields[i], cadenas)!=-1){
+            comillas="\\\'"
+        }
+        
+        if (!isNaN(values[i])){
+            var posE = values[i].indexOf("e");
+            if(posE != -1)
+                values[i] =0;    
+        }
+        
+            campos += "&"+fields[i]+"="+comillas+values[i]+comillas
     }
 
     var ruta = "nabu.php?p="+page+"&accion=s"+campos;
 
     document.location = ruta;
-};
-
-
-var my_validation= function (value,label)
-{
-    if (value < 100)
-        return [true,""];
-    else
-        return [false,label+": Error prueba"];
 };
