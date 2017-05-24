@@ -787,7 +787,7 @@ class Utilities
         
         if ($pagelink == '' or pagelink == 'NULL' ){
             $pagelink=str_replace("_pg","_v_pg",$_GET['p']);
-            $pagelink=str_replace("_pg","_m_pg",$_GET['p']);
+            $pagelink=str_replace("_m_pg","_v_pg",$_GET['p']);
         }
             
         
