@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 24-05-2017
+	Fecha modificacion	= 25-05-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -310,28 +310,32 @@ class Utilities
                         if ($_GET['accion']=='s'){
                             if (isset($_GET[$field[0]])){
                                 if ($_GET[$field[0]] <> ''){	
-				    foreach(array_keys($_GET) as $campo){
-					    if (strcmp($campo,'p')==0 or strcmp($campo,'accion')==0){
-						continue;
-					    }
-		                            $type =$this->database->getTypes($empresa,$field[1],$campo);
-		                                if ($type[0] == 'number')
-		                                    if ( !is_numeric($_GET[$campo]) )
-		                                        $_GET[$campo]=0;
+				                    
+                                    foreach(array_keys($_GET) as $campo){
+					                   
+                                        if (strcmp($campo,'p')==0 or strcmp($campo,'accion')==0){
+						                  continue;
+                                       }
+                                        $type =$this->database->getTypes($empresa,$field[1],$campo);
+		                                
+                                        if ($type[0] == 'number')
+		                                  if ( !is_numeric($_GET[$campo]) )
+                                              $_GET[$campo]=0;
 
-		                            $fieldsData[$campo]=$_GET[$campo];
-
-		                            $fieldxs=$this->database->getPromptSelect($empresa,$id,$campo,$_GET[$campo]);
-		                            foreach($fieldxs as $fieldx){
-		                                $value=$this->database->executeQueryOneRow($fieldx[1]);
-		                                $fieldsData[$fieldx[0]]=$value[0];
-		                            }
-				   }   
+                                        $fieldsData[$campo]=$_GET[$campo];
+                                        $fieldxs=$this->database->getPromptSelect($empresa,$id,$campo,$_GET[$campo]);
+                                        
+                                        foreach($fieldxs as $fieldx){
+                                            $value=$this->database->executeQueryOneRow($fieldx[1]);
+                                            $fieldsData[$fieldx[0]]=$value[0];
+                                        }
+                                    }   
                                 }    
                             }
                         }
                     }
                 }
+                
                 if ($_GET['accion']<>'bd')
                     $jsonA=$json->getData2($fieldsData);
             }
@@ -353,8 +357,8 @@ class Utilities
     }
     
     function getPostrender($empresa,$id){
-	$code = $this->database->getPostrender($empresa,$id);
-	return $code[0];
+	   $code = $this->database->getPostrender($empresa,$id);
+	   return $code[0];
     }
 
     function getView($empresa,$id){

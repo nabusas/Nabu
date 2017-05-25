@@ -25,113 +25,154 @@ THE SOFTWARE.
 
 	Fecha creacion		= 17-03-2017
 	Desarrollador		= CAGC
-	Fecha modificacion	= 21-03-2017
+	Fecha modificacion	= 25-05-2017
 	Usuario Modifico	= CAGC
 
 */
-    include_once "../Class/Utilities.php";
 
-    //Parametros de entrada
-    if ( isset($_POST['token']) ){
-            $token =$_POST['token'];
-            if ($token == 'e53db2b5b93254fddb55de43a3323970'){
+include_once "../Class/Utilities.php";
+include_once "../Class/JsonData.php";
+
+if ( isset($_POST['token']) ){
+    $token =$_POST['token'];
+    
+        if ($token == 'e53db2b5b93254fddb55de43a3323970'){
+
+        header('Content-type: application/json');
                 
-                header('Content-type: application/json');
-                
-                $codigoemp =$_POST['codigoemp'];
-                $mensaje =$_POST['messa'];
-		        $codigovalidacion =$_POST['codigovalidacion'];
-                $validacion =$_POST['validacion'];
-                $binds=explode(";",$_POST['binds']);
+        $codigoemp =$_POST['codigoemp'];
+        $mensaje =$_POST['messa'];
+        $codigovalidacion =$_POST['codigovalidacion'];
+        $validacion =$_POST['validacion'];
+        $binds=explode(";",$_POST['binds']);
 
-                $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
-                $database = $objUtilities->database;
+        $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
+        $database = $objUtilities->database;
 
-		        $sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
+        $sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
 
-		$empresa =$sqlEmpresa[0];
-                $bd =$sqlEmpresa[1];
-		$usuario =$sqlEmpresa[2];
-		$password =$sqlEmpresa[3];
-		$host =$sqlEmpresa[4];
+        $empresa =$sqlEmpresa[0];
+        $bd =$sqlEmpresa[1];
+        $usuario =$sqlEmpresa[2];
+        $password =$sqlEmpresa[3];
+        $host =$sqlEmpresa[4];
 
-		$database->desconectar();
+        $objUtilities = new Utilities($host, $usuario, $password, $bd);
+        $database = $objUtilities->database;
 
-		$objUtilities = new Utilities($host, $usuario, $password, $bd);
-                $database = $objUtilities->database;
+        if ($codigovalidacion <> 'none')    
+            $sql=$database->getSqlStatement($empresa,$codigovalidacion,$binds,"1");
 
-                $sql=$database->getSqlStatement($empresa,$codigovalidacion,$binds,"1");
-                
-		switch ($validacion) {
-		  case 'validarDuplicadooNoExistencia':
-		    $result = validarDuplicadooNoExistencia($sql, $mensaje); break;
-		  case 'validarExistencia':
-		    $result = validarExistencia($sql, $mensaje); break;
-		  case 'validarRelacionEntreRegistros':
-		    $result = validarRelacionEntreRegistros($sql, $mensaje); break;
-		}
+        switch ($validacion) {
+            case 'validarDuplicadooNoExistencia':
+                $result = validarDuplicadooNoExistencia($sql, $mensaje); break;
+            case 'validarExistencia':
+                $result = validarExistencia($sql, $mensaje); break;
+            case 'validarRelacionEntreRegistros':
+                $result = validarRelacionEntreRegistros($sql, $mensaje); break;
+            case 'getData'
+                $result = getData($database,$empresa,$idpage,$campos,$valores); break;
+        }
 
-                echo json_encode($result);
-		$database->desconectar();
-            }
+        echo json_encode($result);
+
     }
+}
 
- function validarExistencia($sql, $mensaje){
-	$count=$sql[0];
+function getData($database,$empresa,$idpage,$campos,$valores){
+    
+    $json = new JsonData();
+    
+    foreach($campos as $campo){
+        
+        $fieldsData[$campo]=$valor;
 
-	if ($count >= 1){
-	    $value = false;
-            $mensaje = "Error: Existe un registro con el dato ingresado: ".$mensaje;
-	    $result["message"] =$mensaje;
-        } elseif ($sql==NULL){
-	    $value = false;
-            $mensaje = "Error: No se pudo realizar la consulta a la bd.=";
-	    $result["message"] =$mensaje;
-        } else{
-            $value = true;
+        $fieldxs=$database->getPromptSelect($empresa,$idpage,$campo,$valor);
+        
+            foreach($fieldxs as $fieldx){
+                $value=$database->executeQueryOneRow($fieldx[1]);
+                $fieldsData[$fieldx[0]]=$value[0];
+        }
+    }
+    
+    $jsonA=$json->getData2($fieldsData);
+    
+    return $jsonA;
+    
+}
+
+function validarExistencia($sql, $mensaje){
+    
+    $count=$sql[0];
+    
+    if ($count >= 1){
+        $value = false;
+        $mensaje = "Error: Existe un registro con el dato ingresado: ".$mensaje;
+        $result["message"] =$mensaje;
+    } 
+    elseif ($sql==NULL){
+        $value = false;
+        $mensaje = "Error: No se pudo realizar la consulta a la bd.=";
+        $result["message"] =$mensaje;
+    } 
+    else{
+        $value = true;
 	}
-	$result["status"] =$value;
+	
+    $result["status"] =$value;
+	
+    return $result;
+ }
+
+
+function validarDuplicadooNoExistencia($sql, $mensaje){
+    
+    $count=$sql[0];
+    
+    if ($count == 0 ){
+        $value = false;
+        $mensaje = "Error: No existe: ".$mensaje;
+	    $result["message"] =$mensaje;
+    } 
+    elseif ($count > 1){
+        $value = false;
+        $mensaje = "Error: registro duplicado en BD: ".$mensaje;
+	    $result["message"] =$mensaje;
+    } 
+    elseif ($sql==NULL){
+        $value = false;
+        $mensaje = "Error al conectarse a la base de datos.";
+	    $result["message"] =$mensaje;
+    } 
+    else{
+        $value = true;
+	}
+	
+    $result["status"] =$value;
 	return $result;
  }
 
- function validarDuplicadooNoExistencia($sql, $mensaje){
-	$count=$sql[0];
 
-        if ($count == 0 ){
-            $value = false;
-            $mensaje = "Error: No existe: ".$mensaje;
+function validarRelacionEntreRegistros($sql, $mensaje){
+ 	
+    $count=$sql[0];
+
+    if ($count >= 1){
+        $value = false;
+        $mensaje = "Error: ".$mensaje;
 	    $result["message"] =$mensaje;
-	} elseif ($count > 1){
-	    $value = false;
-            $mensaje = "Error: registro duplicado en BD: ".$mensaje;
+    } 
+    elseif ($sql==NULL){
+        $value = false;
+        $mensaje = "Error: No se pudo realizar la consulta a la bd.=";
 	    $result["message"] =$mensaje;
-        } elseif ($sql==NULL){
-	    $value = false;
-            $mensaje = "Error al conectarse a la base de datos.";
-	    $result["message"] =$mensaje;
-        } else{
-            $value = true;
+    } 
+    else{
+        $value = true;
 	}
-	$result["status"] =$value;
+	
+    $result["status"] =$value;
 	return $result;
- }
-
- function validarRelacionEntreRegistros($sql, $mensaje){
- 	$count=$sql[0];
-
-	if ($count >= 1){
-	    $value = false;
-            $mensaje = "Error: ".$mensaje;
-	    $result["message"] =$mensaje;
-        } elseif ($sql==NULL){
-	    $value = false;
-            $mensaje = "Error: No se pudo realizar la consulta a la bd.=";
-	    $result["message"] =$mensaje;
-        } else{
-            $value = true;
-	}
-	$result["status"] =$value;
-	return $result;
- }
+}
     
 ?>
