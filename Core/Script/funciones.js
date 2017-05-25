@@ -85,56 +85,11 @@ var buscarVariosDatos = function (fields,values,page, restricted, cadenas) {
     document.location = ruta;
 };
 
-var getDataEvent = function (fields,values,page, restricted, cadenas) {
+var getDataEvent = function (page,field,value) {
     
     "use strict";
     
-    if (fields == null || values == null) {
-      throw "Algun valor es nulo";
-    }
-
-    var fieldsLength = fields.length;
-    var valuesLength = values.length;
-    
-    if (fieldsLength != valuesLength) {
-      throw "los valores y los campos no tienen el mismo tamano";
-    }
-
-    var restrictedLength = restricted.length;
-    for (var i = 0; i < restrictedLength; i++) {
-        var index = fields.indexOf(restricted[i]);
-        if(index != -1){
-            fields.splice(index, 1);
-            values.splice(index, 1);
-	   }
-    }
-    
-    fieldsLength = fields.length;
-    valuesLength = values.length;
-
-    var campos='';
-    
-    for (var i = 0; i < fieldsLength; i++) {
-        
-        var comillas='';
-        
-        if ($.inArray(fields[i], cadenas)!=-1){
-            comillas="\\\'"
-        }
-        
-        if (!isNaN(values[i])){
-            var posE = values[i].indexOf("e");
-            if(posE != -1)
-                values[i] =0;    
-        }
-        
-    }
-    
-    /*
-        Necesito de entrada al webservice
-        getData($database,$empresa,$idpage,$campos,$valores
-    */
-    
+    var parametros = page+';'+field+';'+value;
     
     $.ajax({
 		url: '../Events/webservice.php',
@@ -143,7 +98,7 @@ var getDataEvent = function (fields,values,page, restricted, cadenas) {
                 'validacion': 'getData',
 			    'codigoemp' : 'paraiso',
 			    'messa' : '',
-			    'binds' :value
+			    'binds' : parametros
 			  },
         dataType: 'json',
 	    method: 'POST',
@@ -155,8 +110,4 @@ var getDataEvent = function (fields,values,page, restricted, cadenas) {
             */
 		}
 	});
-
-    
-
-   
 };

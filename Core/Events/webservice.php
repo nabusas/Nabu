@@ -71,7 +71,7 @@ if ( isset($_POST['token']) ){
             case 'validarRelacionEntreRegistros':
                 $result = validarRelacionEntreRegistros($sql, $mensaje); break;
             case 'getData'
-                $result = getData($database,$empresa,$idpage,$campos,$valores); break;
+                $result = getData($database,$empresa,$binds); break;
         }
 
         echo json_encode($result);
@@ -79,21 +79,20 @@ if ( isset($_POST['token']) ){
     }
 }
 
-function getData($database,$empresa,$idpage,$campos,$valores){
+function getData($database,$empresa,$binds){
     
     $json = new JsonData();
     
-    foreach($campos as $campo){
-        
-        $fieldsData[$campo]=$valor;
-
-        $fieldxs=$database->getPromptSelect($empresa,$idpage,$campo,$valor);
-        
-            foreach($fieldxs as $fieldx){
-                $value=$database->executeQueryOneRow($fieldx[1]);
-                $fieldsData[$fieldx[0]]=$value[0];
+    $idpage=$binds[0];
+    $campo =$binds[1];
+    $valor =$binds[2];
+    
+    $fieldxs=$database->getPromptSelect($empresa,$idpage,$campo,$valor);
+    
+        foreach($fieldxs as $fieldx){
+            $value=$database->executeQueryOneRow($fieldx[1]);
+            $fieldsData[$fieldx[0]]=$value[0];
         }
-    }
     
     $jsonA=$json->getData2($fieldsData);
     
