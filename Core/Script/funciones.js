@@ -85,29 +85,34 @@ var buscarVariosDatos = function (fields,values,page, restricted, cadenas) {
     document.location = ruta;
 };
 
-var getDataEvent = function (page,field,value) {
-    
-    "use strict";
-    
-    var parametros = page+';'+field+';'+value;
-    
+var sendAjaxRequest = function (codva,vali,empresa,messa,parametros,sucFun){
     $.ajax({
-		url: '../Events/webservice.php',
+        url: '../Events/webservice.php',
 		data: {	'token': 'e53db2b5b93254fddb55de43a3323970',
-				'codigovalidacion': 'none',
-                'validacion': 'getData',
-			    'codigoemp' : 'paraiso',
-			    'messa' : '',
+				'codigovalidacion': codva,
+                'validacion': vali,
+			    'codigoemp' : empresa,
+			    'messa' : messa,
 			    'binds' : parametros
 			  },
         dataType: 'json',
 	    method: 'POST',
-        success: function(result){
-			callback(result);
-            
-            /*
-                te devuelvo una json data
-            */
-		}
+        success: sucFun
 	});
+};
+
+var getDataEvent = function (empresa,page,field,value,form) {
+    
+    var parametros = page+';'+field+';'+value;
+    
+    var sucFun = function(json){
+        
+        for (var field in json){
+            var value = json[field];
+            form.childrenByPropertyId[field].setValue(value);
+        }
+    };
+    
+    sendAjaxRequest('none','getData',empresa,'',parametros,sucFun);
+
 };

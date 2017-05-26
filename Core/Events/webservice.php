@@ -1,7 +1,7 @@
 <?php
 
 /*
-The MIT License (MIT)
+http://localhost/Nabu/Core/Events/webservice.php?token=e53db2b5b93254fddb55de43a3323970&codigoemp=paraiso&codigovalidacion=none&validacion=getData&binds=nb_compras_pg;nb_codigo_provedor_fld;1The MIT License (MIT)
 
 Copyright (c) <2016> <Carlos Alberto Garcia Cobo - carlosgc4@gmail.com>
 
@@ -33,10 +33,11 @@ THE SOFTWARE.
 include_once "../Class/Utilities.php";
 include_once "../Class/JsonData.php";
 
+
 if ( isset($_POST['token']) ){
     $token =$_POST['token'];
     
-        if ($token == 'e53db2b5b93254fddb55de43a3323970'){
+    if ($token == 'e53db2b5b93254fddb55de43a3323970'){
 
         header('Content-type: application/json');
                 
@@ -49,7 +50,8 @@ if ( isset($_POST['token']) ){
         $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
         $database = $objUtilities->database;
 
-        $sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
+        $bindEmp[0]=$codigoemp; 
+        $sqlEmpresa = $database->getSqlStatement('nabu', 'nabuconnect', $bindEmp, "1");
 
         $empresa =$sqlEmpresa[0];
         $bd =$sqlEmpresa[1];
@@ -70,7 +72,7 @@ if ( isset($_POST['token']) ){
                 $result = validarExistencia($sql, $mensaje); break;
             case 'validarRelacionEntreRegistros':
                 $result = validarRelacionEntreRegistros($sql, $mensaje); break;
-            case 'getData'
+            case 'getData':
                 $result = getData($database,$empresa,$binds); break;
         }
 
@@ -89,10 +91,10 @@ function getData($database,$empresa,$binds){
     
     $fieldxs=$database->getPromptSelect($empresa,$idpage,$campo,$valor);
     
-        foreach($fieldxs as $fieldx){
-            $value=$database->executeQueryOneRow($fieldx[1]);
-            $fieldsData[$fieldx[0]]=$value[0];
-        }
+    foreach($fieldxs as $fieldx){
+        $value=$database->executeQueryOneRow($fieldx[1]);
+        $fieldsData[$fieldx[0]]=$value[0];
+    }
     
     $jsonA=$json->getData2($fieldsData);
     
