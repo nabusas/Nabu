@@ -306,34 +306,6 @@ class Utilities
                                 $tabla =$field[1];
                         }
                     }
-                    else{
-                        if ($_GET['accion']=='s'){
-                            if (isset($_GET[$field[0]])){
-                                if ($_GET[$field[0]] <> ''){	
-				                    
-                                    foreach(array_keys($_GET) as $campo){
-					                   
-                                        if (strcmp($campo,'p')==0 or strcmp($campo,'accion')==0){
-						                  continue;
-                                       }
-                                        $type =$this->database->getTypes($empresa,$field[1],$campo);
-		                                
-                                        if ($type[0] == 'number')
-		                                  if ( !is_numeric($_GET[$campo]) )
-                                              $_GET[$campo]=0;
-
-                                        $fieldsData[$campo]=$_GET[$campo];
-                                        $fieldxs=$this->database->getPromptSelect($empresa,$id,$campo,$_GET[$campo]);
-                                        
-                                        foreach($fieldxs as $fieldx){
-                                            $value=$this->database->executeQueryOneRow($fieldx[1]);
-                                            $fieldsData[$fieldx[0]]=$value[0];
-                                        }
-                                    }   
-                                }    
-                            }
-                        }
-                    }
                 }
                 
                 if ($_GET['accion']<>'bd')

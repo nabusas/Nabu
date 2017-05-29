@@ -171,7 +171,7 @@ THE SOFTWARE.
         }
         
         function getPromptSelect($empresa,$idpage,$field,$value){
-            $sql ="SELECT nb_id_field_2_fld,Concat(Concat('Select ',nb_id_field_4_fld), ' from ',nb_id_table_fld, ' Where ',nb_id_field_3_fld,'=','".$value."')";
+            $sql ="SELECT nb_id_field_2_fld,Concat(Concat('Select ',nb_id_field_4_fld), ' from ',nb_id_table_fld, ' Where ',nb_id_field_3_fld,'=','\'".$value."\'')";
             $sql.=" FROM nabu.nb_event_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld='".$idpage."' and nb_id_field_1_fld='".$field."'";
             return $this->executeQuery($sql); 
         }

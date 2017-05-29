@@ -36,19 +36,20 @@ THE SOFTWARE.
             $token =$_POST['token'];
             if ($token == 'e53db2b5b93254fddb55de43a3323970'){
                 
-                header('Content-type: application/json');
+        header('Content-type: application/json');
                 
-                $codigoemp =$_POST['codigoemp'];
+        $codigoemp =$_POST['codigoemp'];
 		$codigovalidacion =$_POST['codigovalidacion'];
-                $binds=explode(";",$_POST['binds']);
+        $binds=explode(";",$_POST['binds']);
 
-                $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
-                $database = $objUtilities->database;
+        $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
+        $database = $objUtilities->database;
 
-		$sqlEmpresa = $database->getSqlStatement('nabu', $codigoemp, NULL, "1");
+		$bindEmp[0]=$codigoemp;
+        $sqlEmpresa = $database->getSqlStatement('nabu', 'nabuconnect', $bindEmp, "1");        
 
 		$empresa =$sqlEmpresa[0];
-                $bd =$sqlEmpresa[1];
+        $bd =$sqlEmpresa[1];
 		$usuario =$sqlEmpresa[2];
 		$password =$sqlEmpresa[3];
 		$host =$sqlEmpresa[4];
@@ -56,9 +57,9 @@ THE SOFTWARE.
 		$database->desconectar();
 
 		$objUtilities = new Utilities($host, $usuario, $password, $bd);
-                $database = $objUtilities->database;
+        $database = $objUtilities->database;
 
-                $sql=$database->getSqlStatement($empresa,$codigovalidacion,$binds,"1");
+        $sql=$database->getSqlStatement($empresa,$codigovalidacion,$binds,"1");
                 
 		switch ($codigovalidacion) {
 		  case 'validacionProductoGrilla':
