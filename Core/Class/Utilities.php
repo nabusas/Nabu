@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 25-05-2017
+	Fecha modificacion	= 05-07-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -434,9 +434,10 @@ class Utilities
         $v11=chr(93).chr(34); $c11=chr(93);                                 //]"            se cambia por ] 
         $v12=chr(92).chr(110); $c12="";                                     //\n            se cambia por vacio
         $v13=chr(92).chr(116); $c13="";                                     //\t            se cambia por vacio
+        $v14=chr(92).chr(114); $c14="";                                     //\r            se cambia por vacio
         
-        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10,$v11,$v12,$v13);
-        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9,$c10,$c11,$c12,$c13);
+        $chars= array($v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8,$v9,$v10,$v11,$v12,$v13,$v14);
+        $correc= array($c1,$c2,$c3,$c4,$c5,$c6,$c7,$c8,$c9,$c10,$c11,$c12,$c13,$c14);
         
         for ($i=0; $i<sizeof($chars); $i++)
             $json=str_replace($chars[$i],$correc[$i],$json);
