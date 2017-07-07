@@ -26,7 +26,10 @@ var sendAjaxRequest = function (codva,vali,empresa,messa,parametros,sucFun){
 			  },
         dataType: 'json',
 	    method: 'POST',
-        success: sucFun
+        success: sucFun,
+        error: function (data){
+                 console.log(data);
+               }
 	});
 };
 
