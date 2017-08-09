@@ -77,8 +77,8 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
 	$pdf->Cell(25,$w,'Valor abonos',$borde,0,'C');
 	$pdf->Cell(25,$w,'Valor descuento',$borde,0,'C');	
 	$pdf->Cell(25,$w,'Saldo pendiente',$borde,0,'C');
-	$pdf->Cell(25,$w,'Abono realizado',$borde,0,'C');
-	$pdf->Cell(25,$w,'Fecha proximo pago',$borde,0,'C');	
+	//$pdf->Cell(25,$w,'Abono realizado',$borde,0,'C');
+	//$pdf->Cell(25,$w,'Fecha proximo pago',$borde,0,'C');	
         $pdf->Ln(5);
 
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
@@ -94,8 +94,8 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
 	    $pdf->Cell(25,$w,$detalle[$i]['valorabonos'],$borde,0,'C');
 	    $pdf->Cell(25,$w,$detalle[$i]['valordescuentos'],$borde,0,'C');
 	    $pdf->Cell(25,$w,$detalle[$i]['saldopendiente'],$borde,0,'C');
-	    $pdf->Cell(25,$w,'',$borde,0,'C');
-	    $pdf->Cell(25,$w,'',$borde,0,'C');
+	    //$pdf->Cell(25,$w,'',$borde,0,'C');
+	    //$pdf->Cell(25,$w,'',$borde,0,'C');
             $pdf->Ln(5);
         }
 	$pdf->Ln(5);
