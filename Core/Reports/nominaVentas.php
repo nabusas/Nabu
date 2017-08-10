@@ -32,6 +32,7 @@
 
 	include "../Class/Utilities.php";
 	include "../Class/Report.php";
+    include "../Class/ExportToExcel.php";
 
 	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_nv_desde, $fecha_nv_hasta) 
 	{
@@ -142,6 +143,10 @@
   	$objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 	$pdf=$objReport->setupForm();
 	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta);
+
+    $csv = new ExportExcel();
+    $file=$csv->exportarFile('NominaReporte',$detalle);
+    echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
 
    $objReport->exportarPdf($pdf,$id);
 ?>
