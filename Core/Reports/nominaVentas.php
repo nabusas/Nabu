@@ -32,9 +32,9 @@
 
 	include "../Class/Utilities.php";
 	include "../Class/Report.php";
-    include "../Class/ExportToExcel.php";
+    include_once "../Class/ExportToExcel.php";
 
-	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_nv_desde, $fecha_nv_hasta) 
+	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_nv_desde, $fecha_nv_hasta,$file) 
 	{
 		$borde=1;
      	$w=5;
@@ -50,7 +50,10 @@
 
      	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
      	$pdf->Cell(278,$w,'NOMINA DE VENTAS', $borde, 1, 'C');
-      $pdf->Ln(5);
+        $pdf->Write(0, 'Archivo', $file, false, 'C', false);
+        
+        
+      $pdf->Ln(7);
         
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(40,$w,"Fecha desde:",$borde,0, 'L');
@@ -142,13 +145,16 @@
 
   	$objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 	$pdf=$objReport->setupForm();
-	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta);
+	
 
     $csv = new ExportExcel();
-    $database->conectar()
+    $database->conectar();
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
-    echo "<script> window.location.href='$csv' </script>";
 
-   $objReport->exportarPdf($pdf,$id);
+    //$objUtilities->exportarCsv($file); No me funciona si utilizo la funcion exportarPdf despues si uso alguna de las 2 si funciona pero no simltaneo
+    schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta,$file);
+    $objReport->exportarPdf($pdf,$id); 
+    
+            
 ?>

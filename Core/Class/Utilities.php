@@ -64,6 +64,14 @@ class Utilities
 		}
 	}
     
+    function exportarCsv($file){
+        $filename =str_replace('../uploads/','',$file);
+        header("Content-type: application/octet-stream");
+        header("Content-Type: application/force-download");
+        header("Content-Disposition: attachment; filename=\"$filename\"\n");
+        readfile($file);
+    }
+    
     function gridHeader($empresa,$page) {
         
         $headerSql = $this->database->getGridHeader($empresa, $page);
