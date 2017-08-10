@@ -152,9 +152,7 @@
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
 
-    //$objUtilities->exportarCsv($file); No me funciona si utilizo la funcion exportarPdf despues si uso alguna de las 2 si funciona pero no simltaneo
     schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta,$file);
     $objReport->exportarPdf($pdf,$id); 
     
-            
 ?>
