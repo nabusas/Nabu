@@ -146,7 +146,7 @@
 
     $csv = new ExportExcel();
     $file=$csv->exportarFile('NominaReporte',$detalle);
-    echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
+    echo "<script> window.location.href='$csv' </script>";
 
    $objReport->exportarPdf($pdf,$id);
 ?>
