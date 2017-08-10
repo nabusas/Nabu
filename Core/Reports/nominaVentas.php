@@ -145,7 +145,9 @@
 	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta);
 
     $csv = new ExportExcel();
-    $file=$csv->exportarFile('NominaReporte',$detalle);
+    $database->conectar()
+    $file=$csv->exportarFile('0',$sql);
+    $database->desconectar();
     echo "<script> window.location.href='$csv' </script>";
 
    $objReport->exportarPdf($pdf,$id);
