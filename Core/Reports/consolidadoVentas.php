@@ -32,9 +32,8 @@
 
 	include "../Class/Utilities.php";
 	include "../Class/Report.php";
-    include_once "../Class/ExportToExcel.php";
 
-	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_nv_desde, $fecha_nv_hasta,$file) 
+	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_cv_desde, $fecha_cv_hasta) 
 	{
 		$borde=1;
      	$w=5;
@@ -50,18 +49,17 @@
 
      	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
      	$pdf->Cell(278,$w,'CONSOLIDADO DE VENTAS', $borde, 1, 'C');
-        $pdf->Write(0, 'Archivo', $file, false, 'C', false);
       $pdf->Ln(5);
 
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(40,$w,"Fecha desde:",$borde,0, 'L');
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$fecha_nv_desde,$borde,0, 'L');
+      $pdf->Cell(99,$w,$fecha_cv_desde,$borde,0, 'L');
 
 		$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(40,$w,"Fecha hasta:",$borde,0, 'L');
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$fecha_nv_hasta,$borde,0, 'L');
+      $pdf->Cell(99,$w,$fecha_cv_hasta,$borde,0, 'L');
 
       $pdf->Ln(5);
 
@@ -118,8 +116,8 @@
      	}
 	}
 
-	$fecha_nv_desde=$_POST['nb_fecha_nv_desde_fld'];
-   $fecha_nv_hasta=$_POST['nb_fecha_nv_hasta_fld'];
+	$fecha_cv_desde=$_POST['nb_fecha_cv_desde_fld'];
+   $fecha_cv_hasta=$_POST['nb_fecha_cv_hasta_fld'];
    $codigo_tercero=$_POST['nb_nombre_tercero_fld'];
    $zona = $_POST['nb_zona_fld'];
    session_start();
@@ -127,22 +125,23 @@
    $objUtilities = $_SESSION['objUtilities'];
   	$database = $objUtilities->database;
 
-  	if($codigotercero)
-  	{
-  		$where = " AND codigotercero = ".$codigo_tercero;
+  	if($codigo_tercero)
+  	{      
+  		$where = " AND codigotercero = '".$codigo_tercero."' ";
   	}
 
   	if($zona)
-  	{
-  		$where.= " AND zonaid = ". $zona;
+  	{      
+  		$where.= " AND zonaid = '".$zona."' ";
   	}
 
   	$sql="
   			SELECT * 
   			FROM nb_consolidado_ventas_cabeza_reporte 
-  			WHERE (fecha BETWEEN STR_TO_DATE('".$fecha_nv_desde."','%d/%m/%Y') 
-  			AND STR_TO_DATE('".$fecha_nv_hasta."','%d/%m/%Y')) 
-  			AND codigotercero=".$codigo_tercero." LIMIT 1
+  			WHERE (fecha BETWEEN STR_TO_DATE('".$fecha_cv_desde."','%d/%m/%Y') 
+  			AND STR_TO_DATE('".$fecha_cv_hasta."','%d/%m/%Y')) 
+  			".$where." 
+         LIMIT 1
   		  ";
 
  	$cabecera=$database->executeQueryOneRow($sql);
@@ -150,21 +149,15 @@
  	$sql="
  			SELECT * 
  			FROM nb_consolidado_ventas_detalle_reporte 
- 			WHERE (Fecha BETWEEN STR_TO_DATE('".$fecha_nv_desde."','%d/%m/%Y') 
- 			AND STR_TO_DATE('".$fecha_nv_hasta."','%d/%m/%Y')) 
+ 			WHERE (fecha BETWEEN STR_TO_DATE('".$fecha_cv_desde."','%d/%m/%Y') 
+ 			AND STR_TO_DATE('".$fecha_cv_hasta."','%d/%m/%Y')) 
  			".$where;
 
   	$detalle=$database->executeQuery($sql);
 
   	$objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 	$pdf=$objReport->setupForm();
-
-    $csv = new ExportExcel();
-    $database->conectar();
-    $file=$csv->exportarFile('0',$sql);
-    $database->desconectar();
-
-	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta,$file);
+	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_cv_desde, $fecha_cv_hasta);
 
    $objReport->exportarPdf($pdf,$id);
 
