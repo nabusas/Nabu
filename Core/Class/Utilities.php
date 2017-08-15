@@ -756,9 +756,13 @@ class Utilities
         
         $nabuEvent = new NabuEvent($_GET['p'], $_POST);
         
+        if ($_GET['p'] = 'nb_relacionfactura_pg'){ echo 'CAGC(eventSave)';}
+        
         $audit=$this->database->getPageAudit($_SESSION['app'],$_GET['p']);
         
         $result=$nabuEvent->getEventSql($accion,$audit['audit']);
+        
+        if ($_GET['p'] = 'nb_relacionfactura_pg'){ echo 'CAGC(eventSave)';}
         
         if ( $_GET['p'] = 'nb_relacionfactura_pg' and  $_POST[$field['nb_estado_cartera_fld']] <> '3' ){
             $factura =$_POST[$field['nb_factura_fld']];
