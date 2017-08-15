@@ -67,16 +67,16 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
         $pdf->Ln(10);
         
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(16,$w,'Fecha de cobro', $borde,0,'C');
+        $pdf->Cell(25,$w,'Fecha de cobro', $borde,0,'C');
         $pdf->Cell(25,$w,'Referencia factura',$borde,0,'C');
         $pdf->Cell(25,$w,'Cliente',$borde,0,'C');
         $pdf->Cell(20,$w,'Barrio',$borde,0,'C');
         $pdf->Cell(25,$w,'Direccion',$borde,0,'C');
-	$pdf->Cell(25,$w,'Telefono',$borde,0,'C');
-	$pdf->Cell(25,$w,'Valor factura',$borde,0,'C');
-	$pdf->Cell(25,$w,'Valor abonos',$borde,0,'C');
-	$pdf->Cell(25,$w,'Valor descuento',$borde,0,'C');	
-	$pdf->Cell(25,$w,'Saldo pendiente',$borde,0,'C');
+    	$pdf->Cell(25,$w,'Telefono',$borde,0,'C');
+    	$pdf->Cell(27,$w,'Valor factura',$borde,0,'C');
+    	$pdf->Cell(27,$w,'Valor abonos',$borde,0,'C');
+    	$pdf->Cell(27,$w,'Valor descuento',$borde,0,'C');	
+    	$pdf->Cell(27,$w,'Saldo pendiente',$borde,0,'C');
 	//$pdf->Cell(25,$w,'Abono realizado',$borde,0,'C');
 	//$pdf->Cell(25,$w,'Fecha proximo pago',$borde,0,'C');	
         $pdf->Ln(5);
@@ -84,28 +84,28 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
         
         for ($i=0; $i<sizeof($detalle); $i++){
-            $pdf->Cell(16,$w,$detalle[$i]['fechadecobro'], $borde,0,'C');
+            $pdf->Cell(25,$w,$detalle[$i]['fechadecobro'], $borde,0,'C');
             $pdf->Cell(25,$w,$detalle[$i]['factura'],$borde,0,'C');
             $pdf->Cell(25,$w,$detalle[$i]['nombre'],$borde,0,'C');
             $pdf->Cell(20,$w,$detalle[$i]['barrio'],$borde,0,'C');
             $pdf->Cell(25,$w,$detalle[$i]['direccion'],$borde,0,'C');
-	    $pdf->Cell(25,$w,$detalle[$i]['telefono'],$borde,0,'C');
-	    $pdf->Cell(25,$w,$detalle[$i]['valorfactura'],$borde,0,'C');
-	    $pdf->Cell(25,$w,$detalle[$i]['valorabonos'],$borde,0,'C');
-	    $pdf->Cell(25,$w,$detalle[$i]['valordescuentos'],$borde,0,'C');
-	    $pdf->Cell(25,$w,$detalle[$i]['saldopendiente'],$borde,0,'C');
-	    //$pdf->Cell(25,$w,'',$borde,0,'C');
-	    //$pdf->Cell(25,$w,'',$borde,0,'C');
+    	    $pdf->Cell(25,$w,$detalle[$i]['telefono'],$borde,0,'C');
+    	    $pdf->Cell(27,$w,$detalle[$i]['valorfactura'],$borde,0,'C');
+    	    $pdf->Cell(27,$w,$detalle[$i]['valorabonos'],$borde,0,'C');
+    	    $pdf->Cell(27,$w,$detalle[$i]['valordescuentos'],$borde,0,'C');
+    	    $pdf->Cell(27,$w,$detalle[$i]['saldopendiente'],$borde,0,'C');
+    	    //$pdf->Cell(25,$w,'',$borde,0,'C');
+    	    //$pdf->Cell(25,$w,'',$borde,0,'C');
             $pdf->Ln(5);
         }
 	$pdf->Ln(5);
 	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(40,$w,"Total facturas a cobrar:",$borde,0, 'L');
+        $pdf->Cell(50,$w,"Total facturas a cobrar:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
         $pdf->Cell(99,$w,$cabecera['totalfacturas'],$borde,0, 'L');
 	$pdf->Ln(5);
 	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(40,$w,"Total saldo a cobrar:",$borde,0, 'L');
+        $pdf->Cell(50,$w,"Total saldo a cobrar:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
         $pdf->Cell(99,$w,$cabecera['totalsaldo'],$borde,0, 'L');
 }
@@ -133,7 +133,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_desde, $fecha_hasta,$zonanombre);
+    schemaReport($pdf,7,$cabecera,$detalle,NULL, $fecha_desde, $fecha_hasta,$zonanombre);
 
     $objReport->exportarPdf($pdf,$id);
 
