@@ -230,6 +230,12 @@ class NabuEvent
             if ($result->EOF <> 1)
                 $resultado=0;
         }
+        
+        if ($page = 'nb_relacionfactura_pg'){
+            
+            echo $sql;
+        }
+        
         return $resultado;
     }
 } 
