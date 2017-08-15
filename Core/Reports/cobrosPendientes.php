@@ -133,7 +133,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,5,$cabecera,$detalle,NULL, $fecha_desde, $fecha_hasta,$zonanombre);
+    schemaReport($pdf,7,$cabecera,$detalle,NULL, $fecha_desde, $fecha_hasta,$zonanombre);
 
     $objReport->exportarPdf($pdf,$id);
 
