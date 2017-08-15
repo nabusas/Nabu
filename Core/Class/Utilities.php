@@ -758,16 +758,10 @@ class Utilities
         
         $audit=$this->database->getPageAudit($_SESSION['app'],$_GET['p']);
         
-        echo "CAGC(ANTES DE getEventSql)";
-        
         $result=$nabuEvent->getEventSql($accion,$audit['audit']);
-        
-        echo "CAGC(1) nb_relacionfactura_pg=".$_GET['p'];
-        echo "CAGC(2) nb_estado_cartera_fld=".$_POST['nb_estado_cartera_fld'];
         
         if ( $_GET['p'] = 'nb_relacionfactura_pg' and  $_POST['nb_estado_cartera_fld'] <> '3' ){
             $factura =$_POST['nb_factura_fld'];
-            echo "CAGC(3) factura=".$factura;
             $pagelink  ='nb_cartera_pg&nb_referencia_fld='.$factura;
         }
         else{
@@ -802,7 +796,7 @@ class Utilities
         var tipo = <?php echo $tipomensaje;?>;
 
         notie.alert(tipo,message,5);
-        //setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
+        setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
     </script>
 <?php
     }
