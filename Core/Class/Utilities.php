@@ -760,14 +760,19 @@ class Utilities
         
         $result=$nabuEvent->getEventSql($accion,$audit['audit']);
         
-        $pagelink=$nabuEvent->getpagelink($_GET['p']);
-        
-        if ($pagelink == '' or pagelink == 'NULL' ){
-            if ( strpos($_GET['p'], '_m_pg')  !== false)
-                $pagelink=str_replace("_m_pg","_v_pg",$_GET['p']);
-            else 
-                $pagelink=str_replace("_pg","_v_pg",$_GET['p']);
+        if ( $_GET['p'] = 'nb_relacionfactura_pg' and  $_POST[$field['nb_estado_cartera_fld'] <> '3' ){
+            $pagelink  ='nb_cartera_pg';
         }
+        else{
+            $pagelink=$nabuEvent->getpagelink($_GET['p']);
+
+            if ($pagelink == '' or pagelink == 'NULL' ){
+                if ( strpos($_GET['p'], '_m_pg')  !== false)
+                    $pagelink=str_replace("_m_pg","_v_pg",$_GET['p']);
+                else 
+                    $pagelink=str_replace("_pg","_v_pg",$_GET['p']);
+            }
+        }    
             
         if ($result== 1){
             $tipomensaje=1;
