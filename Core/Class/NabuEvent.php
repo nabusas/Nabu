@@ -54,6 +54,8 @@ class NabuEvent
     
     function getEventSql($accion, $audit) {
         
+        echo "CAGC(EN getEventSql 1)";
+        
         if ($accion == 2 or $accion==3){
             
             $tomanoArray=sizeof($_REQUEST)-2;
@@ -225,11 +227,15 @@ class NabuEvent
             if ($accion == 0 or $accion == 2)
                 $sql .=$values;
             
+            echo "CAGC(EN getEventSql 2) sql=".$sql;
+            
             $result =$this->database->executeSqlEvent($sql);
             
             if ($result->EOF <> 1)
                 $resultado=0;
         }
+        
+        echo "CAGC(EN getEventSql 3) resultado=".$resultado;
         
         return $resultado;
     }
