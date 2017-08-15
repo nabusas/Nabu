@@ -54,8 +54,6 @@ class NabuEvent
     
     function getEventSql($accion, $audit) {
         
-        if ($page = 'nb_relacionfactura_pg'){ echo 'CAGC(getEventSql)';}
-        
         if ($accion == 2 or $accion==3){
             
             $tomanoArray=sizeof($_REQUEST)-2;
@@ -232,8 +230,6 @@ class NabuEvent
             if ($result->EOF <> 1)
                 $resultado=0;
         }
-        
-        if ($page = 'nb_relacionfactura_pg'){ echo $sql;}
         
         return $resultado;
     }
