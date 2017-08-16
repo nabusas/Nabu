@@ -306,6 +306,15 @@ class Utilities
                                 $tabla =$field[1];
                         }
                     }
+                    if ($_GET['accion']=='s'){
+                        foreach($fields as $field){
+                            if ($value[0] == ''){
+                                $value[0]=$_GET[$field[0]];
+                                $fieldsData[$field[0]]=$value[0];
+                                $fieldsData[$field[0].'X']=$value[0];
+                            }
+                        }
+                    }
                 }
                 
                 if ($_GET['accion']<>'bd')
@@ -762,7 +771,7 @@ class Utilities
         
         if ( $_GET['p'] = 'nb_relacionfactura_pg' and  $_POST['nb_estado_cartera_fld'] <> '3' ){
             $factura =$_POST['nb_factura_fld'];
-            $pagelink  ='nb_cartera_pg&accion=b&nb_referencia_fld=v'.$factura;
+            $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura;
         }
         else{
             $pagelink=$nabuEvent->getpagelink($_GET['p']);
