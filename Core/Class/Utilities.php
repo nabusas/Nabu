@@ -313,10 +313,10 @@ class Utilities
                                 $fieldsData[$field[0]]=$value[0];
                                 $fieldsData[$field[0].'X']=$value[0];
                                 
-                                $fieldxs=$database->getPromptSelect($empresa,$id,$field[0],$value[0]);
+                                $fieldxs=$this->database->getPromptSelect($empresa,$id,$field[0],$value[0]);
         
                                 foreach($fieldxs as $fieldx){
-                                    $valueX=$database->executeQueryOneRow($fieldx[1]);
+                                    $valueX=$this->database->executeQueryOneRow($fieldx[1]);
                                     $fieldsData[$fieldx[0]]=$valueX[0];
                                 }
                             }    
