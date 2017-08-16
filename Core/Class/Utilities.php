@@ -308,11 +308,11 @@ class Utilities
                     }
                     if ($_GET['accion']=='s'){
                         foreach($fields as $field){
-                            if ($value[0] == ''){
+                            if (isset($_GET[$field[0]])){
                                 $value[0]=$_GET[$field[0]];
                                 $fieldsData[$field[0]]=$value[0];
                                 $fieldsData[$field[0].'X']=$value[0];
-                            }
+                            }    
                         }
                     }
                 }
