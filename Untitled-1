@@ -1,0 +1,13 @@
+    include_once "../Class/ExportToExcel.php";
+    
+    $pdf->Write(0, 'Archivo', $file, false, 'C', false);
+
+    $csv = new ExportExcel();
+    $database->conectar();
+    $file=$csv->exportarFile('0',$sql);
+    $database->desconectar();
+    
+    
+    $file
+    
+    

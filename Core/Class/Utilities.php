@@ -762,7 +762,7 @@ class Utilities
         
         if ( $_GET['p'] = 'nb_relacionfactura_pg' and  $_POST['nb_estado_cartera_fld'] <> '3' ){
             $factura =$_POST['nb_factura_fld'];
-            $pagelink  ='nb_cartera_pg&nb_referencia_fld='.$factura;
+            $pagelink  ='nb_cartera_pg&accion=b&nb_referencia_fld=v'.$factura;
         }
         else{
             $pagelink=$nabuEvent->getpagelink($_GET['p']);
