@@ -65,32 +65,32 @@
       $pdf->Ln(10);
 
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-  		$pdf->Cell(16,$w,'Factura', $borde,0,'C');
-		$pdf->Cell(25,$w,'Fecha',$borde,0,'C');
-      $pdf->Cell(25,$w,'Valor Inicial',$borde,0,'C');
-      $pdf->Cell(20,$w,'Abonos',$borde,0,'C');
-      $pdf->Cell(25,$w,'Descuentos',$borde,0,'C');
-		$pdf->Cell(25,$w,'Saldo Actual',$borde,0,'C');
-		$pdf->Cell(25,$w,'Ultimo Movimiento',$borde,0,'C');
-		$pdf->Cell(25,$w,'Fecha Ultimo Movimiento',$borde,0,'C');
-		$pdf->Cell(25,$w,'Abono',$borde,0,'C');	
-		$pdf->Cell(25,$w,'Descuento',$borde,0,'C');
+  		$pdf->Cell(27,$w,'Factura', $borde,0,'C');
+		$pdf->Cell(27,$w,'Fecha',$borde,0,'C');
+      $pdf->Cell(27,$w,'Valor Inicial',$borde,0,'C');
+      $pdf->Cell(27,$w,'Abonos',$borde,0,'C');
+      $pdf->Cell(27,$w,'Descuentos',$borde,0,'C');
+		$pdf->Cell(27,$w,'Saldo Actual',$borde,0,'C');
+		$pdf->Cell(27,$w,'Ultimo Movimiento',$borde,0,'C');
+		$pdf->Cell(30,$w,'Fecha Ultimo Movimiento',$borde,0,'C');
+		$pdf->Cell(27,$w,'Abono',$borde,0,'C');	
+		$pdf->Cell(27,$w,'Descuento',$borde,0,'C');
       $pdf->Ln(5);
 
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm); 
 
  		for ($i=0; $i<sizeof($detalle); $i++)
  		{
-			$pdf->Cell(16,$w,$detalle[$i]['factura'], $borde,0,'C');
-         $pdf->Cell(25,$w,$detalle[$i]['fecha'],$borde,0,'C');
-         $pdf->Cell(25,$w,$detalle[$i]['valorInicial'],$borde,0,'C');
-         $pdf->Cell(20,$w,$detalle[$i]['abonos'],$borde,0,'C');
-         $pdf->Cell(25,$w,$detalle[$i]['descuentos'],$borde,0,'C');
-	    	$pdf->Cell(25,$w,$detalle[$i]['saldo'],$borde,0,'C');
-	    	$pdf->Cell(25,$w,$detalle[$i]['ultimoMov'],$borde,0,'C');
-	    	$pdf->Cell(25,$w,$detalle[$i]['fechaUltimoMov'],$borde,0,'C');
-	    	$pdf->Cell(25,$w,'',$borde,0,'C');
-	    	$pdf->Cell(25,$w,'',$borde,0,'C');
+			$pdf->Cell(27,$w,$detalle[$i]['factura'], $borde,0,'C');
+         $pdf->Cell(27,$w,$detalle[$i]['fecha'],$borde,0,'C');
+         $pdf->Cell(27,$w,$detalle[$i]['valorInicial'],$borde,0,'C');
+         $pdf->Cell(27,$w,$detalle[$i]['abonos'],$borde,0,'C');
+         $pdf->Cell(27,$w,$detalle[$i]['descuentos'],$borde,0,'C');
+	    	$pdf->Cell(27,$w,$detalle[$i]['saldo'],$borde,0,'C');
+	    	$pdf->Cell(27,$w,$detalle[$i]['ultimoMov'],$borde,0,'C');
+	    	$pdf->Cell(30,$w,$detalle[$i]['fechaUltimoMov'],$borde,0,'C');
+	    	$pdf->Cell(27,$w,'',$borde,0,'C');
+	    	$pdf->Cell(27,$w,'',$borde,0,'C');
          $pdf->Ln(5);
    	}
 	}
