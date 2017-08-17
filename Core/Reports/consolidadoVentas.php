@@ -88,30 +88,30 @@
       $pdf->Ln(10);
 
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(53,$w,'Fecha', $borde,0,'C');
-      $pdf->Cell(45,$w,'Zona',$borde,0,'C');
-      $pdf->Cell(45,$w,'Nombre Vendedor',$borde,0,'C');
-      $pdf->Cell(45,$w,'Nombre Producto',$borde,0,'C');
-      $pdf->Cell(45,$w,'Cantidad',$borde,0,'C');
-		$pdf->Cell(45,$w,'Precio',$borde,0,'C');
-		$pdf->Cell(45,$w,'Iva',$borde,0,'C');
-		$pdf->Cell(45,$w,'Subtotal',$borde,0,'C');
-		$pdf->Cell(45,$w,'Total',$borde,0,'C');
+      $pdf->Cell(20,$w,'Fecha', $borde,0,'C');
+      $pdf->Cell(20,$w,'Zona',$borde,0,'C');
+      $pdf->Cell(20,$w,'Nombre Vendedor',$borde,0,'C');
+      $pdf->Cell(20,$w,'Nombre Producto',$borde,0,'C');
+      $pdf->Cell(20,$w,'Cantidad',$borde,0,'C');
+		$pdf->Cell(20,$w,'Precio',$borde,0,'C');
+		$pdf->Cell(20,$w,'Iva',$borde,0,'C');
+		$pdf->Cell(20,$w,'Subtotal',$borde,0,'C');
+		$pdf->Cell(20,$w,'Total',$borde,0,'C');
       $pdf->Ln(5);
 
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
         
      	for ($i=0; $i<sizeof($detalle); $i++)
      	{
-      	$pdf->Cell(53,$w,$detalle[$i]['fecha'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['Zona'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['NombreV'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['NombreP'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
-	    	$pdf->Cell(45,$w,$detalle[$i]['Precio'], $borde,0,'C');
-	    	$pdf->Cell(45,$w,$detalle[$i]['Iva'], $borde,0,'C');
-	    	$pdf->Cell(45,$w,$detalle[$i]['Subtotal'], $borde,0,'C');
-	    	$pdf->Cell(45,$w,$detalle[$i]['Total'], $borde,0,'C');
+      	$pdf->Cell(20,$w,$detalle[$i]['fecha'], $borde,0,'C');
+         $pdf->Cell(20,$w,$detalle[$i]['Zona'], $borde,0,'C');
+         $pdf->Cell(20,$w,$detalle[$i]['NombreV'], $borde,0,'C');
+         $pdf->Cell(20,$w,$detalle[$i]['NombreP'], $borde,0,'C');
+         $pdf->Cell(20,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
+	    	$pdf->Cell(20,$w,$detalle[$i]['Precio'], $borde,0,'C');
+	    	$pdf->Cell(20,$w,$detalle[$i]['Iva'], $borde,0,'C');
+	    	$pdf->Cell(20,$w,$detalle[$i]['Subtotal'], $borde,0,'C');
+	    	$pdf->Cell(20,$w,$detalle[$i]['Total'], $borde,0,'C');
       	$pdf->Ln(5);
      	}
 	}
