@@ -31,8 +31,7 @@
 	*/
 
 	include "../Class/Utilities.php";
-	include "../Class/Report.php";
-    include_once "../Class/ExportToExcel.php";
+	include_once "../Class/ExportToExcel.php";
 
 	
 	$fecha_cartera_desde=$_POST['nb_fecha_desde_fld'];
@@ -43,19 +42,9 @@
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    $sql="select nb_nombre_fld from nb_zonas_tbl where nb_id_fld=".$zona;
-    $zona = $database->executeQueryOneRow($sql);
+    $sql="select * from nb_conosolidado_cartera_detalle_reporte";
 
-
- 	$sql="select * from nb_conosolidado_cartera_detalle_reporte";
-
-  	$detalle=$database->executeQuery($sql);
-
-  	$objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
-	$pdf=$objReport->setupForm();
-	
-
-    $csv = new ExportExcel();
+  	$csv = new ExportExcel();
     $database->conectar();
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
@@ -65,10 +54,10 @@
     echo "file=".$file;
     echo "path=".$path;
 
-    header( 'Content-Type: application/octet-stream');
-    header( 'Content-Length: '.filesize($file));
-    header( 'Content-Disposition:attachment;filename='.$path);
-    readfile($file);
+    //header( 'Content-Type: application/octet-stream');
+    //header( 'Content-Length: '.filesize($file));
+    //header( 'Content-Disposition:attachment;filename='.$path);
+    //readfile($file);
 
 
     
