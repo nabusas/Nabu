@@ -48,12 +48,10 @@
 
     
     $sql="select * from nb_conosolidado_cartera_detalle_reporte";
-    $sql =$sql." where FEHA BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
+    $sql =$sql." where DATE(FEHA) BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
     $sql =$sql.$sqlZonas;
 
-    echo $sql;
-
-  	/*$csv = new ExportExcel();
+    $csv = new ExportExcel();
     $database->conectar();
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
@@ -64,7 +62,5 @@
     header( 'Content-Length: '.filesize($file));
     header( 'Content-Disposition:attachment;filename='.$filename);
     readfile($file);
-    */
-
     
 ?>
