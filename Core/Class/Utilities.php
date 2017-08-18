@@ -305,7 +305,7 @@ class Utilities
                                     foreach($fieldxs as $fieldx){
                                         $valueX=$this->database->executeQueryOneRow($fieldx[1]);
                                         $fieldsData[$fieldx[0]]=$valueX[0];
-                                        echo "Campo =".$fieldx[0]." Valor="$fieldx[1]." value=".$valueX[0]." <br>";
+                                        echo "Campo =".$fieldx[0]." Valor=".$fieldx[1]." value=".$valueX[0]." <br>";
                                     }
                                 }
                             }
