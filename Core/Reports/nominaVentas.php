@@ -89,9 +89,9 @@
         
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(30,$w,'Id Vendedor', $borde,0,'C');
-      $pdf->Cell(30,$w,'Nombre',$borde,0,'C');
+      $pdf->Cell(50,$w,'Nombre',$borde,0,'C');
       $pdf->Cell(40,$w,'Numero Documento',$borde,0,'C');
-      $pdf->Cell(40,$w,'Producto',$borde,0,'C');
+      $pdf->Cell(50,$w,'Producto',$borde,0,'C');
       $pdf->Cell(30,$w,'Cantidad',$borde,0,'C');
 		  $pdf->Cell(35,$w,'Comision Unitaria',$borde,0,'C');
 		  $pdf->Cell(35,$w,'Comision Total',$borde,0,'C');
@@ -102,9 +102,9 @@
      	for ($i=0; $i<sizeof($detalle); $i++)
      	{
       	$pdf->Cell(30,$w,$detalle[$i]['IdVendedor'], $borde,0,'C');
-        $pdf->Cell(30,$w,$detalle[$i]['NombreV'], $borde,0,'C');
+        $pdf->Cell(50,$w,$detalle[$i]['NombreV'], $borde,0,'C');
         $pdf->Cell(40,$w,$detalle[$i]['DocumentoV'], $borde,0,'C');
-        $pdf->Cell(40,$w,$detalle[$i]['NombreP'], $borde,0,'C');
+        $pdf->Cell(50,$w,$detalle[$i]['NombreP'], $borde,0,'C');
         $pdf->Cell(30,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
 	    	$pdf->Cell(35,$w,$detalle[$i]['Comision'], $borde,0,'C');
 	    	$pdf->Cell(35,$w,$detalle[$i]['ComisionT'], $borde,0,'C');
