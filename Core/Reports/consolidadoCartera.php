@@ -48,7 +48,7 @@
 
     
     $sql="select * from nb_conosolidado_cartera_detalle_reporte";
-    $sql =$sql." where DATE(FEHA) BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
+    $sql =$sql." where DATE(FECHA) BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
     $sql =$sql.$sqlZonas;
 
     $csv = new ExportExcel();
