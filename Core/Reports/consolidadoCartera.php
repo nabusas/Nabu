@@ -51,7 +51,9 @@
     $sql =$sql." where FEHA BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
     $sql =$sql.$sqlZonas;
 
-  	$csv = new ExportExcel();
+    echo $sql;
+
+  	/*$csv = new ExportExcel();
     $database->conectar();
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
@@ -62,7 +64,7 @@
     header( 'Content-Length: '.filesize($file));
     header( 'Content-Disposition:attachment;filename='.$filename);
     readfile($file);
-
+    */
 
     
 ?>
