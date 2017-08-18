@@ -42,7 +42,14 @@
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
+    $sqlZonas=' ';
+    if (isset($zona))
+        $sqlZonas= "and ID_ZONA =".$zona;
+
+    
     $sql="select * from nb_conosolidado_cartera_detalle_reporte";
+    $sql =$sql." where FEHA BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
+    $sql =$sql.$sqlZonas;
 
   	$csv = new ExportExcel();
     $database->conectar();
