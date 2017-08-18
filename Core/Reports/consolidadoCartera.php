@@ -60,11 +60,14 @@
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
 
-    $path=$values=str_replace('../uploads/','',$file);
-    
-    header( “Content-Type: application/octet-stream”);
-    header( “Content-Length: “.filesize($file));
-    header( “Content-Disposition:attachment;filename=” .$path.””);
+    $path=str_replace('../uploads/','',$file);
+
+    echo "file=".$file;
+    echo "path=".$path;
+
+    header( 'Content-Type: application/octet-stream');
+    header( 'Content-Length: '.filesize($file));
+    header( 'Content-Disposition:attachment;filename='.$path);
     readfile($file);
 
 
