@@ -50,14 +50,14 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
     
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
         $pdf->Cell(278,$w,'CONSOLIDADO DE OPERACIÓN EN LA ZONA', $borde, 1, 'C');
-	$pdf->Cell(278,$w,'ZONA: '.$zona[0], $borde, 1, 'C');
-	$pdf->Ln(5);
-	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+	    $pdf->Cell(278,$w,'ZONA: '.$zona[0], $borde, 1, 'C');
+	    $pdf->Ln(5);
+	    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(40,$w,"Fecha desde:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
         $pdf->Cell(99,$w,$fecha_despacho_desde,$borde,0, 'L');
 
-	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(40,$w,"Fecha hasta:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
         $pdf->Cell(99,$w,$fecha_despacho_hasta,$borde,0, 'L');
