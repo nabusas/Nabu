@@ -32,9 +32,8 @@
 
 	include "../Class/Utilities.php";
 	include "../Class/Report.php";
-    include_once "../Class/ExportToExcel.php";
 
-	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_nv_desde, $fecha_nv_hasta,$file) 
+	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_nv_desde, $fecha_nv_hasta) 
 	{
 		$borde=1;
      	$w=5;
@@ -50,10 +49,7 @@
 
      	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
      	$pdf->Cell(278,$w,'NOMINA DE VENTAS', $borde, 1, 'C');
-        $pdf->Write(0, 'Archivo', $file, false, 'C', false);
-        
-        
-      $pdf->Ln(7);
+      $pdf->Ln(5);
         
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(40,$w,"Fecha desde:",$borde,0, 'L');
@@ -92,26 +88,26 @@
       $pdf->Ln(10);
         
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(53,$w,'Id Vendedor', $borde,0,'C');
-      $pdf->Cell(45,$w,'Nombre',$borde,0,'C');
-      $pdf->Cell(45,$w,'Numero Documento',$borde,0,'C');
-      $pdf->Cell(45,$w,'Producto',$borde,0,'C');
-      $pdf->Cell(45,$w,'Cantidad',$borde,0,'C');
-		$pdf->Cell(45,$w,'Comision Unitaria',$borde,0,'C');
-		$pdf->Cell(45,$w,'Comision Total',$borde,0,'C');
+      $pdf->Cell(30,$w,'Id Vendedor', $borde,0,'C');
+      $pdf->Cell(30,$w,'Nombre',$borde,0,'C');
+      $pdf->Cell(30,$w,'Numero Documento',$borde,0,'C');
+      $pdf->Cell(30,$w,'Producto',$borde,0,'C');
+      $pdf->Cell(30,$w,'Cantidad',$borde,0,'C');
+		  $pdf->Cell(30,$w,'Comision Unitaria',$borde,0,'C');
+		  $pdf->Cell(30,$w,'Comision Total',$borde,0,'C');
       $pdf->Ln(5);
 
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
         
      	for ($i=0; $i<sizeof($detalle); $i++)
      	{
-      	$pdf->Cell(53,$w,$detalle[$i]['IdVendedor'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['NombreV'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['DocumentoV'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['NombreP'], $borde,0,'C');
-         $pdf->Cell(45,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
-	    	$pdf->Cell(45,$w,$detalle[$i]['Comision'], $borde,0,'C');
-	    	$pdf->Cell(45,$w,$detalle[$i]['ComisionT'], $borde,0,'C');
+      	$pdf->Cell(30,$w,$detalle[$i]['IdVendedor'], $borde,0,'C');
+        $pdf->Cell(30,$w,$detalle[$i]['NombreV'], $borde,0,'C');
+        $pdf->Cell(30,$w,$detalle[$i]['DocumentoV'], $borde,0,'C');
+        $pdf->Cell(30,$w,$detalle[$i]['NombreP'], $borde,0,'C');
+        $pdf->Cell(30,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
+	    	$pdf->Cell(30,$w,$detalle[$i]['Comision'], $borde,0,'C');
+	    	$pdf->Cell(30,$w,$detalle[$i]['ComisionT'], $borde,0,'C');
       	$pdf->Ln(5);
      	}
 	}
@@ -145,14 +141,7 @@
 
   	$objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 	$pdf=$objReport->setupForm();
-	
+	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta);
 
-    $csv = new ExportExcel();
-    $database->conectar();
-    $file=$csv->exportarFile('0',$sql);
-    $database->desconectar();
-
-    schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_nv_desde, $fecha_nv_hasta,$file);
-    $objReport->exportarPdf($pdf,$id); 
-    
+   $objReport->exportarPdf($pdf,$id);
 ?>
