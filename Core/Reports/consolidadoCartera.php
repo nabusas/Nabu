@@ -49,15 +49,12 @@
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
 
-    $path=str_replace('../uploads/','',$file);
+    $filename=str_replace('../uploads/','',$file);
 
-    echo "file=".$file;
-    echo "path=".$path;
-
-    //header( 'Content-Type: application/octet-stream');
-    //header( 'Content-Length: '.filesize($file));
-    //header( 'Content-Disposition:attachment;filename='.$path);
-    //readfile($file);
+    header( 'Content-Type: application/octet-stream');
+    header( 'Content-Length: '.filesize($file));
+    header( 'Content-Disposition:attachment;filename='.$filename);
+    readfile($file);
 
 
     
