@@ -34,37 +34,7 @@
 	include "../Class/Report.php";
     include_once "../Class/ExportToExcel.php";
 
-	function schemaReport($pdf,$tamanoFuenteForm,$file,$zona,$fecha_cartera_desde,$fecha_cartera_hasta) 
-	{
-		$borde=1;
-     	$w=5;
-
-    	$pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-     	$pdf->Ln(27);
-     	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+2);
-     	$pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
-     	$pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
-     	$pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
-     	$pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
-     	$pdf->Ln(5);
-
-     	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
-        $pdf->Cell(278,$w,'CONSOLIDADO CARTER', $borde, 1, 'C');
-	    $pdf->Cell(278,$w,'ZONA: '.$zona[0], $borde, 1, 'C');
-	    $pdf->Ln(5);
-	    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(40,$w,"Fecha desde:",$borde,0, 'L');
-        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(99,$w,$fecha_cartera_hasta,$borde,0, 'L');
-
-        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(40,$w,"Fecha hasta:",$borde,0, 'L');
-        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(99,$w,$fecha_cartera_hasta,$borde,0, 'L');
-        $pdf->Write(0, 'Archivo', $file, false, 'C', false);
-              
-    }
-
+	
 	$fecha_cartera_desde=$_POST['nb_fecha_desde_fld'];
     $fecha_cartera_hasta=$_POST['nb_fecha_hasta_fld'];
     $zona=$_POST['nb_zona_fld'];
@@ -77,9 +47,7 @@
     $zona = $database->executeQueryOneRow($sql);
 
 
- 	$cabecera=$database->executeQueryOneRow($sql);
-
- 	$sql="";
+ 	$sql="select * from nb_conosolidado_cartera_detalle_reporte";
 
   	$detalle=$database->executeQuery($sql);
 
@@ -92,7 +60,13 @@
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
 
-    schemaReport($pdf,10,$file,$zona,$fecha_cartera_desde,$fecha_cartera_hasta);
-    $objReport->exportarPdf($pdf,$id); 
+    $path=$values=str_replace('../uploads/','',$file);
+    
+    header( “Content-Type: application/octet-stream”);
+    header( “Content-Length: “.filesize($file));
+    header( “Content-Disposition:attachment;filename=” .$path.””);
+    readfile($file);
+
+
     
 ?>
