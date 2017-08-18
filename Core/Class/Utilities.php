@@ -296,16 +296,21 @@ class Utilities
                                     $i++;
                                 }
                                 else{
-                                    $value=$this->database->getDatavalueW($field[1],$field[0],$where);
-                                    $type =$this->database->getTypes($empresa,$field[1],$field[0]);
-                                    $fieldsData[$field[0]]=$value[0];
                                     
-                                    $fieldxs=$this->database->getPromptSelect($empresa,$id,$field[0],$value[0]);
-        
-                                    foreach($fieldxs as $fieldx){
-                                        $valueX=$this->database->executeQueryOneRow($fieldx[1]);
-                                        $fieldsData[$fieldx[0]]=$valueX[0];
-                                        echo "Campo =".$fieldx[0]." Valor=".$fieldx[1]." value=".$valueX[0]." <br>";
+                                    $veriField=$this->database->verificarCampo($empresa,$id,$field[0]);
+                                    
+                                    if ($veriField[0] =='Y')
+                                        $value=$this->database->getDatavalueW($field[1],$field[0],$where);
+                                        $type =$this->database->getTypes($empresa,$field[1],$field[0]);
+                                        $fieldsData[$field[0]]=$value[0];
+                                    else{
+                                        
+                                        $fieldxs=$this->database->getPromptSelect($empresa,$id,$field[0],$value[0]);
+
+                                        foreach($fieldxs as $fieldx){
+                                            $valueX=$this->database->executeQueryOneRow($fieldx[1]);
+                                            $fieldsData[$fieldx[0]]=$valueX[0];
+                                        }
                                     }
                                 }
                             }

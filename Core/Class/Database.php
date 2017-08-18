@@ -225,6 +225,11 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);
         }
         
+        function verificarCampo($empresa,$idpage,$campo){
+            $sql="select distinct 'Y' from nabu.nb_event_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_page_fld ='".$idpage."' and nb_id_field_2_fld='".$campo."'";
+            return $this->executeQueryOneRow($sql);
+        }
+        
         function getDataChange($empresa,$campo, $valor){
             $sql="select nb_id_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$empresa."' and nb_id_pr_schema_fld='".$campo."' and nb_value_fld='".$valor."'";
             return $this->executeQueryOneRow($sql);
