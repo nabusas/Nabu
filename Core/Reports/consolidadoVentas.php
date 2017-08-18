@@ -90,8 +90,8 @@
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(27,$w,'Fecha', $borde,0,'C');
       $pdf->Cell(27,$w,'Zona',$borde,0,'C');
-      $pdf->Cell(27,$w,'Nombre Vendedor',$borde,0,'C');
-      $pdf->Cell(27,$w,'Nombre Producto',$borde,0,'C');
+      $pdf->Cell(35,$w,'Nombre Vendedor',$borde,0,'C');
+      $pdf->Cell(35,$w,'Nombre Producto',$borde,0,'C');
       $pdf->Cell(27,$w,'Cantidad',$borde,0,'C');
 		$pdf->Cell(27,$w,'Precio',$borde,0,'C');
 		$pdf->Cell(27,$w,'Iva',$borde,0,'C');
@@ -105,8 +105,8 @@
      	{
       	$pdf->Cell(27,$w,$detalle[$i]['fecha'], $borde,0,'C');
          $pdf->Cell(27,$w,$detalle[$i]['Zona'], $borde,0,'C');
-         $pdf->Cell(27,$w,$detalle[$i]['NombreV'], $borde,0,'C');
-         $pdf->Cell(27,$w,$detalle[$i]['NombreP'], $borde,0,'C');
+         $pdf->Cell(35,$w,$detalle[$i]['NombreV'], $borde,0,'C');
+         $pdf->Cell(35,$w,$detalle[$i]['NombreP'], $borde,0,'C');
          $pdf->Cell(27,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
 	    	$pdf->Cell(27,$w,$detalle[$i]['Precio'], $borde,0,'C');
 	    	$pdf->Cell(27,$w,$detalle[$i]['Iva'], $borde,0,'C');
