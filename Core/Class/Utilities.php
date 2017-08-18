@@ -300,6 +300,8 @@ class Utilities
                                     $type =$this->database->getTypes($empresa,$field[1],$field[0]);
                                     $fieldsData[$field[0]]=$value[0];
                                     
+                                    echo "Campo =".$field[0]." Valor =".$value[0];
+                                    
                                     $fieldxs=$this->database->getPromptSelect($empresa,$id,$field[0],$value[0]);
         
                                     foreach($fieldxs as $fieldx){
