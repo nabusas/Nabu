@@ -43,7 +43,7 @@
     $database = $objUtilities->database;
 
     $sqlZonas=' ';
-    if (isset($zona))
+    if (isset($zona) and $zona <> '')
         $sqlZonas= "and ID_ZONA =".$zona;
 
     
