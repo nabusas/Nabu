@@ -299,7 +299,7 @@ class Utilities
                                     
                                     $veriField=$this->database->verificarCampo($empresa,$id,$field[0]);
                                     
-                                    if ($veriField[0] =='Y'){
+                                    if ($veriField[0] <> 'Y'){
                                         $value=$this->database->getDatavalueW($field[1],$field[0],$where);
                                         $type =$this->database->getTypes($empresa,$field[1],$field[0]);
                                         $fieldsData[$field[0]]=$value[0];
