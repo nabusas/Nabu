@@ -32,8 +32,9 @@
 
 	include "../Class/Utilities.php";
 	include "../Class/Report.php";
+    include_once "../Class/ExportToExcel.php";
 
-	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_cv_desde, $fecha_cv_hasta) 
+	function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales,$fecha_cv_desde, $fecha_cv_hasta,$file) 
 	{
 		$borde=1;
      	$w=5;
@@ -49,6 +50,7 @@
 
      	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
      	$pdf->Cell(278,$w,'CONSOLIDADO DE VENTAS', $borde, 1, 'C');
+        $pdf->Write(0, 'Archivo', $file, false, 'C', false);
       $pdf->Ln(5);
 
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
@@ -157,7 +159,13 @@
 
   	$objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 	$pdf=$objReport->setupForm();
-	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_cv_desde, $fecha_cv_hasta);
+
+    $csv = new ExportExcel();
+    $database->conectar();
+    $file=$csv->exportarFile('0',$sql);
+    $database->desconectar();
+
+	schemaReport($pdf,10,$cabecera,$detalle,NULL, $fecha_cv_desde, $fecha_cv_hasta,$file);
 
    $objReport->exportarPdf($pdf,$id);
 
