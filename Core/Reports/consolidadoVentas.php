@@ -56,36 +56,36 @@
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
       $pdf->Cell(99,$w,$fecha_cv_desde,$borde,0, 'L');
 
-		$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(40,$w,"Fecha hasta:",$borde,0, 'L');
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
       $pdf->Cell(99,$w,$fecha_cv_hasta,$borde,0, 'L');
 
-      $pdf->Ln(5);
+      //$pdf->Ln(5);
 
-      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-     	$pdf->Cell(40,$w,"Responsable:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['nombre'],$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Responsable:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['nombre'],$borde,0, 'L');
 
-		$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(40,$w,"Codigo:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['codigotercero'],$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Codigo:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['codigotercero'],$borde,0, 'L');
 
-      $pdf->Ln(5);
+      //$pdf->Ln(5);
 
-      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(40,$w,"Celular:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['celular'],$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Celular:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['celular'],$borde,0, 'L');
         
-      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(40,$w,"Telefono:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['telefono'],$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Telefono:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['telefono'],$borde,0, 'L');
         
-      $pdf->Ln(10);
+      $pdf->Ln(5);
 
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(27,$w,'Fecha', $borde,0,'C');
