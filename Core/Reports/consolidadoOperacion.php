@@ -130,14 +130,15 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    $andZona = "";
+    $andZona = " ";
+    $zonanombre[0] = 'TODAS';
 
-    if($zona)
-  	 $andZona = "and zona.nb_id_fld = ".$zona;
+    if($zona){
+        $andZona = "and zona.nb_id_fld = ".$zona;
+        $sql="select nb_nombre_fld from nb_zonas_tbl where nb_id_fld=".$zona;
+        $zonanombre = $database->executeQueryOneRow($sql);
+    }
 
-    
-     $sql="select nb_nombre_fld from nb_zonas_tbl where nb_id_fld=".$zona;
-     $zonanombre = $database->executeQueryOneRow($sql);
 
 	## ventas.
      $sql="select
