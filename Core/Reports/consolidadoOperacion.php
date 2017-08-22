@@ -130,10 +130,10 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    &andZona = "";
+    $andZona = "";
 
     if($zona)
-  	 &andZona = "and zona.nb_id_fld = ".$zona;
+  	 $andZona = "and zona.nb_id_fld = ".$zona;
 
     
      $sql="select nb_nombre_fld from nb_zonas_tbl where nb_id_fld=".$zona;
@@ -153,7 +153,7 @@ left join  nb_venta_detalle_tbl d on venta.`nb_id_fld` = `d`.`factura`
 inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
 left join nb_barrios_tbl barrio on cliente.nb_barrio_fld=barrio.nb_id_fld
 left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
-where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=0 ".&andZona." and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
+where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=0 ".$andZona." and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
 union all
 select
 	count(venta.nb_id_fld) as conteo,
@@ -168,7 +168,7 @@ left join  nb_venta_detalle_tbl d on venta.`nb_id_fld` = `d`.`factura`
 inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
 left join nb_barrios_tbl barrio on cliente.nb_barrio_fld=barrio.nb_id_fld
 left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
-where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=1  ".&andZona." and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
+where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=1  ".$andZona." and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
 union all
 select
 	count(venta.nb_id_fld) as conteo,
@@ -183,7 +183,7 @@ left join  nb_venta_detalle_tbl d on venta.`nb_id_fld` = `d`.`factura`
 inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
 left join nb_barrios_tbl barrio on cliente.nb_barrio_fld=barrio.nb_id_fld
 left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
-where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".&andZona."  and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
+where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
 
      $ventas=$database->executeQuery($sql);
 
