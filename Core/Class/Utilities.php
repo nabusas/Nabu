@@ -782,7 +782,6 @@ class Utilities
         
         echo "<br><br><center><img src='../Images/save.gif'><center>";
         
-        $factura =$_POST['nb_factura_fld'];
         $nabuEvent = new NabuEvent($_GET['p'], $_POST);
         
         $audit=$this->database->getPageAudit($_SESSION['app'],$_GET['p']);
@@ -790,7 +789,9 @@ class Utilities
         $result=$nabuEvent->getEventSql($accion,$audit['audit']);
         
         if ( ( $_GET['p'] == 'nb_relacionfactura_pg' or  $_GET['p'] == 'nb_relacionfactura_m_pg' )and $_POST['nb_estado_fld'] == 'Retornado' and  $_POST['nb_estado_cartera_fld'] <> '3' ){
+            $factura =$_POST['nb_factura_fld'];
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura;
+            echo $pagelink;
         }
         else{
             $pagelink=$nabuEvent->getpagelink($_GET['p']);
@@ -824,7 +825,7 @@ class Utilities
         var tipo = <?php echo $tipomensaje;?>;
 
         notie.alert(tipo,message,5);
-        setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
+        //setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
     </script>
 <?php
     }
