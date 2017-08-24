@@ -88,23 +88,30 @@ if ( isset($_POST['token']) ){
 
 function getData($database,$empresa,$binds){
     
-    echo 'CAGC(5)';
+    echo 'CAGC(5) <br>';
     $json = new JsonData();
     
     $idpage=$binds[0];
     $campo =$binds[1];
     $valor =$binds[2];
     
+    echo 'CAGC(6)<br>';
+    
     $fieldxs=$database->getPromptSelect($empresa,$idpage,$campo,$valor);
     
+    echo 'CAGC(7)<br>';
+    
     foreach($fieldxs as $fieldx){
+    
+        echo 'CAGC(8)<br>';
         $value=$database->executeQueryOneRow($fieldx[1]);
+        echo 'CAGC(9)<br>';
         $fieldsData[$fieldx[0]]=$value[0];
     }
     
     $jsonA=$json->getData2($fieldsData);
     
-    echo 'CAGC(6)';
+    echo 'CAGC(10)<br>';
     
     return $jsonA;
     
