@@ -51,8 +51,9 @@ if ( isset($_POST['token']) ){
         $database = $objUtilities->database;
 
         $bindEmp[0]=$codigoemp; 
+        echo "cagc(1)";
         $sqlEmpresa = $database->getSqlStatement('nabu', 'nabuconnect', $bindEmp, "1");
-
+        echo "cagc(2)";
         $empresa =$sqlEmpresa[0];
         $bd =$sqlEmpresa[1];
         $usuario =$sqlEmpresa[2];
@@ -84,7 +85,7 @@ if ( isset($_POST['token']) ){
 function getData($database,$empresa,$binds){
     
     $json = new JsonData();
-    
+    echo "cagc(3)";
     $idpage=$binds[0];
     $campo =$binds[1];
     $valor =$binds[2];
@@ -96,6 +97,7 @@ function getData($database,$empresa,$binds){
         $fieldsData[$fieldx[0]]=$value[0];
     }
     
+    echo "cagc(4)";
     $jsonA=$json->getData2($fieldsData);
     
     return $jsonA;
