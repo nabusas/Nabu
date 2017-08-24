@@ -37,6 +37,8 @@ include_once "../Class/JsonData.php";
 if ( isset($_POST['token']) ){
     $token =$_POST['token'];
     
+    echo 'CAGC(1)';
+    
     if ($token == 'e53db2b5b93254fddb55de43a3323970'){
 
         header('Content-type: application/json');
@@ -47,13 +49,15 @@ if ( isset($_POST['token']) ){
         $validacion =$_POST['validacion'];
         $binds=explode(";",$_POST['binds']);
 
+        echo 'CAGC(2)';
         $objUtilities = new Utilities('localhost','nabu','6492496','nabu');
         $database = $objUtilities->database;
 
-        $bindEmp[0]=$codigoemp; 
-        echo "cagc(1)";
+        $bindEmp[0]=$codigoemp;
+        echo 'CAGC(3)';
         $sqlEmpresa = $database->getSqlStatement('nabu', 'nabuconnect', $bindEmp, "1");
-        echo "cagc(2)";
+        echo 'CAGC(4)';
+
         $empresa =$sqlEmpresa[0];
         $bd =$sqlEmpresa[1];
         $usuario =$sqlEmpresa[2];
@@ -84,8 +88,9 @@ if ( isset($_POST['token']) ){
 
 function getData($database,$empresa,$binds){
     
+    echo 'CAGC(5)';
     $json = new JsonData();
-    echo "cagc(3)";
+    
     $idpage=$binds[0];
     $campo =$binds[1];
     $valor =$binds[2];
@@ -97,8 +102,9 @@ function getData($database,$empresa,$binds){
         $fieldsData[$fieldx[0]]=$value[0];
     }
     
-    echo "cagc(4)";
     $jsonA=$json->getData2($fieldsData);
+    
+    echo 'CAGC(6)';
     
     return $jsonA;
     
