@@ -92,20 +92,11 @@ function getData($database,$empresa,$binds){
     $fieldxs=$database->getPromptSelect($empresa,$idpage,$campo,$valor);
     
     foreach($fieldxs as $fieldx){
-    
-        echo 'CAGC(1)'.$fieldx[1];
         $value=$database->executeQueryOneRow($fieldx[1]);
-        echo 'CAGC(2)';
         $fieldsData[$fieldx[0]]=$value[0];
     }
     
-    
-    echo 'CAGC(3)<br>';
-    
     $jsonA=$json->getData2($fieldsData);
-    
-    echo 'CAGC(4)<br>';
-    
     return $jsonA;
     
 }
