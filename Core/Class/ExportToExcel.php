@@ -67,7 +67,7 @@ class ExportExcel
             
 			foreach ($row as $name => $value)
 				{
-					$seperator .= $comma . '' .str_replace('', '""', $name);
+					$seperator .= $comma . '' .str_replace('$','',str_replace('', '""', $name));
 					$comma = ";";
 				}
             
@@ -84,7 +84,7 @@ class ExportExcel
 
 					foreach ($row as $name => $value) 
 						{
-							$seperator .= $comma . '' .str_replace('', '""', $value);
+							$seperator .= $comma . '' .str_replace('$','',str_replace('', '""', $value));
 							$comma = ";";
 						}
 
