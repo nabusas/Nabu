@@ -107,7 +107,7 @@
          $pdf->Cell(45,$w,$detalle[$i]['NumDocumento'], $borde,0,'C');
          $pdf->Cell(45,$w,$detalle[$i]['Abonos'], $borde,0,'C');
          $pdf->Cell(45,$w,$detalle[$i]['AbonosSF'], $borde,0,'C');
-	    	$pdf->Cell(45,$w,$detalle[$i]['Comision'], $borde,0,'C');	    	
+	     $pdf->Cell(45,$w,$detalle[$i]['Comision'], $borde,0,'C');	    	
       	$pdf->Ln(5);
      	}
 	}
