@@ -39,18 +39,18 @@
 		$borde=1;
      	$w=5;
 
-    	$pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-     	$pdf->Ln(27);
-     	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+2);
-     	$pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
-     	$pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
-     	$pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
-     	$pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
-     	$pdf->Ln(5);
+      $pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+      $pdf->Ln(27);
+      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+2);
+      $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
+      $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
+      $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
+      $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
+      $pdf->Ln(5);
 
-     	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
-     	$pdf->Cell(278,$w,'NOMINA DE VENTAS', $borde, 1, 'C');
-        $pdf->Write(0, 'Archivo', $file, false, 'C', false);
+      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+4); 
+      $pdf->Cell(278,$w,'NOMINA DE VENTAS', $borde, 1, 'C');
+      $pdf->Write(0, 'Archivo', $file, false, 'C', false);
       $pdf->Ln(5);
         
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
@@ -63,31 +63,31 @@
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
       $pdf->Cell(99,$w,$fecha_nv_hasta,$borde,0, 'L');
 
-      $pdf->Ln(5);
-
-      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-     	$pdf->Cell(40,$w,"Responsable:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['nombre'],$borde,0, 'L');
-
-		$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(40,$w,"Codigo:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['codigotercero'],$borde,0, 'L');
-
-      $pdf->Ln(5);
-
-      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(40,$w,"Celular:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['celular'],$borde,0, 'L');
-        
-      $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-      $pdf->Cell(40,$w,"Telefono:",$borde,0, 'L');
-      $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-      $pdf->Cell(99,$w,$cabecera['telefono'],$borde,0, 'L');
-        
       $pdf->Ln(10);
+
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Responsable:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['nombre'],$borde,0, 'L');
+
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Codigo:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['codigotercero'],$borde,0, 'L');
+
+      //$pdf->Ln(5);
+
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Celular:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['celular'],$borde,0, 'L');
+        
+      //$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+      //$pdf->Cell(40,$w,"Telefono:",$borde,0, 'L');
+      //$pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+      //$pdf->Cell(99,$w,$cabecera['telefono'],$borde,0, 'L');
+        
+      //$pdf->Ln(10);
         
       $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
       $pdf->Cell(30,$w,'Id Vendedor', $borde,0,'C');
@@ -95,26 +95,26 @@
       $pdf->Cell(40,$w,'Numero Documento',$borde,0,'C');
       $pdf->Cell(50,$w,'Producto',$borde,0,'C');
       $pdf->Cell(30,$w,'Cantidad',$borde,0,'C');
-		  $pdf->Cell(35,$w,'Comision Unitaria',$borde,0,'C');
-		  $pdf->Cell(35,$w,'Comision Total',$borde,0,'C');
+      $pdf->Cell(35,$w,'Comision Unitaria',$borde,0,'C');
+      $pdf->Cell(35,$w,'Comision Total',$borde,0,'C');
       $pdf->Ln(5);
 
       $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);  
         
      	for ($i=0; $i<sizeof($detalle); $i++)
      	{
-      	$pdf->Cell(30,$w,$detalle[$i]['IdVendedor'], $borde,0,'C');
-        $pdf->Cell(50,$w,$detalle[$i]['NombreV'], $borde,0,'C');
-        $pdf->Cell(40,$w,$detalle[$i]['DocumentoV'], $borde,0,'C');
-        $pdf->Cell(50,$w,$detalle[$i]['NombreP'], $borde,0,'C');
-        $pdf->Cell(30,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
+            $pdf->Cell(30,$w,$detalle[$i]['IdVendedor'], $borde,0,'C');
+            $pdf->Cell(50,$w,$detalle[$i]['NombreV'], $borde,0,'C');
+            $pdf->Cell(40,$w,$detalle[$i]['DocumentoV'], $borde,0,'C');
+            $pdf->Cell(50,$w,$detalle[$i]['NombreP'], $borde,0,'C');
+            $pdf->Cell(30,$w,$detalle[$i]['Cantidad'], $borde,0,'C');
 	    	$pdf->Cell(35,$w,$detalle[$i]['Comision'], $borde,0,'C');
 	    	$pdf->Cell(35,$w,$detalle[$i]['ComisionT'], $borde,0,'C');
-      	$pdf->Ln(5);
+      	    $pdf->Ln(5);
      	}
 	}
 
-	$fecha_nv_desde=$_POST['nb_fecha_nv_desde_fld'];
+   $fecha_nv_desde=$_POST['nb_fecha_nv_desde_fld'];
    $fecha_nv_hasta=$_POST['nb_fecha_nv_hasta_fld'];
    $codigo_tercero=$_POST['nb_nombre_tercero_fld'];
    session_start();
