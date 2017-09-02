@@ -156,7 +156,8 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 		            2)) as valorIngreso
 	from nb_cartera_tbl cartera
 	join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concepto_fld
-	where lower(concepto.nb_nombre_fld) like '%abono%' and SUBSTR(cartera.nb_referencia_fld,1,1)='v' and cartera.nb_estado_fld=0 and cartera.nb_fecha_ingreso_concepto_fld = '".$fecha_arqueo."'
+	where lower(concepto.nb_nombre_fld) like '%abono%' and SUBSTR(cartera.nb_referencia_fld,1,1)='v' and cartera.nb_estado_fld=0 
+    and cartera.nb_fecha_ingreso_concepto_fld = '".$fecha_arqueo."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
@@ -166,10 +167,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 			        '')),0),
 			    2)) as valorIngreso
 	from nb_ventas_tbl a
-	inner join nb_venta_detalle_tbl b on (CONCAT(CAST(`a`.`nb_id_fld` AS CHAR CHARSET UTF8),
-		        '-') LIKE CONVERT( SUBSTR(`b`.`factura`,
-		    1,
-		    LOCATE('-', `b`.`factura`)) USING UTF8))
+	inner join nb_venta_detalle_tbl b on (a.nb_id_fld =b.factura)
 	where a.nb_forma_pago_fld=0 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld='".$fecha_arqueo."'
 	union all
 	select
@@ -180,10 +178,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
                         '')),0),
                     2)) as valorIngreso
 	from nb_ventas_tbl a
-	inner join nb_venta_detalle_tbl b on (CONCAT(CAST(`a`.`nb_id_fld` AS CHAR CHARSET UTF8),
-                '-') LIKE CONVERT( SUBSTR(`b`.`factura`,
-            1,
-            LOCATE('-', `b`.`factura`)) USING UTF8))
+	inner join nb_venta_detalle_tbl b on (a.nb_id_fld =b.factura)
 	where a.nb_forma_pago_fld=2 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld='".$fecha_arqueo."'
 	union all
 	select
@@ -195,7 +190,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
                     2)) as valorIngreso
 	from nb_abonosinfactura_tbl
 	where nb_estado_fld=1 and nb_fecha_cobro_fld = '".$fecha_arqueo."'";
-
+    
     $ingresos=$database->executeQuery($sqlingresos);
 
     $sqlegresos="select 
@@ -216,10 +211,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 			        '')),0),
 			    2)) as valorIngreso
 	from nb_compras_tbl a
-	inner join nb_compra_detalle_tbl b on (CONCAT(CAST(`a`.`nb_id_fld` AS CHAR CHARSET UTF8),
-                '-') LIKE CONVERT( SUBSTR(`b`.`factura`,
-            1,
-            LOCATE('-', `b`.`factura`)) USING UTF8))
+	inner join nb_compra_detalle_tbl b on (a.nb_id_fld =b.factura)
 	where a.nb_forma_pago_fld=0 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld= '".$fecha_arqueo."'
 	union all
 	select
@@ -230,10 +222,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
                         '')),0),
             		2)) as valorIngreso
 	from nb_compras_tbl a
-	inner join nb_compra_detalle_tbl b on (CONCAT(CAST(`a`.`nb_id_fld` AS CHAR CHARSET UTF8),
-                '-') LIKE CONVERT( SUBSTR(`b`.`factura`,
-            1,
-            LOCATE('-', `b`.`factura`)) USING UTF8))
+	inner join nb_compra_detalle_tbl b on (a.nb_id_fld =b.factura)
 	where a.nb_forma_pago_fld=2 and  a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld='".$fecha_arqueo."'
 	union all
 	select
