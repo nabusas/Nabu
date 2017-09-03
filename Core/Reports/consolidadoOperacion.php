@@ -188,7 +188,16 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
 
      $ventas=$database->executeQuery($sql);
 
-     ## descuentos
+    ## uso un select para sumar los valores de ventas por forma de pago.
+     $sql="select 
+     ".$ventas[0]["conteo"]."+ ".$ventas[1]["conteo"]." + ".$ventas[2]["conteo"]." as totalcantidad,
+    CONCAT('$',FORMAT((REPLACE(REPLACE(IFNULL('".$ventas[0]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[1]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[2]["total"]."', 0), ',', ''),'$','')),2)) as totalvalor,
+    CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[1]["promedio"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[2]["promedio"]."', 0), ',', ''),'$',''),2)) as totalpromedio";
+
+     $totalesventas= $database->executeQueryOneRow($sql); 
+
+
+## descuentos
      $sql="select
 	count(cartera.nb_id_fld) as conteo,
     CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_descuento_fld, 0), ',', ''),'$','')),0),2)) as totaldescuento,
@@ -200,15 +209,7 @@ where venta.nb_estado_fld=0 and cartera.nb_estado_fld='0' and cartera.nb_aplica_
     
 $descuentos = $database->executeQueryOneRow($sql);
 
-     
-     ## uso un select para sumar los valores de ventas por forma de pago.
-     $sql="select 
- ".$ventas[0]["conteo"]."+ ".$ventas[1]["conteo"]." + ".$ventas[2]["conteo"]." as totalcantidad,
-CONCAT('$',FORMAT((REPLACE(REPLACE(IFNULL('".$ventas[0]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[1]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[2]["total"]."', 0), ',', ''),'$','')),2)) as totalvalor,
-CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', ''),'$',''),2)) as totalpromedio";
-
-     $totalesventas= $database->executeQueryOneRow($sql);
-
+ 
      ## porcentaje descuento
 
      $sql="select CONCAT(ifnull((REPLACE(REPLACE('".$descuentos["totaldescuento"]."', ',', ''),'$','')/REPLACE(REPLACE('".$totalesventas["totalvalor"]."', ',', ''),'$','')),0)*100,'%') as porc";
