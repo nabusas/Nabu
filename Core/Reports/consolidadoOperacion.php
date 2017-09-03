@@ -202,7 +202,6 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
                 /(
     ".$ventas[0]["conteo"]."+ ".$ventas[1]["conteo"]." + ".$ventas[2]["conteo"]."),2)) as totalpromedio";
 
-    echo $sql;
     $totalesventas= $database->executeQueryOneRow($sql); 
 
 
@@ -239,25 +238,22 @@ $descuentos = $database->executeQueryOneRow($sql);
       AND A.nb_estado_fld = 0
       ";
 
-    //echo $sql;
     $carteraConteo = $database->executeQueryOneRow($sql);
 
-    $sql="select 
-	CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0),2)) as cobros
-	from nb_cartera_tbl cartera
-        join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concepto_fld
-	where lower(concepto.nb_nombre_fld) like '%abono%' and cartera.nb_factura_fld in (
-	select
-		distinct(nb_factura_fld)
-	from nb_relacionfactura_tbl A
-	JOIN nb_ventas_tbl venta ON venta.`nb_referencia_fld` = A.NB_FACTURA_FLD
-    inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
-    left join nb_barrios_tbl barrio on cliente.nb_barrio_fld=barrio.nb_id_fld
-    left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
-    and  (STR_TO_DATE(nb_fecha_entrega_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))) and (STR_TO_DATE(nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
+    $sql="
+    SELECT  CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0),2)) AS cobros
+    FROM 	nb_cartera_tbl cartera
+    JOIN 	nb_ventas_tbl venta ON  ( upper(venta.nb_referencia_fld)  = SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)))
+    JOIN    nb_terceros_tbl cliente ON venta.nb_codigo_cliente_fld=cliente.nb_id_fld
+    JOIN    nb_barrios_tbl barrio ON cliente.nb_barrio_fld=barrio.nb_id_fld
+    JOIN    nb_zonas_tbl zona ON barrio.nb_zona_fld=zona.nb_id_fld
+    ".$andZona."
+    WHERE 	SUBSTRING(upper(cartera.nb_referencia_fld),1,1) ='V'
+    and		cartera.nb_estado_fld = 0
+    AND		cartera.nb_concepto_fld = 1
+    AND 	(STR_TO_DATE(cartera.nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
     ";
 
-    //echo $sql;
     $carteraCobros = $database->executeQueryOneRow($sql);
 
 
