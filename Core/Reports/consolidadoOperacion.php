@@ -218,7 +218,7 @@ CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', 
     ## Cartera
 
      $sql="select
-	  SELECT count(a.nb_id_fld) AS conteo
+	  count(a.nb_id_fld) AS conteo
       FROM nb_relacionfactura_tbl A
       JOIN nb_ventas_tbl venta ON venta.`nb_referencia_fld` = A.NB_FACTURA_FLD
       INNER JOIN nb_terceros_tbl cliente ON venta.nb_codigo_cliente_fld=cliente.nb_id_fld
@@ -229,6 +229,7 @@ CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', 
       AND A.nb_estado_fld = 0
       ";
 
+    //echo $sql;
     $carteraConteo = $database->executeQueryOneRow($sql);
 
     $sql="select 
@@ -239,13 +240,14 @@ CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', 
 	select
 		distinct(nb_factura_fld)
 	from nb_relacionfactura_tbl A
-	where
+	JOIN nb_ventas_tbl venta ON venta.`nb_referencia_fld` = A.NB_FACTURA_FLD
     inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
     left join nb_barrios_tbl barrio on cliente.nb_barrio_fld=barrio.nb_id_fld
     left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
     and  (STR_TO_DATE(nb_fecha_entrega_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))) and (STR_TO_DATE(nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
     ";
 
+    //echo $sql;
     $carteraCobros = $database->executeQueryOneRow($sql);
 
 
