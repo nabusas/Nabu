@@ -127,7 +127,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
             $pdf->Cell(80,$w,$descuentosDetallado[$i]["concepto"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
             $pdf->Cell(50,$w,$descuentosDetallado[$i]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
             $pdf->Cell(70,$w,$descuentosDetallado[$i]["totaldescuento"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-            $pdf->Cell(78,$w,$descuentosDetallado[$i]["porc"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+            $pdf->Cell(78,$w,$descuentosDetallado[$i]["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
         }
 }
 
