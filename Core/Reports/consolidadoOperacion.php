@@ -39,7 +39,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
         $borde=1;
         $w=5;
 
-	   $pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+	    $pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
         $pdf->Ln(27);
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+2);
         $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
@@ -64,61 +64,61 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
               
         $pdf->Ln(10);
 
-	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-	$pdf->Cell(278,$w,"VENTAS",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Ln(5);
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->Cell(278,$w,"VENTAS",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Ln(5);
         $pdf->Cell(69.5,$w,"Tipo",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,"Cantidad",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,"Valor",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,"Valor promedio",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,"Cantidad",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,"Valor",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,"Valor promedio",$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
-	$pdf->Ln(5);
+        $pdf->Ln(5);
         $pdf->Cell(69.5,$w,"Contado",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[0]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[0]["total"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[0]["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[0]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[0]["total"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[0]["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
-	$pdf->Ln(5);
+        $pdf->Ln(5);
         $pdf->Cell(69.5,$w,"Credito",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[1]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[1]["total"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[1]["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[1]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[1]["total"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[1]["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
-	$pdf->Ln(5);
+        $pdf->Ln(5);
         $pdf->Cell(69.5,$w,"Credicontado",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[2]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[2]["total"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$ventas[2]["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Ln(5);
+        $pdf->Cell(69.5,$w,$ventas[2]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[2]["total"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$ventas[2]["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Ln(5);
         $pdf->Cell(69.5,$w,"Totales",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$totalesventas["totalcantidad"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$totalesventas["totalvalor"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(69.5,$w,$totalesventas["totalpromedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$totalesventas["totalcantidad"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$totalesventas["totalvalor"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(69.5,$w,$totalesventas["totalpromedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
-	$pdf->Ln(10);
+        $pdf->Ln(10);
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-	$pdf->Cell(278,$w,"CARTERA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Ln(5);
+        $pdf->Cell(278,$w,"CARTERA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Ln(5);
         $pdf->Cell(92.6,$w,"No. facturas entregadas",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,"Cobros realizados",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,"Promedio",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Ln(5);
-	$pdf->Cell(92.6,$w,$carteraConteo["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,$carteraCobros["cobros"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,$carteraPromedio["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(92.6,$w,"Cobros realizados",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(92.6,$w,"Promedio",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Ln(5);
+        $pdf->Cell(92.6,$w,$carteraConteo["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(92.6,$w,$carteraCobros["cobros"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(92.6,$w,$carteraPromedio["promedio"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
 
-	$pdf->Ln(10);
+        $pdf->Ln(10);
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-	$pdf->Cell(278,$w,"DESCUENTOS",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Ln(5);
+        $pdf->Cell(278,$w,"DESCUENTOS",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Ln(5);
         $pdf->Cell(92.6,$w,"No. descuentos otorgados",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,"Valor descuentos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,"% sobre ventas",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Ln(5);
+        $pdf->Cell(92.6,$w,"Valor descuentos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(92.6,$w,"% sobre ventas",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Ln(5);
         $pdf->Cell(92.6,$w,$descuentos["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,$descuentos["totaldescuento"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-	$pdf->Cell(92.6,$w,$porcdescuentos["porc"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(92.6,$w,$descuentos["totaldescuento"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(92.6,$w,$porcdescuentos["porc"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
 }
 
 
@@ -142,13 +142,13 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
 
 	## ventas.
      $sql="select
-	count(venta.nb_id_fld) as conteo,
+	count(distinct venta.nb_id_fld) as conteo,
     CONCAT('$',
                 FORMAT(ROUND(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''),
             '$',
             '')),0), 2),
                     2)) AS `total`,
-        CONCAT('$', FORMAT(ifnull(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''), '$', '')),0)/count(venta.nb_id_fld),0),2)) as promedio
+        CONCAT('$', FORMAT(ifnull(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''), '$', '')),0)/count(distinct venta.nb_id_fld),0),2)) as promedio
 from nb_ventas_tbl venta
 left join  nb_venta_detalle_tbl d on venta.`nb_id_fld` = `d`.`factura`
 inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
@@ -157,13 +157,13 @@ left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
 where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=0 ".$andZona." and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
 union all
 select
-	count(venta.nb_id_fld) as conteo,
+	count(distinct venta.nb_id_fld) as conteo,
     CONCAT('$',
                 FORMAT(ROUND(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''),
             '$',
             '')),0), 2),
                     2)) AS `total`,
-        CONCAT('$', FORMAT(ifnull(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''), '$', '')),0)/count(venta.nb_id_fld),0),2)) as promedio
+        CONCAT('$', FORMAT(ifnull(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''), '$', '')),0)/count(distinct venta.nb_id_fld),0),2)) as promedio
 from nb_ventas_tbl venta
 left join  nb_venta_detalle_tbl d on venta.`nb_id_fld` = `d`.`factura`
 inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
@@ -172,13 +172,13 @@ left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
 where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=1  ".$andZona." and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
 union all
 select
-	count(venta.nb_id_fld) as conteo,
+	count(distinct venta.nb_id_fld) as conteo,
     CONCAT('$',
                 FORMAT(ROUND(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''),
             '$',
             '')),0), 2),
                     2)) AS `total`,
-        CONCAT('$', FORMAT(ifnull(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''), '$', '')),0)/count(venta.nb_id_fld),0),2)) as promedio
+        CONCAT('$', FORMAT(ifnull(ifnull(SUM(REPLACE(REPLACE(IFNULL(`d`.`total`, 0), ',', ''), '$', '')),0)/count(distinct venta.nb_id_fld),0),2)) as promedio
 from nb_ventas_tbl venta
 left join  nb_venta_detalle_tbl d on venta.`nb_id_fld` = `d`.`factura`
 inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
@@ -198,7 +198,6 @@ join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concept
 inner join nb_ventas_tbl venta on cartera.nb_factura_fld = venta.nb_id_fld
 where venta.nb_estado_fld=0 and cartera.nb_estado_fld='0' and cartera.nb_aplica_desc_fld='0' and lower(concepto.nb_nombre_fld) like '%abono%'  and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
     
-
 $descuentos = $database->executeQueryOneRow($sql);
 
      
@@ -216,11 +215,20 @@ CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', 
 
      $porcdescuentos = $database->executeQueryOneRow($sql);
 
-        
+    ## Cartera
+
      $sql="select
-	count(nb_id_fld) as conteo
-      from nb_relacionfactura_tbl
-      where (STR_TO_DATE(nb_fecha_entrega_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
+	  SELECT count(a.nb_id_fld) AS conteo
+      FROM nb_relacionfactura_tbl A
+      JOIN nb_ventas_tbl venta ON venta.`nb_referencia_fld` = A.NB_FACTURA_FLD
+      INNER JOIN nb_terceros_tbl cliente ON venta.nb_codigo_cliente_fld=cliente.nb_id_fld
+      JOIN nb_barrios_tbl barrio ON cliente.nb_barrio_fld=barrio.nb_id_fld
+      JOIN nb_zonas_tbl zona ON barrio.nb_zona_fld=zona.nb_id_fld
+      ".$andZona."
+      AND (STR_TO_DATE(A.nb_fecha_entrega_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
+      AND A.nb_estado_fld = 0
+      ";
+
     $carteraConteo = $database->executeQueryOneRow($sql);
 
     $sql="select 
@@ -230,8 +238,14 @@ CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', 
 	where lower(concepto.nb_nombre_fld) like '%abono%' and cartera.nb_factura_fld in (
 	select
 		distinct(nb_factura_fld)
-	from nb_relacionfactura_tbl
-	where (STR_TO_DATE(nb_fecha_entrega_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))) and (STR_TO_DATE(nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
+	from nb_relacionfactura_tbl A
+	where
+    inner join nb_terceros_tbl cliente on venta.nb_codigo_cliente_fld=cliente.nb_id_fld
+    left join nb_barrios_tbl barrio on cliente.nb_barrio_fld=barrio.nb_id_fld
+    left join nb_zonas_tbl zona on barrio.nb_zona_fld=zona.nb_id_fld
+    and  (STR_TO_DATE(nb_fecha_entrega_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))) and (STR_TO_DATE(nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
+    ";
+
     $carteraCobros = $database->executeQueryOneRow($sql);
 
 

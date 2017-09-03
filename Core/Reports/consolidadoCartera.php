@@ -44,11 +44,28 @@
 
     $sqlZonas=' ';
     if (isset($zona) and $zona <> '')
-        $sqlZonas= "and ID_ZONA =".$zona;
+        $sqlZonas= "where ID_ZONA =".$zona;
 
-    
-    $sql="select * from nb_conosolidado_cartera_detalle_reporte";
-    $sql =$sql." where DATE(FECHA) BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
+    $rangoFecha =$sql."BETWEEN STR_TO_DATE('".$fecha_cartera_desde."','%d/%m/%Y') AND STR_TO_DATE('".$fecha_cartera_hasta."','%d/%m/%Y') ";
+
+    $sql="select ID_ZONA as ZONA,";
+    $sql =$sql."upper(a.nb_nombre_fld) AS 'NOMBRE ZONA',";
+    $sql =$sql."(select count(1) from nb_ventas_grid_vw where EstadoCartera <> '' and date(fechaingreso) $rangoFecha )AS 'FACTURAS INICIALES',";
+    $sql =$sql."1  AS 'SALDO INICIAL',";
+    $sql =$sql."1  AS 'FACTURAS ENTREGADAS',";
+    $sql =$sql."1  AS 'FACTURAS ABONADAS',";
+    $sql =$sql."1  AS 'FACTURAS CANCELADAS',";
+    $sql =$sql."1  AS 'RECAUDO',";
+    $sql =$sql."1  AS 'FACTURAS VENDIDAS',";
+    $sql =$sql."1  AS 'NUEVA CARTERA',";
+    $sql =$sql."1  AS 'FACTURAS CASTIGADA',";
+    $sql =$sql."1  AS 'MONTO CASTIGADO',";
+    $sql =$sql."1  AS 'TRASLADOS IN',";
+    $sql =$sql."1  AS 'MONTO TRASLADO IN',";
+    $sql =$sql."1  AS 'TRASLADOS OUT',";
+    $sql =$sql."1  AS 'MONTO TRASLADO OUT',";
+    $sql =$sql."1  AS 'SALDO FINAL'";
+    $sql =$sql."from nb_conosolidado_cartera_detalle_reporte a";
     $sql =$sql.$sqlZonas;
 
     $csv = new ExportExcel();
