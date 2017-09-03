@@ -115,7 +115,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
         $pdf->Cell(80,$w,"Tipo descuento",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Cell(50,$w,"No. descuentos otorgados",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Cell(70,$w,"Valor descuentos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        $pdf->Cell(78,$w,"% sobre ventas",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(78,$w,"% sobre ventas / Promedio",$borde,0,'C', 0, '', 0, false, 'T', 'C');
         $pdf->Ln(5);
         $pdf->Cell(80,$w,"DESCUENTO NORMAL",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Cell(50,$w,$descuentos["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
