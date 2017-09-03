@@ -33,7 +33,7 @@ THE SOFTWARE.
 include "../Class/Utilities.php";
 include "../Class/Report.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobros,$carteraPromedio,$descuentos,$porcdescuentos,$totalesventas,$fecha_despacho_desde, $fecha_despacho_hasta,$zona)
+function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobros,$carteraPromedio,$descuentos,$porcdescuentos,$totalesventas,$fecha_despacho_desde, $fecha_despacho_hasta,$zona,$descuentosDetallado)
 {
 
         $borde=1;
@@ -112,13 +112,23 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
         $pdf->Cell(278,$w,"DESCUENTOS",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Ln(5);
-        $pdf->Cell(92.6,$w,"No. descuentos otorgados",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        $pdf->Cell(92.6,$w,"Valor descuentos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        $pdf->Cell(92.6,$w,"% sobre ventas",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(80,$w,"Tipo descuento",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(50,$w,"No. descuentos otorgados",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(70,$w,"Valor descuentos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(78,$w,"% sobre ventas",$borde,0,'C', 0, '', 0, false, 'T', 'C');
         $pdf->Ln(5);
-        $pdf->Cell(92.6,$w,$descuentos["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        $pdf->Cell(92.6,$w,$descuentos["totaldescuento"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        $pdf->Cell(92.6,$w,$porcdescuentos["porc"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(80,$w,"DESCUENTO NORMAL",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(50,$w,$descuentos["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(70,$w,$descuentos["totaldescuento"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(78,$w,$porcdescuentos["porc"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    
+        for ($i=0; $i<sizeof($descuentosDetallado); $i++){
+            $pdf->Ln(5);
+            $pdf->Cell(80,$w,$descuentosDetallado[$i]["concepto"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+            $pdf->Cell(50,$w,$descuentosDetallado[$i]["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+            $pdf->Cell(70,$w,$descuentosDetallado[$i]["totaldescuento"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+            $pdf->Cell(78,$w,$descuentosDetallado[$i]["porc"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        }
 }
 
 
@@ -260,21 +270,44 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
     
     ";
 
-    //echo $sql;
+    
     $descuentos = $database->executeQueryOneRow($sql);
 
- 
      ## porcentaje descuento
 
-     $sql="select CONCAT(ifnull((REPLACE(REPLACE('".$descuentos["totaldescuento"]."', ',', ''),'$','')/REPLACE(REPLACE('".$totalesventas["totalvalor"]."', ',', ''),'$','')),0)*100,'%') as porc";
+     $sql="select CONCAT(FORMAT(ifnull((REPLACE(REPLACE('".$descuentos["totaldescuento"]."', ',', ''),'$','')/REPLACE(REPLACE('".$totalesventas["totalvalor"]."', ',', ''),'$','')),0)*100,2),'%') as porc";
 
      $porcdescuentos = $database->executeQueryOneRow($sql);
+
+    ## porcentaje descuento Detallado
+
+    $sql= "
+    SELECT conceptos.nb_nombre_fld as concepto,
+       count(cartera.nb_id_fld) AS conteo,
+       CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0),2)) AS totaldescuento,
+       CONCAT('$',FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0)/count(cartera.nb_id_fld),0),2)) AS promedio
+        FROM nb_cartera_tbl cartera
+        JOIN nb_conceptos_facturas_tbl conceptos on (conceptos.nb_id_fld = cartera.nb_concepto_fld )
+        JOIN nb_ventas_tbl venta ON (upper(venta.nb_referencia_fld) = SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)))
+        JOIN nb_terceros_tbl cliente ON venta.nb_codigo_cliente_fld=cliente.nb_id_fld
+        JOIN nb_barrios_tbl barrio ON cliente.nb_barrio_fld=barrio.nb_id_fld
+        JOIN nb_zonas_tbl zona ON barrio.nb_zona_fld=zona.nb_id_fld
+        ".$andZona."
+        WHERE SUBSTRING(upper(cartera.nb_referencia_fld),1,1) ='V'
+        AND cartera.nb_estado_fld = 0
+        AND		cartera.nb_concepto_fld <> 1
+        AND (STR_TO_DATE(cartera.nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('01/08/2017','%d/%m/%Y') AND STR_TO_DATE('31/08/2017','%d/%m/%Y'))
+        GROUP BY conceptos.nb_nombre_fld
+    ";
+
+   
+    $descuentosDetallado = $database->executeQuery($sql);
 
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,5,$ventas,$carteraConteo,$carteraCobros,$carteraPromedio,$descuentos,$porcdescuentos,$totalesventas, $fecha_desde, $fecha_hasta,$zonanombre);
+    schemaReport($pdf,5,$ventas,$carteraConteo,$carteraCobros,$carteraPromedio,$descuentos,$porcdescuentos,$totalesventas, $fecha_desde, $fecha_hasta,$zonanombre,$descuentosDetallado);
 
     $objReport->exportarPdf($pdf,$id);
 
