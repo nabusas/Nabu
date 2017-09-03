@@ -205,25 +205,6 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
     $totalesventas= $database->executeQueryOneRow($sql); 
 
 
-## descuentos
-     $sql="select
-	count(cartera.nb_id_fld) as conteo,
-    CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_descuento_fld, 0), ',', ''),'$','')),0),2)) as totaldescuento,
-    CONCAT('$',FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_descuento_fld, 0), ',', ''),'$','')),0)/count(cartera.nb_id_fld),0),2)) as promedio
-from nb_cartera_tbl cartera
-join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concepto_fld
-inner join nb_ventas_tbl venta on cartera.nb_factura_fld = venta.nb_id_fld
-where venta.nb_estado_fld=0 and cartera.nb_estado_fld='0' and cartera.nb_aplica_desc_fld='0' and lower(concepto.nb_nombre_fld) like '%abono%'  and (STR_TO_DATE(venta.nb_fecha_ingreso_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))";
-    
-$descuentos = $database->executeQueryOneRow($sql);
-
- 
-     ## porcentaje descuento
-
-     $sql="select CONCAT(ifnull((REPLACE(REPLACE('".$descuentos["totaldescuento"]."', ',', ''),'$','')/REPLACE(REPLACE('".$totalesventas["totalvalor"]."', ',', ''),'$','')),0)*100,'%') as porc";
-
-     $porcdescuentos = $database->executeQueryOneRow($sql);
-
     ## Cartera
 
      $sql="select
@@ -260,6 +241,34 @@ $descuentos = $database->executeQueryOneRow($sql);
     $sql="select CONCAT('$',FORMAT(ifnull(REPLACE(REPLACE('".$carteraCobros["cobros"]."', ',', ''),'$','')/".$carteraConteo["conteo"].",0),2)) as promedio";
 
     $carteraPromedio = $database->executeQueryOneRow($sql);
+
+    # descuentos
+         $sql="select
+        count(cartera.nb_id_fld) as conteo,
+        CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_descuento_fld, 0), ',', ''),'$','')),0),2)) as totaldescuento,
+        CONCAT('$',FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_descuento_fld, 0), ',', ''),'$','')),0)/count(cartera.nb_id_fld),0),2)) as promedio
+    from nb_cartera_tbl cartera
+    JOIN 	nb_ventas_tbl venta ON  ( upper(venta.nb_referencia_fld)  = SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)))
+    JOIN    nb_terceros_tbl cliente ON venta.nb_codigo_cliente_fld=cliente.nb_id_fld
+    JOIN    nb_barrios_tbl barrio ON cliente.nb_barrio_fld=barrio.nb_id_fld
+    JOIN    nb_zonas_tbl zona ON barrio.nb_zona_fld=zona.nb_id_fld
+    ".$andZona."
+    WHERE 	SUBSTRING(upper(cartera.nb_referencia_fld),1,1) ='V'
+    and    cartera.nb_aplica_desc_fld='0'
+    and		cartera.nb_estado_fld = 0
+    AND 	(STR_TO_DATE(cartera.nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
+    
+    ";
+
+    //echo $sql;
+    $descuentos = $database->executeQueryOneRow($sql);
+
+ 
+     ## porcentaje descuento
+
+     $sql="select CONCAT(ifnull((REPLACE(REPLACE('".$descuentos["totaldescuento"]."', ',', ''),'$','')/REPLACE(REPLACE('".$totalesventas["totalvalor"]."', ',', ''),'$','')),0)*100,'%') as porc";
+
+     $porcdescuentos = $database->executeQueryOneRow($sql);
 
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
