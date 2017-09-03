@@ -192,9 +192,10 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
      $sql="select 
      ".$ventas[0]["conteo"]."+ ".$ventas[1]["conteo"]." + ".$ventas[2]["conteo"]." as totalcantidad,
     CONCAT('$',FORMAT((REPLACE(REPLACE(IFNULL('".$ventas[0]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[1]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[2]["total"]."', 0), ',', ''),'$','')),2)) as totalvalor,
-    CONCAT('$',FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["promedio"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[1]["promedio"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[2]["promedio"]."', 0), ',', ''),'$',''),2)) as totalpromedio";
+    CONCAT('$',(FORMAT(REPLACE(REPLACE(IFNULL('".$ventas[0]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[1]["total"]."', 0), ',', ''),'$','')+REPLACE(REPLACE(IFNULL('".$ventas[2]["total"]."', 0), ',', ''),'$','')/
+    ".$ventas[0]["conteo"]."+ ".$ventas[1]["conteo"]." + ".$ventas[2]["conteo"].",2))) as totalpromedio";
 
-     $totalesventas= $database->executeQueryOneRow($sql); 
+    $totalesventas= $database->executeQueryOneRow($sql); 
 
 
 ## descuentos
