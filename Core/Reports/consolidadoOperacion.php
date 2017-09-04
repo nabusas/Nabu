@@ -115,7 +115,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ventas,$carteraConteo,$carteraCobr
         $pdf->Cell(80,$w,"Tipo descuento",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Cell(50,$w,"No. descuentos otorgados",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Cell(70,$w,"Valor descuentos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        $pdf->Cell(78,$w,"% sobre ventas / Promedio",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(78,$w,"% sobre ventas ",$borde,0,'C', 0, '', 0, false, 'T', 'C');
         $pdf->Ln(5);
         $pdf->Cell(80,$w,"DESCUENTO NORMAL",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Cell(50,$w,$descuentos["conteo"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
@@ -285,7 +285,7 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
     SELECT conceptos.nb_nombre_fld as concepto,
        count(cartera.nb_id_fld) AS conteo,
        CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0),2)) AS totaldescuento,
-       CONCAT('$',FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0)/count(cartera.nb_id_fld),0),2)) AS promedio
+       CONCAT('%',FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0)/".$totalesventas[totalvalor].",0),2)) AS promedio
         FROM nb_cartera_tbl cartera
         JOIN nb_conceptos_facturas_tbl conceptos on (conceptos.nb_id_fld = cartera.nb_concepto_fld )
         JOIN nb_ventas_tbl venta ON (upper(venta.nb_referencia_fld) = SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)))
