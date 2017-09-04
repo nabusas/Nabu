@@ -285,9 +285,9 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
     SELECT conceptos.nb_nombre_fld as concepto,
        count(cartera.nb_id_fld) AS conteo,
        CONCAT('$',FORMAT(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0),2)) AS totaldescuento,
-       CONCAT('%',FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0)/
+       CONCAT(FORMAT(ifnull(ifnull(sum(REPLACE(REPLACE(IFNULL(cartera.nb_valor_fld, 0), ',', ''),'$','')),0)/
         REPLACE(REPLACE('".$totalesventas["totalvalor"]."', ',', ''),'$','')
-        ,0),2)) AS promedio
+        ,0)*100,2),'%') AS promedio
         FROM nb_cartera_tbl cartera
         JOIN nb_conceptos_facturas_tbl conceptos on (conceptos.nb_id_fld = cartera.nb_concepto_fld )
         JOIN nb_ventas_tbl venta ON (upper(venta.nb_referencia_fld) = SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)))
