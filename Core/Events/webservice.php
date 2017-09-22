@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 17-03-2017
 	Desarrollador		= CAGC
-	Fecha modificacion	= 25-05-2017
+	Fecha modificacion	= 22-09-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -74,6 +74,8 @@ if ( isset($_POST['token']) ){
                 $result = validarRelacionEntreRegistros($sql, $mensaje); break;
             case 'getData':
                 $result = getData($database,$empresa,$binds); break;
+            case 'getDataSelect':
+                $result = getDataSelect($objUtilities,$database,$empresa,$binds); break;    
         }
 
         echo json_encode($result);
@@ -100,6 +102,55 @@ function getData($database,$empresa,$binds){
     return $jsonA;
     
 }
+
+function getDataSelect($objUtilities,$database,$empresa,$binds){
+    
+    $campo =$binds[0];
+    $valor  =$binds[1];
+    
+    $tablaRef =$database->existRefValue($empresa,$campo);
+    
+    if ($tablaRef[0] == 1){
+        $param =$database->valueRef($empresa,$campo);
+            
+            $sql="select id,descr from ".$param[0]." where 1=1 ";
+            
+            if( $param[1]=='true')
+                $co1=" AND empresa = '".$empresa."' ";
+            if( $param[2]=='true')
+                $co2=" AND usuario = '".$operatorId."' ";
+            if( $param[3]=='true')
+                $co3=" AND estado = 'A'";
+            if( $param[4]=='true')
+                $co3=" AND role = '".$role."'";
+            if( $valor <> '')
+                $co4=" AND cond = '".$valor."'";
+            
+            $sql=$sql.$co1.$co2.$co3.$co4;
+    }
+    
+    $rows=$database->executeQuery($sql);
+    $rows_returned =  count($rows);
+    
+    $i=0;
+    
+    if ($rows_returned > 0 ){
+        foreach($rows as $row){
+            $data[$i]['descr']=$row[1];
+            $data[$i]['id']=$row[0];
+            $i=$i+1;
+        }
+    }
+    else{
+            $data[0]['descr']='No hay valores';
+            $data[0]['id']='-1';
+    }
+    
+    $jsonA=json_encode($data);
+    return $jsonA;
+    
+}
+
 
 function validarExistencia($sql, $mensaje){
     

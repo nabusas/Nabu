@@ -2,7 +2,7 @@
     Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
 	Fecha modificacion	= 11-03-2017
-	Fecha modificacion	= 27-05-2017
+	Fecha modificacion	= 22-09-2017
 	Usuario Modifico	= CAGC
 */
 
@@ -46,5 +46,36 @@ var getDataEvent = function (empresa,page,field,value,form) {
     };
     
     sendAjaxRequest('none','getData',empresa,'',parametros,sucFun);
-
 };
+
+var getDataSelect = function (empresa,ref,field,valueD,form){
+       
+    var parametros = ref+';'+valueD;
+    
+    var sucFun = function(json){
+        
+        var conten = JSON.parse(json);
+        var descri =[];
+        var valore = [];
+        
+        for (var i = 0; i<conten.length; i++){
+            descri.push(conten[i].descr)
+            valore.push(conten[i].id);
+        }
+        
+        form.childrenByPropertyId[field].options.optionLabels =descri;
+        form.childrenByPropertyId[field].schema.enum = valore;
+        form.childrenByPropertyId[field].refresh();
+    
+    };
+    
+    sendAjaxRequest('none','getDataSelect',empresa,'',parametros,sucFun);
+    
+};
+
+
+
+
+
+
+
