@@ -125,7 +125,7 @@ class TemplatePage
                     $(document).ready(function () {
                         $(document).idleTimeout({
                           redirectUrl:  '../Pages/nabu.php?p=login',
-                          idleTimeLimit: 30,
+                          idleTimeLimit: 900,
                           enableDialog: true,
                           dialogDisplayLimit: 30,
                           dialogTitle: 'Nabu',
