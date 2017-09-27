@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 18-05-2017
+	Fecha modificacion	= 27-09-2017
 	Usuario Modifico	= CAGC
 
 */
@@ -122,13 +122,17 @@ class TemplatePage
                 if ($this->idPage <> 'login' and  $this->idPage <> 'event'){
             ?>
                     <script type="text/javascript">
-                    $(document).idle({
-                    onIdle: function(){
-                        notie.alert(3,"Se cierra la sesion por inactividad de 15 minutos",20);
-                        setTimeout ('document.location = "../Pages/nabu.php?p=login";',3000); 
-                    },
-                    idle: 900000
-                    });
+                    $(document).ready(function () {
+                        $(document).idleTimeout({
+                          redirectUrl:  '../Pages/nabu.php?p=login',
+                          idleTimeLimit: 30,
+                          enableDialog: true,
+                          dialogDisplayLimit: 30,
+                          dialogTitle: 'Nabu',
+                          dialogText: 'Se cierra la sesion por inactividad de 15 minutos',    
+                          sessionKeepAliveTimer: false
+                        });
+                    });    
                     </script>
             <?php
                 }
