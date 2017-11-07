@@ -632,6 +632,7 @@ class Utilities
 
                     $value=str_replace('idDataGrid',$idCabecera,$value);
                     $value=str_replace('operatorId',$_SESSION['opridLogin'],$value);
+		    $value=str_replace('oprId',$_SESSION['oprid'],$value);
                     $g->select_command=$value;
             }
 
@@ -664,6 +665,9 @@ class Utilities
                     foreach ($rules as $rule){
                         $valores=explode("=>",$rule);
                         $valoraux = $valores[1];
+
+			if($valores[0] == 'defaultValue' and $valoraux == 'oprId')
+				$valoraux = $_SESSION['oprid'];
                         if ($valoraux == 'true')
                             $valoraux=true;
                         elseif (valoraux == 'false')
@@ -718,7 +722,11 @@ class Utilities
                 $configGridEdi=true;
         }
   
-        
+        if ($saveGrid[0] == 'edit'){
+		$configGridAdd=false;
+                $configGridDel=false;
+                $configGridEdi=true;
+	}
         $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>false,"search" => "advance"));
 
         return $g->render("list1");
