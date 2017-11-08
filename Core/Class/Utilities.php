@@ -703,6 +703,7 @@ class Utilities
         $configGridAdd=false;
         $configGridDel=false;
         $configGridEdi=false;
+        $configAction=false;
 
         if ($saveGrid[0] == 'save'){
             $configGridAdd=true;
@@ -726,8 +727,9 @@ class Utilities
 		$configGridAdd=false;
                 $configGridDel=false;
                 $configGridEdi=true;
-	}
-        $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>false,"search" => "advance"));
+                $configAction=true;
+	   }
+        $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>$configAction,"search" => "advance"));
 
         return $g->render("list1");
         
