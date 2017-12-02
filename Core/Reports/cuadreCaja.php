@@ -233,7 +233,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
                         '')),0),
                     2)) as valorIngreso
 	from nb_egresos_tbl
-	where nb_fecha_fld = '".$fecha_arqueo."'";
+	where nb_fecha_fld = '".$fecha_arqueo."' and nb_estado_fld=0";
 
     $egresos=$database->executeQuery($sqlegresos);
 

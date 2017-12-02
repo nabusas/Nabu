@@ -84,6 +84,10 @@ THE SOFTWARE.
 		    $result = validacionExisteVendedor($sql); break;
 		  case 'validacionModificacionDespachoDetalle':
 		    $result = validacionModificacionDespachoDetalle($sql); break;
+                  case 'validacionModificacionGrillaEstadoDevoluciones':
+		    $result = validacionModificacionGrillaEstadoDevoluciones($sql); break;
+                  case 'validacionProductoDevolucion':
+		    $result = validacionProductoDevolucion($sql); break;
 
 		}
 
@@ -183,6 +187,27 @@ THE SOFTWARE.
 	if ($sql==NULL){
 	    $result='false';
         }
+	return $result;
+ }
+
+ function validacionModificacionGrillaEstadoDevoluciones($sql){
+	$result=$sql[0];
+	if ($sql==NULL){
+	    $result='false';
+        }
+	return $result;
+ }
+
+ function validacionProductoDevolucion($sql){
+	$count=$sql[0];
+
+	if ($count == 1){
+	    $result ='true';
+        } elseif ($sql==NULL){
+	    $result='false';
+        } else{
+            $result = 'false';
+	}
 	return $result;
  }
     
