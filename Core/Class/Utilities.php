@@ -592,6 +592,19 @@ class Utilities
 
 <?php        
     }
+
+    function validarDeleteGrillaBasadoEnRolEmpresaPagina($empresa, $idpage, $idusuario){
+	#Mejorar: para generalizar esta funcion y no quemarla en codigo, se necesita mejorar el sistema de permisos de nabu.
+	$resultado = false;
+	$rolUsuario = $this->database->executeQueryOneRow("select nb_id_role_fld from nabu.nb_user_tbl where nb_id_user_fld='".$idusuario."' and nb_enterprise_id_fld='".$empresa."'");
+	$rolGerente = $this->database->getDataChange($empresa, 'nb_id_role_fld', 'GERENTE');
+
+	if(strtolower($empresa) == 'paraiso' and (strtolower($idpage) == 'nb_compras_de_pg' or strtolower($idpage) == 'nb_ventas_de_pg') and $rolGerente[0]==$rolUsuario[0]){
+		$resultado = true;
+	}
+	return $resultado;
+    }
+
     function getDataGrid($id){
         
         $g = new jqgrid();
@@ -668,9 +681,24 @@ class Utilities
 
 			if($valores[0] == 'defaultValue' and $valoraux == 'oprId')
 				$valoraux = $_SESSION['oprid'];
+			
+			if($valores[0] == 'selectValues'){
+				#traer los valores campo
+				$valoresSelect = $this->database->executeQuery("select nb_value_fld, nb_id_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$_SESSION['app']."' and nb_id_pr_schema_fld='". $valoraux."'");
+				#$valoresSelect = array(array('1','1'),array('2','2'));
+				$valoraux = '';
+				foreach ($valoresSelect as $valor){
+					if($valoraux == '')
+						$valoraux .= $valor[1].':'.$valor[0];
+					else
+						$valoraux .= ';'.$valor[1].':'.$valor[0];
+				}
+				$valores[0] = 'value';
+			}
+
                         if ($valoraux == 'true')
                             $valoraux=true;
-                        elseif (valoraux == 'false')
+                        elseif ($valoraux == 'false')
                             $valoraux=false;
                         
                         if ($valoraux === 'idCabecera')
@@ -713,7 +741,9 @@ class Utilities
         
         if ($saveGrid[0] == 'saveDelete'){
                 $configGridAdd=true;
-                $configGridDel=true;
+		$this->database->desconectar();		
+                $configGridDel= $this->validarDeleteGrillaBasadoEnRolEmpresaPagina($_SESSION['app'], $id, $_SESSION['oprid']);
+		$this->database->conectar();
                 $configGridEdi=false;
         }
         
@@ -727,8 +757,8 @@ class Utilities
 		$configGridAdd=false;
                 $configGridDel=false;
                 $configGridEdi=true;
-                $configAction=true;
-	   }
+		$configAction=true;
+	}
         $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>$configAction,"search" => "advance"));
 
         return $g->render("list1");
