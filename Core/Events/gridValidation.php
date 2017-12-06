@@ -88,7 +88,8 @@ THE SOFTWARE.
 		    $result = validacionModificacionGrillaEstadoDevoluciones($sql); break;
                   case 'validacionProductoDevolucion':
 		    $result = validacionProductoDevolucion($sql); break;
-
+		  case 'validacionFormaPagoDiferenteCredito':
+		    $result = validacionFormaPagoDiferenteCredito($sql); break;
 		}
 
                 echo($result);
@@ -208,6 +209,14 @@ THE SOFTWARE.
         } else{
             $result = 'false';
 	}
+	return $result;
+ }
+
+ function validacionFormaPagoDiferenteCredito($sql){
+	$result=$sql[0];
+	if ($sql==NULL){
+	    $result='false';
+        }
 	return $result;
  }
     
