@@ -202,7 +202,7 @@ THE SOFTWARE.
  function validacionProductoDevolucion($sql){
 	$count=$sql[0];
 
-	if ($count == 1){
+	if ($count > 0){
 	    $result ='true';
         } elseif ($sql==NULL){
 	    $result='false';
