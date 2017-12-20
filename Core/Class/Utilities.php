@@ -832,6 +832,12 @@ class Utilities
             $factura =$_POST['nb_factura_fld'];
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura;
         }
+	elseif (( $_GET['p'] == 'nb_abonosinfactura_pg' or  $_GET['p'] == 'nb_abonosinfactura_m_pg' ) and $_POST['nb_estado_fld'] == '0' ){
+	    $factura =$_POST['nb_referencia_fld'];
+	    $fechaCobro =$_POST['nb_fecha_cobro_fld'];
+	    $abono = $_POST['nb_abono_fld'];
+            $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura.'&nb_fecha_ingreso_concepto_fld='.$fechaCobro.'&nb_concepto_fld=1'.'&nb_valor_fld='.$abono;
+	}
         else{
             $pagelink=$nabuEvent->getpagelink($_GET['p']);
 
