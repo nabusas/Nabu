@@ -82,6 +82,8 @@ THE SOFTWARE.
 		    $result = validacionExistencias($sql); break;
 		  case 'validacionExisteVendedor':
 		    $result = validacionExisteVendedor($sql); break;
+		  case 'validacionExisteVendedorActivo':
+		    $result = validacionExisteVendedorActivo($sql); break;
 		  case 'validacionModificacionDespachoDetalle':
 		    $result = validacionModificacionDespachoDetalle($sql); break;
                   case 'validacionModificacionGrillaEstadoDevoluciones':
@@ -107,6 +109,14 @@ THE SOFTWARE.
 
 
  function validacionExisteVendedor($sql){
+	$result=$sql[0];
+	if ($sql==NULL){
+	    $result='false';
+        }
+	return $result;
+ }
+
+ function validacionExisteVendedorActivo($sql){
 	$result=$sql[0];
 	if ($sql==NULL){
 	    $result='false';
