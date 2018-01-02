@@ -672,7 +672,7 @@ class Utilities
                     $row[0]='link';
                 
                 
-                if ($row[0]=='editrules' or $row[0]=='editoptions' or $row[0]=='formatoptions'){
+                if ($row[0]=='editrules' or $row[0]=='editoptions' or $row[0]=='formatoptions' or $row[0]=='show'){
                     $rules=explode("?",$value);
                     $value=array();
                     foreach ($rules as $rule){
@@ -757,7 +757,7 @@ class Utilities
 		$configGridAdd=false;
                 $configGridDel=false;
                 $configGridEdi=true;
-		$configAction=true;
+		#$configAction=true; #causa problemas para obtener datos en javascript si la row no esta seleccionada.
 	}
         $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>$configAction,"search" => "advance"));
 
@@ -833,9 +833,17 @@ class Utilities
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura;
         }
 	elseif (( $_GET['p'] == 'nb_abonosinfactura_pg' or  $_GET['p'] == 'nb_abonosinfactura_m_pg' ) and $_POST['nb_estado_fld'] == '0' ){
-	    $factura =$_POST['nb_referencia_fld'];
-	    $fechaCobro =$_POST['nb_fecha_cobro_fld'];
-	    $abono = $_POST['nb_abono_fld'];
+	    
+	    if($_GET['p'] == 'nb_abonosinfactura_pg'){
+		$factura =$_POST['nb_referencia_fld'];
+		$fechaCobro =$_POST['nb_fecha_cobro_fld'];
+		$abono = $_POST['nb_abono_fld'];
+	    }
+	    if($_GET['p'] == 'nb_abonosinfactura_m_pg'){
+		$factura =$_POST['nb_referenciaX_fld'];
+		$fechaCobro =$_POST['nb_fecha_cobroX_fld'];
+		$abono = $_POST['nb_abonoX_fld'];
+	    }
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura.'&nb_fecha_ingreso_concepto_fld='.$fechaCobro.'&nb_concepto_fld=1'.'&nb_valor_fld='.$abono;
 	}
         else{
