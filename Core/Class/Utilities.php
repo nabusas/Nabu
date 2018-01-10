@@ -757,8 +757,8 @@ class Utilities
 		$configGridAdd=false;
                 $configGridDel=false;
                 $configGridEdi=true;
-		#$configAction=true; #causa problemas para obtener datos en javascript si la row no esta seleccionada.
-	}
+		        $configAction=true;
+	    }
         $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>$configAction,"search" => "advance"));
 
         return $g->render("list1");
