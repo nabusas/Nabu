@@ -759,6 +759,13 @@ class Utilities
                 $configGridEdi=true;
 		        $configAction=true;
 	    }
+        
+        if ($saveGrid[0] == 'editSoloFormulario'){
+		$configGridAdd=false;
+                $configGridDel=false;
+                $configGridEdi=true;
+        }
+        
         $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>$configAction,"search" => "advance"));
 
         return $g->render("list1");
