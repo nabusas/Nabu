@@ -608,7 +608,7 @@ class Utilities
     function getDataGrid($id){
         
         $g = new jqgrid();
-        $g->debug=0;
+        //$g->debug=0;  No sacar error de SQL pero no lo podemos utilizar por que desde los trigger enviamos errores
             
         $pageL = $this->database->getPageLink($_SESSION['app'],$id);
         $saveGrid = $this->database->gridSave($_SESSION['app'],$id);
