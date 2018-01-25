@@ -608,6 +608,8 @@ class Utilities
     function getDataGrid($id){
         
         $g = new jqgrid();
+        $g->debug=0;
+            
         $pageL = $this->database->getPageLink($_SESSION['app'],$id);
         $saveGrid = $this->database->gridSave($_SESSION['app'],$id);
         
