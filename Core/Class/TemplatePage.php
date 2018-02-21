@@ -113,6 +113,7 @@ class TemplatePage
 	}
     
 	function body(){
+        $urlCurrent = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 ?>
 		<body onload="ChangeUrl('nabu','nabu')">
             
@@ -199,7 +200,7 @@ class TemplatePage
                                 if ($_SESSION['role'] == 1){
                                     $csv=$this->objUtilities->fileDatagrid($this->idPage);
                                      if ($csv <> '' and $permiso === false ){
-                                        echo "<br><a href=''>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
+                                        echo "<br><a href='$urlCurrent'>Actualizar</a>&nbsp&nbsp&nbsp&nbsp";
                                         echo "<a href='$csv' target='_blank'>Descargar Archivo</a>";
                                      }
                                 }
