@@ -734,9 +734,14 @@ class Utilities
         $configGridDel=false;
         $configGridEdi=false;
         $configAction=false;
+        
+        if (isset($_GET["estadoCabecera"]))
+            $estadoCabecera=$_GET["estadoCabecera"];
+        else
+            $estadoCabecera='0';
 
         
-        if ($_GET["estadoCabecera"] == '0' OR $_GET["estadoCabecera"] == 'ACTIVO'){
+        if ($estadoCabecera == '0' OR $estadoCabecera == 'ACTIVO'){
         
             if ($saveGrid[0] == 'save'){
                 $configGridAdd=true;
