@@ -182,7 +182,7 @@ class TemplatePage
                                     <script>
                                         $(document).on("click", ".headerGrid", function(e) {
                                            var dialog = bootbox.dialog({
-                                                title: 'Factura',
+                                                title: 'Encabezado',
                                                 message: '<p><i class="fa fa-spin fa-spinner fa-2x"></i>Cargando Datos</p>',
                                                 backdrop: true,
                                                 className:"headerGrid"
