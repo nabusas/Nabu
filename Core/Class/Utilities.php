@@ -735,6 +735,9 @@ class Utilities
         $configGridEdi=false;
         $configAction=false;
 
+        
+        echo "estadoCabecera=".$_GET["estadoCabecera"];
+        
         if ($_GET["estadoCabecera"] == 0 OR $_GET["estadoCabecera"] == 'ACTIVO'){
         
             if ($saveGrid[0] == 'save'){
