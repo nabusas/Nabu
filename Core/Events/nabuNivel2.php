@@ -46,16 +46,22 @@ THE SOFTWARE.
     $pagDetalle = $options[0];
     $tablaCabecera = $options[1];
     $idCabecera = $options[2];
+    $estadoCabecera = $options[3];
 
     if (!isset($_POST[$idCabecera]) or $_POST[$idCabecera] ==''){
         $idN=$database->getInvoiceNum($tablaCabecera,$idCabecera);
         $id=$idN[0];
         $_POST[$idCabecera]=$id;
         $insert = true;
+        
+        $esC=$database->getestadoCabecera($tablaCabecera,$estadoCabecera);
+        $estado=$esC[0];
+        $_POST[$estadoCabecera]=$estado;
     }
     else{
         $insert = false;
         $id=$_POST[$idCabecera];
+        $estado=$_POST[$estadoCabecera];
     }
         
 
@@ -64,7 +70,7 @@ THE SOFTWARE.
     $result=$nabuEvent->getEventSql($accion,$audit[0]);
 
     if ($id != 0){
-       header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id);
+       header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id."&estadoCabecera=".$estado);
     }
     else{
         header("location:../Pages/nabu.php?p=".$_GET['p']);

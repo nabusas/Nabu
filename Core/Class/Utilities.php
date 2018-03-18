@@ -735,38 +735,41 @@ class Utilities
         $configGridEdi=false;
         $configAction=false;
 
-        if ($saveGrid[0] == 'save'){
-            $configGridAdd=true;
-            $configGridDel=false;
-            $configGridEdi=false;
-        }
+        if ($_GET["estado"] == 0 ){
         
-        if ($saveGrid[0] == 'saveDelete'){
+            if ($saveGrid[0] == 'save'){
                 $configGridAdd=true;
-		$this->database->desconectar();		
-                $configGridDel= $this->validarDeleteGrillaBasadoEnRolEmpresaPagina($_SESSION['app'], $id, $_SESSION['oprid']);
-		$this->database->conectar();
+                $configGridDel=false;
                 $configGridEdi=false;
-        }
-        
-        if ($saveGrid[0] == 'saveEdit'){
-                $configGridAdd=true;
-                $configGridDel=false;
-                $configGridEdi=true;
-        }
-  
-        if ($saveGrid[0] == 'edit'){
-		$configGridAdd=false;
-                $configGridDel=false;
-                $configGridEdi=true;
-		        $configAction=true;
-	    }
-        
-        if ($saveGrid[0] == 'editSoloFormulario'){
-		$configGridAdd=false;
-                $configGridDel=false;
-                $configGridEdi=true;
-        }
+            }
+
+            if ($saveGrid[0] == 'saveDelete'){
+                    $configGridAdd=true;
+            $this->database->desconectar();		
+                    $configGridDel= $this->validarDeleteGrillaBasadoEnRolEmpresaPagina($_SESSION['app'], $id, $_SESSION['oprid']);
+            $this->database->conectar();
+                    $configGridEdi=false;
+            }
+
+            if ($saveGrid[0] == 'saveEdit'){
+                    $configGridAdd=true;
+                    $configGridDel=false;
+                    $configGridEdi=true;
+            }
+
+            if ($saveGrid[0] == 'edit'){
+            $configGridAdd=false;
+                    $configGridDel=false;
+                    $configGridEdi=true;
+                    $configAction=true;
+            }
+
+            if ($saveGrid[0] == 'editSoloFormulario'){
+            $configGridAdd=false;
+                    $configGridDel=false;
+                    $configGridEdi=true;
+            }
+        }    
         
         $g->set_actions(array("add"=>$configGridAdd,"edit"=>$configGridEdi,"delete"=>$configGridDel,"rowactions"=>$configAction,"search" => "advance"));
 

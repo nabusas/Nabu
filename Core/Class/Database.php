@@ -111,6 +111,11 @@ THE SOFTWARE.
             return $this->executeQueryOneRow($sql);
         }
         
+        function getestadoCabecera($tabla,$campo){
+            $sql ="SELECT ".$campo." from ".$tabla;
+            return $this->executeQueryOneRow($sql);
+        }
+        
         function gridSave($empresa,$idpage){
             $sql ="SELECT a.nb_page_data_fld FROM nabu.nb_pages_tbl a WHERE a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld='$idpage'";
             return $this->executeQueryOneRow($sql);
@@ -141,7 +146,7 @@ THE SOFTWARE.
         }
         
         function getGridSaveOptions($empresa,$idpage){
-            $sql ="SELECT nb_id_page_de_fld,nb_tab_cab_fld,nb_fie_cab_fld from nabu.nb_datagridopt_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld = '$idpage'";
+            $sql ="SELECT nb_id_page_de_fld,nb_tab_cab_fld,nb_fie_cab_fld,nb_estado_cab_fld from nabu.nb_datagridopt_tbl a where a.nb_enterprise_id_fld='$empresa' and a.nb_id_page_fld = '$idpage'";
             return $this->executeQueryOneRow($sql);
         }
         
