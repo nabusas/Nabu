@@ -56,6 +56,8 @@ $role = 2;
             
             $enlace=str_replace('operatorId',$operatorId,$row['link']);
             
+            echo "Este es el enlace=".$enlace;
+            
             if (is_numeric($enlace))
                 $enlace = '#';
             
