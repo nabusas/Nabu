@@ -1,3 +1,5 @@
+<?php
+
 /*
 The MIT License (MIT)
 
@@ -29,7 +31,6 @@ THE SOFTWARE.
 */
 
     
-<?php
 
 include "../Class/Utilities.php";
 
@@ -37,7 +38,7 @@ $util= new Utilities('localhost','nabu','6492496','nabu');
 
 $empresa='paraiso';
 $operatorId=1;    
-$role = 2;
+$role = 1;
 
 	
        $result =$util->database->menu1($empresa,$role);
@@ -55,8 +56,6 @@ $role = 2;
                $target="TARGET='_blank'";
             
             $enlace=str_replace('operatorId',$operatorId,$row['link']);
-            
-            echo "Este es el enlace=".$enlace;
             
             if (is_numeric($enlace))
                 $enlace = '#';
