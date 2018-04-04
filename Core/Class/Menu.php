@@ -93,7 +93,7 @@ class Menu
                 if (
                         ($role == '2' and $enlace == 'nb_validacion_cartera_pg') or
                         ($role == '3' and $enlace == 'nb_cartera_v_pg') or
-                        ($role == '5' and $enlace == 'nb_cartera_v_pg') 
+                        ($role == '5' and $enlace == 'nb_productos_v_pg') 
                     )
                             echo '</ul>';
                 
