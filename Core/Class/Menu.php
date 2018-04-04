@@ -96,7 +96,7 @@ class Menu
                     )
                             echo '</ul>';
                 if  ($role == '6' and $enlace == 'nb_consolidado_i_pg')
-                    echo '</ul></ul>';
+                    echo '</ul></ul></ul>';
             }
 		}
 		
