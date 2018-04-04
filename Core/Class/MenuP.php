@@ -38,7 +38,7 @@ $util= new Utilities('localhost','nabu','6492496','nabu');
 
 $empresa='paraiso';
 $operatorId=1;    
-$role = 5;
+$role = 7;
 
 	
        $result =$util->database->menu1($empresa,$role);
@@ -92,13 +92,13 @@ $role = 5;
                 echo '</ul>';
             
             if ( $empresa == 'paraiso'){
-                if  ($role == '5' and $enlace == 'nb_productos_v_pg'){
-                    echo '</ul>';
+                if  ($role == '7' and $enlace == 'nb_terceros_v_pg'){
+                    echo '</ul></ul>';
                     
                     
                 }
-                if  ($role == '5' and $enlace == 'nb_cartera_v_pg'){
-                    echo '</ul></ul>';
+                if  ($role == '7' and $enlace == 'nb_inventario_v_pg'){
+                    echo '</ul>';
                 }
                     
             }
