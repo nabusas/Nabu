@@ -88,6 +88,11 @@ class Menu
             
             if ($maxHijo and $maxHijo2)
                 echo '</ul>';
+            
+            if ( $empresa == 'paraiso'){
+                if ($role == '2' and $enlace == 'nb_validacion_cartera_pg')
+                    echo '</ul>';
+            }
 		}
 		
 		echo '</ul>';
