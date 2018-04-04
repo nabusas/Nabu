@@ -38,7 +38,7 @@ $util= new Utilities('localhost','nabu','6492496','nabu');
 
 $empresa='paraiso';
 $operatorId=1;    
-$role = 1;
+$role = 5;
 
 	
        $result =$util->database->menu1($empresa,$role);
@@ -46,7 +46,8 @@ $role = 1;
 
 		echo '<ul>';
 		while ($row = $result->FetchRow()){
-		    $id=$row['id'];
+            
+            $id=$row['id'];
             
 			$hijos=$util->menuHijos($empresa,$id);
 			$maxHijo=$util->maxHijo($empresa,$row['papa'],$row['menu']);
@@ -60,7 +61,7 @@ $role = 1;
             if (is_numeric($enlace))
                 $enlace = '#';
             
-            if( (strpos($enlace, 'nb_') === false and ($enlace !='login' and $enlace != 'home' and $enlace !='event')) or $enlace == '#')
+            if((strpos($enlace, 'nb_') === false and ($enlace !='login' and $enlace != 'home' and $enlace !='event'))or  $enlace == '#')
                 echo"<li><a href=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>"; 
             else
                 echo"<li><a href=../Pages/nabu.php?p=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>";
@@ -89,6 +90,20 @@ $role = 1;
             
             if ($maxHijo and $maxHijo2)
                 echo '</ul>';
+            
+            if ( $empresa == 'paraiso'){
+                if  ($role == '5' and $enlace == 'nb_productos_v_pg'){
+                    echo '</ul>';
+                    
+                    
+                }
+                if  ($role == '5' and $enlace == 'nb_cartera_v_pg'){
+                    echo '</ul></ul>';
+                }
+                    
+            }
+                
+            
 		}
 		
 		echo '</ul>';
