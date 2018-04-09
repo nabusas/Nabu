@@ -92,20 +92,22 @@ class Menu
             if ( $empresa == 'paraiso'){
                 if (
                         ($role == '2' and $enlace == 'nb_validacion_cartera_pg') or
-                        ($role == '3' and $enlace == 'nb_cartera_v_pg') or
                         ($role == '5' and $enlace == 'nb_productos_v_pg') or
-                        ($role == '7' and $enlace == 'nb_inventario_v_pg')
+                        ($role == '6' and $enlace == 'nb_cartera_v_pg') or
+                        ($role == '7' and $enlace == 'nb_productos_v_pg') or
+                        ($role == '7' and $enlace == 'nb_terceros_v_pg')
+                        
                     )
                             echo '</ul>';
                 
                 if (
+                        ($role == '3' and $enlace == 'nb_cartera_v_pg') or
                         ($role == '5' and $enlace == 'nb_cartera_v_pg') or
-                        ($role == '7' and $enlace == 'nb_terceros_v_pg')
+                        ($role == '6' and $enlace == 'nb_consolidado_i_pg')
+                        
                     )
-                    echo '</ul></ul>';
-                
-                if  ($role == '6' and $enlace == 'nb_consolidado_i_pg')
-                    echo '</ul></ul></ul>';
+                        echo '</ul></ul>';
+
             }
 		}
 		
