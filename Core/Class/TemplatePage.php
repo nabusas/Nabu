@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 27-09-2017
+	Fecha modificacion	= 09-04-2018
 	Usuario Modifico	= CAGC
 
 */
@@ -108,7 +108,7 @@ class TemplatePage
 		<br><br>
 <?php
 		if ($this->idPage <> 'login' and  $this->idPage <> 'event')
-            $this->menu = new Menu($_SESSION['app'],$this->objUtilities);
+            $this->menu = new Menu($_SESSION['app'],$this->objUtilities,$_SESSION['menuString']);
                       
 	}
     

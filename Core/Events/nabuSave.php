@@ -35,4 +35,6 @@ session_start();
 
 $objUtilities=$_SESSION['objUtilities'];
 $objTemplate =new TemplatePage($objUtilities);
-$objTemplate->initTemplate($_SESSION['app'],'event');    
+$objTemplate->initTemplate($_SESSION['app'],'event');
+    
+?>

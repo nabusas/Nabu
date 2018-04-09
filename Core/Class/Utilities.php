@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC  
-	Fecha modificacion	= 05-07-2017
+	Fecha modificacion	= 09-04-2018
 	Usuario Modifico	= CAGC
 
 */
@@ -808,6 +808,7 @@ class Utilities
                 $_SESSION['oprid'] = $row[0];
                 $_SESSION['role'] = $row[1];
                 $_SESSION['opridLogin'] = $usuario;
+                $_SESSION['menuString']='X';
                 header("location:../Pages/?p=home");
             }
             else{
@@ -815,6 +816,7 @@ class Utilities
                 unset($_SESSION['oprid']);
                 unset($_SESSION['role']);
                 unset($_SESSION['opridLogin']);
+                unset($_SESSION['$menuString']);
         ?>
                 <script languaje="javascript">
                     notie.alert(3,'Error en autenticación de usuario',5);

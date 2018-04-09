@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 09-03-2017
+	Fecha modificacion	= 09-04-2018
 	Usuario Modifico	= CAGC
 
 */
@@ -33,17 +33,29 @@ THE SOFTWARE.
 
 class Menu
 {
-	function Menu($empresa, $util){
+	function Menu($empresa, $util , $menuString){
+        
+        if ($menuString == 'X')
+            $this->getMenu($empresa, $util);
+        
+        echo $_SESSION['menuString']; 
+            
+        
+    }
+        
+    function getMenu($empresa, $util){    
 	
 	$role = 999999;
-	if(isset($_SESSION['role']))
+    $menuString ='';
+        
+    if(isset($_SESSION['role']))
 		$role = $_SESSION['role'];
         $operatorId=$_SESSION['oprid'];
         
        $result =$util->database->menu1($empresa,$role);
-	   echo "<nav id='menu'>";
+	   $menuString = "<nav id='menu'>";
 
-		echo '<ul>';
+		$menuString =$menuString.'<ul>';
 		while ($row = $result->FetchRow()){
 		    $id=$row['id'];
             
@@ -60,19 +72,19 @@ class Menu
                 $enlace = '#';
             
             if((strpos($enlace, 'nb_') === false and ($enlace !='login' and $enlace != 'home' and $enlace !='event'))or  $enlace == '#')
-                echo"<li><a href=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>"; 
+                $menuString =$menuString."<li><a href=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>"; 
             else
-                echo"<li><a href=../Pages/nabu.php?p=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>";
+                $menuString =$menuString."<li><a href=../Pages/nabu.php?p=".$enlace." ".$target."><i class='".$row['image']."'></i>&nbsp;".$row['descr']."</a>";
             
             if ($hijos)
-				echo"<ul>";
+				$menuString =$menuString."<ul>";
             else
-				echo"</li>";
+				$menuString =$menuString."</li>";
 
 
             if ($maxHijo)
                 if (!$hijos)
-				    echo '</ul></li>';
+				    $menuString =$menuString.'</ul></li>';
             
             
             $row2 =$util->database->menu2($empresa,$id);
@@ -87,7 +99,7 @@ class Menu
             $maxHijo2=$util->maxHijo($empresa,$papa3,$hijo3);
             
             if ($maxHijo and $maxHijo2)
-                echo '</ul>';
+                $menuString =$menuString. '</ul>';
             
             if ( $empresa == 'paraiso'){
                 if (
@@ -98,7 +110,7 @@ class Menu
                         ($role == '7' and $enlace == 'nb_terceros_v_pg')
                         
                     )
-                            echo '</ul>';
+                            $menuString =$menuString. '</ul>';
                 
                 if (
                         ($role == '3' and $enlace == 'nb_cartera_v_pg') or
@@ -106,16 +118,17 @@ class Menu
                         ($role == '6' and $enlace == 'nb_consolidado_i_pg')
                         
                     )
-                        echo '</ul></ul>';
+                        $menuString =$menuString. '</ul></ul>';
 
             }
 		}
 		
-		echo '</ul>';
+		$menuString =$menuString. '</ul>';
         
-     echo '</nav>';
+        $menuString =$menuString. '</nav>';
         
-        
+        $_SESSION['menuString']=  $menuString;  
+      
 		
 	}
 }
