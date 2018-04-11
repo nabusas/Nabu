@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 09-03-2017
+	Fecha modificacion	= 11-04-2018
 	Usuario Modifico	= CAGC
 
 */
@@ -90,6 +90,19 @@ session_start();
                     }
                 $i=$i+1;
             }
+            
+            $v1="\n"; $c1=" ";                                    //\n            se cambia por vacio
+            $v2="\t"; $c2="";                                     //\t            se cambia por vacio
+            $v3="\r"; $c3=" ";                                    //\r            se cambia por vacio
+                
+            $chars= array($v1,$v2,$v3);
+            $correc= array($c1,$c2,$c3);
+            
+            $vector=utf8_encode($vector);
+            
+            for ($i=0; $i<sizeof($chars); $i++)
+                $vector=str_replace($chars[$i],$correc[$i],$vector);
+                    
 
            echo $vector;
         }
