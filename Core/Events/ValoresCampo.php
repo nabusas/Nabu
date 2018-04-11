@@ -98,6 +98,8 @@ session_start();
             $chars= array($v1,$v2,$v3);
             $correc= array($c1,$c2,$c3);
             
+            
+            //Revisar solo sirve para Localhost para Produccion no es necesario
             //$vector=utf8_encode($vector);
             
             for ($i=0; $i<sizeof($chars); $i++)

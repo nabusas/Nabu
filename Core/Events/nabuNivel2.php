@@ -47,7 +47,12 @@ THE SOFTWARE.
     $tablaCabecera = $options[1];
     $idCabecera = $options[2];
     $estadoCabecera = $options[3];
-    $estado=$_POST[$estadoCabecera];
+
+    if (isset($_POST[$estadoCabecera]))
+        $estado=$_POST[$estadoCabecera];
+    else
+        $estado=0;
+
 
     if (!isset($_POST[$idCabecera]) or $_POST[$idCabecera] ==''){
         $idN=$database->getInvoiceNum($tablaCabecera,$idCabecera);
