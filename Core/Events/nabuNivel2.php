@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 24-02-2017
+	Fecha modificacion	= 10-04-2018
 	Usuario Modifico	= CAGC
 
 */
@@ -47,6 +47,7 @@ THE SOFTWARE.
     $tablaCabecera = $options[1];
     $idCabecera = $options[2];
     $estadoCabecera = $options[3];
+    $estado=$_POST[$estadoCabecera];
 
     if (!isset($_POST[$idCabecera]) or $_POST[$idCabecera] ==''){
         $idN=$database->getInvoiceNum($tablaCabecera,$idCabecera);
@@ -54,14 +55,10 @@ THE SOFTWARE.
         $_POST[$idCabecera]=$id;
         $insert = true;
         
-        $esC=$database->getestadoCabecera($tablaCabecera,$estadoCabecera);
-        $estado=$esC[0];
-        $_POST[$estadoCabecera]=$estado;
     }
     else{
-        $insert = false;
         $id=$_POST[$idCabecera];
-        $estado=$_POST[$estadoCabecera];
+        $insert = false;
     }
         
 
@@ -70,7 +67,7 @@ THE SOFTWARE.
     $result=$nabuEvent->getEventSql($accion,$audit[0]);
 
     if ($id != 0){
-       header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id."&estadoCabecera=".$estado);
+        header("location:../Pages/nabu.php?p=".$pagDetalle."&idCabecera=".$id."&estadoCabecera=".$estado);
     }
     else{
         header("location:../Pages/nabu.php?p=".$_GET['p']);

@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 20-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 24-05-2017
+	Fecha modificacion	= 10-04-2018
 	Usuario Modifico	= CAGC
 
 */
@@ -108,11 +108,6 @@ THE SOFTWARE.
         
         function getInvoiceNum($tabla,$campo){
             $sql ="SELECT IFNULL(MAX(CAST(".$campo." AS UNSIGNED INTEGER)),0)+1 from ".$tabla;
-            return $this->executeQueryOneRow($sql);
-        }
-        
-        function getestadoCabecera($tabla,$campo){
-            $sql ="SELECT ".$campo." from ".$tabla;
             return $this->executeQueryOneRow($sql);
         }
         
