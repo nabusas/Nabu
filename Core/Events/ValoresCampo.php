@@ -98,7 +98,7 @@ session_start();
             $chars= array($v1,$v2,$v3);
             $correc= array($c1,$c2,$c3);
             
-            $vector=utf8_encode($vector);
+            //$vector=utf8_encode($vector);
             
             for ($i=0; $i<sizeof($chars); $i++)
                 $vector=str_replace($chars[$i],$correc[$i],$vector);
