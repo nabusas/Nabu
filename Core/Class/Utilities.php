@@ -848,24 +848,23 @@ class Utilities
         
         $result=$nabuEvent->getEventSql($accion,$audit['audit']);
         
-        if ( ( $_GET['p'] == 'nb_relacionfactura_pg' or  $_GET['p'] == 'nb_relacionfactura_m_pg' )and $_POST['nb_estado_fld'] == 'Retornado' and  $_POST['nb_estado_cartera_fld'] <> '3' ){
+        if ( ( $_GET['p'] == 'nb_relacionfactura_pg' or  $_GET['p'] == 'nb_relacionfactura_m_pg' )and $_POST['nb_estado_fld'] == 'Retornado' and   ($_POST['nb_estado_cartera_fld'] <> '2'  or $_POST['nb_estado_cartera_fld'] <> '3' )){
             $factura =$_POST['nb_factura_fld'];
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura;
         }
-	elseif (( $_GET['p'] == 'nb_abonosinfactura_pg' or  $_GET['p'] == 'nb_abonosinfactura_m_pg' ) and $_POST['nb_estado_fld'] == '0' ){
-	    
-	    if($_GET['p'] == 'nb_abonosinfactura_pg'){
-		$factura =$_POST['nb_referencia_fld'];
-		$fechaCobro =$_POST['nb_fecha_cobro_fld'];
-		$abono = $_POST['nb_abono_fld'];
-	    }
-	    if($_GET['p'] == 'nb_abonosinfactura_m_pg'){
-		$factura =$_POST['nb_referenciaX_fld'];
-		$fechaCobro =$_POST['nb_fecha_cobroX_fld'];
-		$abono = $_POST['nb_abonoX_fld'];
-	    }
+        elseif (( $_GET['p'] == 'nb_abonosinfactura_pg' or  $_GET['p'] == 'nb_abonosinfactura_m_pg' ) and $_POST['nb_estado_fld'] == '0' ){
+	       if($_GET['p'] == 'nb_abonosinfactura_pg'){
+		      $factura =$_POST['nb_referencia_fld'];
+		      $fechaCobro =$_POST['nb_fecha_cobro_fld'];
+		      $abono = $_POST['nb_abono_fld'];
+	       }
+	       if($_GET['p'] == 'nb_abonosinfactura_m_pg'){
+		      $factura =$_POST['nb_referenciaX_fld'];
+		      $fechaCobro =$_POST['nb_fecha_cobroX_fld'];
+		      $abono = $_POST['nb_abonoX_fld'];
+	       }
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura.'&nb_fecha_ingreso_concepto_fld='.$fechaCobro.'&nb_concepto_fld=1'.'&nb_valor_fld='.$abono;
-	}
+	    }
         else{
             $pagelink=$nabuEvent->getpagelink($_GET['p']);
 
