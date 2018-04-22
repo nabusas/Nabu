@@ -897,7 +897,7 @@ class Utilities
         var tipo = <?php echo $tipomensaje;?>;
 
         notie.alert(tipo,message,5);
-        setTimeout ('document.location = "../Pages/nabu.php?p="+link;',1000); 
+        setTimeout ('document.location = "../Pages/nabu.php?p="+link;',500); 
     </script>
 <?php
     }

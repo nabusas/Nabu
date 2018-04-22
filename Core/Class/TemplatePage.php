@@ -61,8 +61,16 @@ class TemplatePage
         	$this->render=$this->objUtilities->getDataGrid($this->idPage);
         
         $this->header();
-        $this->body();
-        $this->tail();
+        
+        
+        if ($this->tipo <> 'save'){
+            $this->body();
+            $this->tail();
+        }
+        else{
+            $this->banner();
+            $this->objUtilities->eventSave();
+        }
     }
     
 	function header(){
@@ -230,8 +238,6 @@ class TemplatePage
                     
                     if ($this->tipo == 'event')
                         $this->objUtilities->validateLogin();
-                    if ($this->tipo == 'save')
-                        $this->objUtilities->eventSave();
                     
                     ?>
 			</div>
