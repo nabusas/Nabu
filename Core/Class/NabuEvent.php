@@ -109,8 +109,8 @@ class NabuEvent
                     
                     $fieldsTable .= $field[1];
 
-                    if ($value =='')
-                        $value ='nabuNull';    
+                    //if ($value =='')
+                    //    $value ='nabuNull';    
 
                     if ($value <> 'nabuNull' ){
 
