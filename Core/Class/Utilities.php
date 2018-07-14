@@ -686,13 +686,15 @@ class Utilities
 			
             if($valores[0] == 'selectValues'){
                 
-                $tablaRef =$database->existRefValue($_SESSION['app'],$valoraux);
-    
+                
+                
+                $tablaRef =$this->database->existRefValue($_SESSION['app'],$valoraux);
+                           
                 if ($tablaRef[0] == 1){
 
-                    $param =$database->valueRef($_SESSION['app'],$valoraux);
+                    $param =$this->database->valueRef($_SESSION['app'],$valoraux);
 
-                    $sql="select id,descr from ".$param[0]." where 1=1 ";
+                    $sql="select descr,id from ".$param[0]." where 1=1 ";
 
                     if( $param[1]=='true')
                         $co1=" AND empresa = '".$_SESSION['app']."' ";
