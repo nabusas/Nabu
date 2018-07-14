@@ -38,8 +38,7 @@ class Menu
         if ($menuString == 'X')
             $this->getMenu($empresa, $util);
         
-        echo $_SESSION['menuString']; 
-            
+        echo $_SESSION['menuString'];
         
     }
         
