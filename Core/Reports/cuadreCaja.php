@@ -49,7 +49,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
         $pdf->Ln(3);
     
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(278,$w,'ARQUEO DE CAJA MENOR', $borde, 1, 'C');
+        $pdf->Cell(278,$w,'ARQUEO DE CAJA', $borde, 1, 'C');
         $pdf->Ln(4);
 	
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
@@ -66,7 +66,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 	$pdf->Ln(5);
 
 	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(83,$w,"Valor base caja menor:",$borde,0, 'L');
+        $pdf->Cell(83,$w,"Valor base caja:",$borde,0, 'L');
         $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
         $pdf->Cell(194,$w,$caja_menor["saldo_inicial"],$borde,0, 'L');
 
