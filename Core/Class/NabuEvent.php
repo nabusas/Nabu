@@ -115,6 +115,9 @@ class NabuEvent
                     if ($value <> 'nabuNull' ){
 
                         switch($type[0]) {
+                            case 'number':
+                                $value =  "0";
+                                break;    
                             case 'string':
                                 $value = "'" . $value . "'";
                                 break;
