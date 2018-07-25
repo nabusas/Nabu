@@ -290,7 +290,6 @@ class Utilities
 
                                             $fieldsData[$field[0]]=$value[0];
                                             $fieldsData[$field[0].'X']=$value[0];
-                                           
 
                                         }
                                     }
@@ -311,7 +310,8 @@ class Utilities
                                         foreach($fieldxs as $fieldx){
                                             $valueX=$this->database->executeQueryOneRow($fieldx[1]);
                                             $fieldsData[$fieldx[0]]=$valueX[0];
-                                        }
+                                        
+                                    }
                                 }
                             }
                             else
@@ -352,6 +352,7 @@ class Utilities
                 $jsonA='';
         }
 
+        
        return $jsonA;
     }
     
@@ -478,9 +479,8 @@ class Utilities
         
         $JsonSchema =$this->fixedJson(json_encode($schema));
         $JsonOptions=$this->fixedJson(json_encode($options));
-        //$data=utf8_encode($data);
         $JsonData=$this->fixedJson(json_encode($data));
-        $JsonView=json_encode($view, JSON_PRETTY_PRINT);
+        $JsonView=json_encode($view, JSON_PRETTY_PRINT);    
         
 		if  ($imprimirJsons == "true") {
 			echo '*******************************************************Schema*******************************************************<br/>';
@@ -684,44 +684,11 @@ class Utilities
 			if($valores[0] == 'defaultValue' and $valoraux == 'oprId')
 				$valoraux = $_SESSION['oprid'];
 			
-            if($valores[0] == 'selectValues'){
-                
-                
-                
-                $tablaRef =$this->database->existRefValue($_SESSION['app'],$valoraux);
-                           
-                if ($tablaRef[0] == 1){
-
-                    $param =$this->database->valueRef($_SESSION['app'],$valoraux);
-
-                    $sql="select descr,id from ".$param[0]." where 1=1 ";
-
-                    if( $param[1]=='true')
-                        $co1=" AND empresa = '".$_SESSION['app']."' ";
-                    if( $param[2]=='true')
-                        $co2=" AND usuario = '".$_SESSION['oprid']."' ";
-                    if( $param[3]=='true')
-                        $co3=" AND estado = 'A'";
-                    if( $param[4]=='true')
-                        $co3=" AND role = '".$_SESSION['role']."'";
-
-                    $sql=$sql.$co1.$co2.$co3;
-                    
-                    $valoresSelect = $this->database->executeQuery($sql);
-
-                }
-                    else
-                {
-                    #traer los valores campo
-                    $valoresSelect = $this->database->executeQuery("select nb_value_fld, nb_id_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$_SESSION['app']."' and nb_id_pr_schema_fld='".$valoraux."'");
-                }
-                
-				
-                #asi se debe construir el array en este formato
-                #$valoresSelect = array(array('1','1'),array('2','2'));
-				
-                
-                $valoraux = '';
+			if($valores[0] == 'selectValues'){
+				#traer los valores campo
+				$valoresSelect = $this->database->executeQuery("select nb_value_fld, nb_id_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$_SESSION['app']."' and nb_id_pr_schema_fld='". $valoraux."'");
+				#$valoresSelect = array(array('1','1'),array('2','2'));
+				$valoraux = '';
 				foreach ($valoresSelect as $valor){
 					if($valoraux == '')
 						$valoraux .= $valor[1].':'.$valor[0];
@@ -885,6 +852,15 @@ class Utilities
             $factura =$_POST['nb_factura_fld'];
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura;
         }
+        elseif (( $_GET['p'] == 'nb_relacionfactura_pg' or  $_GET['p'] == 'nb_relacionfactura_m_pg') and ($_POST['nb_estado_cartera_fld'] == '0' or $_POST['nb_estado_cartera_fld'] == '1' or $_POST['nb_estado_cartera_fld'] == '4')) {
+            if ($_POST['nb_estado_cartera_fld'] == '0' or $_POST['nb_estado_cartera_fld'] == '1') {
+                $fecha = $_POST['nb_fecha_retornado_fld'];
+            }
+            elseif ($_POST['nb_estado_cartera_fld'] == '4') {
+                $fecha = $_POST['nb_fecha_recuperada_fld'];
+            }
+            $pagelink = 'nb_cartera_pg&accion=s&nb_fecha_ingreso_concepto_fld='.$fecha;
+        }
         elseif (( $_GET['p'] == 'nb_abonosinfactura_pg' or  $_GET['p'] == 'nb_abonosinfactura_m_pg' ) and $_POST['nb_estado_fld'] == '0' ){
 	       if($_GET['p'] == 'nb_abonosinfactura_pg'){
 		      $factura =$_POST['nb_referencia_fld'];
@@ -915,8 +891,14 @@ class Utilities
             if ($accion== 0 or $accion== 2)
                 $mensaje='Guardado Exitoso';
             else
-                if ($accion== 1 or $accion== 3)
+                if ($accion== 1 or $accion== 3){
                     $mensaje='Actualizacion Exitosa';
+                    $this->database->execute("CALL insertEstadoCartera()");
+                    $row = $this->database->executeQueryOneRow("select count(*) from nb_relacionfactura2_tbl");
+                    if($row == 0){
+                        $pagelink = 'nb_relacionfactura_v_pg';
+                    }
+                }
         }
         else{
             $tipomensaje=3;
