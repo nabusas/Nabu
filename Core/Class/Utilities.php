@@ -851,16 +851,19 @@ class Utilities
         if ( ( $_GET['p'] == 'nb_relacionfactura_pg' or  $_GET['p'] == 'nb_relacionfactura_m_pg' )and $_POST['nb_estado_fld'] == 'Retornado' and   ($_POST['nb_estado_cartera_fld'] <> '2'  and $_POST['nb_estado_cartera_fld'] <> '3' )){
             $factura =$_POST['nb_factura_fld'];
             $pagelink  ='nb_cartera_pg&accion=s&nb_referencia_fld=v'.$factura;
-        }
-        elseif (( $_GET['p'] == 'nb_relacionfactura_pg' or  $_GET['p'] == 'nb_relacionfactura_m_pg') and ($_POST['nb_estado_cartera_fld'] == '0' or $_POST['nb_estado_cartera_fld'] == '1' or $_POST['nb_estado_cartera_fld'] == '4')) {
-            if ($_POST['nb_estado_cartera_fld'] == '0' or $_POST['nb_estado_cartera_fld'] == '1') {
+
+            if($_POST['nb_estado_cartera_fld'] == '0' or $_POST['nb_estado_cartera_fld'] == '1'){
                 $fecha = $_POST['nb_fecha_retornado_fld'];
+                $pagelink  = $pagelink.'&nb_fecha_ingreso_concepto_fld='.$fecha;
             }
-            elseif ($_POST['nb_estado_cartera_fld'] == '4') {
+
+            if ($_POST['nb_estado_cartera_fld'] == '4'){
                 $fecha = $_POST['nb_fecha_recuperada_fld'];
-            }
-            $pagelink = 'nb_cartera_pg&accion=s&nb_fecha_ingreso_concepto_fld='.$fecha;
+                $pagelink  = $pagelink.'&nb_fecha_ingreso_concepto_fld='.$fecha;
+            }   
+
         }
+        
         elseif (( $_GET['p'] == 'nb_abonosinfactura_pg' or  $_GET['p'] == 'nb_abonosinfactura_m_pg' ) and $_POST['nb_estado_fld'] == '0' ){
 	       if($_GET['p'] == 'nb_abonosinfactura_pg'){
 		      $factura =$_POST['nb_referencia_fld'];
@@ -894,9 +897,11 @@ class Utilities
                 if ($accion== 1 or $accion== 3){
                     $mensaje='Actualizacion Exitosa';
                     $this->database->execute("CALL insertEstadoCartera()");
-                    $row = $this->database->executeQueryOneRow("select count(*) from nb_relacionfactura2_tbl");
-                    if($row == 0){
-                        $pagelink = 'nb_relacionfactura_v_pg';
+                    if($_GET['p'] == 'nb_relacionfactura_m_pg'){
+                        $row = $this->database->executeQueryOneRow("select count(*) from nb_relacionfactura2_tbl");
+                        if($row[0] == 0){
+                            $pagelink = 'nb_relacionfactura_v_pg';
+                        }
                     }
                 }
         }
