@@ -897,7 +897,7 @@ class Utilities
                 if ($accion== 1 or $accion== 3){
                     $mensaje='Actualizacion Exitosa';
                     $this->database->execute("CALL insertEstadoCartera()");
-                    if($_GET['p'] == 'nb_relacionfactura_m_pg'){
+                    if($_GET['p'] == 'nb_relacionfactura_m_pg' and $_POST['nb_estado_cartera_fld'] == '5' ){
                         $row = $this->database->executeQueryOneRow("select count(*) from nb_relacionfactura2_tbl");
                         if($row[0] == 0){
                             $pagelink = 'nb_relacionfactura_v_pg';
