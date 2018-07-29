@@ -125,13 +125,21 @@ if (isset($_GET['idCabecera'])){
     a.cantidad cantiad, 
     a.subtotal valor,
     ( a.cantidad * replace(replace(left(a.subtotal, length(a.subtotal) - 3),'$',''),',','')) sub_total
-    from nb_devoluciones_detalle_tbl a, (
-    select nb_id_fld, nb_factura_fld, nb_fecha_devolucion_fld, nb_responsable_fld,substring(nb_referencia_fld,2,length(nb_referencia_fld)) referencia, nb_nombre_tercero_fld 
-    from nb_devoluciones_vw) b,
-    nb_productos_tbl c
+    from nb_devoluciones_detalle_tbl a, 
+            (
+            select devo.nb_id_fld, devo.nb_factura_fld, 
+                             devo.nb_fecha_devolucion_fld, 
+                             t.nb_nombre_fld,
+                             substring(devo.nb_referencia_fld,2,length(devo.nb_referencia_fld)) referencia, 
+                             devo.nb_nombre_tercero_fld 
+            from nb_devoluciones_vw devo,
+                     nb_terceros_tbl t
+                where devo.nb_responsable_fld = t.nb_id_fld
+            ) b,
+        nb_productos_tbl c
     where a.factura = b.nb_id_fld
-    and a.producto = c.nb_id_fld
-    and b.nb_id_fld = ". $id_devolucion;
+    and     a.producto = c.nb_id_fld
+    and     b.nb_id_fld = ". $id_devolucion;
 
     $comprobante_devols=$database->executeQuery($query);
     
