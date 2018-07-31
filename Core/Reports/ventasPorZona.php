@@ -34,7 +34,7 @@ include "../Class/Utilities.php";
 include "../Class/Report.php";
 include_once "../Class/ExportToExcel.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona)
+function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona,$file)
 {
 
     $borde=1;
@@ -147,7 +147,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
     $file=$csv->exportarFile('0',$query);
     $database->desconectar();
 
-    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona);
+    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona,$file);
 
     $objReport->exportarPdf($pdf,$id);
 
