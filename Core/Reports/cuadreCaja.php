@@ -33,53 +33,53 @@ THE SOFTWARE.
 include "../Class/Utilities.php";
 include "../Class/Report.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $total_ingresos, $total_egresos, $saldo_caja, $fecha_arqueo,$responsable)
+function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $total_ingresos, $total_egresos, $saldo_caja, $fecha_arqueo_desde, $fecha_arqueo_hasta,$responsable)
 {
 
-        $borde=1;
-        $w=5;
+    $borde=1;
+    $w=5;
 
-	    $pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-        $pdf->Ln(27);
-        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm-2);
-        $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
-        $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
-        $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
-        $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
-        $pdf->Ln(3);
+	$pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+    $pdf->Ln(27);
+    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm-2);
+    $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
+    $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
+    $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
+    $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
+    $pdf->Ln(3);
     
-        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(278,$w,'ARQUEO DE CAJA', $borde, 1, 'C');
-        $pdf->Ln(4);
+    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+    $pdf->Cell(278,$w,'ARQUEO DE CAJA', $borde, 1, 'C');
+    $pdf->Ln(4);
 	
-        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(83,$w,"Responsable:",$borde,0, 'L');
-        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(194,$w,$responsable["nombre"],$borde,0, 'L');
+    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+    $pdf->Cell(83,$w,"Responsable:",$borde,0, 'L');
+    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+    $pdf->Cell(194,$w,$responsable["nombre"],$borde,0, 'L');
 	
 	$pdf->Ln(5);
-        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(83,$w,"Fecha arqueo:",$borde,0, 'L');
-        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(194,$w,$fecha_arqueo,$borde,0, 'L');
+    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+    $pdf->Cell(83,$w,"Fecha arqueo:",$borde,0, 'L');
+    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+    $pdf->Cell(194,$w,"Del ".$fecha_arqueo_desde. " a ".$fecha_arqueo_hasta,$borde,0, 'L');
 	
 	$pdf->Ln(5);
 
 	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(83,$w,"Valor base caja:",$borde,0, 'L');
-        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(194,$w,$caja_menor["saldo_inicial"],$borde,0, 'L');
+    $pdf->Cell(83,$w,"Valor base caja menor:",$borde,0, 'L');
+    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+    $pdf->Cell(194,$w,$caja_menor["saldo_inicial"],$borde,0, 'L');
 
-        $pdf->Ln(10);
+    $pdf->Ln(10);
 
 	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(92.6,$w,"Concepto ingresos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(92.6,$w,"Concepto ingresos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,"Cantidad",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,"Valor ingresos",$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
 	$pdf->Ln(5);
-        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(92.6,$w,"Abonos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+    $pdf->Cell(92.6,$w,"Abonos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,$ingresos[0]["cantidadFacturas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,$ingresos[0]["valorIngreso"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Ln(5);
@@ -102,13 +102,13 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 	$pdf->Ln(10);
 
 	$pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-        $pdf->Cell(92.6,$w,"Concepto egresos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(92.6,$w,"Concepto egresos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,"Cantidad",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,"Valor egresos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 
 	$pdf->Ln(5);
-        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-        $pdf->Cell(92.6,$w,"Pagos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+    $pdf->Cell(92.6,$w,"Pagos",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,$egresos[0]["cantidadFacturas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Cell(92.6,$w,$egresos[0]["valorIngreso"],$borde,0,'C', 0, '', 0, false, 'T', 'C');
 	$pdf->Ln(5);
@@ -140,8 +140,13 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 }
 
 
-    $fecha_arqueo=$_POST['nb_fecha_arqueo_fld'];
+    //$fecha_arqueo=$_POST['nb_fecha_arqueo_fld'];
+    $fecha_arqueo_desde=$_POST['nb_fecha_arqueo_desde_fld'];
+    $fecha_arqueo_hasta=$_POST['nb_fecha_arqueo_hasta_fld'];
     $responsable=$_POST['nb_responsable_fld'];
+    
+    
+	
     session_start();
     
     $objUtilities = $_SESSION['objUtilities'];
@@ -157,7 +162,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 	from nb_cartera_tbl cartera
 	join nb_conceptos_facturas_tbl concepto on concepto.nb_id_fld=cartera.nb_concepto_fld
 	where lower(concepto.nb_nombre_fld) like '%abono%' and SUBSTR(cartera.nb_referencia_fld,1,1)='v' and cartera.nb_estado_fld=0 
-    and cartera.nb_fecha_ingreso_concepto_fld = '".$fecha_arqueo."'
+    and cartera.nb_fecha_ingreso_concepto_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
@@ -168,7 +173,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 			    2)) as valorIngreso
 	from nb_ventas_tbl a
 	inner join nb_venta_detalle_tbl b on (a.nb_id_fld =b.factura)
-	where a.nb_forma_pago_fld=0 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld='".$fecha_arqueo."'
+	where a.nb_forma_pago_fld=0 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
@@ -179,7 +184,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
                     2)) as valorIngreso
 	from nb_ventas_tbl a
 	inner join nb_venta_detalle_tbl b on (a.nb_id_fld =b.factura)
-	where a.nb_forma_pago_fld=2 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld='".$fecha_arqueo."'
+	where a.nb_forma_pago_fld=2 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
@@ -189,7 +194,9 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
                         '')),0),
                     2)) as valorIngreso
 	from nb_abonosinfactura_tbl
-	where nb_estado_fld=1 and nb_fecha_cobro_fld = '".$fecha_arqueo."'";
+	where nb_estado_fld=1 and nb_fecha_cobro_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."'";
+
+	
     
     $ingresos=$database->executeQuery($sqlingresos);
 
@@ -201,7 +208,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 		                '')),0),
 		            2)) as valorIngreso
 	from nb_cartera_tbl
-	where SUBSTR(nb_referencia_fld,1,1)='c' and nb_fecha_ingreso_concepto_fld = '".$fecha_arqueo."'
+	where SUBSTR(nb_referencia_fld,1,1)='c' and nb_fecha_ingreso_concepto_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
@@ -212,7 +219,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 			    2)) as valorIngreso
 	from nb_compras_tbl a
 	inner join nb_compra_detalle_tbl b on (a.nb_id_fld =b.factura)
-	where a.nb_forma_pago_fld=0 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld= '".$fecha_arqueo."'
+	where a.nb_forma_pago_fld=0 and a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
@@ -223,7 +230,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
             		2)) as valorIngreso
 	from nb_compras_tbl a
 	inner join nb_compra_detalle_tbl b on (a.nb_id_fld =b.factura)
-	where a.nb_forma_pago_fld=2 and  a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld='".$fecha_arqueo."'
+	where a.nb_forma_pago_fld=2 and  a.nb_estado_fld=0 and a.nb_fecha_ingreso_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."'
 	union all
 	select
 		count(nb_id_fld) as cantidadFacturas,
@@ -233,8 +240,9 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
                         '')),0),
                     2)) as valorIngreso
 	from nb_egresos_tbl
-	where nb_fecha_fld = '".$fecha_arqueo."' and nb_estado_fld=0";
+	where nb_fecha_fld between '".$fecha_arqueo_desde."' and '".$fecha_arqueo_hasta."' and nb_estado_fld=0";
 
+	
     $egresos=$database->executeQuery($sqlegresos);
 
     $sqlegresostotales= "select CONCAT('$',FORMAT(REPLACE(REPLACE('".$egresos[0]["valorIngreso"]."', ',', ''),'$','') + ".
@@ -242,6 +250,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 			"REPLACE(REPLACE('".$egresos[2]["valorIngreso"]."', ',', ''),'$','') + ".
 			"REPLACE(REPLACE('".$egresos[3]["valorIngreso"]."', ',', ''),'$',''),2)) as egresostotales";
 
+	
     $total_egresos=$database->executeQueryOneRow($sqlegresostotales);
 
     $sqlingresostotales= "select CONCAT('$',FORMAT(REPLACE(REPLACE('".$ingresos[0]["valorIngreso"]."', ',', ''),'$','') + ".
@@ -249,30 +258,36 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
 			"REPLACE(REPLACE('".$ingresos[2]["valorIngreso"]."', ',', ''),'$','') + ".
 			"REPLACE(REPLACE('".$ingresos[3]["valorIngreso"]."', ',', ''),'$',''),2)) as ingresostotales";
 
+	
     $total_ingresos=$database->executeQueryOneRow($sqlingresostotales);
        
-    $sql="select ifnull((select
-	nb_saldo_inicial_fld
-	from nb_caja_tbl
-	where nb_fecha_fld='".$fecha_arqueo."' and nb_estado_fld=0),'$0.00') as saldo_inicial";
+    $sql="select ifnull((select nb_saldo_inicial_fld from nb_caja_tbl
+		  where nb_id_fld = (select max(nb_id_fld) 
+								from nb_caja_tbl 
+								where nb_fecha_fld <=  str_to_date('".$fecha_arqueo_desde."','%d/%m/%Y')
+								and nb_estado_fld=0)),'$0.00') as saldo_inicial ";
 
     $caja_menor=$database->executeQueryOneRow($sql);
 
-    $sqlsaldocaja = "select CONCAT('$',FORMAT((REPLACE(REPLACE('".$caja_menor["saldo_inicial"]."', ',', ''),'$','') +"
+  	$sqlsaldocaja = "select CONCAT('$',FORMAT((REPLACE(REPLACE('".$caja_menor["saldo_inicial"]."', ',', ''),'$','') +"
 			."REPLACE(REPLACE('".$total_ingresos["ingresostotales"]."', ',', ''),'$','') -"
 			."REPLACE(REPLACE('".$total_egresos["egresostotales"]."', ',', ''),'$','')),2)) as saldo";
-
+	
+	
     $saldo_caja=$database->executeQueryOneRow($sqlsaldocaja);
 
     $sqlresponsable = "select nb_nombre_fld as nombre from nb_terceros_tbl where nb_id_fld=".$responsable;
 
+    
     $responsable_resultado=$database->executeQueryOneRow($sqlresponsable);
 
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,10, $ingresos, $egresos, $caja_menor, $total_ingresos, $total_egresos, $saldo_caja, $fecha_arqueo,$responsable_resultado);
+    
+
+    schemaReport($pdf,10, $ingresos, $egresos, $caja_menor, $total_ingresos, $total_egresos, $saldo_caja, $fecha_arqueo_desde,$fecha_arqueo_hasta,$responsable_resultado);
 
     $objReport->exportarPdf($pdf,$id);
 
