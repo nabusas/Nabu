@@ -568,6 +568,71 @@ table.dt-rowReorder-float .alpaca-table-reorder-draggable-cell
 {
     white-space: normal;
 }
+
+.alpaca-field-table > legend
+{
+    display: none;
+}
+
+/*** CHOOSER **/
+
+.alpaca-field-chooser
+{
+
+}
+
+.alpaca-field-chooser .alpaca-control
+{
+}
+
+.alpaca-field-chooser .alpaca-control .chooser-panel .chooser-panel-header
+{
+    min-height: 34px;
+    margin-bottom: 20px;
+}
+
+.alpaca-field-chooser .alpaca-control .chooser-panel .chooser-panel-items
+{
+    background-color: white;
+    border: 1px #ccc solid;
+    border-radius: 4px;
+    overflow-y: scroll;
+    overflow-y: -moz-scrollbars-vertical;
+}
+
+.alpaca-field-chooser .alpaca-control .chooser-panel .chooser-panel-items .chooser-item
+{
+    min-height: 34px;
+}
+
+.alpaca-field-chooser .alpaca-control .chooser-panel .chooser-panel-items .chooser-item.disabled .chooser-item-text
+{
+    color: #ccc;
+}
+
+.alpaca-field-chooser .alpaca-control .chooser-panel .chooser-panel-items .chooser-item:not(:last-child)
+{
+    border-bottom: 1px #ddd solid;
+}
+
+.alpaca-field-chooser .alpaca-control .chooser-panel .chooser-panel-items .chooser-item .chooser-item-text
+{
+    margin-left: 10px;
+    line-height: 34px;
+    display: inline-block;
+}
+
+.alpaca-field-chooser .alpaca-control .chooser-panel .chooser-panel-items .chooser-item .chooser-item-buttons
+{
+    float: right;
+    margin: 5px;
+}
+
+.alpaca-field-chooser .chooser-item-message
+{
+    color: #aaa;
+}
+
 .alpaca-container-label
 {
     margin-top: 20px;
@@ -578,9 +643,14 @@ legend.alpaca-container-label
     margin-top: 0px;
 }
 
-.alpaca-array-toolbar
+.alpaca-array-toolbar.alpaca-array-toolbar-position-top
 {
     margin-bottom: 10px;
+}
+
+.alpaca-array-toolbar.alpaca-array-toolbar-position-bottom
+{
+    margin-top: 10px;
 }
 
 .alpaca-array-actionbar
@@ -884,3 +954,15 @@ legend.alpaca-container-label
     margin-top: 20px;
 }
 
+.alpaca-control.disabled label
+{
+    color: #aaa;
+}
+
+.alpaca-required-indicator
+{
+    padding-left: 5px;
+    font-style: italic;
+    font-weight: 200;
+    color: #888;
+}
