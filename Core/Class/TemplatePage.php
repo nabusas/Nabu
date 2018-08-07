@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 	Fecha creacion		= 28-02-2015
 	Desarrollador		= CAGC
-	Fecha modificacion	= 09-04-2018
+	Fecha modificacion	= 21-04-2018
 	Usuario Modifico	= CAGC
 
 */
@@ -247,10 +247,12 @@ class TemplatePage
 
 	function tail() {
         
-        $terminos=file_get_contents("../Files/terminos.txt");
-        $terminos = ucfirst($terminos);
-        $terminos = str_replace(array("\r\n", "\r", "\n"), "<br />",$terminos);
-        $terminos = nl2br($terminos);
+        if ($this->idPage == 'login'){ 
+            $terminos=file_get_contents("../Files/terminos.txt");
+            $terminos = ucfirst($terminos);
+            $terminos = str_replace(array("\r\n", "\r", "\n"), "<br />",$terminos);
+            $terminos = nl2br($terminos);
+        }
 ?>
 		      <footer class="footer">
                   <table width="100%">
@@ -261,17 +263,27 @@ class TemplatePage
 				             <a href="../../Mantis" TARGET="_blank"><i class="fa fa-bug fa-1x btn btn-primary"></i></a>    
                             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nabu &copy; 2017</p>
                         </td>
-                        <td align='right'>
+<?php  
+            if ($this->idPage == 'login'){
+?>                          
+                          <td align='right'>
                                 <a class="terminosCon">
                                     <i class="fa fa-commenting-o fa-1x btn btn-primary"></i>
                                 </a>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <p>Terminos y Condiciones<?php ?></p>
                         </td>
+<?php  
+            }
+?>             
+                                
                       </tr>
                   </table>          
 		        </footer>
             
+<?php  
+            if ($this->idPage == 'login'){
+?>                
             <script>
             $(document).on("click", ".terminosCon", function(e) {
                 var dialog = bootbox.dialog({
@@ -284,9 +296,10 @@ class TemplatePage
                     setTimeout(function(){dialog.find('.bootbox-body').html('<?php echo $terminos ?>');},1000);});
                 });
             </script>
-           
-            
-                 </div>    
+<?php  
+            }
+?>             
+                </div>    
 			</body>
 		</html>
 
