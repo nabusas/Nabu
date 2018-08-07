@@ -123,7 +123,7 @@ class TemplatePage
 	function body(){
         $urlCurrent = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 ?>
-		<body onload="ChangeUrl('nabu','nabu')">
+        <body onload="ChangeUrl('nabu','nabu')">
         <!--<body>-->
             
             
