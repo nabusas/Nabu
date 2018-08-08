@@ -31,6 +31,9 @@ THE SOFTWARE.
 */
     include "../Class/TemplatePage.php";
 
+    if( !isset($_GET['p']) )
+        $_GET['p']='login';
+
     if($_GET['p'] == 'login'){
         session_start();
         session_unset();
