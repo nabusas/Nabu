@@ -2,3 +2,4 @@ Options -Indexes
 RewriteEngine on
 RewriteBase /Nabu/Core/Pages/
 RewriteRule ^nabu/([^/\.]+)/?$ /nabu.php?p=$1[L]
+Redirect /nabu/Core/Pages/nabu /nabu/
