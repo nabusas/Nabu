@@ -73,7 +73,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$comprobante_devols)
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
     $pdf->Cell(83,$w,"Recibe:",$borde,0, 'L');
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(194,$w,$comprobante_devols[0]['responsable'],$borde,0, 'L');
+    $pdf->Cell(194,$w,$comprobante_devols[0]['nb_nombre_fld'],$borde,0, 'L');
 	
 	$pdf->Ln(10);
 
