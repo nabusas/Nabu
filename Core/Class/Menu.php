@@ -106,7 +106,7 @@ class Menu
                         ($role == '5' and $enlace == 'nb_productos_v_pg') or
                         ($role == '6' and $enlace == 'nb_cartera_v_pg') or
                         ($role == '7' and $enlace == 'nb_productos_v_pg') or
-                        ($role == '7' and $enlace == 'nb_terceros_v_pg')
+                        ($role == '7' and $enlace == 'nb_terceros_v_pg') or ($role == '7' and $enlace == 'nb_detall_inv_pg')
                         
                     )
                             $menuString =$menuString. '</ul>';
