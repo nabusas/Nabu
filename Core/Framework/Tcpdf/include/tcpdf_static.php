@@ -515,7 +515,12 @@ class TCPDF_STATIC {
 			//INICIO CAGC
 			case 'CAGC1' : {$pf = array( 612, 395.150); break;}
 			//FIN CAGC
-			case 'A0' : {$pf = array( 2383.937, 3370.394); break;}
+                
+            /*CAGC FIN 13/08/2018 Paraiso desprendible despacho impresoras POS*/
+            case 'POS': {$pf = array( 226.8, 395.150); break;}
+			/*CAGC FIN 13/08/2018 */    
+			
+            case 'A0' : {$pf = array( 2383.937, 3370.394); break;}
 			case 'A1' : {$pf = array( 1683.780, 2383.937); break;}
 			case 'A2' : {$pf = array( 1190.551, 1683.780); break;}
 			case 'A3' : {$pf = array(  841.890, 1190.551); break;}
