@@ -3438,7 +3438,16 @@ class TCPDF {
 			$this->SetX($header_x);
 			$this->MultiCell($cw, $cell_height, $headerdata['string'], 0, '', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
 			// print an ending header line
-			$this->SetLineStyle(array('width' => 0.85 / $this->k, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => $headerdata['line_color']));
+			
+            
+            /*CAGC INICIO 13/08/2018 */
+            
+            //$this->SetLineStyle(array('width' => 0.85 / $this->k, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => $headerdata['line_color']));
+            
+            $this->SetLineStyle(array('width' => 0.25 / $this->k, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' =>  array(255,255,255)));
+            /*CAGC FIN 13/08/2018 */
+            
+            
 			$this->SetY((2.835 / $this->k) + max($imgy, $this->y));
 			if ($this->rtl) {
 				$this->SetX($this->original_rMargin);
