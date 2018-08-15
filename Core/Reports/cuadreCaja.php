@@ -264,7 +264,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$ingresos, $egresos, $caja_menor, $
     $sql="select ifnull((select nb_saldo_inicial_fld from nb_caja_tbl
 		  where nb_id_fld = (select max(nb_id_fld) 
 								from nb_caja_tbl 
-								where nb_fecha_fld <=  str_to_date('".$fecha_arqueo_desde."','%d/%m/%Y')
+								where str_to_date(nb_fecha_fld,'%d/%m/%Y') <=  str_to_date('".$fecha_arqueo_desde."','%d/%m/%Y')
 								and nb_estado_fld=0)),'$0.00') as saldo_inicial ";
 
     $caja_menor=$database->executeQueryOneRow($sql);
