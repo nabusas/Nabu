@@ -118,7 +118,6 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
 }
 
 
-    //$fecha_arqueo=$_POST['nb_fecha_arqueo_fld'];
     $fecha_desde=$_POST['nd_fecha_desde_fld'];
     $fecha_hasta=$_POST['nd_fecha_hasta_fld'];
     $categoria=$_POST['nb_categoria_fld'];
@@ -141,24 +140,25 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
     			 ((existencia.inv_inicial + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) - ifnull(inv_transito.inv_transito_cantidad,0))	inv_bodega
     from (
 
-        select a.nb_id_fld producto,a.nb_nombre_fld nombre,sum(b.existencia) inv_inicial
+        select  a.nb_id_fld producto,a.nb_nombre_fld nombre, b.existencia inv_inicial
         from nb_productos_vw a, nb_inventario_grid_vw b
-        where b.producto = a.nb_id_fld
-        and b.fecha < str_to_date('".$fecha_hasta."','%d/%m/%Y') 
-        and b.estado = 'ACTIVO'
-        group by a.nb_nombre_fld, a.nb_id_fld) existencia inner join   
+        where id = (
+                        select max(id) from nb_inventario_grid_vw where producto = b.producto
+                        and date(fecha) < str_to_date('".$fecha_desde."','%d/%m/%Y') 
+                        and estado = 'ACTIVO' 
+                    )
+        and b.producto = a.nb_id_fld ) existencia left join   
 
 
         (select b.producto producto, c.nb_nombre_fld, sum(b.cantidad) cantidad_compras 
         from nb_compras_grid_vw a, nb_compra_detalle_tbl b,nb_productos_vw c
-        where a.fechaingreso between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+        where str_to_date(a.fechaingreso,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
         and a.estado = 'ACTIVO'
         and b.factura = a.referencia
         and c.nb_id_fld = b.producto
         group by b.producto) compras on existencia.producto = compras.producto
 
         left join 
-
 
         (select a.nb_producto_fld producto, sum(a.nb_cantidad_fld) cantidad 
         from  nb_inventario_tbl a, nb_productos_vw b
@@ -170,7 +170,6 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
 
         left  join 
 
-
         (select b.producto producto, sum(b.cantidad) cantidad_ventas 
         from nb_ventas_tbl a, nb_venta_detalle_tbl b, nb_productos_vw c
         where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
@@ -180,7 +179,6 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
         group by b.producto) ventas  on  existencia.producto = ventas.producto
 
         left join 
-
 
         (select a.nb_producto_fld producto, sum(a.nb_cantidad_fld) cantidad 
         from  nb_inventario_tbl a, nb_productos_vw b
@@ -192,7 +190,6 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
 
         left join 
 
-
         (select a.producto producto, sum(a.transito) inv_transito_cantidad
         from nb_despacho_detalle_tbl a,  nb_productos_vw b , (select max(nb_id_fld) id_despacho, nb_codigo_vendedor_fld from nb_despachos_tbl
         where nb_estado_fld = '0'
@@ -202,9 +199,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
         and str_to_date(a.fecha,'%d/%m/%Y') <= str_to_date('".$fecha_hasta."','%d/%m/%Y')
         group by a.producto) inv_transito on existencia.producto = inv_transito.producto
 
-
         left join 
-
 
         (select b.producto producto, sum(b.cantidad) dev_v_cantidad  
         from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
@@ -218,7 +213,6 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
 
         left join 
 
-
         (select b.producto producto, sum(b.cantidad) dev_c_cantidad  
         from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
         where left(a.nb_factura_fld,1) = 'c'
@@ -229,17 +223,16 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
         group by b.producto) devo_comptas on existencia.producto = devo_comptas.producto
     ";
 
+    
 	if($producto <> ''){
 		$query = $query."  where existencia.producto = ".$producto; 
 
 		
 	}
+    
+	$movimiento_detallado_inv=$database->executeQuery($query);
 
-	 
-	 $movimiento_detallado_inv=$database->executeQuery($query);
-
-
-     if($categoria <> '') {
+    if(isset($categoria) and $categoria <> '') {
         $sql_categoria = $database->executeQueryOneRow("select nb_nombre_fld from nb_categoria_productos_tbl 
         where nb_id_fld = ".$categoria);
 
@@ -247,16 +240,15 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
         where nb_id_fld = ".$producto);
         $nombre_categoria = $sql_categoria[0];
         $nombre_producto = $sql_producto[0];
-     }
+    }
+     
+     
      else{
         $nombre_categoria = "Todos";
         $nombre_producto = "Todos ";
      }
      
 
-
-
-    
 
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
