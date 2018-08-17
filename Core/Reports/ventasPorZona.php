@@ -34,7 +34,7 @@ include "../Class/Utilities.php";
 include "../Class/Report.php";
 include_once "../Class/ExportToExcel.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona,$file)
+function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona, $file)
 {
 
     $borde=1;
@@ -125,15 +125,76 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
         $zona_name = $database->executeQueryOneRow($zona_query);
     }
 
-    $query = "select * from nb_ventas_zona_vw
+    /*$query = "select * from nb_ventas_zona_vw
               where str_to_date(fechaingreso,'%d/%m/%Y') 
                     between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')";
     if($zona){
         $query = $query." and zona = '".$zona_name[0]."'";
     }
 
-    $query = $query." order by fechaingreso";
+    $query = $query." order by fechaingreso";*/
 
+    $query = "
+        select  a.*, b.facturas_contado, b.efectivo_contado, c.facturas_credito, c.cartera_credito,
+                d.facturas_credicontado, d.efectivo_credicontado, d.cartera_credicontado,
+                ( ifnull(b.efectivo_contado,0) + ifnull(d.efectivo_credicontado,0)) efectivo_generado,
+                (ifnull(c.cartera_credito,0) + ifnull(d.cartera_credicontado,0)) cartera_generada
+        from 
+        (
+            select fechaingreso
+            from    nb_ventas_grid_vw
+            where estado = 'ACTIVO'
+            group by fechaingreso
+        ) a 
+        left join 
+        (
+            select  fechaingreso,ifnull(count(*),0) facturas_contado,
+                    ifnull(sum(replace(replace(left(total, length(total) - 3),'$',''),',','')),0) efectivo_contado 
+            from    nb_ventas_grid_vw
+            where   formapago = 'CONTADO'
+            and     estado = 'ACTIVO'";
+            if($zona){
+                $query = $query." and zona = '".$zona_name[0]."'";
+            }
+            $query = $query." 
+            and     str_to_date(fechaingreso,'%d/%m/%Y') between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+        ) b on a.fechaingreso = b.fechaingreso left join 
+        (
+            select  fechaingreso, ifnull(count(*),0) facturas_credito , 
+                    ifnull(sum(replace(replace(left(total, length(total) - 3),'$',''),',','')),0) cartera_credito
+            from    nb_ventas_grid_vw
+            where   formapago = 'CREDITO'
+            and     estado = 'ACTIVO'
+            ";
+            if($zona){
+                $query = $query." and zona = '".$zona_name[0]."'";
+            }
+            $query = $query."
+            and     str_to_date(fechaingreso,'%d/%m/%Y') between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+            group by fechaingreso
+        ) c on a.fechaingreso = c.fechaingreso left join 
+        (
+            select  a.fechaingreso fechaingreso,
+                    ifnull(count(*),0) facturas_credicontado,
+                    ifnull(sum(replace(replace(b.nb_abono_inicial_fld,'$',''),',','')),0) efectivo_credicontado,
+                    ifnull(sum(replace(replace(a.total,'$',''),',','')),0) total_credicontrado,
+                    (ifnull(sum(replace(replace(a.total,'$',''),',','')),0) - ifnull(sum(replace(replace(b.nb_abono_inicial_fld,'$',''),',','')),0) ) cartera_credicontado
+            from    nb_ventas_grid_vw a, nb_ventas_tbl b
+            where   formapago = 'CREDICONTADO'
+            and     estado = 'ACTIVO'
+            ";
+            if($zona){
+                $query = $query." and zona = '".$zona_name[0]."'";
+            }
+            $query = $query."
+            and     a.id = b.nb_id_fld
+            and     str_to_date(fechaingreso,'%d/%m/%Y') between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+            group by a.fechaingreso
+        ) d on a.fechaingreso = d.fechaingreso
+        where str_to_date(a.fechaingreso,'%d/%m/%Y') between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+    ";
+
+    echo "string".$query;
 
     $ventas_por_zona=$database->executeQuery($query);
 
@@ -147,7 +208,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
     $file=$csv->exportarFile('0',$query);
     $database->desconectar();
 
-    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona,$file);
+    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona, $file);
 
     $objReport->exportarPdf($pdf,$id);
 

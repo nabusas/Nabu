@@ -57,54 +57,54 @@ function schemaReport($pdf,$tamanoFuenteForm,$desprendible_despacho)
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
     $pdf->Cell(20,$w,"Vendedor:",$borde,0, 'L');
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(57.5,$w,$desprendible_despacho[0]['nombreven'],$borde,0, 'L');
+    $pdf->Cell(49.5,$w,$desprendible_despacho[0]['nombreven'],$borde,0, 'L');
 
 	
 	$pdf->Ln(5);
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
     $pdf->Cell(20,$w,"Despachador:",$borde,0, 'L');
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(57.5,$w,$desprendible_despacho[0]['usuariodes'],$borde,0, 'L');
+    $pdf->Cell(49.5,$w,$desprendible_despacho[0]['usuariodes'],$borde,0, 'L');
 	
 	$pdf->Ln(5);
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
     $pdf->Cell(20,$w,"Fecha:",$borde,0, 'L');
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(57.5,$w,$desprendible_despacho[0]['fecha'],$borde,0, 'L');
+    $pdf->Cell(49.5,$w,$desprendible_despacho[0]['fecha'],$borde,0, 'L');
 	
 	$pdf->Ln(5);
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
     $pdf->Cell(20,$w,"Zona:",$borde,0, 'L');
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(57.5,$w,$desprendible_despacho[0]['nb_zona_fld'],$borde,0, 'L');
+    $pdf->Cell(49.5,$w,$desprendible_despacho[0]['nb_zona_fld'],$borde,0, 'L');
 	
 	$pdf->Ln(10);
 
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-	$pdf->Cell($weight,$w,"PRODUCTO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell($weight,$w,"CANTIDAD",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell($weight,$w,"ENTRADAS",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell($weight,$w,"DIFERENCIA",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+	$pdf->Cell(28,$w,"PRODUCTO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(14,$w,"CANTIDAD",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(14,$w,"ENTRADAS",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(14,$w,"DIFERENCIA",$borde,0,'C', 0, '', 0, false, 'T', 'C');
    
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm); 
     $total = 0;
     
     for($i=0; $i<sizeof($desprendible_despacho);$i++){
     	$pdf->Ln(5);
-    	$pdf->Cell($weight,$w,$desprendible_despacho[$i]["descripcion"],$borde,0, 'C');
-        $pdf->Cell($weight,$w,$desprendible_despacho[$i]["cantidad"],$borde,0, 'C');
-        $pdf->Cell($weight,$w,"",$borde,0, 'C');
-    	$pdf->Cell($weight,$w,"",$borde,0, 'C');
+    	$pdf->Cell(28,$w,$desprendible_despacho[$i]["descripcion"],$borde,0, 'C');
+        $pdf->Cell(14,$w,$desprendible_despacho[$i]["cantidad"],$borde,0, 'C');
+        $pdf->Cell(14,$w,"",$borde,0, 'C');
+    	$pdf->Cell(14,$w,"",$borde,0, 'C');
         $total = $total + intval($desprendible_despacho[$i]["cantidad"]);
     }
     
     $pdf->Ln(5);
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-    $pdf->Cell($weight,$w,"TOTAL",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(28,$w,"TOTAL",$borde,0,'C', 0, '', 0, false, 'T', 'C');
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm); 
-    $pdf->Cell($weight,$w,$total,$borde,0,'C');
-    $pdf->Cell($weight,$w,"",$borde,0,'C');
-    $pdf->Cell($weight,$w,"",$borde,0,'C');
+    $pdf->Cell(14,$w,$total,$borde,0,'C');
+    $pdf->Cell(14,$w,"",$borde,0,'C');
+    $pdf->Cell(14,$w,"",$borde,0,'C');
 
     $pdf->Ln(10);
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
@@ -137,7 +137,7 @@ if (isset($_GET['iidCabecera'])){
     $pdf=$objReport->setupForm();
 
     
-    schemaReport($pdf,3.5,$desprendible_despacho);
+    schemaReport($pdf,5,$desprendible_despacho);
 
     $objReport->exportarPdf($pdf,$id);
 }
