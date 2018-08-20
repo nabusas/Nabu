@@ -34,7 +34,7 @@ include "../Class/Utilities.php";
 include "../Class/Report.php";
 include_once "../Class/ExportToExcel.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona, $file)
+function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona)
 {
 
     $borde=1;
@@ -120,22 +120,14 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    if($zona){
+    if($zona <> ''){
         $zona_query = "select nb_nombre_fld from nb_zonas_tbl where nb_id_fld = ".$zona;
         $zona_name = $database->executeQueryOneRow($zona_query);
     }
 
-    /*$query = "select * from nb_ventas_zona_vw
-              where str_to_date(fechaingreso,'%d/%m/%Y') 
-                    between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')";
-    if($zona){
-        $query = $query." and zona = '".$zona_name[0]."'";
-    }
-
-    $query = $query." order by fechaingreso";*/
 
     $query = "
-        select  a.*, b.facturas_contado, b.efectivo_contado, c.facturas_credito, c.cartera_credito,
+        select  a.fechaingreso, b.facturas_contado, b.efectivo_contado, c.facturas_credito, c.cartera_credito,
                 d.facturas_credicontado, d.efectivo_credicontado, d.cartera_credicontado,
                 ( ifnull(b.efectivo_contado,0) + ifnull(d.efectivo_credicontado,0)) efectivo_generado,
                 (ifnull(c.cartera_credito,0) + ifnull(d.cartera_credicontado,0)) cartera_generada
@@ -144,6 +136,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
             select fechaingreso
             from    nb_ventas_grid_vw
             where estado = 'ACTIVO'
+            and str_to_date(fechaingreso,'%d/%m/%Y') between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
             group by fechaingreso
         ) a 
         left join 
@@ -191,10 +184,9 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
             and     str_to_date(fechaingreso,'%d/%m/%Y') between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
             group by a.fechaingreso
         ) d on a.fechaingreso = d.fechaingreso
-        where str_to_date(a.fechaingreso,'%d/%m/%Y') between  str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+        
     ";
 
-    echo "string".$query;
 
     $ventas_por_zona=$database->executeQuery($query);
 
@@ -203,12 +195,12 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
 
     $pdf=$objReport->setupForm();
 
-    $csv = new ExportExcel();
+   /*$csv = new ExportExcel();
     $database->conectar();
     $file=$csv->exportarFile('0',$query);
-    $database->desconectar();
+    $database->desconectar();*/
 
-    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona, $file);
+    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona);
 
     $objReport->exportarPdf($pdf,$id);
 
