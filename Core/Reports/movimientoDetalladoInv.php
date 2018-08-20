@@ -120,7 +120,7 @@ THE SOFTWARE.
 
     $fecha_desde=$_POST['nd_fecha_desde_fld'];
     $fecha_hasta=$_POST['nd_fecha_hasta_fld'];
-    //$categoria=$_POST['nb_categoria_fld'];
+    $categoria=$_POST['nb_categoria_fld'];
     $producto=$_POST['nb_producto_fld'];
 
     
@@ -262,7 +262,7 @@ THE SOFTWARE.
         $nombre_producto = "Todos";
     }
 
-    //$movimiento_detallado_inv=$database->executeQuery($query);
+    $movimiento_detallado_inv=$database->executeQuery($query);
 
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
