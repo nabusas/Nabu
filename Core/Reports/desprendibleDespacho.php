@@ -112,9 +112,9 @@ function schemaReport($pdf,$tamanoFuenteForm,$desprendible_despacho)
 
 }
 
-if (isset($_GET['iidCabecera'])){
+if (isset($_GET['idCabecera'])){
     
-    $id_despacho=$_GET['iidCabecera'];
+    $id_despacho=$_GET['idCabecera'];
 
     session_start();
     

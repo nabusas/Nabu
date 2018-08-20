@@ -30,97 +30,97 @@ THE SOFTWARE.
 
 */
 
-include "../Class/Utilities.php";
-include "../Class/Report.php";
+    include "../Class/Utilities.php";
+    include "../Class/Report.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea, $producto, $movimiento_det_inv)
-{
+    function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $nombre_categoria, $producto, $movimiento_det_inv)
+    {
+        
+        $borde=1;
+        $w=5;
 
-    $borde=1;
-    $w=5;
-
-	$pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
-    $pdf->Ln(27);
-    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm-2);
-    $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
-    $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
-    $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
-    $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
-    $pdf->Ln(3);
-    
-    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-    $pdf->Cell(278,$w,'MOVIMIENTO DETALLADO DE INVENTARIO', $borde, 1, 'C');
-    $pdf->Ln(4);
-	
-    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-    $pdf->Cell(83,$w,"Fecha Desde:",$borde,0, 'L');
-    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(194,$w,$fecha_desde,$borde,0, 'L');
-	
-	$pdf->Ln(5);
-    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-    $pdf->Cell(83,$w,"Fecha Hasta:",$borde,0, 'L');
-    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(194,$w,$fecha_hasta,$borde,0, 'L');
-	
-	
-
-	$pdf->Ln(5);
-    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-    $pdf->Cell(83,$w,"Linea:",$borde,0, 'L');
-    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(194,$w,$linea,$borde,0, 'L');
-	
-	
-
-	$pdf->Ln(5);
-    $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
-    $pdf->Cell(83,$w,"Producto:",$borde,0, 'L');
-    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
-    $pdf->Cell(194,$w,$producto,$borde,0, 'L');
-	
-	$pdf->Ln(10);
-
-    $pdf->Cell(60.6,$w,"",0,0, 'C', 0, '', 0, false, 'T', 'C');   
-    $pdf->Cell(70.5,$w,"ENTRADAS",$borde,0, 'C', 0, '', 0, false, 'T', 'C'); 
-    $pdf->Cell(71,$w,"SALIDAS",$borde,0, 'C', 0, '', 0, false, 'T', 'C'); 
-    $pdf->Cell(76,$w,"TOTALES",$borde,0, 'C', 0, '', 0, false, 'T', 'C'); 
-    $pdf->Ln(5);
-	$pdf->Cell(40.5,$w,"Producto",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(20,$w,"Inv. Inicial",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(20,$w,"Compras",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"Entradas Alma",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25,$w,"Dev. Ventas",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(20,$w,"Ventas",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"Salidas alma",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"Dev. Compras",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"Inv. tránsito",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"Inv. Bodega",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25,$w,"Inv. Total",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-
-
-    for($i=0; $i<sizeof($movimiento_det_inv);$i++){
+    	$pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+        $pdf->Ln(27);
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm-2);
+        $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
+        $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
+        $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
+        $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
+        $pdf->Ln(3);
+        
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->Cell(278,$w,'MOVIMIENTO DETALLADO DE INVENTARIO', $borde, 1, 'C');
+        $pdf->Ln(4);
+    	
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->Cell(83,$w,"Fecha Desde:",$borde,0, 'L');
+        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $pdf->Cell(194,$w,$fecha_desde,$borde,0, 'L');
+    	
     	$pdf->Ln(5);
-        $pdf->SetFont('helvetica', 'N', 8); 
-    	$pdf->Cell(40.5,$w,$movimiento_det_inv[$i]["nombre"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["inv_inicial"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["compras"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["entra_alma"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["devol_vtas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["ventas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["sali_alma"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["devo_compras"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inv_transi"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inv_total"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["inv_bodega"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    }
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->Cell(83,$w,"Fecha Hasta:",$borde,0, 'L');
+        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $pdf->Cell(194,$w,$fecha_hasta,$borde,0, 'L');
+    	
+    	
 
-}
+    	$pdf->Ln(5);
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->Cell(83,$w,"Linea:",$borde,0, 'L');
+        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $pdf->Cell(194,$w,$nombre_categoria,$borde,0, 'L');
+    	
+    	
+
+    	$pdf->Ln(5);
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
+        $pdf->Cell(83,$w,"Producto:",$borde,0, 'L');
+        $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);   
+        $pdf->Cell(194,$w,$producto,$borde,0, 'L');
+    	
+    	$pdf->Ln(10);
+
+        $pdf->Cell(60.6,$w,"",0,0, 'C', 0, '', 0, false, 'T', 'C');   
+        $pdf->Cell(70.5,$w,"ENTRADAS",$borde,0, 'C', 0, '', 0, false, 'T', 'C'); 
+        $pdf->Cell(71,$w,"SALIDAS",$borde,0, 'C', 0, '', 0, false, 'T', 'C'); 
+        $pdf->Cell(76,$w,"TOTALES",$borde,0, 'C', 0, '', 0, false, 'T', 'C'); 
+        $pdf->Ln(5);
+    	$pdf->Cell(40.5,$w,"Producto",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(20,$w,"Inv. Inicial",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(20,$w,"Compras",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(25.5,$w,"Entradas Alma",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(25,$w,"Dev. Ventas",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(20,$w,"Ventas",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(25.5,$w,"Salidas alma",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(25.5,$w,"Dev. Compras",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(25.5,$w,"Inv. tránsito",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(25.5,$w,"Inv. Bodega",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        $pdf->Cell(25,$w,"Inv. Total",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+
+
+        for($i=0; $i<sizeof($movimiento_det_inv);$i++){
+        	$pdf->Ln(5);
+            $pdf->SetFont('helvetica', 'N', 8); 
+        	$pdf->Cell(40.5,$w,$movimiento_det_inv[$i]["nombre"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["inv_inicial"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["compras"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["entra_alma"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["devol_vtas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["ventas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["sali_alma"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["devo_compras"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inv_transi"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inv_total"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["inv_bodega"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        }
+
+    }
 
 
     $fecha_desde=$_POST['nd_fecha_desde_fld'];
     $fecha_hasta=$_POST['nd_fecha_hasta_fld'];
-    $categoria=$_POST['nb_categoria_fld'];
+    //$categoria=$_POST['nb_categoria_fld'];
     $producto=$_POST['nb_producto_fld'];
 
     
@@ -144,7 +144,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
         from nb_productos_vw a, nb_inventario_grid_vw b
         where id = (
                         select max(id) from nb_inventario_grid_vw where producto = b.producto
-                        and date(fecha) < str_to_date('".$fecha_desde."','%d/%m/%Y') 
+                        and date_format(fecha,'%d/%m/%Y') < str_to_date('".$fecha_desde."','%d/%m/%Y') 
                         and estado = 'ACTIVO' 
                     )
         and b.producto = a.nb_id_fld ) existencia left join   
@@ -223,38 +223,50 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $linea,
         group by b.producto) devo_comptas on existencia.producto = devo_comptas.producto
     ";
 
-    
-	if($producto <> ''){
-		$query = $query."  where existencia.producto = ".$producto; 
-
-		
-	}
-    
-	$movimiento_detallado_inv=$database->executeQuery($query);
-
-    if(isset($categoria) and $categoria <> '') {
-        $sql_categoria = $database->executeQueryOneRow("select nb_nombre_fld from nb_categoria_productos_tbl 
-        where nb_id_fld = ".$categoria);
-
-        $sql_producto = $database->executeQueryOneRow("select nb_nombre_fld from nb_productos_vw
-        where nb_id_fld = ".$producto);
-        $nombre_categoria = $sql_categoria[0];
-        $nombre_producto = $sql_producto[0];
+    if($producto <> ''){
+        $query = $query."  where existencia.producto = ".$producto; 
+        
     }
-     
-     
-     else{
-        $nombre_categoria = "Todos";
-        $nombre_producto = "Todos ";
-     }
-     
 
+    $movimiento_detallado_inv=$database->executeQuery($query);
+
+    if(isset($categoria) && $categoria !== '' && $producto == ''){
+         $query_categoria = "  select nb_nombre_fld
+                                from nb_categoria_productos_tbl
+                                where nb_id_fld =  ".$categoria;
+
+        $sql_categoria = $database->executeQueryOneRow($query_categoria);
+
+        $nombre_categoria = $sql_categoria[0];
+    }
+
+    elseif(isset($producto) && $producto !== '' && isset($categoria) && $categoria !== ''){
+        //$query = $query."  where existencia.producto = ".$producto; 
+
+        $sql_producto = $database->executeQueryOneRow("select nb_nombre_fld from nb_productos_tbl
+        where nb_id_fld = ".$producto);
+
+        $nombre_producto = $sql_producto[0];
+
+        $query_categoria = " select nb_nombre_fld 
+        from nb_categoria_productos_tbl 
+        where nb_id_fld = (select nb_categoria_fld from nb_productos_tbl where nb_id_fld = ".$producto.")";
+
+        $sql_categoria = $database->executeQueryOneRow($query_categoria);
+
+        $nombre_categoria = $sql_categoria[0];
+            
+    }
+    else{
+        $nombre_categoria = "Todos";
+        $nombre_producto = "Todos";
+    }
+
+    //$movimiento_detallado_inv=$database->executeQuery($query);
 
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
     $pdf=$objReport->setupForm();
-
-    
 
     schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $nombre_categoria, $nombre_producto, $movimiento_detallado_inv);
 

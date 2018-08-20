@@ -34,7 +34,7 @@ include "../Class/Utilities.php";
 include "../Class/Report.php";
 include_once "../Class/ExportToExcel.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona,$product, $causa, $consolidado_devols)
+function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona,$product, $causa, $consolidado_devols,$file)
 {
 
     $borde=1;
@@ -51,7 +51,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona,$
     
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
     $pdf->Cell(278,$w,'CONSOLIDADO DE DEVOLUCIONES', $borde, 1, 'C');
-     $pdf->Write(0, 'Archivo', $file, false, 'C', false);
+    $pdf->Write(0, 'Archivo', $file, false, 'C', false);
     $pdf->Ln(4);
 	
     $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm+1); 
@@ -191,7 +191,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona,$
 
     
 
-    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name, $product_name, $causa_name, $consolidado_devols);
+    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name, $product_name, $causa_name, $consolidado_devols,$file);
 
     $objReport->exportarPdf($pdf,$id);
 
