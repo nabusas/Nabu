@@ -96,7 +96,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
     for($i=0; $i<sizeof($ventas_por_zona);$i++){
     	$pdf->Ln(5);
     	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["fechaingreso"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["zona"],$borde,0, 'C');
+    	$pdf->Cell(25.5,$w,$zona,$borde,0, 'C');
     	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["contado_cant"],$borde,0, 'C');
     	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["contado_efec"],$borde,0, 'C');
     	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["credito_cant"],$borde,0, 'C');
@@ -120,7 +120,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    if($zona <> ''){
+    if($zona){
         $zona_query = "select nb_nombre_fld from nb_zonas_tbl where nb_id_fld = ".$zona;
         $zona_name = $database->executeQueryOneRow($zona_query);
     }
@@ -195,10 +195,10 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
 
     $pdf=$objReport->setupForm();
 
-   /*$csv = new ExportExcel();
+    $csv = new ExportExcel();
     $database->conectar();
     $file=$csv->exportarFile('0',$query);
-    $database->desconectar();*/
+    $database->desconectar();
 
     schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona);
 
