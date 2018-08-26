@@ -34,7 +34,7 @@ include "../Class/Utilities.php";
 include "../Class/Report.php";
 include_once "../Class/ExportToExcel.php";
 
-function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona)
+function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, $ventas_por_zona,$file)
 {
 
     $borde=1;
@@ -75,37 +75,37 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
 	
 	
 	$pdf->Ln(10);
-    $pdf->Cell(50,$w,"",0,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(50,$w,"FACTURAS CONTADO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(50,$w,"FACTURAS CREDITO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(75,$w,"FACTURAS CREDICONTADO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(55.5,$w,"",0,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(45,$w,"FACTURAS CONTADO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(45,$w,"FACTURAS CREDITO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(71.5,$w,"FACTURAS CREDICONTADO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
     $pdf->Ln(5);
-	$pdf->Cell(25.5,$w,"FECHA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+	$pdf->Cell(30,$w,"FECHA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
     $pdf->Cell(25.5,$w,"ZONA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"#",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"EFECTIVO",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"#",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"CARTERA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"#",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"EFECTIVO",$borde,0,'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"CARTERA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"EFECTIVO GEN.",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-    $pdf->Cell(25.5,$w,"CARTERA GEN.",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(18.5,$w,"#",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(26.5,$w,"EFECTIVO",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(18.5,$w,"#",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(26.5,$w,"CARTERA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(18.5,$w,"#",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(26.5,$w,"EFECTIVO",$borde,0,'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(26.5,$w,"CARTERA",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(30,$w,"EFECTIVO GEN.",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+    $pdf->Cell(30,$w,"CARTERA GEN.",$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
     $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm);
     for($i=0; $i<sizeof($ventas_por_zona);$i++){
     	$pdf->Ln(5);
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["fechaingreso"],$borde,0, 'C');
+    	$pdf->Cell(30,$w,$ventas_por_zona[$i]["fechaingreso"],$borde,0, 'C');
     	$pdf->Cell(25.5,$w,$zona,$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["contado_cant"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["contado_efec"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["credito_cant"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["creadito_cart"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["credicont_cant"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["credicont_efec"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["credicont_cart"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["efectivo_generado"],$borde,0, 'C');
-    	$pdf->Cell(25.5,$w,$ventas_por_zona[$i]["cartera_generada"],$borde,0, 'C');
+    	$pdf->Cell(18.5,$w,$ventas_por_zona[$i]["facturas_contado"],$borde,0, 'C');
+    	$pdf->Cell(26.5,$w,$ventas_por_zona[$i]["efectivo_contado"],$borde,0, 'C');
+    	$pdf->Cell(18.5,$w,$ventas_por_zona[$i]["facturas_credito"],$borde,0, 'C');
+    	$pdf->Cell(26.5,$w,$ventas_por_zona[$i]["cartera_credito"],$borde,0, 'C');
+    	$pdf->Cell(18.5,$w,$ventas_por_zona[$i]["facturas_credicontado"],$borde,0, 'C');
+    	$pdf->Cell(26.5,$w,$ventas_por_zona[$i]["efectivo_credicontado"],$borde,0, 'C');
+    	$pdf->Cell(26.5,$w,$ventas_por_zona[$i]["cartera_credicontado"],$borde,0, 'C');
+    	$pdf->Cell(30,$w,$ventas_por_zona[$i]["efectivo_generado"],$borde,0, 'C');
+    	$pdf->Cell(30,$w,$ventas_por_zona[$i]["cartera_generada"],$borde,0, 'C');
     }
 
 }
@@ -200,7 +200,7 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona, 
     $file=$csv->exportarFile('0',$query);
     $database->desconectar();
 
-    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona);
+    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $zona_name[0],$ventas_por_zona, $file);
 
     $objReport->exportarPdf($pdf,$id);
 

@@ -270,36 +270,31 @@ function schemaReport($pdf,$tamanoFuenteForm,$detalle_empleado,$detalle_ventas,$
     
 
     $query_ventas = "select * from nb_nomina_ventas_detalle_vw
-              where fecha between  str_to_date('".$fecha_desde."','%d/%m/%Y') 
+              where str_to_date(fecha,'%d/%m/%Y')  between  str_to_date('".$fecha_desde."','%d/%m/%Y') 
               and str_to_date('".$fecha_hasta."','%d/%m/%Y')";
 
     if($empleado){
         $query_ventas = $query_ventas. " and IdVendedor = ".$empleado;
     }
     
-
-    
-    //echo "query  ".$query1;
-
     $detalle_ventas=$database->executeQuery($query_ventas);
 
     $query_total_ventas = "select count(*) total_productos, 
         concat('$',format(sum(round(replace(replace(ifnull(ComisionT,0),',',''),'$',''))),2)) total_ingresos, 
         concat('$',format(sum(round(replace(replace(ifnull(total_devoluciones,0),',',''),'$',''))),2)) total_devoluciones
         from nb_nomina_ventas_detalle_vw
-        where  fecha between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')";
+        where  str_to_date(fecha,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')";
 
     if($empleado){
         $query_total_ventas = $query_total_ventas. " and IdVendedor = ".$empleado;
     }
 
-    //echo "detalleventas -->".sizeof($detalle_ventas)."<br>";
     $total_ventas=$database->executeQuery($query_total_ventas);
 
     $query_cobros="
             SELECT * 
             FROM nb_nomina_recaudo_detalle_reporte 
-            WHERE (Fecha BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
+            WHERE (STR_TO_DATE(Fecha,'%d/%m/%Y')  BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
             AND STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y')) ";
 
     if($empleado){
@@ -311,8 +306,11 @@ function schemaReport($pdf,$tamanoFuenteForm,$detalle_empleado,$detalle_ventas,$
     $query_total_comision_cobros = "
         select concat('$',format(sum(round(replace(replace(ifnull(Comision,0),',',''),'$',''))),2)) total_comision_cobros
         from nb_nomina_recaudo_detalle_reporte
-        where  fecha between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and IdCobrador = ".$empleado;
+        where  str_to_date(Fecha,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y') ";
+        
+    if($empleado){
+        $query_total_comision_cobros = $query_total_comision_cobros. " and IdCobrador = ".$empleado;
+    }
 
     $total_comision_cobros=$database->executeQuery($query_total_comision_cobros);
     //echo "detalle_cobro -->".sizeof($detalle_cobro)."<br>";
