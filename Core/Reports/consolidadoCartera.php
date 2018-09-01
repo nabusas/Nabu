@@ -43,21 +43,21 @@
     $database = $objUtilities->database;
 
  
-    $database->execute("delete from nb_conosolidado_cartera_reporte_tbl ");
+    $database->execute("delete from nb_consolidado_cartera_reporte_tbl ");
 
     if (isset($zona_) and $zona_ <> ''){
-      $sqlZonas = $zona_;
+      $sqlZonas = " and nb_id_fld = '".$zona_."'";
     }
 
     
 
-    $zonas = $database->executeQuery("select * from nb_zonas_tbl where nb_estado_fld = 0");
+    $zonas = $database->executeQuery("select * from nb_zonas_tbl where nb_estado_fld = 0 ".$sqlZonas);
     $nombre_zona = "";
 
-    for ($i=0; $i < 1; $i++) { 
-            if($sqlZonas == $zonas[$i]['nb_id_fld']){
+    for ($i=0; $i < sizeof($zonas); $i++) { 
+            /*if($sqlZonas == $zonas[$i]['nb_id_fld']){
               $nombre_zona = "where nombre_zona = '".$zonas[$i]['nb_nombre_fld']."'";
-            }
+            }*/
 
             $zona=$zonas[$i]['nb_id_fld'];
             
@@ -65,19 +65,33 @@
             $saldo_inicial = get_saldo_inicial($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $facturas_entregadas = get_facturas_entregadas($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $facturas_Abonadas = get_facturas_abonadas($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+            
+            //
             $facturas_canceladas = get_facturas_canceladas($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+            
             $abonos_aplicados = get_abonos_aplicados($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+            
+            //
             $recaduo = get_recaduo($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+            //
             $descuentos = get_descuentos($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+            
             $descuentas_especiales = get_descuentas_especiales($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $abonos_SF_aplicados = get_abonos_SF_aplicados($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $abonos_SF_entrantes = get_abonos_SF_entrantes($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+
+            //
             $facturas_vendidas = get_facturas_vendidas($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+            //
             $nueva_cartera = get_nueva_cartera($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+            
             $facturas_castigadas = get_facturas_castigadas($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $monto_castigado = get_monto_castigado($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $facturas_recuperadas = get_facturas_recuperadas($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
+
+            //
             $monto_recuperado = get_monto_recuperado();
+
             $facturas_por_devolucion = get_facturas_por_devolucion($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $monto_devoluciones = get_monto_devoluciones($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $traslados_in = get_traslados_in($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
@@ -87,29 +101,31 @@
             $facturas_finales = get_facturas_finales($facturas_iniciales, $facturas_canceladas, $facturas_vendidas, 
                                                      $facturas_castigadas,$facturas_recuperadas,$facturas_por_devolucion,
                                                      $traslados_in, $trasldos_out );
-            $saldo_final = get_saldo_final( $saldo_inicial,$recaduo,$descuentos,$descuentas_especiales,$abonos_SF_aplicados,
+            $saldo_final = get_saldo_final($saldo_inicial,$recaduo,$descuentos,$descuentas_especiales,$abonos_SF_aplicados,
                                             $nueva_cartera,$monto_castigado,$monto_recuperado,$monto_devoluciones);
             
             $rotacion_cartera = get_rotacion_cartera($saldo_final, $saldo_inicial,$nueva_cartera);
             
-            $insert_query = "insert into nb_consolidado_cartera_reporte_tbl values(null,'".$zonas[$i]['nb_nombre_fld']."',
-                            '".$facturas_iniciales."','".$saldo_inicial."','".$facturas_entregadas."','".$facturas_Abonadas."',
-                            '".$facturas_canceladas."','".$abonos_aplicados."','".$recaduo."','".$descuentos."',
-                            '".$descuentas_especiales."','".$abonos_SF_aplicados."','".$abonos_SF_entrantes."',
-                            '".$facturas_vendidas."','".$nueva_cartera."','".$facturas_castigadas."', '".$monto_castigado."',
-                            '".$facturas_recuperadas."','".$monto_recuperado."','".$facturas_por_devolucion."',
-                            '".$monto_devoluciones."','".$traslados_in."','".$monto_traslados_in."','".$trasldos_out."',
-                            '".$monto_trasldos_out."','".$facturas_finales."','".$saldo_final."','".$rotacion_cartera."')";
+            $insert_query = "insert into nb_consolidado_cartera_reporte_tbl values(null,'".$zonas[$i]['nb_nombre_fld']."','"
+                            .$facturas_iniciales."','".$saldo_inicial."','".$facturas_entregadas."','".$facturas_Abonadas."','"
+                            .$facturas_canceladas."','".$abonos_aplicados."','".$recaduo."','".$descuentos."','"
+                            .$descuentas_especiales."','".$abonos_SF_aplicados."','".$abonos_SF_entrantes."','"
+                            .$facturas_vendidas."','".$nueva_cartera."','".$facturas_castigadas."', '".$monto_castigado."','"
+                            .$facturas_recuperadas."','".$monto_recuperado."','".$facturas_por_devolucion."','"
+                            .$monto_devoluciones."','".$traslados_in."','".$monto_traslados_in."','".$trasldos_out."','"
+                            .$monto_trasldos_out."','".$facturas_finales."','".$saldo_final."','".$rotacion_cartera."')";
 
             
-            //$database->execute($insert_query);
-            echo "insert_query".$insert_query;
+            $database->execute($insert_query);
+            //echo "insert_query     ".$insert_query;
     }
 
-    $sql = "select * from nb_consolidado_cartera_reporte_tbl ".$nombre_zona;
-
+    //$sql = "select * from nb_consolidado_cartera_reporte_tbl ".$nombre_zona;
+    $sql = "select * from nb_consolidado_cartera_reporte_tbl ";
+    $result = $database->executeQuery($sql);
+    //echo "result   ".sizeof($result);
     
-    /*$csv = new ExportExcel();
+    $csv = new ExportExcel();
     $database->conectar();
     $file=$csv->exportarFile('0',$sql);
     $database->desconectar();
@@ -119,7 +135,7 @@
     header( 'Content-Type: application/octet-stream');
     header( 'Content-Length: '.filesize($file));
     header( 'Content-Disposition:attachment;filename='.$filename);
-    readfile($file);*/
+    readfile($file);
 
 
   function get_facturas_iniciales($zona, $fecha_desde){
@@ -133,7 +149,6 @@
               and zonas.factura =  a.referencia
               AND STR_TO_DATE(fechaingreso,'%d/%m/%Y') = STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
               and zonas.nb_id_fld = '".$zona."'";
-              //echo "string----->".$query."<br>"."<br>";
 
     $facturas_iniciales = $database->executeQueryOneRow($query);
   
@@ -320,7 +335,7 @@
   function get_abonos_SF_entrantes($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
-    $query = "select   concat('$',format(ifnull(sum(replace(replace(abonosSF.nb_abono_fld,'$',''),',','')),0),2)) abonosSF_entrantes
+    $query = "select ifnull(sum(replace(replace(abonosSF.nb_abono_fld,'$',''),',','')),0) abonosSF_entrantes
             FROM    nb_abonosinfactura_tbl abonosSF
             WHERE  nb_estado_fld = 0
             AND    STR_TO_DATE(nb_fecha_cobro_fld,'%d/%m/%Y') BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
@@ -542,13 +557,14 @@
   function get_traslados_in($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
-    $query = "select ifnull(count(ventas.nb_id_fld),0) traslados_in
-             from   nb_terceros_tbl terceros join nb_zonas_tbl zonas on (zonas.nb_nombre_fld = terceros.nb_zona_fld), nb_ventas_tbl ventas
-            where   terceros.nb_zona_anterior_fld <> ''
-            and terceros.nb_tipo_tercero_cli_fld = 0
-             and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-             and ventas.nb_codigo_cliente_fld = terceros.nb_id_fld
-             and zonas.nb_id_fld = '".$zona."'";
+    $query = "select  count(ventas.nb_referencia_fld)
+              from nb_terceros_tbl terceros, nb_zonas_tbl zonas, nb_ventas_tbl ventas 
+              where terceros.nb_tipo_tercero_cli_fld = 0
+              and   terceros.nb_zona_anterior_fld <> ''
+              and   terceros.nb_zona_fld = zonas.nb_nombre_fld
+              and  zonas.nb_id_fld = '".$zona."'
+              and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+              and   ventas.nb_codigo_cliente_fld = terceros.nb_id_fld";
 
     $traslados_in = $database->executeQueryOneRow($query);
 
@@ -559,30 +575,39 @@
   function get_monto_traslados_in($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
-    $query = "select ifnull(count(ventas.nb_id_fld),0) traslados_in
-             from   nb_terceros_tbl terceros join nb_zonas_tbl zonas on (zonas.nb_nombre_fld = terceros.nb_zona_fld), nb_ventas_tbl ventas
-            where   terceros.nb_zona_anterior_fld <> ''
-            and terceros.nb_tipo_tercero_cli_fld = 0
-             and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-             and ventas.nb_codigo_cliente_fld = terceros.nb_id_fld
-             and zonas.nb_id_fld = '".$zona."'";
+    $query = "select ifnull(sum( b.nb_nuevo_saldo_fld),0)
+              from 
+              (select terceros.nb_id_fld id_tercero, terceros.nb_nombre_fld, 
+                    terceros.nb_zona_fld, terceros.nb_fecha_cambio_zona_fld, 
+                    terceros.nb_zona_anterior_fld, zonas.nb_id_fld, ventas.nb_referencia_fld, ventas.nb_id_fld ventas_id
+              from nb_terceros_tbl terceros, nb_zonas_tbl zonas, nb_ventas_tbl ventas 
+              where terceros.nb_tipo_tercero_cli_fld = 0
+              and   terceros.nb_zona_anterior_fld <> ''
+              and   terceros.nb_zona_fld = zonas.nb_nombre_fld
+              and  zonas.nb_id_fld = '".$zona."'
+              and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+              and   ventas.nb_codigo_cliente_fld = terceros.nb_id_fld) a, nb_cartera_tbl b
+              where SUBSTRING(b.nb_referencia_fld,2,length(b.nb_referencia_fld)) = a.nb_referencia_fld
+              and   b.nb_estado_fld ='0'
+              and b.nb_fecha_ingreso_concepto_fld < a.nb_fecha_cambio_zona_fld ";
 
-    //$traslados_in = $database->executeQueryOneRow($query);
+    $traslados_in = $database->executeQueryOneRow($query);
 
-    return  0;
+    return  $traslados_in[0];
     
   }
 
   function get_trasldos_out($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
-    $query = "select ifnull(count(ventas.nb_id_fld),0) traslados_out
-            from  nb_terceros_tbl terceros join nb_zonas_tbl zonas on (zonas.nb_nombre_fld = terceros.nb_zona_anterior_fld), nb_ventas_tbl ventas
-            where   terceros.nb_zona_anterior_fld <> ''
-            and terceros.nb_tipo_tercero_cli_fld = 0
-             and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-             and ventas.nb_codigo_cliente_fld = terceros.nb_id_fld
-             and zonas.nb_id_fld = '".$zona."'";
+    $query = "select  count(ventas.nb_referencia_fld)
+              from nb_terceros_tbl terceros, nb_zonas_tbl zonas, nb_ventas_tbl ventas 
+              where terceros.nb_tipo_tercero_cli_fld = 0
+              and   terceros.nb_zona_anterior_fld <> ''
+              and   terceros.nb_zona_anterior_fld = zonas.nb_nombre_fld
+              and  zonas.nb_id_fld = '".$zona."'
+              and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+              and   ventas.nb_codigo_cliente_fld = terceros.nb_id_fld";
 
     $trasldos_out = $database->executeQueryOneRow($query);
 
@@ -593,17 +618,25 @@
   function get_monto_trasldos_out($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
-    $query = "select ifnull(count(ventas.nb_id_fld),0) traslados_out
-            from  nb_terceros_tbl terceros join nb_zonas_tbl zonas on (zonas.nb_nombre_fld = terceros.nb_zona_anterior_fld), nb_ventas_tbl ventas
-            where   terceros.nb_zona_anterior_fld <> ''
-            and terceros.nb_tipo_tercero_cli_fld = 0
-             and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-             and ventas.nb_codigo_cliente_fld = terceros.nb_id_fld
-             and zonas.nb_id_fld = '".$zona."'";
+   $query = "select ifnull(sum( b.nb_nuevo_saldo_fld),0)
+              from 
+              (select terceros.nb_id_fld id_tercero, terceros.nb_nombre_fld, 
+                    terceros.nb_zona_fld, terceros.nb_fecha_cambio_zona_fld, 
+                    terceros.nb_zona_anterior_fld, zonas.nb_id_fld, ventas.nb_referencia_fld, ventas.nb_id_fld ventas_id
+              from nb_terceros_tbl terceros, nb_zonas_tbl zonas, nb_ventas_tbl ventas 
+              where terceros.nb_tipo_tercero_cli_fld = 0
+              and   terceros.nb_zona_anterior_fld <> ''
+              and   terceros.nb_zona_anterior_fld = zonas.nb_nombre_fld
+              and  zonas.nb_id_fld = '".$zona."'
+              and  str_to_date(terceros.nb_fecha_cambio_zona_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+              and   ventas.nb_codigo_cliente_fld = terceros.nb_id_fld) a, nb_cartera_tbl b
+              where SUBSTRING(b.nb_referencia_fld,2,length(b.nb_referencia_fld)) = a.nb_referencia_fld
+              and   b.nb_estado_fld ='0'
+              and b.nb_fecha_ingreso_concepto_fld < a.nb_fecha_cambio_zona_fld ";
 
-    //$trasldos_out = $database->executeQueryOneRow($query);
+    $trasldos_out = $database->executeQueryOneRow($query);
 
-    return  0;
+    return  $trasldos_out[0];
     
   }
 
@@ -623,6 +656,8 @@
     
     $saldo_final =  $saldo_inicial - $recaduo - $descuentos - $descuentas_especiales - $abonos_SF_aplicados +
                     $nueva_cartera - $monto_castigado + $monto_recuperado - $monto_devoluciones;
+
+    return $saldo_final;
   }
 
   function get_rotacion_cartera($saldo_final, $saldo_inicial,$nueva_cartera){
@@ -632,6 +667,8 @@
     else{
       $rotacion_cartera = 365 / ($nueva_cartera / $saldo_final);
     }
+
+    return $rotacion_cartera;
 
   }
 
