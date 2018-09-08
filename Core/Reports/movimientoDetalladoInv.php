@@ -152,7 +152,7 @@ THE SOFTWARE.
 
         (select b.producto producto, c.nb_nombre_fld, sum(b.cantidad) cantidad_compras 
         from nb_compras_grid_vw a, nb_compra_detalle_tbl b,nb_productos_vw c
-        where str_to_date(a.fechaingreso,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+        where a.fechaingreso between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
         and a.estado = 'ACTIVO'
         and b.factura = a.referencia
         and c.nb_id_fld = b.producto
