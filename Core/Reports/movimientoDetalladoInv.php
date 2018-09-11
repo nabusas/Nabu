@@ -144,16 +144,16 @@ THE SOFTWARE.
         from nb_productos_vw a, nb_inventario_grid_vw b
         where id = (
                         select max(id) from nb_inventario_grid_vw where producto = b.producto
-                        and date_format(fecha,'%d/%m/%Y') < str_to_date('".$fecha_desde."','%d/%m/%Y') 
+                        and fecha < str_to_date('".$fecha_desde."','%d/%m/%Y') 
                         and estado = 'ACTIVO' 
                     )
         and b.producto = a.nb_id_fld ) existencia left join   
 
 
         (select b.producto producto, c.nb_nombre_fld, sum(b.cantidad) cantidad_compras 
-        from nb_compras_grid_vw a, nb_compra_detalle_tbl b,nb_productos_vw c
-        where a.fechaingreso between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and a.estado = 'ACTIVO'
+        from nb_compras_tbl a, nb_compra_detalle_tbl b,nb_productos_vw c
+        where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+        and a.nb_estado_fld = '0'
         and b.factura = a.referencia
         and c.nb_id_fld = b.producto
         group by b.producto) compras on existencia.producto = compras.producto
@@ -203,11 +203,11 @@ THE SOFTWARE.
 
         (select b.producto producto, sum(b.cantidad) dev_v_cantidad  
         from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
-        where left(a.nb_factura_fld,1) = 'v'
-        and a.nb_afecta_inventario_fld = 'SI'
+        where upper(left(a.nb_referencia_fld,1)) = 'V'
+        and a.nb_afecta_inventario_fld = '1'
         and a.nb_estado_fld = '0'
         and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and b.linea = a.nb_id_fld
+        and b.factura = a.nb_id_fld
         and b.producto = c.nb_id_fld
         group by b.producto) devo_vtas on existencia.producto = devo_vtas.producto
 
@@ -215,10 +215,10 @@ THE SOFTWARE.
 
         (select b.producto producto, sum(b.cantidad) dev_c_cantidad  
         from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
-        where left(a.nb_factura_fld,1) = 'c'
+        where upper(left(a.nb_referencia_fld,1)) = 'C'
         and a.nb_estado_fld = '0'
         and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and b.linea = a.nb_id_fld
+        and b.factura = a.nb_id_fld
         and b.producto = c.nb_id_fld
         group by b.producto) devo_comptas on existencia.producto = devo_comptas.producto
     ";
