@@ -131,32 +131,37 @@ THE SOFTWARE.
     $database = $objUtilities->database;
 
     $query = "
-    select  existencia.producto,existencia.nombre, existencia.inv_inicial, ifnull(compras.cantidad_compras,0) compras, 
+    select          productos.producto,productos.nombre, existencia.inv_inicial, ifnull(compras.cantidad_compras,0) compras, 
     				ifnull(entradas_almacen.cantidad,0)entra_alma, ifnull(devo_vtas.dev_v_cantidad,0) devol_vtas, ifnull(ventas.cantidad_ventas,0) ventas,
     				ifnull(salidas_almacen.cantidad,0) sali_alma,
     				ifnull(devo_comptas.dev_c_cantidad,0) devo_compras,
     				ifnull(inv_transito.inv_transito_cantidad,0) inv_transi, 
     				(existencia.inv_inicial + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) inv_total,
-    			 ((existencia.inv_inicial + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) - ifnull(inv_transito.inv_transito_cantidad,0))	inv_bodega
+    			    ((existencia.inv_inicial + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) - ifnull(inv_transito.inv_transito_cantidad,0))	inv_bodega
     from (
+        select a.nb_id_fld producto, a.nb_nombre_fld nombre
+        from nb_productos_tbl a 
+         where nb_estado_fld = '0') productos left join
 
-        select  a.nb_id_fld producto,a.nb_nombre_fld nombre, b.existencia inv_inicial
+        (select  a.nb_id_fld producto,a.nb_nombre_fld nombre, b.existencia inv_inicial
         from nb_productos_vw a, nb_inventario_grid_vw b
         where id = (
                         select max(id) from nb_inventario_grid_vw where producto = b.producto
                         and fecha < str_to_date('".$fecha_desde."','%d/%m/%Y') 
                         and estado = 'ACTIVO' 
                     )
-        and b.producto = a.nb_id_fld ) existencia left join   
+        and b.producto = a.nb_id_fld ) existencia  on productos.producto = existencia.producto 
+
+        left join   
 
 
         (select b.producto producto, c.nb_nombre_fld, sum(b.cantidad) cantidad_compras 
         from nb_compras_tbl a, nb_compra_detalle_tbl b,nb_productos_vw c
         where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
         and a.nb_estado_fld = '0'
-        and b.factura = a.referencia
+        and b.factura = a.nb_referencia_fld
         and c.nb_id_fld = b.producto
-        group by b.producto) compras on existencia.producto = compras.producto
+        group by b.producto) compras on productos.producto = compras.producto
 
         left join 
 
@@ -166,7 +171,7 @@ THE SOFTWARE.
         and a.nb_concepto_fld = '0'
         and  a.nb_estado_fld = '0'
         and str_to_date(a.nb_fecha_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        group by a.nb_producto_fld) entradas_almacen on existencia.producto = entradas_almacen.producto
+        group by a.nb_producto_fld) entradas_almacen on productos.producto = entradas_almacen.producto
 
         left  join 
 
@@ -176,7 +181,7 @@ THE SOFTWARE.
         and a.nb_estado_fld = '0'
         and b.factura = a.nb_id_fld
         and b.producto = c.nb_id_fld 
-        group by b.producto) ventas  on  existencia.producto = ventas.producto
+        group by b.producto) ventas  on  productos.producto = ventas.producto
 
         left join 
 
@@ -186,7 +191,7 @@ THE SOFTWARE.
         and a.nb_concepto_fld = '1'
         and  a.nb_estado_fld = '0'
         and str_to_date(a.nb_fecha_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        group by a.nb_producto_fld) salidas_almacen on existencia.producto = salidas_almacen.producto
+        group by a.nb_producto_fld) salidas_almacen on productos.producto = salidas_almacen.producto
 
         left join 
 
@@ -197,7 +202,7 @@ THE SOFTWARE.
         where a.factura = c.id_despacho
         and a.producto = b.nb_id_fld
         and str_to_date(a.fecha,'%d/%m/%Y') <= str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        group by a.producto) inv_transito on existencia.producto = inv_transito.producto
+        group by a.producto) inv_transito on productos.producto = inv_transito.producto
 
         left join 
 
@@ -209,7 +214,7 @@ THE SOFTWARE.
         and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
         and b.factura = a.nb_id_fld
         and b.producto = c.nb_id_fld
-        group by b.producto) devo_vtas on existencia.producto = devo_vtas.producto
+        group by b.producto) devo_vtas on productos.producto = devo_vtas.producto
 
         left join 
 
@@ -220,7 +225,7 @@ THE SOFTWARE.
         and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
         and b.factura = a.nb_id_fld
         and b.producto = c.nb_id_fld
-        group by b.producto) devo_comptas on existencia.producto = devo_comptas.producto
+        group by b.producto) devo_comptas on productos.producto = devo_comptas.producto
     ";
 
     if($producto <> ''){
