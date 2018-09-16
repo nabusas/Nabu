@@ -98,13 +98,13 @@ function schemaReport($pdf,$tamanoFuenteForm,$fecha_desde, $fecha_hasta, $zona,$
     $pdf->Cell(30,$w,"PRECIO UNIT.",$borde,0,'C', 0, '', 0, false, 'T', 'C');
     $pdf->Cell(40,$w,"SUBTOTAL PRECIO",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
 
-    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm); 
+    $pdf->SetFont('helvetica', 'N', $tamanoFuenteForm-2); 
     for($i=0; $i<sizeof($consolidado_devols);$i++){
     	$pdf->Ln(5);
     	$pdf->Cell(27,$w,$consolidado_devols[$i]["fecha"],$borde,0, 'C');
     	$pdf->Cell(20,$w,$zona,$borde,0, 'C');
-    	$pdf->Cell(35,$w,$product,$borde,0, 'C');
-    	$pdf->Cell(30,$w,$causa,$borde,0, 'C');
+    	$pdf->Cell(35,$w,$consolidado_devols[$i]["nombre_producto"],$borde,0, 'C');
+    	$pdf->Cell(30,$w,$consolidado_devols[$i]["causa"],$borde,0, 'C');
     	$pdf->Cell(25,$w,$consolidado_devols[$i]["cantidad"],$borde,0, 'C');
     	$pdf->Cell(30,$w,$consolidado_devols[$i]["costo_unitario"],$borde,0, 'C');
     	$pdf->Cell(40,$w,"$".$consolidado_devols[$i]["subtotal_costo"],$borde,0, 'C');
