@@ -122,9 +122,9 @@ if (isset($_GET['idCabecera'])){
     select b.*, 
     a.producto id_producto,
     c.nb_nombre_fld nombre_producto, 
-    a.cantidad cantiad, 
+    a.devolucion cantiad, 
     a.subtotal valor,
-    ( a.cantidad * replace(replace(left(a.subtotal, length(a.subtotal) - 3),'$',''),',','')) sub_total
+    ( a.devolucion * replace(replace(left(a.subtotal, length(a.subtotal) - 3),'$',''),',','')) sub_total
     from nb_devoluciones_detalle_tbl a, 
             (
             select devo.nb_id_fld, devo.nb_factura_fld, 
@@ -135,6 +135,7 @@ if (isset($_GET['idCabecera'])){
             from nb_devoluciones_vw devo,
                      nb_terceros_tbl t
                 where devo.nb_responsable_fld = t.nb_id_fld
+                and   SUBSTRING(upper(devo.nb_referencia_fld),1,1) ='V'
             ) b,
         nb_productos_tbl c
     where a.factura = b.nb_id_fld
