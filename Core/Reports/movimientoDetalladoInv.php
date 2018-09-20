@@ -98,7 +98,7 @@ THE SOFTWARE.
         $pdf->Cell(25.5,$w,"Inv. Bodega",$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         $pdf->Cell(25,$w,"Inv. Total",$borde,0,'C', 0, '', 0, false, 'T', 'C');
 
-
+        $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm-2);
         for($i=0; $i<sizeof($movimiento_det_inv);$i++){
         	$pdf->Ln(5);
             $pdf->SetFont('helvetica', 'N', 8); 
@@ -131,13 +131,13 @@ THE SOFTWARE.
     $database = $objUtilities->database;
 
     $query = "
-    select          productos.producto,productos.nombre, existencia.inv_inicial, ifnull(compras.cantidad_compras,0) compras, 
+    select          productos.producto,productos.nombre, ifnull(existencia.inv_inicial,0) inv_inicial, ifnull(compras.cantidad_compras,0) compras, 
     				ifnull(entradas_almacen.cantidad,0)entra_alma, ifnull(devo_vtas.dev_v_cantidad,0) devol_vtas, ifnull(ventas.cantidad_ventas,0) ventas,
     				ifnull(salidas_almacen.cantidad,0) sali_alma,
     				ifnull(devo_comptas.dev_c_cantidad,0) devo_compras,
     				ifnull(inv_transito.inv_transito_cantidad,0) inv_transi, 
-    				(existencia.inv_inicial + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) inv_total,
-    			    ((existencia.inv_inicial + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) - ifnull(inv_transito.inv_transito_cantidad,0))	inv_bodega
+    				(ifnull(existencia.inv_inicial,0) + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) inv_total,
+    			    ((ifnull(existencia.inv_inicial,0) + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) - ifnull(inv_transito.inv_transito_cantidad,0))	inv_bodega
     from (
         select a.nb_id_fld producto, a.nb_nombre_fld nombre
         from nb_productos_tbl a 

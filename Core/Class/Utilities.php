@@ -730,6 +730,19 @@ class Utilities
 				}
 				$valores[0] = 'value';
 			}
+
+                        if ($valoraux == 'true')
+                            $valoraux=true;
+                        elseif ($valoraux == 'false')
+                            $valoraux=false;
+                        
+                        if ($valoraux === 'idCabecera')
+                            $valoraux=$_GET['idCabecera'];
+                        
+                        $value[$valores[0]] = $valoraux;
+                        
+                    }
+                }
                     
                  
                 if ( $row[1] == 'number')
