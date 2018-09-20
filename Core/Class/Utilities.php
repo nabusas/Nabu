@@ -684,11 +684,44 @@ class Utilities
 			if($valores[0] == 'defaultValue' and $valoraux == 'oprId')
 				$valoraux = $_SESSION['oprid'];
 			
-			if($valores[0] == 'selectValues'){
-				#traer los valores campo
-				$valoresSelect = $this->database->executeQuery("select nb_value_fld, nb_id_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$_SESSION['app']."' and nb_id_pr_schema_fld='". $valoraux."'");
-				#$valoresSelect = array(array('1','1'),array('2','2'));
-				$valoraux = '';
+		            if($valores[0] == 'selectValues'){
+                
+                
+                
+                $tablaRef =$this->database->existRefValue($_SESSION['app'],$valoraux);
+                           
+                if ($tablaRef[0] == 1){
+
+                    $param =$this->database->valueRef($_SESSION['app'],$valoraux);
+
+                    $sql="select descr,id from ".$param[0]." where 1=1 ";
+
+                    if( $param[1]=='true')
+                        $co1=" AND empresa = '".$_SESSION['app']."' ";
+                    if( $param[2]=='true')
+                        $co2=" AND usuario = '".$_SESSION['oprid']."' ";
+                    if( $param[3]=='true')
+                        $co3=" AND estado = 'A'";
+                    if( $param[4]=='true')
+                        $co3=" AND role = '".$_SESSION['role']."'";
+
+                    $sql=$sql.$co1.$co2.$co3;
+                    
+                    $valoresSelect = $this->database->executeQuery($sql);
+
+                }
+                    else
+                {
+                    #traer los valores campo
+                    $valoresSelect = $this->database->executeQuery("select nb_value_fld, nb_id_value_fld from nabu.nb_value_tbl where nb_enterprise_id_fld ='".$_SESSION['app']."' and nb_id_pr_schema_fld='".$valoraux."'");
+                }
+                
+				
+                #asi se debe construir el array en este formato
+                #$valoresSelect = array(array('1','1'),array('2','2'));
+				
+                
+                $valoraux = '';
 				foreach ($valoresSelect as $valor){
 					if($valoraux == '')
 						$valoraux .= $valor[1].':'.$valor[0];
@@ -697,19 +730,6 @@ class Utilities
 				}
 				$valores[0] = 'value';
 			}
-
-                        if ($valoraux == 'true')
-                            $valoraux=true;
-                        elseif ($valoraux == 'false')
-                            $valoraux=false;
-                        
-                        if ($valoraux === 'idCabecera')
-                            $valoraux=$_GET['idCabecera'];
-                        
-                        $value[$valores[0]] = $valoraux;
-                        
-                    }
-                }
                     
                  
                 if ( $row[1] == 'number')
