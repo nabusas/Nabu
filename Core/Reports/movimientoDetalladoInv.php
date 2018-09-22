@@ -206,7 +206,7 @@ THE SOFTWARE.
 
         left join 
 
-        (select b.producto producto, sum(b.cantidad) dev_v_cantidad  
+        (select b.producto producto, sum(b.devolucion) dev_v_cantidad  
         from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
         where upper(left(a.nb_referencia_fld,1)) = 'V'
         and a.nb_afecta_inventario_fld = '1'
@@ -218,7 +218,7 @@ THE SOFTWARE.
 
         left join 
 
-        (select b.producto producto, sum(b.cantidad) dev_c_cantidad  
+        (select b.producto producto, sum(b.devolucion) dev_c_cantidad  
         from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
         where upper(left(a.nb_referencia_fld,1)) = 'C'
         and a.nb_estado_fld = '0'

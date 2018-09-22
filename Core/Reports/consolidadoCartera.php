@@ -210,7 +210,13 @@
               JOIN nb_zonasFacturas_vw zonas ON (zonas.factura= SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)))
               WHERE cartera.nb_concepto_fld=1
               AND cartera.nb_estado_fld = 0
-              AND cartera.nb_id_fld = ( select max(cartera2.nb_id_fld) from nb_cartera_tbl cartera2 where cartera.nb_referencia_fld= cartera2.nb_referencia_fld )
+              AND cartera.nb_id_fld = ( 
+                                        select max(cartera2.nb_id_fld) 
+                                        from nb_cartera_tbl cartera2 
+                                        where cartera.nb_referencia_fld= cartera2.nb_referencia_fld 
+                                          and   STR_TO_DATE(nb_fecha_ingreso_concepto_fld, '%d/%m/%Y')   
+                                                BETWEEN STR_TO_DATE('01/04/2018','%d/%m/%Y') and STR_TO_DATE('11/04/2018','%d/%m/%Y')
+                                      )
               AND SUBSTRING(upper(cartera.nb_referencia_fld),1,1) ='V'
               AND replace(replace(cartera.nb_nuevo_saldo_fld,'$',''),',','') > 0
               AND STR_TO_DATE(cartera.nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') 
@@ -268,8 +274,8 @@
             FROM  nb_cartera_tbl cartera
             JOIN nb_zonasFacturas_vw zonas ON (zonas.factura= SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)))
             WHERE cartera.nb_concepto_fld=1
+            AND  cartera.nb_estado_fld = 0
             AND SUBSTRING(upper(cartera.nb_referencia_fld),1,1) ='V'
-             AND zonas.nb_id_fld = 2
             AND STR_TO_DATE(cartera.nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') 
             BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y')
             AND zonas.nb_id_fld = '".$zona."'";
