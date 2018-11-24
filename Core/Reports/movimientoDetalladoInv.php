@@ -100,19 +100,21 @@ THE SOFTWARE.
 
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm-2);
         for($i=0; $i<sizeof($movimiento_det_inv);$i++){
+            //echo " 1.producto || 2.inventario_inicial || 3.compras || 4.entradas_almacen || 5.devoluciones_ventas || 6.ventas || 7.salidas_almacen || 8.devolucion_compras || i9.nventario_transito || 10.inventario_total || 11.inventario_bodega || <br>";
+            //echo "1. ".$movimiento_det_inv[$i]["producto"]." || 2. ".$movimiento_det_inv[$i]["inventario_inicial"]." || 3. ".$movimiento_det_inv[$i]["compras"]." || 4. ".$movimiento_det_inv[$i]["entradas_almacen"]." || 5. ".$movimiento_det_inv[$i]["devoluciones_ventas"]." || 6.".$movimiento_det_inv[$i]["ventas"]." || 7.".$movimiento_det_inv[$i]["salidas_almacen"]." || 8.".$movimiento_det_inv[$i]["devolucion_compras"]." || 9. ".$movimiento_det_inv[$i]["inventario_transito"]." || 10. ".$movimiento_det_inv[$i]["inventario_total"]." || 11. ".$movimiento_det_inv[$i]["inventario_bodega"]." <br> ";
         	$pdf->Ln(5);
             $pdf->SetFont('helvetica', 'N', 8); 
-        	$pdf->Cell(40.5,$w,$movimiento_det_inv[$i]["nombre"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["inv_inicial"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(40.5,$w,$movimiento_det_inv[$i]["producto"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["inventario_inicial"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["compras"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["entra_alma"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["devol_vtas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["entradas_almacen"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["devoluciones_ventas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         	$pdf->Cell(20,$w,$movimiento_det_inv[$i]["ventas"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["sali_alma"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["devo_compras"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inv_transi"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inv_total"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
-        	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["inv_bodega"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["salidas_almacen"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["devolucion_compras"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inventario_transito"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25.5,$w,$movimiento_det_inv[$i]["inventario_total"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
+        	$pdf->Cell(25,$w,$movimiento_det_inv[$i]["inventario_bodega"],$borde,0, 'C', 0, '', 0, false, 'T', 'C');
         }
 
     }
@@ -130,110 +132,69 @@ THE SOFTWARE.
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
-    $query = "
-    select          productos.producto,productos.nombre, ifnull(existencia.inv_inicial,0) inv_inicial, ifnull(compras.cantidad_compras,0) compras, 
-    				ifnull(entradas_almacen.cantidad,0)entra_alma, ifnull(devo_vtas.dev_v_cantidad,0) devol_vtas, ifnull(ventas.cantidad_ventas,0) ventas,
-    				ifnull(salidas_almacen.cantidad,0) sali_alma,
-    				ifnull(devo_comptas.dev_c_cantidad,0) devo_compras,
-    				ifnull(inv_transito.inv_transito_cantidad,0) inv_transi, 
-    				(ifnull(existencia.inv_inicial,0) + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) inv_total,
-    			    ((ifnull(existencia.inv_inicial,0) + ifnull(compras.cantidad_compras,0) + ifnull(entradas_almacen.cantidad,0) + ifnull(devo_vtas.dev_v_cantidad,0) - ifnull(ventas.cantidad_ventas,0) - ifnull(salidas_almacen.cantidad,0) - ifnull(devo_comptas.dev_c_cantidad,0) + ifnull(inv_transito.inv_transito_cantidad,0)) - ifnull(inv_transito.inv_transito_cantidad,0))	inv_bodega
-    from (
-        select a.nb_id_fld producto, a.nb_nombre_fld nombre
-        from nb_productos_tbl a 
-         where nb_estado_fld = '0') productos left join
+    if (isset($categoria) and $categoria <> ''){
+      $sqlProducto = " and nb_categoria_fld = '".$categoria."'";
 
-        (select  a.nb_id_fld producto,a.nb_nombre_fld nombre, b.existencia inv_inicial
-        from nb_productos_vw a, nb_inventario_grid_vw b
-        where id = (
-                        select max(id) from nb_inventario_grid_vw where producto = b.producto
-                        and fecha < str_to_date('".$fecha_desde."','%d/%m/%Y') 
-                        and estado = 'ACTIVO' 
-                    )
-        and b.producto = a.nb_id_fld ) existencia  on productos.producto = existencia.producto 
+      if (isset($producto) and $producto <> '') {
+        $sqlProducto .= " and nb_id_fld = '".$producto."'";
+      }
+    }
+    
 
-        left join   
+    $productos = $database->executeQuery("select * 
+                                          from nb_productos_tbl 
+                                          where nb_estado_fld = 0 ".$sqlProducto." 
+                                          order by nb_nombre_fld");
 
+    
+    $movimiento_det_inv = array();
+    for($i=0; $i < sizeof($productos); $i++){
 
-        (select b.producto producto, c.nb_nombre_fld, sum(b.cantidad) cantidad_compras 
-        from nb_compras_tbl a, nb_compra_detalle_tbl b,nb_productos_vw c
-        where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and a.nb_estado_fld = '0'
-        and b.factura = a.nb_referencia_fld
-        and c.nb_id_fld = b.producto
-        group by b.producto) compras on productos.producto = compras.producto
+        $row = array();
 
-        left join 
+        $producto = $productos[$i]['nb_id_fld'];
+        $row['producto'] = $productos[$i]['nb_nombre_fld'];
 
-        (select a.nb_producto_fld producto, sum(a.nb_cantidad_fld) cantidad 
-        from  nb_inventario_tbl a, nb_productos_vw b
-        where a.nb_producto_fld = b.nb_id_fld
-        and a.nb_concepto_fld = '0'
-        and  a.nb_estado_fld = '0'
-        and str_to_date(a.nb_fecha_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        group by a.nb_producto_fld) entradas_almacen on productos.producto = entradas_almacen.producto
-
-        left  join 
-
-        (select b.producto producto, sum(b.cantidad) cantidad_ventas 
-        from nb_ventas_tbl a, nb_venta_detalle_tbl b, nb_productos_vw c
-        where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and a.nb_estado_fld = '0'
-        and b.factura = a.nb_id_fld
-        and b.producto = c.nb_id_fld 
-        group by b.producto) ventas  on  productos.producto = ventas.producto
-
-        left join 
-
-        (select a.nb_producto_fld producto, sum(a.nb_cantidad_fld) cantidad 
-        from  nb_inventario_tbl a, nb_productos_vw b
-        where a.nb_producto_fld = b.nb_id_fld
-        and a.nb_concepto_fld = '1'
-        and  a.nb_estado_fld = '0'
-        and str_to_date(a.nb_fecha_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        group by a.nb_producto_fld) salidas_almacen on productos.producto = salidas_almacen.producto
-
-        left join 
-
-        (select a.producto producto, sum(a.transito) inv_transito_cantidad
-        from nb_despacho_detalle_tbl a,  nb_productos_vw b , (select max(nb_id_fld) id_despacho, nb_codigo_vendedor_fld from nb_despachos_tbl
-        where nb_estado_fld = '0'
-        group by nb_codigo_vendedor_fld) c
-        where a.factura = c.id_despacho
-        and a.producto = b.nb_id_fld
-        and str_to_date(a.fecha,'%d/%m/%Y') <= str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        group by a.producto) inv_transito on productos.producto = inv_transito.producto
-
-        left join 
-
-        (select b.producto producto, sum(b.devolucion) dev_v_cantidad  
-        from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
-        where upper(left(a.nb_referencia_fld,1)) = 'V'
-        and a.nb_afecta_inventario_fld = '1'
-        and a.nb_estado_fld = '0'
-        and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and b.factura = a.nb_id_fld
-        and b.producto = c.nb_id_fld
-        group by b.producto) devo_vtas on productos.producto = devo_vtas.producto
-
-        left join 
-
-        (select b.producto producto, sum(b.devolucion) dev_c_cantidad  
-        from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b,  nb_productos_vw c
-        where upper(left(a.nb_referencia_fld,1)) = 'C'
-        and a.nb_estado_fld = '0'
-        and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-        and b.factura = a.nb_id_fld
-        and b.producto = c.nb_id_fld
-        group by b.producto) devo_comptas on productos.producto = devo_comptas.producto
-    ";
-
-    if($producto <> ''){
-        $query = $query."  where existencia.producto = ".$producto; 
         
+        $inventario_inicial = get_inventario_inicial($producto, $fecha_desde);
+        $row['inventario_inicial'] = $inventario_inicial;
+        
+        $compras = get_compras($producto, $fecha_desde, $fecha_hasta);
+        $row['compras'] = $compras;
+        
+        $entradas_almacen = get_entradas_almacen($producto, $fecha_desde, $fecha_hasta);
+        $row['entradas_almacen'] = $entradas_almacen;
+        
+        $devoluciones_ventas = get_devoluciones_ventas($producto, $fecha_desde, $fecha_hasta);
+        $row['devoluciones_ventas'] = $devoluciones_ventas;
+        
+        $ventas = get_ventas($producto, $fecha_desde, $fecha_hasta);
+        $row['ventas'] = $ventas;
+                
+        $salidas_almacen = get_salidas_almacen($producto, $fecha_desde, $fecha_hasta);
+        $row['salidas_almacen'] = $salidas_almacen;
+               
+        $devolucion_compras = get_devolucion_compras($producto, $fecha_desde, $fecha_hasta);
+        $row['devolucion_compras'] = $devolucion_compras;
+                
+        $inventario_transito = get_inventario_transito($producto, $fecha_desde, $fecha_hasta);
+        $row['inventario_transito'] = $inventario_transito;
+
+        
+        $inventario_total =  get_inventario_total($inventario_inicial, $compras, $entradas_almacen, $devoluciones_ventas,
+                                                  $ventas, $salidas_almacen, 
+                                                  $devolucion_compras, $inventario_transito);
+        
+        $row['inventario_total'] = $inventario_total;
+
+        $inventario_bodega = get_inventario_bodega($inventario_total, $inventario_transito);
+        $row['inventario_bodega'] = $inventario_bodega;
+
+        array_push($movimiento_det_inv, $row);
+
+
     }
 
-    $movimiento_detallado_inv=$database->executeQuery($query);
 
     if(isset($categoria) && $categoria !== '' && $producto == ''){
          $query_categoria = "  select nb_nombre_fld
@@ -246,7 +207,6 @@ THE SOFTWARE.
     }
 
     elseif(isset($producto) && $producto !== '' && isset($categoria) && $categoria !== ''){
-        //$query = $query."  where existencia.producto = ".$producto; 
 
         $sql_producto = $database->executeQueryOneRow("select nb_nombre_fld from nb_productos_tbl
         where nb_id_fld = ".$producto);
@@ -267,14 +227,184 @@ THE SOFTWARE.
         $nombre_producto = "Todos";
     }
 
-    $movimiento_detallado_inv=$database->executeQuery($query);
 
     $objReport = new Report('Facturacion','L','A4','Nabu','Nabu','Nabu','Nabu');
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $nombre_categoria, $nombre_producto, $movimiento_detallado_inv);
+    schemaReport($pdf,10,$fecha_desde, $fecha_hasta, $nombre_categoria, $nombre_producto, $movimiento_det_inv);
 
     $objReport->exportarPdf($pdf,$id);
+
+
+    function get_inventario_inicial($producto, $fecha_desde){
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_inventario_inicial = "select ifnull(b.existencia, 0) inv_inicial
+                                    from nb_productos_vw a, nb_inventario_grid_vw b
+                                    where id = (
+                                                    select max(id) from nb_inventario_grid_vw where producto = '".$producto."'
+                                                    and fecha < str_to_date('".$fecha_desde."','%d/%m/%Y') 
+                                                    and estado = 'ACTIVO' 
+                                                )
+                                    and b.producto = a.nb_id_fld";
+
+        $inventario_inicial = $database->executeQueryOneRow($query_inventario_inicial);
+
+        return $inventario_inicial[0];
+
+    }
+
+    function get_compras($producto, $fecha_desde, $fecha_hasta){
+
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_compras= "select ifnull(sum(b.cantidad),0) cantidad_compras 
+                        from nb_compras_tbl a, nb_compra_detalle_tbl b
+                        where a.nb_fecha_ingreso_fld between ('".$fecha_desde."') and ('".$fecha_hasta."')
+                        and a.nb_estado_fld = '0'
+                        and b.factura = a.nb_referencia_fld
+                        and b.producto = '".$producto."'";
+
+        $compras = $database->executeQueryOneRow($query_compras);
+
+        return $compras[0];
+
+    }
+
+    function get_entradas_almacen($producto, $fecha_desde, $fecha_hasta){
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_entradas_almacen = "
+            select ifnull(sum(a.nb_cantidad_fld),0) cantidad 
+            from  nb_inventario_tbl a
+            where a.nb_producto_fld = '".$producto."'
+            and a.nb_concepto_fld = '0'
+            and  a.nb_estado_fld = '0'
+            and str_to_date(a.nb_fecha_fld,'%d/%m/%Y') 
+                    between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')";
+
+        $entradas_almacen = $database->executeQueryOneRow($query_entradas_almacen);
+
+        return $entradas_almacen[0];
+
+        
+    }
+
+    function get_devoluciones_ventas($producto, $fecha_desde, $fecha_hasta){
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_devo_ventas = "
+            select ifnull(sum(b.devolucion), 0) dev_v_cantidad  
+            from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b
+            where upper(left(a.nb_referencia_fld,1)) = 'V'
+            and a.nb_afecta_inventario_fld = '1'
+            and a.nb_estado_fld = '0'
+            and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') 
+                between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+            and b.factura = a.nb_id_fld
+            and b.producto = '".$producto."'";
+
+        $devo_ventas = $database->executeQueryOneRow($query_devo_ventas);
+
+        return $devo_ventas[0];
+
+    }
+    
+    function get_ventas($producto, $fecha_desde, $fecha_hasta){
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_ventas = "
+            select ifnull(sum(b.cantidad), 0) cantidad_ventas 
+            from nb_ventas_tbl a, nb_venta_detalle_tbl b
+            where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') 
+                  between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+            and a.nb_estado_fld = '0'
+            and b.factura = a.nb_id_fld
+            and b.producto = '".$producto."'";
+
+        $ventas = $database->executeQueryOneRow($query_ventas);
+
+        return $ventas[0];
+
+
+    }
+    
+    function get_salidas_almacen($producto, $fecha_desde, $fecha_hasta){
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_salidas_almacen = "
+            select ifnull(sum(a.nb_cantidad_fld), 0) cantidad 
+            from  nb_inventario_tbl a
+            where a.nb_producto_fld = '".$producto."'
+            and a.nb_concepto_fld = '1'
+            and  a.nb_estado_fld = '0'
+            and str_to_date(a.nb_fecha_fld,'%d/%m/%Y') 
+                between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')";
+
+        $salidas_almacen = $database->executeQueryOneRow($query_salidas_almacen);
+
+        return $salidas_almacen[0];
+
+
+    }
+    
+    function get_devolucion_compras($producto, $fecha_desde, $fecha_hasta){
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_devo_compras = "
+            select ifnull(sum(b.devolucion), 0) dev_c_cantidad  
+            from nb_devoluciones_tbl a, nb_devoluciones_detalle_tbl b
+            where upper(left(a.nb_referencia_fld,1)) = 'C'
+            and a.nb_estado_fld = '0'
+            and str_to_date(a.nb_fecha_devolucion_fld,'%d/%m/%Y') 
+                between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+            and b.factura = a.nb_id_fld
+            and b.producto = '".$producto."'";
+
+        $devo_compras = $database->executeQueryOneRow($query_devo_compras);
+
+        return $devo_compras[0];
+
+
+    }
+     
+    function get_inventario_transito($producto, $fecha_desde, $fecha_hasta){
+        $objUtilities = $_SESSION['objUtilities'];
+        $database = $objUtilities->database;
+        $query_inv_transito = "
+            select ifnull(sum(a.transito), 0) inv_transito_cantidad
+            from nb_despacho_detalle_tbl a,
+                 (select max(nb_id_fld) id_despacho, nb_codigo_vendedor_fld 
+                    from nb_despachos_tbl
+                    where nb_estado_fld = '0'
+                    group by nb_codigo_vendedor_fld) c
+            where a.factura = c.id_despacho
+            and a.producto = '".$producto."'
+            and str_to_date(a.fecha,'%d/%m/%Y') <= str_to_date('".$fecha_hasta."','%d/%m/%Y')";
+
+        $inv_transito = $database->executeQueryOneRow($query_inv_transito);
+
+        return $inv_transito[0];
+
+    }
+
+    function get_inventario_bodega($inventario_total, $inventario_transito){
+        return $inventario_total - $inventario_transito;
+
+    }
+
+    function get_inventario_total($inv_inicial, $compras, $entradas_almacen, $devo_ventas, $ventas, $salidas_almacen, 
+        $devo_compras, $inventario_transito){
+
+        $a = ($inv_inicial + $compras + $entradas_almacen + $devo_ventas);
+        $b = ($ventas - $salidas_almacen - $devo_compras + $inventario_transito);
+
+        return $a - $b;
+
+
+    }
+
+
 
 ?>
