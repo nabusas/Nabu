@@ -309,7 +309,7 @@ where venta.nb_estado_fld=0 and venta.nb_forma_pago_fld=2 ".$andZona."  and (STR
 
     $pdf=$objReport->setupForm();
 
-    schemaReport($pdf,5,$ventas,$carteraConteo,$carteraCobros,$carteraPromedio,$descuentos,$porcdescuentos,$totalesventas, $fecha_desde, $fecha_hasta,$zonanombre,$descuentosDetallado);
+    schemaReport($pdf,10,$ventas,$carteraConteo,$carteraCobros,$carteraPromedio,$descuentos,$porcdescuentos,$totalesventas, $fecha_desde, $fecha_hasta,$zonanombre,$descuentosDetallado);
 
     $objReport->exportarPdf($pdf,$id);
 
