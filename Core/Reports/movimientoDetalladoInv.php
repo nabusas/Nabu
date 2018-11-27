@@ -261,7 +261,8 @@ THE SOFTWARE.
         $database = $objUtilities->database;
         $query_compras= "select ifnull(sum(b.cantidad),0) cantidad_compras 
                         from nb_compras_tbl a, nb_compra_detalle_tbl b
-                        where a.nb_fecha_ingreso_fld between ('".$fecha_desde."') and ('".$fecha_hasta."')
+                        where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') 
+                                between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
                         and a.nb_estado_fld = '0'
                         and b.factura = a.nb_referencia_fld
                         and b.producto = '".$producto."'";
