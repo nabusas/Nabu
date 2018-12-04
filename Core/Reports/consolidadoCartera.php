@@ -87,7 +87,7 @@
             $facturas_recuperadas = get_facturas_recuperadas($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
 
             //
-            $monto_recuperado = get_monto_recuperado();
+            $monto_recuperado = get_monto_recuperado($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
 
             $facturas_por_devolucion = get_facturas_por_devolucion($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
             $monto_devoluciones = get_monto_devoluciones($zona, $fecha_cartera_desde, $fecha_cartera_hasta);
@@ -271,8 +271,7 @@
                              and   STR_TO_DATE(nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') < STR_TO_DATE('30/04/2018','%d/%m/%Y') 
                              ) 
                       AND cartera.nb_estado_fld = 0), 0)    
-          ) saldo
-      ";
+          ) saldo";
 
       $saldo = $database->executeQueryOneRow($query_saldo);
 
@@ -293,7 +292,7 @@
       $abonos_sf_total = $abonos_sf_total + $abonos_sf[0];
     }
 
-    return   $saldo_ventas + $abonos_sf_total
+    return   $saldo_ventas + $abonos_sf_total;
     
   }
 
@@ -607,7 +606,7 @@
     
   }
 
-  function get_monto_recuperado(){
+  function get_monto_recuperado($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
 
