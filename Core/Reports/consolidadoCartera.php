@@ -57,12 +57,14 @@
     for ($i=0; $i < sizeof($zonas); $i++) { 
 
             $zona=$zonas[$i]['nb_id_fld'];
-            
+        
             $resul_facturas_iniciales = get_facturas_iniciales($zona, $fecha_desde, $fecha_hasta);
             echo "facturas_iniciales==>".$resul_facturas_iniciales[0]."<br>";
             echo "saldo_inicial==>".$resul_facturas_iniciales[1]."<br>";
+            
             $facturas_iniciales = $resul_facturas_iniciales[0];
             $saldo_inicial = $resul_facturas_iniciales[1];
+            
             
             
             
@@ -145,6 +147,7 @@
     }
 
 
+    
     $sql = "select * from nb_consolidado_cartera_reporte_tbl ";
     $result = $database->executeQuery($sql);
     
@@ -159,13 +162,19 @@
     header( 'Content-Length: '.filesize($file));
     header( 'Content-Disposition:attachment;filename='.$filename);
     readfile($file);
+    
+    
 
-  $facts_iniciales = array();
+  
+
   function get_facturas_iniciales($zona, $fecha_desde, $fecha_hasta){
+      
+      
+    $facts_iniciales = array();
+      
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
     
-
     $query = "
       
         SELECT xy.referencia 
@@ -202,18 +211,20 @@
       
       ";
 
-
+      
     //$facturas_iniciales = $database->executeQueryOneRow($query);
     $facturas_iniciales = $database->executeQuery($query);
+      
     $saldo_inicial = 0;
     for($i=0; $i < sizeof($facturas_iniciales); $i++) { 
-      $factura=$facturas_iniciales[$i]['referencia']; 
-      $saldo = get_saldo_inicial($zona, $fecha_desde, $fecha_hasta, $factura);
+    
+      $factura=$facturas_iniciales[$i]['referencia'];
+      $saldo = get_saldo_inicial($database,$zona, $fecha_desde, $fecha_hasta, $factura);
       $saldo_inicial = $saldo_inicial + $saldo;
-
+        
+    
     }
 
-  
     //return $facturas_iniciales[0];
     $result = array();
     $result[0] = sizeof($facturas_iniciales);
@@ -224,11 +235,8 @@
 
   }
 
-  function get_saldo_inicial($zona, $fecha_desde, $fecha_hasta, $factura){
-    $objUtilities = $_SESSION['objUtilities'];
-    $database = $objUtilities->database;
-
-   
+  function get_saldo_inicial($database, $zona, $fecha_desde, $fecha_hasta, $factura){
+    
     $saldo_ventas = 0;
     $abonos_sf_total = 0;
   
@@ -244,9 +252,9 @@
                            and   STR_TO_DATE(nb_fecha_ingreso_concepto_fld, '%d/%m/%Y') < STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
                            ) 
                     AND cartera.nb_estado_fld = 0";
-
-
-
+      
+      
+    
     $saldo = $database->executeQueryOneRow($query_saldo);
     $saldo_ventas = $saldo[0];
 
@@ -256,12 +264,12 @@
       from nb_ventas_grid_sub_vw
       where referencia = '".$factura."'";
 
-
-      $saldo2 = $database->execute("select Saldo from nb_ventas_grid_sub_vw where referencia = '934153'");
+      $saldo2 = $database->executeQueryOneRow("select Saldo from nb_ventas_grid_sub_vw where referencia = '".$factura."'");
       $saldo_ventas = $saldo2[0];
+        
     }
 
-
+    
     $query_abonos_sf = "select ifnull(sum(replace(replace(a.nb_abono_fld,'$',''),',','')),0)
                         from nb_abonosinfactura_tbl a
                         where nb_estado_fld = 0
