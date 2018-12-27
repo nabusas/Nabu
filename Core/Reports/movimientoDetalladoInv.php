@@ -264,7 +264,7 @@ THE SOFTWARE.
                         where str_to_date(a.nb_fecha_ingreso_fld,'%d/%m/%Y') 
                                 between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
                         and a.nb_estado_fld = '0'
-                        and b.factura = a.nb_referencia_fld
+                        and b.factura = a.nb_id_fld
                         and b.producto = '".$producto."'";
 
         $compras = $database->executeQueryOneRow($query_compras);
