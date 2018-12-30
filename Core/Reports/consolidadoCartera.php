@@ -202,9 +202,11 @@
     
     }
     //return $facturas_iniciales[0];
+    $abono_sf = get_abono_sf($database,$zona, $fecha_desde, $fecha_hasta);
+
     $result = array();
     $result[0] = sizeof($facturas_iniciales);
-    $result[1] = $saldo_inicial;
+    $result[1] = $saldo_inicial + $abono_sf;
     
     return $result;
   }
@@ -235,25 +237,30 @@
       select ifnull(replace(replace(Saldo,'$',''),',',''),0) saldo
       from nb_ventas_grid_sub_vw
       where referencia = '".$factura."'";
-      $saldo2 = $database->executeQueryOneRow("select Saldo from nb_ventas_grid_sub_vw where referencia = '".$factura."'");
+      $saldo2 = $database->executeQueryOneRow("select ifnull(replace(replace(Saldo,'$',''),',',''),0) 
+                                                from nb_ventas_grid_sub_vw where referencia = '".$factura."'");
       $saldo_ventas = $saldo2[0];
         
     }
     
-    $query_abonos_sf = "select ifnull(sum(replace(replace(a.nb_abono_fld,'$',''),',','')),0)
+    
+    return   $saldo_ventas;
+    
+  }
+  function get_abono_sf($database, $zona, $fecha_desde, $fecha_hasta){
+    $query_abonos_sf = "select ifnull(sum(replace(replace(ifnull(a.nb_abono_fld,0),'$',''),',','')),0)
                         from nb_abonosinfactura_tbl a
                         where nb_estado_fld = 0
-                        and a.nb_referencia_fld = '".$factura."'
                         and   STR_TO_DATE(nb_fecha_cobro_fld,'%d/%m/%Y') < STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
                         and   STR_TO_DATE(nb_fecha_cambio_estado_fld,'%d/%m/%Y') between STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
                                                         and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y')
                         and   a.nb_zona_fld = '".$zona."'";
     $abonos_sf = $database->executeQueryOneRow($query_abonos_sf);
     $abonos_sf_total = $abonos_sf[0];
-    
-    return   $saldo_ventas + $abonos_sf_total;
-    
+    return $abonos_sf_total
   }
+
+
   function get_facturas_entregadas($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
