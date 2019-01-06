@@ -34,6 +34,7 @@
     $database = $objUtilities->database;
  
     $database->execute("delete from nb_consolidado_cartera_reporte_tbl ");
+    
     if (isset($zona_) and $zona_ <> ''){
       $sqlZonas = " and nb_id_fld = '".$zona_."'";
     }
@@ -44,82 +45,97 @@
     for ($i=0; $i < sizeof($zonas); $i++) { 
             $zona=$zonas[$i]['nb_id_fld'];
         
+            
             $resul_facturas_iniciales = get_facturas_iniciales($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_iniciales==>".$resul_facturas_iniciales[0]."<br>";
-            echo "saldo_inicial==>".$resul_facturas_iniciales[1]."<br>";
+            //echo "facturas_iniciales==>".$resul_facturas_iniciales[0]."<br>";
+            //echo "saldo_inicial==>".$resul_facturas_iniciales[1]."<br>";
             
             $facturas_iniciales = $resul_facturas_iniciales[0];
             $saldo_inicial = $resul_facturas_iniciales[1];
                    
             
-            $facturas_entregadas = get_facturas_entregadas($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_entregadas==>".$facturas_entregadas."<br>";
-            $facturas_Abonadas = get_facturas_abonadas($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_Abonadas==>".$facturas_Abonadas."<br>";
-            $facturas_canceladas = get_facturas_canceladas($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_canceladas==>".$facturas_canceladas."<br>";
-            $abonos_aplicados = get_abonos_aplicados($zona, $fecha_desde, $fecha_hasta);
-            echo "abonos_aplicados==>".$abonos_aplicados."<br>";
             
+            $facturas_entregadas = get_facturas_entregadas($zona, $fecha_desde, $fecha_hasta);
+            //echo "facturas_entregadas==>".$facturas_entregadas."<br>";
+            
+            $facturas_Abonadas = get_facturas_abonadas($zona, $fecha_desde, $fecha_hasta);
+            //echo "facturas_Abonadas==>".$facturas_Abonadas."<br>";
+            
+            
+            $facturas_canceladas = get_facturas_canceladas($zona, $fecha_desde, $fecha_hasta);
+            //echo "facturas_canceladas==>".$facturas_canceladas."<br>";
+            
+            $abonos_aplicados = get_abonos_aplicados($zona, $fecha_desde, $fecha_hasta);
+            //echo "abonos_aplicados==>".$abonos_aplicados."<br>";
+            
+            
+        
             $recaduo = get_recaduo($zona, $fecha_desde, $fecha_hasta);
-            echo "recaduo==>".$recaduo."<br>";
+            //echo "recaduo==>".$recaduo."<br>";
+            
             $descuentos = get_descuentos($zona, $fecha_desde, $fecha_hasta);
-            echo "descuentos==>".$descuentos."<br>";
+            //echo "descuentos==>".$descuentos."<br>";
+            
             $descuentas_especiales = get_descuentas_especiales($zona, $fecha_desde, $fecha_hasta);
-            echo "descuentas_especiales==>".$descuentas_especiales."<br>";
+            //echo "descuentas_especiales==>".$descuentas_especiales."<br>";
             
             $abonos_SF_aplicados = get_abonos_SF_aplicados($zona, $fecha_desde, $fecha_hasta);
-            echo "abonos_SF_aplicados==>".$abonos_SF_aplicados."<br>";
+            //echo "abonos_SF_aplicados==>".$abonos_SF_aplicados."<br>";
             
             $abonos_SF_entrantes = get_abonos_SF_entrantes($zona, $fecha_desde, $fecha_hasta);
-            echo "abonos_SF_entrantes==>".$abonos_SF_entrantes."<br>";
+            //echo "abonos_SF_entrantes==>".$abonos_SF_entrantes."<br>";
             
             $facturas_vendidas = get_facturas_vendidas($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_vendidas==>".$facturas_vendidas."<br>";
+            //echo "facturas_vendidas==>".$facturas_vendidas."<br>";
             
             $nueva_cartera = get_nueva_cartera($zona, $fecha_desde, $fecha_hasta);
-            echo "nueva_cartera==>".$nueva_cartera."<br>";
+            //echo "nueva_cartera==>".$nueva_cartera."<br>";
             
             $facturas_castigadas = get_facturas_castigadas($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_castigadas==>".$facturas_castigadas."<br>";
-            
+            //echo "facturas_castigadas==>".$facturas_castigadas."<br>";
             
             $monto_castigado = get_monto_castigado($zona, $fecha_desde, $fecha_hasta);
-            echo "monto_castigado==>".$monto_castigado."<br>";
+            //echo "monto_castigado==>".$monto_castigado."<br>";
             
             $facturas_recuperadas = get_facturas_recuperadas($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_recuperadas==>".$facturas_recuperadas."<br>";
+            //echo "facturas_recuperadas==>".$facturas_recuperadas."<br>";
             
             $monto_recuperado = get_monto_recuperado($zona, $fecha_desde, $fecha_hasta);
-            echo "monto_recuperado==>".$monto_recuperado."<br>";
+            //echo "monto_recuperado==>".$monto_recuperado."<br>";
             
             $facturas_por_devolucion = get_facturas_por_devolucion($zona, $fecha_desde, $fecha_hasta);
-            echo "facturas_por_devolucion==>".$facturas_por_devolucion."<br>";
+            //echo "facturas_por_devolucion==>".$facturas_por_devolucion."<br>";
             
+                
             $monto_devoluciones = get_monto_devoluciones($zona, $fecha_desde, $fecha_hasta);
-            echo "monto_devoluciones==>".$monto_devoluciones."<br>";
+            //echo "monto_devoluciones==>".$monto_devoluciones."<br>";
             
             $traslados_in = get_traslados_in($zona, $fecha_desde, $fecha_hasta);
-            echo "traslados_in==>".$traslados_in."<br>";
+            //echo "traslados_in==>".$traslados_in."<br>";
+            
             $monto_traslados_in = get_monto_traslados_in($zona, $fecha_desde, $fecha_hasta);
-            echo "monto_traslados_in==>".$monto_traslados_in."<br>";
+            //echo "monto_traslados_in==>".$monto_traslados_in."<br>";
+            
             $trasldos_out = get_trasldos_out($zona, $fecha_desde, $fecha_hasta);
-            echo "trasldos_out==>".$trasldos_out."<br>";
+            //echo "trasldos_out==>".$trasldos_out."<br>";
+            
             $monto_trasldos_out = get_monto_trasldos_out($zona, $fecha_desde, $fecha_hasta);
-            echo "monto_trasldos_out==>".$monto_trasldos_out."<br>";
+            //echo "monto_trasldos_out==>".$monto_trasldos_out."<br>";
+            
             $facturas_finales = get_facturas_finales($facturas_iniciales, $facturas_canceladas, $facturas_vendidas, 
                                                      $facturas_castigadas,$facturas_recuperadas,$facturas_por_devolucion,
                                                      $traslados_in, $trasldos_out );
-            echo "facturas_finales==>".$facturas_finales."<br>";
+            //echo "facturas_finales==>".$facturas_finales."<br>";
             
             $saldo_final = get_saldo_final($saldo_inicial,$recaduo,$descuentos,$descuentas_especiales,$abonos_SF_entrantes,
                                             $nueva_cartera,$monto_castigado,$monto_recuperado,$monto_devoluciones);
-            echo "saldo_final==>".$saldo_final."<br>";
+            //echo "saldo_final==>".$saldo_final."<br>";
             
             $rotacion_cartera = get_rotacion_cartera($saldo_final, $saldo_inicial,$nueva_cartera);
-            echo "rotacion_cartera==>".$rotacion_cartera."<br>";
+            //echo "rotacion_cartera==>".$rotacion_cartera."<br>";
             
-            $insert_query = "insert into nb_consolidado_cartera_reporte_tbl values(null,'".$zonas[$i]['nb_nombre_fld']."','"
+          
+          $insert_query = "insert into nb_consolidado_cartera_reporte_tbl values(null,'".$zonas[$i]['nb_nombre_fld']."','"
                             .$facturas_iniciales."','".$saldo_inicial."','".$facturas_entregadas."','".$facturas_Abonadas."','"
                             .$facturas_canceladas."','".$abonos_aplicados."','".$recaduo."','".$descuentos."','"
                             .$descuentas_especiales."','".$abonos_SF_aplicados."','".$abonos_SF_entrantes."','"
@@ -127,13 +143,19 @@
                             .$facturas_recuperadas."','".$monto_recuperado."','".$facturas_por_devolucion."','"
                             .$monto_devoluciones."','".$traslados_in."','".$monto_traslados_in."','".$trasldos_out."','"
                             .$monto_trasldos_out."','".$facturas_finales."','".$saldo_final."','".$rotacion_cartera."')";
+        
             
-            $database->execute($insert_query);
+          //echo $insert_query."<br>";
+          
+          
+        
+            
+          $database->execute($insert_query);
             
     }
     
     $sql = "select * from nb_consolidado_cartera_reporte_tbl ";
-    $result = $database->executeQuery($sql);
+    //$result = $database->executeQuery($sql);
     
     $csv = new ExportExcel();
     $database->conectar();
@@ -479,7 +501,7 @@
     $result = $mont_facturas_castigadas[0];
     
     if($result == 0){
-      echo "En el if <br>";
+      
       $query_ = "
       select  ifnull((ifnull(sum(replace(replace(b.total,'$',''),',','')),0) -  sum(replace(replace(c.nb_abono_inicial_fld,'$',''),',','')) - ifnull(sum(devos.nb_valor_total_fld),0)),0) mnt_castigado
       from
