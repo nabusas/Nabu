@@ -41,7 +41,6 @@
     
     $zonas = $database->executeQuery("select * from nb_zonas_tbl where nb_estado_fld = 0 ".$sqlZonas);
     $nombre_zona = "";
-
     for ($i=0; $i < sizeof($zonas); $i++) { 
             $zona=$zonas[$i]['nb_id_fld'];
         
@@ -187,7 +186,7 @@
                 AND a.estado = 'ACTIVO'
                 AND IFNULL(a.EstadoCartera,'X')  <> 'Castigada'
                 AND zonas.factura =  a.referencia
-                AND STR_TO_DATE(a.fechaingreso,'%d/%m/%Y') = STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
+                AND STR_TO_DATE(a.fechaingreso,'%d/%m/%Y') < STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') 
                 AND zonas.nb_id_fld = '".$zona."') 
                 
                 UNION ALL
@@ -222,9 +221,7 @@
         
     
     }
-
     $abono_sf = get_abono_sf($database,$zona, $fecha_desde, $fecha_hasta);
-
     $result = array();
     $result[0] = sizeof($facturas_iniciales);
     $result[1] = $saldo_inicial + $abono_sf;
@@ -252,7 +249,6 @@
     
     $saldo = $database->executeQueryOneRow($query_saldo);
     $saldo_ventas = $saldo[0];
-
     
     if($saldo_ventas == 0 or $saldo_ventas == ''){
       $query_saldo_ = "
@@ -263,7 +259,6 @@
       $saldo_ventas = $saldo2[0];
         
     }
-
     
     return   $saldo_ventas;
     
@@ -280,8 +275,6 @@
     $abonos_sf_total = $abonos_sf[0];
     return $abonos_sf_total;
   }
-
-
   function get_facturas_entregadas($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
@@ -477,57 +470,21 @@
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
     $result = 0;
-    $query = "select ifnull(sum(replace(replace(cartera.nb_nuevo_saldo_fld,'$',''),',','')),0) 
-              from nb_cartera_tbl cartera, 
-                    ( 
-                      select  nb_factura_fld, nb_fecha_retornado_fld
-                      FROM    nb_relacionfactura_tbl A
-                      JOIN    nb_zonasFacturas_vw zonas ON (zonas.factura= upper(A.NB_FACTURA_FLD))
-                      WHERE   A.nb_estado_fld = 0
-                      AND     A.nb_estado_cartera_fld in (3, 4) 
-                      AND     (STR_TO_DATE(A.nb_fecha_retornado_fld, '%d/%m/%Y') 
-                                BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
-                      AND zonas.nb_id_fld = '".$zona."'
-                    ) fact_castigada
-              where SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)) = fact_castigada.nb_factura_fld
-              AND SUBSTRING(upper(cartera.nb_referencia_fld),1,1) ='V'
-              AND cartera.nb_id_fld = ( 
-                                        select max(cartera2.nb_id_fld) 
-                                        from nb_cartera_tbl cartera2 
-                                        where cartera.nb_referencia_fld= cartera2.nb_referencia_fld 
-                                      )
-              and cartera.nb_fecha_ingreso_concepto_fld < fact_castigada.nb_fecha_retornado_fld";
+    $query = "
+        select ifnull(sum(replace(replace(vw.Saldo,'$',''),',','')),0) monto_catigado
+        FROM nb_relacionfactura_tbl A
+        JOIN nb_zonasFacturas_vw zonas ON (zonas.factura= upper(A.NB_FACTURA_FLD)),
+        nb_ventas_tbl v, nb_ventas_totalsaldos_vw vw
+        WHERE A.nb_estado_fld = 0
+        AND A.nb_estado_cartera_fld in (3, 4) 
+        AND (STR_TO_DATE(A.nb_fecha_retornado_fld, '%d/%m/%Y') 
+        BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
+        AND zonas.nb_id_fld = '".$zona."'
+        and v.nb_referencia_fld = a.nb_factura_fld
+        and vw.id = v.nb_id_fld";
     $mont_facturas_castigadas = $database->executeQueryOneRow($query);
     $result = $mont_facturas_castigadas[0];
-    
-    if($result == 0){
-      
-      $query_ = "
-      select  ifnull((ifnull(sum(replace(replace(b.total,'$',''),',','')),0) -  sum(replace(replace(c.nb_abono_inicial_fld,'$',''),',','')) - ifnull(sum(devos.nb_valor_total_fld),0)),0) mnt_castigado
-      from
-      ( 
-      select nb_factura_fld
-      FROM nb_relacionfactura_tbl A
-      JOIN nb_zonasFacturas_vw zonas ON (zonas.factura= upper(A.NB_FACTURA_FLD))
-      WHERE A.nb_estado_fld = 0
-      AND A.nb_estado_cartera_fld in (3, 4) 
-      AND (STR_TO_DATE(A.nb_fecha_retornado_fld, '%d/%m/%Y') 
-      BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y'))
-      AND zonas.nb_id_fld = '".$zona."'
-      ) a 
-      left  join nb_ventas_grid_sub_vw b on (a.nb_factura_fld = b. referencia)
-      left  join nb_ventas_tbl c on (a.nb_factura_fld = c.nb_referencia_fld)
-      left join nb_devoluciones_tbl devos on (  (a.nb_factura_fld= SUBSTRING(devos.nb_referencia_fld,2,length(devos.nb_referencia_fld)))  
-                                              and (devos.nb_estado_fld = '0') 
-                                              and (devos.nb_fecha_devolucion_fld < '".$fecha_desde."')
-                                              and (SUBSTRING(upper(devos.nb_referencia_fld),1,1))
-                                              
-                                           )";
-      $mont_facturas_castigadas_ = $database->executeQueryOneRow($query_);
-      $result = $mont_facturas_castigadas_[0];
-    }
-    
-    
+   
     return  $result;
     
   }
@@ -552,37 +509,16 @@
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
     $query = "
-    select (
-            ifnull(sum(replace(replace(b.total,'$',''),',','')),0) -
-            sum(a.abono_inicial) -
-            ifnull(sum(replace(replace(cartera.nb_valor_fld,'$',''),',','')),0)  -
-            ifnull(sum(replace(replace(devols.nb_valor_total_fld,'$',''),',','')),0)
-            ) monto_recuperado
-    from 
-    (
-      select  v.nb_id_fld
-          ,v.nb_referencia_fld referencia
-          ,ifnull(replace(replace(v.nb_abono_inicial_fld,'$',''),',',''),0) abono_inicial
-          ,rf.nb_fecha_recuperada_fld fecha_recuperada
-      FROM  nb_ventas_tbl v join nb_zonasFacturas_vw zonas on (zonas.factura = v.nb_referencia_fld),
-            nb_relacionfactura_tbl rf
-      where  v.nb_estado_fld = 0
-      and    v.nb_referencia_fld = rf.nb_factura_fld
-      and    rf.nb_estado_cartera_fld = 4
-      and    str_to_date(rf.nb_fecha_recuperada_fld,'%d/%m/%Y') 
-      between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
-      and    zonas.nb_id_fld = '".$zona."'
-    )a
-    left join nb_ventas_grid_sub_vw b on a.nb_id_fld = b.id
-    left join nb_cartera_tbl cartera on ((SUBSTRING(upper(cartera.nb_referencia_fld),2,length(cartera.nb_referencia_fld)) =  a.referencia) 
-                                          and (cartera.nb_fecha_ingreso_concepto_fld <= a.fecha_recuperada) 
-                                          and (cartera.nb_estado_fld = '0')
-                                        )
-    left join nb_devoluciones_tbl devols on ((SUBSTRING(upper(devols.nb_referencia_fld),2,length(devols.nb_referencia_fld)) = a.referencia)
-                                              and (SUBSTRING(upper(devols.nb_referencia_fld),1,1) ='V')
-                                              and (devols.nb_estado_fld = '0')
-                                              and (devols.nb_fecha_devolucion_fld <= a.fecha_recuperada)
-                                            )";
+        select  ifnull(sum(replace(replace(vw.Saldo,'$',''),',','')),0) monto_recuperado
+        FROM    nb_ventas_tbl v join nb_zonasFacturas_vw zonas on (zonas.factura = v.nb_referencia_fld),
+                nb_relacionfactura_tbl rf, nb_ventas_totalsaldos_vw vw
+        where  v.nb_estado_fld = 0
+        and    v.nb_referencia_fld = rf.nb_factura_fld
+        and    vw.id = v.nb_id_fld
+        and    rf.nb_estado_cartera_fld = 4
+        and    str_to_date(rf.nb_fecha_recuperada_fld,'%d/%m/%Y') 
+        between str_to_date('".$fecha_desde."','%d/%m/%Y') and str_to_date('".$fecha_hasta."','%d/%m/%Y')
+        and    zonas.nb_id_fld = '".$zona."'";
     $monto_recuperado = $database->executeQueryOneRow($query);
     return  $monto_recuperado[0];
     
@@ -614,13 +550,16 @@
   function get_monto_devoluciones($zona, $fecha_desde, $fecha_hasta){
     $objUtilities = $_SESSION['objUtilities'];
     $database = $objUtilities->database;
-    $query = "select ifnull(sum(replace(replace(devols.nb_valor_total_fld,'$',''),',','')),0) monto_devoluciones
-            from nb_devoluciones_tbl devols
-                join nb_zonasFacturas_vw zonas on (zonas.factura = SUBSTRING(upper(devols.nb_referencia_fld),2,length(devols.nb_referencia_fld)))
-            where devols.nb_estado_fld = 0
-            and str_to_date(devols.nb_fecha_devolucion_fld,'%d/%m/%Y') 
-            BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y')
-            and zonas.nb_id_fld = '".$zona."'";
+    $query = "
+        select ifnull(sum(replace(replace(devos_vw.total,'$',''),',','')),0) monto_devoluciones
+        from nb_devoluciones_tbl devols
+            join nb_zonasFacturas_vw zonas on (zonas.factura = SUBSTRING(upper(devols.nb_referencia_fld),2,length(devols.nb_referencia_fld))),
+            nb_devoluciones_grid_vw devos_vw
+        where devols.nb_estado_fld = 0
+        and str_to_date(devols.nb_fecha_devolucion_fld,'%d/%m/%Y') 
+        BETWEEN STR_TO_DATE('".$fecha_desde."','%d/%m/%Y') and STR_TO_DATE('".$fecha_hasta."','%d/%m/%Y')
+        and zonas.nb_id_fld = '".$zona."'
+        and devos_vw.id = devols.nb_id_fld";
     $monto_devoluciones = $database->executeQueryOneRow($query);
     return $monto_devoluciones[0];
     
