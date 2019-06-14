@@ -39,13 +39,13 @@ function schemaReport($pdf,$tamanoFuenteForm,$cabecera,$detalle,$totales)
         $borde=1;
         $w=5;
 
-	    $pdf->Image("../Images/homeParaiso.jpg", 90, 11, 50, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
+	    $pdf->Image("../Images/homeParaiso.jpg", 400, 11, 200, '', 'JPG', false, 'C', false, 300, 'C', false, false, 0, false, false, false);
         $pdf->Ln(27);
         $pdf->SetFont('helvetica', 'B', $tamanoFuenteForm);
-        $pdf->Cell(278,2,'Cra 10 # 18 31 - Buga (Valle)', 0, 1, 'C');
-        $pdf->Cell(278,2,'NIT: 6462116-1', 0, 1, 'C');
-        $pdf->Cell(278,2,'Celular: 3157902012', 0, 1, 'C');
-        $pdf->Cell(278,2,'Teléfono: 2381804', 0, 1, 'C');
+        $pdf->Cell(278,2,'Calle 26 a No 13 - 97  ofic 2503 - Bogota', 0, 1, 'C');
+        $pdf->Cell(278,2,'830145023-3', 0, 1, 'C');
+        $pdf->Cell(278,2,'Celular: 3188564608', 0, 1, 'C');
+        $pdf->Cell(278,2,'Teléfono: 1-5617679', 0, 1, 'C');
         $pdf->Ln(5);
     
     
